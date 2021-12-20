@@ -16,3 +16,4 @@ services:
 networks:
   database-network:
     external: true
+
