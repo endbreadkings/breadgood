@@ -19,6 +19,13 @@ configurations {
     }
 }
 
+processResources {
+	from('config/') {
+		into '.'
+	}
+}
+
+
 repositories {
 //    mavenCentral()
     jcenter()
