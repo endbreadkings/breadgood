@@ -5,7 +5,7 @@ name: Java CI with Gradle
 
 on:
   push:
-#    branches: [ feature/61, hotfix, developer ] #  developer,
+    branches: [ feature/61, hotfix, developer ] #  developer,
     
 #  pull_request:
 #    branches: [ developer ]

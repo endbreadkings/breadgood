@@ -1,49 +1,50 @@
 
-#breadgood_server
-breadgood_server/HELP.md
-breadgood_server/.gradle
-breadgood_server/build/
-breadgood_server/!gradle/wrapper/gradle-wrapper.jar
-breadgood_server/!**/src/main/**/build/
-breadgood_server/!**/src/test/**/build/
+#breadgood-server
+breadgood-server/HELP.md
+breadgood-server/.gradle
+breadgood-server/build/
+breadgood-server/!gradle/wrapper/gradle-wrapper.jar
+breadgood-server/!**/src/main/**/build/
+breadgood-server/!**/src/test/**/build/
 docker/mariadb/data/**
 
 
 ### STS ###
-breadgood_server/.apt_generated
-breadgood_server/.classpath
-breadgood_server/.factorypath
-breadgood_server/.project
-breadgood_server/.settings
-breadgood_server/.springBeans
-breadgood_server/.sts4-cache
-breadgood_server/bin/
-breadgood_server/!**/src/main/**/bin/
-breadgood_server/!**/src/test/**/bin/
+breadgood-server/.apt_generated
+breadgood-server/.classpath
+breadgood-server/.factorypath
+breadgood-server/.project
+breadgood-server/.settings
+breadgood-server/.springBeans
+breadgood-server/.sts4-cache
+breadgood-server/bin/
+breadgood-server/!**/src/main/**/bin/
+breadgood-server/!**/src/test/**/bin/
+# git submodule add [자신의 private 저장소] ./src/main/resources/config
 
 ### IntelliJ IDEA ###
 **/.idea
-breadgood_server/*.iws
-breadgood_server/*.iml
-breadgood_server/*.ipr
-breadgood_server/out/
-breadgood_server/!**/src/main/**/out/
-breadgood_server/!**/src/test/**/out/
+breadgood-server/*.iws
+breadgood-server/*.iml
+breadgood-server/*.ipr
+breadgood-server/out/
+breadgood-server/!**/src/main/**/out/
+breadgood-server/!**/src/test/**/out/
 
-breadgood_server/### NetBeans ###
-breadgood_server/nbproject/private/
-breadgood_server/nbbuild/
-breadgood_server/dist/
-breadgood_server/nbdist/
-breadgood_server/.nb-gradle/
-breadgood_server/src/main/resources/application-aws.yml
+breadgood-server/### NetBeans ###
+breadgood-server/nbproject/private/
+breadgood-server/nbbuild/
+breadgood-server/dist/
+breadgood-server/nbdist/
+breadgood-server/.nb-gradle/
+breadgood-server/src/main/resources/config/application-aws.yml
 
 ### VS Code ###
-breadgood_server/.vscode/
+breadgood-server/.vscode/
 
 ### codegen ###
-breadgood_server/src/main/generated/
+breadgood-server/src/main/generated/
 
 ### macOS ###
-breadgood_server/.DS_Store
+breadgood-server/.DS_Store
 .DS_Store
