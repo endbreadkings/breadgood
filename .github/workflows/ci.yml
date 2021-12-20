@@ -39,7 +39,7 @@ jobs:
       #        run: sh -c "./scripts/test.sh"
 
       - name: Check application file
-        run: cat ./breadgood-server/src/main/resources/config/application.yml
+        run: cat ./src/main/resources/config/application.yml
 
       - uses: mr-smithers-excellent/docker-build-push@v5
         name: Build & push Docker image
