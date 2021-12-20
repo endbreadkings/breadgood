@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -41,12 +40,12 @@ public class MessageConfig implements WebMvcConfigurer {
 
     @Bean // yml 파일을 참조하는 MessageSource 선언
     public MessageSource messageSource(
-//            @Value("${spring.messages.basename}") String basename,
-//            @Value("${spring.messages.encoding}") String encoding
+            @Value("${spring.messages.basename}") String basename,
+            @Value("${spring.messages.encoding}") String encoding
     ) {
         YamlMessageSource ms = new YamlMessageSource();
-        ms.setBasename("i18n/exception");
-        ms.setDefaultEncoding("UTF-8");
+        ms.setBasename(basename);
+        ms.setDefaultEncoding(encoding);
         ms.setAlwaysUseMessageFormat(true);
         ms.setUseCodeAsDefaultMessage(true);
         ms.setFallbackToSystemLocale(true);
