@@ -1,0 +1,3 @@
+[submodule "breadgood-server/src/main/resources/config"]
+	path = breadgood-server/src/main/resources/config
+	url = https://github.com/endbreadkings/breadgood-server-properties.git
