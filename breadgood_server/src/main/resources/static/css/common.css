@@ -1,0 +1,200 @@
+@charset "UTF-8";
+* {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p,
+blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn,
+em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var,
+b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas,
+details, embed, figure, figcaption, footer, header, hgroup, menu, nav,
+output, ruby, section, summary, time, mark, audio, video, input, textarea, select {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    box-sizing: border-box;
+    font-family: Apple SD Gothic Neo, Noto Sans KR, sans-serif;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, footer, header, hgroup,
+menu, nav, section {
+    display: block;
+}
+
+*:focus {
+    outline: none;
+}
+
+body {
+    line-height: 1;
+    margin: 0;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+blockquote, q {
+    quotes: none;
+}
+
+blockquote:before, blockquote:after, q:before, q:after {
+    content: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+a {
+    text-decoration: none;
+    outline: none
+}
+
+a:hover, a:active {
+    text-decoration: none;
+}
+
+
+@font-face {
+    font-family: 'Apple SD Gothic Neo';
+    font-style: normal;
+    font-weight: 100;
+    src: url(./apple/AppleSDGothicNeoUL.woff2) format('woff2'), url(./apple/AppleSDGothicNeoUL.woff) format('woff');
+    /*unicode-range:U+0041-005A, U+0061-007A, U+0030-0039;*/
+}
+
+
+@font-face {
+    font-family: 'Apple SD Gothic Neo';
+    font-style: normal;
+    font-weight: 300;
+    src: url(./apple/AppleSDGothicNeoL.woff2) format('woff2'), url(./apple/AppleSDGothicNeoL.woff) format('woff');
+}
+
+
+@font-face {
+    font-family: 'Apple SD Gothic Neo';
+    font-style: normal;
+    font-weight: 400;
+    src: url(./apple/AppleSDGothicNeoR.woff2) format('woff2'), url(./apple/AppleSDGothicNeoR.woff) format('woff');
+}
+
+
+@font-face {
+    font-family: 'Apple SD Gothic Neo';
+    font-style: normal;
+    font-weight: 500;
+    src: url(./apple/AppleSDGothicNeoM.woff2) format('woff2'), url(./apple/AppleSDGothicNeoM.woff) format('woff');
+}
+
+@font-face {
+    font-family: 'Apple SD Gothic Neo';
+    src: url(./SF/SFUIDisplayRegular.woff2) format('woff2'), url(./SF/SFUIDisplayRegular.woff) format('woff');
+    font-style: normal;
+    font-weight: 400;
+    unicode-range: U+0041-005A, U+0061-007A, U+0030-0039;
+}
+
+
+@font-face {
+    font-family: 'Apple SD Gothic Neo';
+    font-style: normal;
+    font-weight: 700;
+    src: url(./apple/AppleSDGothicNeoB.woff2) format('woff2'), url(./apple/AppleSDGothicNeoB.woff) format('woff');
+}
+
+@font-face {
+    font-family: 'Apple SD Gothic Neo';
+    font-style: normal;
+    font-weight: 700;
+    src: url(./SF/SFUIDisplaySemibold.woff2) format('woff2'), url(./SF/SFUIDisplaySemibold.woff) format('woff');
+    unicode-range: U+0041-005A, U+0061-007A, U+0030-0039;
+}
+
+
+@font-face {
+    font-family: 'Apple SD Gothic Neo';
+    font-style: normal;
+    font-weight: 900;
+    src: url(./apple/AppleSDGothicNeoEB.woff2) format('woff2'), url(./apple/AppleSDGothicNeoEB.woff) format('woff');
+}
+
+
+@font-face {
+    font-family: "NanumSquareRound";
+    font-style: normal;
+    font-weight: 300;
+    src: local("NanumSquareRoundL"), /* computer */ url("./NanumSquareRound/NanumSquareRoundL.eot"), /* IE9 Compat Modes */ url("./NanumSquareRound/NanumSquareRoundL.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */ url("./NanumSquareRound/NanumSquareRoundL.woff2") format("woff2"), /* Modern Browsers */ url("./NanumSquareRound/NanumSquareRoundL.woff") format("woff"), /* Modern Browsers */ url("./NanumSquareRound/NanumSquareRoundL.ttf") format("truetype"); /* Safari, Android, iOS */
+}
+
+@font-face {
+    font-family: "NanumSquareRound";
+    font-style: normal;
+    font-weight: 400;
+    src: local("NanumSquareRoundR"), /* computer */ url("./NanumSquareRound/NanumSquareRoundR.eot"), /* IE9 Compat Modes */ url("./NanumSquareRound/NanumSquareRoundR.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */ url("./NanumSquareRound/NanumSquareRoundR.woff2") format("woff2"), /* Modern Browsers */ url("./NanumSquareRound/NanumSquareRoundR.woff") format("woff"), /* Modern Browsers */ url("./NanumSquareRound/NanumSquareRoundR.ttf") format("truetype"); /* Safari, Android, iOS */
+}
+
+@font-face {
+    font-family: "NanumSquareRound";
+    font-style: normal;
+    font-weight: 700;
+    src: local("NanumSquareRoundB"), /* computer */ url("./NanumSquareRound/NanumSquareRoundB.eot"), /* IE9 Compat Modes */ url("./NanumSquareRound/NanumSquareRoundB.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */ url("./NanumSquareRound/NanumSquareRoundB.woff2") format("woff2"), /* Modern Browsers */ url("./NanumSquareRound/NanumSquareRoundB.woff") format("woff"), /* Modern Browsers */ url("./NanumSquareRound/NanumSquareRoundB.ttf") format("truetype"); /* Safari, Android, iOS */
+}
+
+@font-face {
+    font-family: "NanumSquareRound";
+    font-style: normal;
+    font-weight: 800;
+    src: local("NanumSquareRoundEB"), /* computer */ url("./NanumSquareRound/NanumSquareRoundEB.eot"), /* IE9 Compat Modes */ url("./NanumSquareRound/NanumSquareRoundEB.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */ url("./NanumSquareRound/NanumSquareRoundEB.woff2") format("woff2"), /* Modern Browsers */ url("./NanumSquareRound/NanumSquareRoundEB.woff") format("woff"), /* Modern Browsers */ url("./NanumSquareRound/NanumSquareRoundEB.ttf") format("truetype"); /* Safari, Android, iOS */
+}
+
+
+@font-face {
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 100;
+    src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff2) format('woff2'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff) format('woff'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 300;
+    src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff2) format('woff2'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff) format('woff'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 400;
+    src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff2) format('woff2'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff) format('woff'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 500;
+    src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff2) format('woff2'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff) format('woff'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 700;
+    src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2) format('woff2'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff) format('woff'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf) format('opentype');
+}
+
+@font-face {
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 900;
+    src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format('woff2'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format('woff'), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format('opentype');
+}
+

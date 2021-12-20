@@ -1,0 +1,27 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title th:text="${terms.title}">Document</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/privacy.css">
+</head>
+<body>
+
+<div class="privacy-container">
+    <div class="privacy-title">
+        <h3 th:text="${terms.title}">개인정보 처리방침</h3>
+    </div>
+    <div class="privacy-history-container">
+        <div class="ph-item active">
+            <div class="ph-item-content" style="padding-top: 0;" th:utext="${terms.content}">
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

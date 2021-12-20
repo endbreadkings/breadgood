@@ -1,0 +1,49 @@
+
+#breadgood_server
+breadgood_server/HELP.md
+breadgood_server/.gradle
+breadgood_server/build/
+breadgood_server/!gradle/wrapper/gradle-wrapper.jar
+breadgood_server/!**/src/main/**/build/
+breadgood_server/!**/src/test/**/build/
+docker/mariadb/data/**
+
+
+### STS ###
+breadgood_server/.apt_generated
+breadgood_server/.classpath
+breadgood_server/.factorypath
+breadgood_server/.project
+breadgood_server/.settings
+breadgood_server/.springBeans
+breadgood_server/.sts4-cache
+breadgood_server/bin/
+breadgood_server/!**/src/main/**/bin/
+breadgood_server/!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+**/.idea
+breadgood_server/*.iws
+breadgood_server/*.iml
+breadgood_server/*.ipr
+breadgood_server/out/
+breadgood_server/!**/src/main/**/out/
+breadgood_server/!**/src/test/**/out/
+
+breadgood_server/### NetBeans ###
+breadgood_server/nbproject/private/
+breadgood_server/nbbuild/
+breadgood_server/dist/
+breadgood_server/nbdist/
+breadgood_server/.nb-gradle/
+breadgood_server/src/main/resources/application-aws.yml
+
+### VS Code ###
+breadgood_server/.vscode/
+
+### codegen ###
+breadgood_server/src/main/generated/
+
+### macOS ###
+breadgood_server/.DS_Store
+.DS_Store

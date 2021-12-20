@@ -1,0 +1,62 @@
+spring:
+  profiles:
+    include:
+      - oauth
+      - aws
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    url: jdbc:log4jdbc:mysql://localhost:3377/breadgood?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&createDatabaseIfNotExist=true
+    username: root
+    password: 1234
+    hikari:
+      poolName: Hikari
+      maximum-pool-size: 3
+      minimum-idle: 3
+      max-lifetime: 57600
+      connection-timeout: 57600
+      idle-timeout: 30000
+      data-source-properties:
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        prepStmtCacheSqlLimit: 2048
+        useServerPrepStmts: true
+
+  # JPA Settings
+  jpa:
+    hibernate:
+      ddl-auto: create
+    generate-ddl: true
+    show-sql: true
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    properties.hibernate.format_sql: true
+
+  messages:
+    basename: i18n/exception
+    encoding: UTF-8
+
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+  thymeleaf:
+    cache: false
+
+#server:
+#  servlet:
+#    context-path: /api
+
+cloud:
+  aws:
+    s3:
+      bucket: breadgood
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+    credentials:
+      instanceProfile: true # AWS CLI 에서 aws configure list 정보를 반영할건지 여부
+
+    cloud-front:
+      domain-name: "https://d74hbwjus7qtu.cloudfront.net/"

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>빵집화면</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/bakery.css">
+</head>
+<body>
+<div id="app">
+    <div class="loading" onclick="remove(this);" v-if="!isLoaded">
+        <img src="/img/loading.gif" loop=infinite alt="로딩"/>
+    </div>
+    <div id="bakery-contents" :class="{ 'loaded' : isLoaded, 'yellow' : isYellow }" v-if="isLoaded">
+        <div class="bc-header">
+            <div class="bc-h-profile">
+                <div class="bc-h-profile-img">
+                    <img style="width: 22px;height: 22px;" :src="writerProfileImgUrl" alt="프로필 이미지">
+                </div>
+                <div class="bc-h-profile-txt"><span><span v-text="writerNickName">빵쳐돌이</span>님 최애빵집</span></div>
+            </div>
+            <div class="bc-h-title">
+                <div class="bakery-title"><h2 v-text="title">경성빵공장 숙대점</h2><span><b
+                        v-text="categoryTitle">음료&빵</b></span></div>
+                <div class="bakery-address"><span v-text="roadAddress">서울 용산구 한강대로88길 11-5 1층</span></div>
+            </div>
+        </div>
+        <div class="bc-actions" onclick="goReviewPage();">
+            <div class="bc-action-item">
+                <span>리뷰 남기기 </span>
+                <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 9L5 5L1 1" stroke="white" stroke-linecap="round"/>
+                </svg>
+            </div>
+        </div>
+
+        <div class="review-count"><span>리뷰 <b>{{ bakeryReviews | arrCounting }}</b></span></div>
+
+        <div class="review-items" :class="{ 'preview' : isPreview }">
+            <div class="review-item" v-for="(bakeryReview, index) in getBakeryReviews" :key="'bakeryReview'+ index">
+                <div class="ri-header">
+                    <div class="ri-h-profile-img">
+                        <img :src="bakeryReview.profileImgUrl" style="width: 40px; height: 40px;">
+                    </div>
+                    <div class="ri-h-txt">
+                        <div class="ri-h-txt-heading"><h3 v-text="bakeryReview.nickName">끝빵왕</h3></div>
+                        <div class="ri-h-txt-detail">
+                            <div class="ri-h-txt-d-left">
+                                <span v-if="bakeryReview.breadStyleName">{{bakeryReview.breadStyleName}}타입</span>
+                                <span v-else="">지나간타인</span>
+                            </div>
+                            <div class="ri-h-txt-d-right">
+                            <span class="emoji-txt">
+                                <img :src="bakeryReview.emojiImgUrl" :alt="bakeryReview.emojiName">{{bakeryReview.emojiName}}</span>
+                                <span class="create-at" v-text="bakeryReview.create_at">11/07/21 17:33</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ri-content" v-text="bakeryReview.content"></div>
+                <div class="ri-tags">
+                    <div class="ri-tag-item" v-for="(signatureMenu, sindex) in bakeryReview.signatureMenus"
+                         :key="'signatureMenu'+sindex">
+                        <span><b>#</b>{{signatureMenu}}</span>
+                    </div>
+                </div>
+
+                <div class="ri-btn-detail" @click="toggleDetailImage(index)"
+                     v-if="bakeryReview.thumbnailImgUrls != null && bakeryReview.thumbnailImgUrls.length > 0">
+
+                    <span v-show="!bakeryReview.isDetailImageActive">이미지 자세히 보기</span>
+                    <span v-show="bakeryReview.isDetailImageActive">이미지 간단히 보기</span>
+
+                    <svg v-show="!bakeryReview.isDetailImageActive"
+                         width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1 1L5 5L9 1" stroke="#555555" stroke-linecap="round"/>
+                    </svg>
+                    <svg v-show="bakeryReview.isDetailImageActive"
+                         style="transform: rotate(180deg);"
+                         width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1 1L5 5L9 1" stroke="#555555" stroke-linecap="round"/>
+                    </svg>
+                </div>
+
+                <div class="ri-images" :class="bakeryReview.thumbnailImgUrls.length | itemLengthClass"
+                     v-show="!bakeryReview.isDetailImageActive" @click="toggleDetailImage(index)"
+                     v-if="bakeryReview.thumbnailImgUrls != null && bakeryReview.thumbnailImgUrls.length > 0">
+
+                    <div class="ri-image-item" v-for="(thumbnailImgUrl, tindex) in bakeryReview.thumbnailImgUrls"
+                         :key="'thumbnailImgUrl'+tindex" v-if="tindex < 3">
+                        <div class="ri-item-overlay" v-if="(tindex == 2 && bakeryReview.thumbnailImgUrls.length > 3)">
+                            <span>+{{(bakeryReview.thumbnailImgUrls.length - 3)}}</span>
+                        </div>
+
+                        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"
+                             v-if="(tindex == 2 || bakeryReview.thumbnailImgUrls.length == tindex+1)">
+                            <rect width="28" height="28" rx="4" fill="black" fill-opacity="0.3"/>
+                            <path d="M21.057 21.0238L6.97233 6.93916" stroke="#E9E9E9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M6.9689 13.1872L6.95548 6.95658L13.1866 6.96948" stroke="#E9E9E9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M21.2177 15.0003L21.2312 21.2309L15 21.218" stroke="#E9E9E9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+
+
+                        <img :src="thumbnailImgUrl" alt="">
+                    </div>
+                </div>
+
+                <div class="ri-detailImages" v-show="bakeryReview.isDetailImageActive"
+                     v-if="bakeryReview.thumbnailImgUrls != null && bakeryReview.thumbnailImgUrls.length > 0">
+                    <div class="ri-detailImages-item" v-for="(thumbnailImgUrl, tindex) in bakeryReview.detailImgUrls"
+                         :key="'thumbnailImgUrl'+tindex" >
+                        <img :src="thumbnailImgUrl" alt="">
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="more-btn" @click="previewOff" v-if = "bakeryReviews.length > 4 && isPreview"><span>리뷰 더 보기</span>
+            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L5 5L9 1" stroke="#555555" stroke-linecap="round"/>
+            </svg>
+        </div>
+
+
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<script>
+    window.onload = function () {
+        const app = new Vue({
+            el: '#app',
+            filters: {
+                arrCounting: function (arr) {
+                    return arr.length + '개';
+                },
+                itemLengthClass: function (length) {
+                    if (length === 1) {
+                        return 'layout1';
+                    } else if (length === 2) {
+                        return 'layout2';
+                    } else if (length >= 3) {
+                        return 'layout3';
+                    }
+
+                    return 'empty';
+                }
+            },
+            data: {
+                bakeryReviews: [],
+                categoryTitle: '',
+                roadAddress: '',
+                title: '',
+                writerNickName: '',
+                writerProfileImgUrl: '',
+                isLoaded: false,
+                isYellow: false,
+                isMore: false,
+                isPreview: true,
+            },
+            watch: {},
+            computed: {
+                getBakeryReviews() {
+                    return this.bakeryReviews;
+                }
+            },
+            methods: {
+                previewOff() {
+                    this.isPreview = false;
+                },
+                async fetchBakeryInfo() {
+                    const URLSearch = new URLSearchParams(location.search);
+                    const bakeryId = URLSearch.get('bakeryId');
+                    const userId = URLSearch.get('userId');
+                    const {data} = await axios.post('/pages/webview-api/bakery/'+bakeryId+'/user/'+userId);
+                    console.log(data);
+
+                    this.writerProfileImgUrl = data.userInfoResponseDto.profileImgUrl;
+                    this.writerNickName = data.userInfoResponseDto.nickName;
+                    this.title = data.title;
+                    this.roadAddress = data.roadAddress;
+                    this.categoryTitle = data.categoryTitle;
+                    this.bakeryReviews = data.bakeryReviews;
+
+                },
+                toggleDetailImage(index) {
+                    const isActive = this.bakeryReviews[index].isDetailImageActive;
+                    const review = this.bakeryReviews[index];
+                    review.isDetailImageActive = !isActive;
+                    this.$set(this.bakeryReviews, index, review)
+                },
+            },
+            async created() {
+                await this.fetchBakeryInfo();
+                this.isLoaded = true;
+                this.isYellow = this.categoryTitle != '음료&빵'
+            }
+        })
+    }
+</script>
+<script>
+
+
+    function remove(elem) {
+        elem.parentNode.removeChild(elem);
+    }
+
+    function goReviewPage() {
+        try {
+            MoveToReview.postMessage('move');
+        } catch (e) {}
+        // insertParam('event', 'close');
+    }
+
+    function insertParam(key, value) {
+        key = encodeURIComponent(key);
+        value = encodeURIComponent(value);
+
+        // kvp looks like ['key1=value1', 'key2=value2', ...]
+        const kvp = document.location.search.substr(1).split('&');
+        let i = 0;
+
+        for (; i < kvp.length; i++) {
+            if (kvp[i].startsWith(key + '=')) {
+                let pair = kvp[i].split('=');
+                pair[1] = value;
+                kvp[i] = pair.join('=');
+                break;
+            }
+        }
+
+        if (i >= kvp.length) {
+            kvp[kvp.length] = [key, value].join('=');
+        }
+
+        // can return this or...
+        let params = kvp.join('&');
+
+        // reload page with new params
+        document.location.search = params;
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "title": "sample",
+  "groupId":"com.bside.breadgood",
+  "artifactId":"sample",
+
+  "modelPackage": "com.bside.breadgood.apifirstdesign.models",
+  "apiPackage": "com.bside.breadgood.apifirstdesign.apis",
+
+  "java11": true,
+  "useTags": true,
+  "useBeanValidation": true,
+  "interfaceOnly": true,
+  "defaultInterfaces": false,
+  "implicitHeaders": true,
+
+  "dateLibrary" : "java8-localdatetime"
+}

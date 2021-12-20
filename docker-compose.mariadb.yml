@@ -1,0 +1,21 @@
+version: "3.7"
+services:
+  mariadb:
+    container_name: breadgood_mariadb
+    image: mariadb:10.5.10
+    restart: always
+    volumes:
+      #      - ~/docker/mariadb/etc/mysql/conf.d:/etc/mysql/conf.d:ro
+      - ./docker/mariadb/conf.d:/etc/mysql/conf.d:ro
+      - ./docker/mariadb/data:/var/lib/mysql
+      #      - ./docker/mariadb/log:/var/log/maria
+      - ./docker/mariadb/initdb.d:/docker-entrypoint-initdb.d
+    env_file: ./docker/mariadb/.env
+    ports:
+      - 3377:3306
+    networks:
+      - database-network
+
+networks:
+  database-network:
+    external: true
