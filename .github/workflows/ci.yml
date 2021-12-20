@@ -33,13 +33,12 @@ jobs:
         working-directory: ./breadgood-server
 
       - name: Grant execute permission for scripts
+        with:
+          submodules: true
         run: chmod +x ./scripts
 
       #      - name: Check build file
       #        run: sh -c "./scripts/test.sh"
-
-      - name: fetch submodule
-        run: git submodule add https://github.com/endbreadkings/breadgood-server-properties.git  ./breadgood-server/src/main/resources/config
 
       - uses: mr-smithers-excellent/docker-build-push@v5
         name: Build & push Docker image
