@@ -22,7 +22,7 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
           submodules: true
-          token: ${{ secrets.GIT_ACCESS_TOKEN }}
+          token: ${{ secrets.GITHUB_ACCESS_TOKEN }}
 
       - name: checkout submodule
         run: |
