@@ -5,7 +5,7 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ developer ]
+    branches: [ migration, developer ]
 
 #  pull_request:
 #    branches: [ developer ]
@@ -21,6 +21,8 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
+          submodules: true
+          token: ${{ secrets.CI_TOKEN }}
 
       - name: Grant execute permission for gradlew
         run: chmod +x ./breadgood-server/gradlew
@@ -32,13 +34,11 @@ jobs:
         shell: bash
         working-directory: ./breadgood-server
 
-      - name: Grant execute permission for scripts
-        with:
-          submodules: true
-        run: chmod +x ./scripts
+#      - name: Grant execute permission for scripts
+#        run: chmod +x ./scripts
 
-      #      - name: Check build file
-      #        run: sh -c "./scripts/test.sh"
+#            - name: Check build file
+#              run: sh -c "./scripts/test.sh"
 
       - uses: mr-smithers-excellent/docker-build-push@v5
         name: Build & push Docker image
