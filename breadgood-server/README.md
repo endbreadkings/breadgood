@@ -8,4 +8,3 @@
 
 ``docker-compose up -d mariadb``
 
-
