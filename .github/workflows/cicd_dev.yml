@@ -5,7 +5,7 @@ name: BackEnd Dev CI/CD
 
 on:
   push:
-    branches: [ developer, UVNX-71 ]
+    branches: [ developer ]
 
 #  pull_request:
 #    branches: [ developer ]
