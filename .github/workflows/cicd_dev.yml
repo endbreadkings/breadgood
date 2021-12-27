@@ -66,14 +66,14 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           privateKey: ${{ secrets.EC2_PRIVATE_KEY}}
 
-    - name: action-slack
-      uses: 8398a7/action-slack@v3
-      with:
-        status: ${{ job.status }}
-        author_name: 서버 CI CD 알림 - dev
-        fields: repo,commit,message,author # action,eventName,ref,workflow,job,took 추가할 수 있음
-        mention: here
-        if_mention: failure,cancelled
-      env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEB_HOOK_URL }} # required
-      if: always() # Pick up events even if the job fails or is canceled.
+      - name: action-slack
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          author_name: 서버 CI CD 알림 - dev
+          fields: repo,commit,message,author # action,eventName,ref,workflow,job,took 추가할 수 있음
+          mention: here
+          if_mention: failure,cancelled
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEB_HOOK_URL }} # required
+        if: always() # Pick up events even if the job fails or is canceled.
