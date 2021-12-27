@@ -5,10 +5,11 @@ name: Java CI with Gradle
 
 on:
   push:
+    branches: [ developer, UVNX-71 ]
+
+  pull_request:
     branches: [ developer ]
 
-#  pull_request:
-#    branches: [ developer ]
 jobs:
   continuous-integration:
     runs-on: ubuntu-latest
