@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'AppleSDGothicNeo',
       ),
+      defaultTransition: Transition.noTransition,
       getPages: Routes,
     );
   }
