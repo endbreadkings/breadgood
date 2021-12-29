@@ -1,7 +1,7 @@
 # This workflow will build a Java project with Gradle
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
 
-name: Java CI with Gradle
+name: BackEnd Dev CI/CD
 
 on:
   push:
@@ -9,6 +9,7 @@ on:
 
 #  pull_request:
 #    branches: [ developer ]
+
 jobs:
   continuous-integration:
     runs-on: ubuntu-latest
@@ -64,3 +65,15 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           privateKey: ${{ secrets.EC2_PRIVATE_KEY}}
+
+      - name: action-slack
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          author_name: 서버 CI CD 알림 - dev
+          fields: repo,commit,message,author # action,eventName,ref,workflow,job,took 추가할 수 있음
+          mention: here
+          if_mention: failure,cancelled
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEB_HOOK_URL }} # required
+        if: always() # Pick up events even if the job fails or is canceled.
