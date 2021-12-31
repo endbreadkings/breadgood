@@ -190,10 +190,11 @@ public class BakeryService {
         if (idDuplicate) {
             final UserInfoResponseDto userInfo = userService.findUserInfoById(bakeries.get(0).getUser());
             nickName = userInfo.getNickName();
-            return new CheckDuplicateBakeryResponseDto(true, nickName);
+
+            return new CheckDuplicateBakeryResponseDto(true, nickName, bakeries.get(0).getId());
         }
 
-        return new CheckDuplicateBakeryResponseDto(false, nickName);
+        return new CheckDuplicateBakeryResponseDto(false, nickName, null);
     }
 
     @Transactional(readOnly = true)
