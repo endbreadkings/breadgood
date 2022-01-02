@@ -30,7 +30,7 @@ public class AppleClientSecretUtils {
         return Jwts.builder()
                 .setHeaderParam("kid", "GYM8D48Y8V")
                 .setHeaderParam("alg", "ES256")
-                .setIssuer("GYM8D48Y8V")
+                .setIssuer("42R8G4M88G")
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(expirationDate)
                 .setAudience("https://appleid.apple.com")
