@@ -1087,9 +1087,9 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
     for (int i = 0; i < imageList.length; i++) {
       String path =
           await FlutterAbsolutePath.getAbsolutePath(imageList[i].identifier);
-      File file = File(path);
 
       /* ios 에서 찍은 '*.heic' 이미지 업로드 시 jpeg 확장자로 변환 */
+      File file = File(path);
       String fileExtension = p.extension(file.path).replaceAll('.', '');
       if (fileExtension == 'heic' || fileExtension == 'HEIC') {
         print('convert to jpeg');
