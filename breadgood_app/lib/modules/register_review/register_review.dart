@@ -19,8 +19,9 @@ import 'package:http/http.dart' as http;
 import 'package:hashtagable/hashtagable.dart';
 import 'package:hashtagable/widgets/hashtag_text_field.dart';
 import 'package:breadgood_app/utils/ui/main_app_bar.dart';
-import 'package:breadgood_app/modules/register_review/controller/review_controller.dart';
 import 'package:breadgood_app/utils/services/rest_api_service.dart';
+import 'package:heic_to_jpg/heic_to_jpg.dart';
+import 'package:path/path.dart' as p;
 
 // var cur_image_cnt = 0;
 var max_image_cnt = 10;
@@ -207,14 +208,12 @@ Future<http.Response> postNewBakery(BakeryMapData newBakery) async {
   // final responseString = await response.stream.bytesToString();
   // final responseJson = jsonDecode(utf8.decode(response.bodyBytes));
   http.Response responseStream = await http.Response.fromStream(response);
-  // final responseJson = jsonDecode(utf8.decode(responseStream.bodyBytes));
-  // print("Result: ${response.statusCode}");
+  final responseJson = jsonDecode(utf8.decode(responseStream.bodyBytes));
+  print("Result: ${response.statusCode}");
   // return responseStream.body;
   print(response.contentLength);
   print(responseStream.body);
 }
-
-
 
 class RegisterReviewPage extends StatefulWidget {
   const RegisterReviewPage({Key key}) : super(key: key);
@@ -1086,17 +1085,23 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
     print(imageList.length);
     print(resultList.length);
     for (int i = 0; i < imageList.length; i++) {
-      final path =
+      String path =
           await FlutterAbsolutePath.getAbsolutePath(imageList[i].identifier);
+      File file = File(path);
+
+      /* ios 에서 찍은 '*.heic' 이미지 업로드 시 jpeg 확장자로 변환 */
+      String fileExtension = p.extension(file.path).replaceAll('.', '');
+      if (fileExtension == 'heic' || fileExtension == 'HEIC') {
+        print('convert to jpeg');
+        String jpegPath = await HeicToJpg.convert(file.path);
+        file = File(jpegPath);
+        fileExtension = 'jpeg';
+      }
       print(i);
-      print(path);
-      fileList.add(File(path));
-      // fileList[i] = File(path);
+      fileList.add(file);
     }
 
     print(fileList);
-    // fileList = imageList[0].
-    // child: Image.asset(imageList[0]);
   }
 
   Widget _createInputSignatureMenu(int index) {
