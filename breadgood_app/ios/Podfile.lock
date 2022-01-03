@@ -13,7 +13,7 @@ PODS:
     - Flutter
   - flutter_webview_plugin (0.0.1):
     - Flutter
-  - geolocator_apple (1.2.0):
+  - heic_to_jpg (0.0.1):
     - Flutter
   - image_picker (0.0.1):
     - Flutter
@@ -39,7 +39,7 @@ DEPENDENCIES:
   - flutter_absolute_path (from `.symlinks/plugins/flutter_absolute_path/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - flutter_webview_plugin (from `.symlinks/plugins/flutter_webview_plugin/ios`)
-  - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
+  - heic_to_jpg (from `.symlinks/plugins/heic_to_jpg/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
   - multi_image_picker (from `.symlinks/plugins/multi_image_picker/ios`)
   - naver_map_plugin (from `.symlinks/plugins/naver_map_plugin/ios`)
@@ -66,8 +66,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
   flutter_webview_plugin:
     :path: ".symlinks/plugins/flutter_webview_plugin/ios"
-  geolocator_apple:
-    :path: ".symlinks/plugins/geolocator_apple/ios"
+  heic_to_jpg:
+    :path: ".symlinks/plugins/heic_to_jpg/ios"
   image_picker:
     :path: ".symlinks/plugins/image_picker/ios"
   multi_image_picker:
@@ -92,7 +92,7 @@ SPEC CHECKSUMS:
   flutter_absolute_path: 5adb13678c88f0bdfba527f3851f9543d01dde66
   flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
   flutter_webview_plugin: ed9e8a6a96baf0c867e90e1bce2673913eeac694
-  geolocator_apple: b741765c55dc21950e3e106e8b3584e55cf81ce5
+  heic_to_jpg: cce9d6463ab11852a7393daa61be23f98a951c64
   image_picker: 50e7c7ff960e5f58faa4d1f4af84a771c671bc4a
   multi_image_picker: 443e776a762d7901641854043b60abf88a85d5ef
   naver_map_plugin: d1d67733c56b20b88270d9da51218e18fa916232
@@ -102,6 +102,6 @@ SPEC CHECKSUMS:
   url_launcher_ios: 02f1989d4e14e998335b02b67a7590fa34f971af
   webview_flutter_wkwebview: 005fbd90c888a42c5690919a1527ecc6649e1162
 
-PODFILE CHECKSUM: a47a6e61311ec848939952bde0dcfd58806af274
+PODFILE CHECKSUM: b5fe3cf6159dd2dad32b9f2eff8c7f1ebdcc39ed
 
 COCOAPODS: 1.11.2
