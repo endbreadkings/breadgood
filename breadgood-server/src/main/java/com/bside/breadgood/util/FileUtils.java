@@ -11,7 +11,7 @@ public class FileUtils {
     }
 
     private static final String EXTENSION_DELIMITER = ".";
-    private static final Set<String> AVAILABLE_EXTENSION_GROUP = Set.of("JPG", "JPEG", "PNG", "WEBP", "SVG");
+    private static final Set<String> AVAILABLE_EXTENSION_GROUP = Set.of("JPG", "JPEG", "PNG", "WEBP", "SVG", "GIF");
 
     public static void validateFileExtension(String fileName) {
         final int extensionIndex = getExtensionIndex(fileName);
