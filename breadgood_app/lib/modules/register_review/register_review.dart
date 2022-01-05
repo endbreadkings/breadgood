@@ -21,7 +21,7 @@ import 'package:hashtagable/widgets/hashtag_text_field.dart';
 import 'package:breadgood_app/utils/ui/main_app_bar.dart';
 import 'package:breadgood_app/utils/services/rest_api_service.dart';
 import 'package:heic_to_jpg/heic_to_jpg.dart';
-import 'package:path/path.dart' as p;
+import 'package:path/path.dart' as PATH;
 
 // var cur_image_cnt = 0;
 var max_image_cnt = 10;
@@ -158,7 +158,6 @@ Future<http.Response> uploadReviewImages(List<File> fileList) async {
 
 Future<http.Response> postNewBakery(BakeryMapData newBakery) async {
   print('postNewBakery called');
-  // Map<String,String> data = {"signatureMenus" : signatureMenus};
   var uri = Uri.parse('https://api.breadgood.com/api/v1/bakery');
   var request = http.MultipartRequest('POST', uri);
   request.headers.addAll(
@@ -190,11 +189,6 @@ Future<http.Response> postNewBakery(BakeryMapData newBakery) async {
   request.fields['roadAddress'] = newBakery.roadAddress;
   request.fields['title'] = newBakery.title;
   request.fields['signatureMenus'] = newBakery.signatureMenus;
-  // for(int i = 0; i < newBakery.signatureMenus.length; i++) {
-  //   request.fields['signatureMenus[$i]'] = newBakery.signatureMenus[i];
-    // request.fields['signatureMenus'] = newBakery.signatureMenus;
-  // }
-
 
   var response = await request.send();
   if (response.statusCode == 200) {
@@ -205,11 +199,9 @@ Future<http.Response> postNewBakery(BakeryMapData newBakery) async {
   }
 
   print('response:');
-  // final responseString = await response.stream.bytesToString();
-  // final responseJson = jsonDecode(utf8.decode(response.bodyBytes));
   http.Response responseStream = await http.Response.fromStream(response);
-  final responseJson = jsonDecode(utf8.decode(responseStream.bodyBytes));
-  print("Result: ${response.statusCode}");
+  // final responseJson = jsonDecode(utf8.decode(responseStream.bodyBytes));
+  // print("Result: ${response.statusCode}");
   // return responseStream.body;
   print(response.contentLength);
   print(responseStream.body);
@@ -1090,9 +1082,8 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
 
       /* ios 에서 찍은 '*.heic' 이미지 업로드 시 jpeg 확장자로 변환 */
       File file = File(path);
-      String fileExtension = p.extension(file.path).replaceAll('.', '');
-      if (fileExtension == 'heic' || fileExtension == 'HEIC') {
-        print('convert to jpeg');
+      String fileExtension = PATH.extension(file.path).replaceAll('.', '');
+      if (fileExtension == 'HEIC') {
         String jpegPath = await HeicToJpg.convert(file.path);
         file = File(jpegPath);
         fileExtension = 'jpeg';
