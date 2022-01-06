@@ -21,7 +21,8 @@ import 'package:hashtagable/widgets/hashtag_text_field.dart';
 import 'package:breadgood_app/utils/ui/main_app_bar.dart';
 import 'package:breadgood_app/utils/services/rest_api_service.dart';
 import 'package:heic_to_jpg/heic_to_jpg.dart';
-import 'package:path/path.dart' as PATH;
+import 'package:path/path.dart' as path_lib;
+import 'package:path_provider/path_provider.dart';
 
 // var cur_image_cnt = 0;
 var max_image_cnt = 10;
@@ -1046,18 +1047,7 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
     );
   }
 
-  // File Photo_file;
-// getImage(ImageSource source) async {
-//   getImage() async {
   Future<void> getImage() async {
-    // File _image;
-    // PickedFile f = await ImagePicker().getImage(source: source);
-    // File image = File(f.path);
-    // setState(() {
-    //   _image = image;
-    // });
-
-    print('getImage');
     List<Asset> resultList = List<Asset>();
     resultList = await MultiImagePicker.pickImages(
       // source: source,
@@ -1065,34 +1055,53 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
       enableCamera: true,
       selectedAssets: imageList,
     );
-    print('resultList: ${resultList}');
-    // PickedFile file = await ImagePicker().getImage(source: source);
+
     setState(() {
-      print('resultList: ${resultList}');
       cur_image_cnt = resultList.length;
       imageList = resultList;
     });
-    print('here');
-    print(fileList.length);
-    print(imageList.length);
-    print(resultList.length);
+
     for (int i = 0; i < imageList.length; i++) {
       String path =
           await FlutterAbsolutePath.getAbsolutePath(imageList[i].identifier);
 
-      /* ios 에서 찍은 '*.heic' 이미지 업로드 시 jpeg 확장자로 변환 */
-      File file = File(path);
-      String fileExtension = PATH.extension(file.path).replaceAll('.', '');
-      if (fileExtension == 'HEIC') {
-        String jpegPath = await HeicToJpg.convert(file.path);
-        file = File(jpegPath);
-        fileExtension = 'jpeg';
+      /* validation of image file extension */
+      bool validation = await validateFileExtension(path, i);
+      if(validation == true) {
+        /* TBD: action for the case when file
+              of which extension is allowed uploaded */
       }
-      print(i);
-      fileList.add(file);
+      else if(validation == false) {
+        /* TBD: action for the case when file
+              of which extension is not allowed uploaded */
+      }
+    }
+  }
+
+  Future<bool> validateFileExtension(String path, int index) async
+  {
+    bool result = true;
+    List<String> allowedExtension = ["JPG", "JPEG", "PNG", "WEBP", "SVG", "GIF"];
+
+    File imageFile = File(path);
+    String fileExtension = path_lib.extension(imageFile.path).replaceAll('.', '');
+
+    if(allowedExtension.contains(fileExtension)) {
+      /* valid file extension: no extra action needed */
+    }
+    else if(fileExtension == 'HEIC') {
+      /* converting HEIC image to JPG */
+      String convertedPath = (await getTemporaryDirectory()).path + '/$index.JPG';
+      String jpgPath = await HeicToJpg.convert(imageFile.path, jpgPath: convertedPath);
+      imageFile = File(jpgPath);
+    }
+    else {
+      /* invalid file extension */
+      result = false;
     }
 
-    print(fileList);
+    fileList.add(imageFile);
+    return result;
   }
 
   Widget _createInputSignatureMenu(int index) {
