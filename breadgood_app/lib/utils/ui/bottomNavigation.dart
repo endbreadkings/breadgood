@@ -18,7 +18,12 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
   //움직일 페이지 설정
   // final List<Widget> _children = [BaseMapPage(), SearchBakeryPage(), MyInfoEditPage(), LoginPage()];
-  final _children= ["/main","/register_bakery/search_bakery_page","/my_page/my_info_edit","/"];
+  final _children = [
+    "/main",
+    "/register_bakery/search_bakery_page",
+    "/my_page/my_info_edit",
+    "/"
+  ];
 
   void _onTap(int index) {
     setState(() {
@@ -30,7 +35,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        height: 105,
+        height: 96,
         child: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.white,
@@ -47,7 +52,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
               TextStyle(color: Color.fromRGBO(69, 121, 255, 1), fontSize: 14),
           items: [
             BottomNavigationBarItem(
-              title: Text('홈'),
+              label: '홈',
               icon: SizedBox(
                   width: 30,
                   height: 30,
@@ -55,7 +60,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
                       'asset/images/icon/bottomNavigation/main.png')),
             ),
             // BottomNavigationBarItem(
-            //   title: Text('관심빵집'),
+            //   label: '관심빵집',
             //   icon: SizedBox(
             //       width: 30,
             //       height: 30,
@@ -63,7 +68,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
             //           'asset/images/icon/bottomNavigation/interested_bakery.png')),
             // ),
             BottomNavigationBarItem(
-              title: Text('빵집등록'),
+              label: '빵집등록',
               icon: SizedBox(
                   width: 30,
                   height: 30,
@@ -71,15 +76,15 @@ class _BottomNavigationState extends State<BottomNavigation> {
                       'asset/images/icon/bottomNavigation/favorite_register.png')),
             ),
             BottomNavigationBarItem(
-              title: Text('my빵긋'),
+              label: 'my빵긋',
               icon: SizedBox(
                   width: 30,
                   height: 30,
-                  child:
-                      Image.asset('asset/images/icon/bottomNavigation/myInfo.png')),
+                  child: Image.asset(
+                      'asset/images/icon/bottomNavigation/myInfo.png')),
             ),
             BottomNavigationBarItem(
-              title: Text('더보기'),
+              label: '더보기',
               icon: SizedBox(
                   width: 30,
                   height: 30,
