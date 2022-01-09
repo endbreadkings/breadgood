@@ -1068,12 +1068,12 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
           await FlutterAbsolutePath.getAbsolutePath(imageList[i].identifier);
 
       File imageFile = File(path);
-      String fileExtension =
-          path_lib.extension(imageFile.path).replaceAll('.', '');
+      String fileExtension = ExtractFileExtension(imageFile);
 
       /* converting HEIC image to JPG */
       if (fileExtension == 'HEIC') {
-        imageFile = await ConvertHeicToJpg(imageFile, i);
+        String jpgPath = await ConvertHeicToJpg(imageFile, i);
+        imageFile = File(jpgPath);
       }
 
       /* validation of image file extension */
@@ -1082,22 +1082,24 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
         /* TBD: action for the case when file
               of which extension is not allowed uploaded */
       }
-
       fileList.add(imageFile);
     }
   }
 
-  Future<File> ConvertHeicToJpg(File heicFile, int fileIndex) async {
+  String ExtractFileExtension(File file) {
+    return path_lib.extension(file.path).replaceAll('.', '');
+  }
+
+  Future<String> ConvertHeicToJpg(File heicFile, int fileIndex) async {
     String convertedPath =
         (await getTemporaryDirectory()).path + '/$fileIndex.JPG';
     String jpgPath =
         await HeicToJpg.convert(heicFile.path, jpgPath: convertedPath);
-    return File(jpgPath);
+    return jpgPath;
   }
 
   bool validateFileExtension(String fileExtension) {
     if (!allowedExtensions.contains(fileExtension)) {
-
       return false;
     }
     return true;
