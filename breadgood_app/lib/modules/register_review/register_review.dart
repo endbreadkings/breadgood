@@ -1064,41 +1064,46 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
     });
 
     for (int i = 0; i < imageList.length; i++) {
-      String path =
-          await FlutterAbsolutePath.getAbsolutePath(imageList[i].identifier);
+      String imagePath = await getPath(imageList[i].identifier);
 
-      File imageFile = File(path);
-      String fileExtension = ExtractFileExtension(imageFile);
-
-      /* converting HEIC image to JPG */
-      if (fileExtension == 'HEIC') {
-        String jpgPath = await ConvertHeicToJpg(imageFile, i);
-        imageFile = File(jpgPath);
-      }
-
-      /* validation of image file extension */
-      bool validation = validateFileExtension(fileExtension);
-      if (validation == false) {
+      if (!(validateFileExtension(imagePath))) {
         /* TBD: action for the case when file
               of which extension is not allowed uploaded */
       }
-      fileList.add(imageFile);
+
+      fileList.add(File(imagePath));
     }
   }
 
-  String ExtractFileExtension(File file) {
-    return path_lib.extension(file.path).replaceAll('.', '');
+  Future<String> getPath(String uri) async {
+    String path = await FlutterAbsolutePath.getAbsolutePath(uri);
+    String fileExtension = extractFileExtension(path);
+    if(isHeic(fileExtension)) {
+      path = await convertHeicToJpg(path);
+    }
+    return path;
   }
 
-  Future<String> ConvertHeicToJpg(File heicFile, int fileIndex) async {
+  bool isHeic(String fileExtension) {
+    if(fileExtension == 'HEIC') {
+      return true;
+    }
+    return false;
+  }
+
+  String extractFileExtension(String uri) {
+    return path_lib.extension(uri).replaceAll('.', '');
+  }
+
+  Future<String> convertHeicToJpg(String heicPath) async {
+    String fileName = path_lib.basenameWithoutExtension(heicPath);
     String convertedPath =
-        (await getTemporaryDirectory()).path + '/$fileIndex.JPG';
-    String jpgPath =
-        await HeicToJpg.convert(heicFile.path, jpgPath: convertedPath);
-    return jpgPath;
+        (await getTemporaryDirectory()).path + '/$fileName.JPG';
+    return await HeicToJpg.convert(heicPath, jpgPath: convertedPath);
   }
 
-  bool validateFileExtension(String fileExtension) {
+  bool validateFileExtension(String uri) {
+    String fileExtension = extractFileExtension(uri);
     if (!allowedExtensions.contains(fileExtension)) {
       return false;
     }
