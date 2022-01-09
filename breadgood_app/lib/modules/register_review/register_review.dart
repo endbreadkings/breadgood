@@ -1079,7 +1079,7 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
     String path = await FlutterAbsolutePath.getAbsolutePath(uri);
     String fileExtension = extractFileExtension(path);
     if(isHeic(fileExtension)) {
-      path = await convertHeicToJpg(path);
+      return await convertHeicToJpg(path);
     }
     return path;
   }
@@ -1102,8 +1102,8 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
     return await HeicToJpg.convert(heicPath, jpgPath: convertedPath);
   }
 
-  bool validateFileExtension(String uri) {
-    String fileExtension = extractFileExtension(uri);
+  bool validateFileExtension(String path) {
+    String fileExtension = extractFileExtension(path);
     if (!allowedExtensions.contains(fileExtension)) {
       return false;
     }
