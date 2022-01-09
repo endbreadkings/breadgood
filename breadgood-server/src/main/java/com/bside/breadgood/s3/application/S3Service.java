@@ -6,6 +6,7 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.bside.breadgood.s3.application.dto.S3UploadResponseDto;
 import com.bside.breadgood.s3.application.exception.S3UploadException;
+import com.bside.breadgood.util.FileUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -19,8 +20,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class S3Service {
-
-
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
@@ -45,6 +44,7 @@ public class S3Service {
 
         List<String> filePaths = new ArrayList<>();
         for (MultipartFile file : files) {
+            FileUtils.validateFileExtension(file.getOriginalFilename());
             final String filePath = upload(file, dirName);
             filePaths.add(filePath);
         }
@@ -54,6 +54,7 @@ public class S3Service {
                 .fileHost(cloudFrontDns)
                 .build();
     }
+
 
     public String upload(MultipartFile file, String dirPath) {
 

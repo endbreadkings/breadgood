@@ -19,8 +19,10 @@ import 'package:http/http.dart' as http;
 import 'package:hashtagable/hashtagable.dart';
 import 'package:hashtagable/widgets/hashtag_text_field.dart';
 import 'package:breadgood_app/utils/ui/main_app_bar.dart';
-import 'package:breadgood_app/modules/register_review/controller/review_controller.dart';
 import 'package:breadgood_app/utils/services/rest_api_service.dart';
+import 'package:heic_to_jpg/heic_to_jpg.dart';
+import 'package:path/path.dart' as path_lib;
+import 'package:path_provider/path_provider.dart';
 
 // var cur_image_cnt = 0;
 var max_image_cnt = 10;
@@ -157,7 +159,6 @@ Future<http.Response> uploadReviewImages(List<File> fileList) async {
 
 Future<http.Response> postNewBakery(BakeryMapData newBakery) async {
   print('postNewBakery called');
-  // Map<String,String> data = {"signatureMenus" : signatureMenus};
   var uri = Uri.parse('https://api.breadgood.com/api/v1/bakery');
   var request = http.MultipartRequest('POST', uri);
   request.headers.addAll(
@@ -189,11 +190,6 @@ Future<http.Response> postNewBakery(BakeryMapData newBakery) async {
   request.fields['roadAddress'] = newBakery.roadAddress;
   request.fields['title'] = newBakery.title;
   request.fields['signatureMenus'] = newBakery.signatureMenus;
-  // for(int i = 0; i < newBakery.signatureMenus.length; i++) {
-  //   request.fields['signatureMenus[$i]'] = newBakery.signatureMenus[i];
-    // request.fields['signatureMenus'] = newBakery.signatureMenus;
-  // }
-
 
   var response = await request.send();
   if (response.statusCode == 200) {
@@ -204,8 +200,6 @@ Future<http.Response> postNewBakery(BakeryMapData newBakery) async {
   }
 
   print('response:');
-  // final responseString = await response.stream.bytesToString();
-  // final responseJson = jsonDecode(utf8.decode(response.bodyBytes));
   http.Response responseStream = await http.Response.fromStream(response);
   // final responseJson = jsonDecode(utf8.decode(responseStream.bodyBytes));
   // print("Result: ${response.statusCode}");
@@ -213,8 +207,6 @@ Future<http.Response> postNewBakery(BakeryMapData newBakery) async {
   print(response.contentLength);
   print(responseStream.body);
 }
-
-
 
 class RegisterReviewPage extends StatefulWidget {
   const RegisterReviewPage({Key key}) : super(key: key);
@@ -242,7 +234,9 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
 
   int cur_image_cnt = 0;
   final reviewTextController = TextEditingController();
-  List<TextEditingController> signatureMenuTextControllers = List.generate(3, (i) => TextEditingController());
+  List<TextEditingController> signatureMenuTextControllers =
+      List.generate(3, (i) => TextEditingController());
+  List<String> allowedExtensions = ["JPG", "JPEG", "PNG", "WEBP", "SVG", "GIF"];
 
   @override
   void initState() {
@@ -1055,18 +1049,7 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
     );
   }
 
-  // File Photo_file;
-// getImage(ImageSource source) async {
-//   getImage() async {
   Future<void> getImage() async {
-    // File _image;
-    // PickedFile f = await ImagePicker().getImage(source: source);
-    // File image = File(f.path);
-    // setState(() {
-    //   _image = image;
-    // });
-
-    print('getImage');
     List<Asset> resultList = List<Asset>();
     resultList = await MultiImagePicker.pickImages(
       // source: source,
@@ -1074,41 +1057,68 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
       enableCamera: true,
       selectedAssets: imageList,
     );
-    print('resultList: ${resultList}');
-    // PickedFile file = await ImagePicker().getImage(source: source);
+
     setState(() {
-      print('resultList: ${resultList}');
       cur_image_cnt = resultList.length;
       imageList = resultList;
     });
-    print('here');
-    print(fileList.length);
-    print(imageList.length);
-    print(resultList.length);
-    for (int i = 0; i < imageList.length; i++) {
-      final path =
-          await FlutterAbsolutePath.getAbsolutePath(imageList[i].identifier);
-      print(i);
-      print(path);
-      fileList.add(File(path));
-      // fileList[i] = File(path);
-    }
 
-    print(fileList);
-    // fileList = imageList[0].
-    // child: Image.asset(imageList[0]);
+    for (int i = 0; i < imageList.length; i++) {
+      String imagePath = await getPath(imageList[i].identifier);
+
+      if (!(validateFileExtension(imagePath))) {
+        /* TBD: action for the case when file
+              of which extension is not allowed uploaded */
+      }
+
+      fileList.add(File(imagePath));
+    }
+  }
+
+  Future<String> getPath(String uri) async {
+    String path = await FlutterAbsolutePath.getAbsolutePath(uri);
+    String fileExtension = extractFileExtension(path);
+    if(isHeic(fileExtension)) {
+      return await convertHeicToJpg(path);
+    }
+    return path;
+  }
+
+  bool isHeic(String fileExtension) {
+    if(fileExtension == 'HEIC') {
+      return true;
+    }
+    return false;
+  }
+
+  String extractFileExtension(String uri) {
+    return path_lib.extension(uri).replaceAll('.', '');
+  }
+
+  Future<String> convertHeicToJpg(String heicPath) async {
+    String fileName = path_lib.basenameWithoutExtension(heicPath);
+    String convertedPath =
+        (await getTemporaryDirectory()).path + '/$fileName.JPG';
+    return await HeicToJpg.convert(heicPath, jpgPath: convertedPath);
+  }
+
+  bool validateFileExtension(String path) {
+    String fileExtension = extractFileExtension(path);
+    if (!allowedExtensions.contains(fileExtension)) {
+      return false;
+    }
+    return true;
   }
 
   Widget _createInputSignatureMenu(int index) {
     return HashTagTextField(
       controller: signatureMenuTextControllers[index],
       basicStyle: TextStyle(fontSize: 15, color: Colors.black),
-      decoratedStyle:
-      TextStyle(fontSize: 15, color: Colors.blue),
+      decoratedStyle: TextStyle(fontSize: 15, color: Colors.blue),
       // keyboardType: TextInputType.multiline,
       decoration: InputDecoration(
-        contentPadding: new EdgeInsets.symmetric(
-            vertical: 6.0, horizontal: 0.0),
+        contentPadding:
+            new EdgeInsets.symmetric(vertical: 6.0, horizontal: 0.0),
         // border: OutlineInputBorder(
         //   borderSide: BorderSide(
         //     width: 5.0,
