@@ -234,7 +234,9 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
 
   int cur_image_cnt = 0;
   final reviewTextController = TextEditingController();
-  List<TextEditingController> signatureMenuTextControllers = List.generate(3, (i) => TextEditingController());
+  List<TextEditingController> signatureMenuTextControllers =
+      List.generate(3, (i) => TextEditingController());
+  List<String> allowedExtensions = ["JPG", "JPEG", "PNG", "WEBP", "SVG", "GIF"];
 
   @override
   void initState() {
@@ -1065,55 +1067,51 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
       String path =
           await FlutterAbsolutePath.getAbsolutePath(imageList[i].identifier);
 
-      /* validation of image file extension */
-      bool validation = await validateFileExtension(path, i);
-      if(validation == true) {
-        /* TBD: action for the case when file
-              of which extension is allowed uploaded */
+      File imageFile = File(path);
+      String fileExtension =
+          path_lib.extension(imageFile.path).replaceAll('.', '');
+
+      /* converting HEIC image to JPG */
+      if (fileExtension == 'HEIC') {
+        imageFile = await ConvertHeicToJpg(imageFile, i);
       }
-      else if(validation == false) {
+
+      /* validation of image file extension */
+      bool validation = validateFileExtension(fileExtension);
+      if (validation == false) {
         /* TBD: action for the case when file
               of which extension is not allowed uploaded */
       }
+
+      fileList.add(imageFile);
     }
   }
 
-  Future<bool> validateFileExtension(String path, int index) async
-  {
-    bool result = true;
-    List<String> allowedExtension = ["JPG", "JPEG", "PNG", "WEBP", "SVG", "GIF"];
+  Future<File> ConvertHeicToJpg(File heicFile, int fileIndex) async {
+    String convertedPath =
+        (await getTemporaryDirectory()).path + '/$fileIndex.JPG';
+    String jpgPath =
+        await HeicToJpg.convert(heicFile.path, jpgPath: convertedPath);
+    return File(jpgPath);
+  }
 
-    File imageFile = File(path);
-    String fileExtension = path_lib.extension(imageFile.path).replaceAll('.', '');
+  bool validateFileExtension(String fileExtension) {
+    if (!allowedExtensions.contains(fileExtension)) {
 
-    if(allowedExtension.contains(fileExtension)) {
-      /* valid file extension: no extra action needed */
+      return false;
     }
-    else if(fileExtension == 'HEIC') {
-      /* converting HEIC image to JPG */
-      String convertedPath = (await getTemporaryDirectory()).path + '/$index.JPG';
-      String jpgPath = await HeicToJpg.convert(imageFile.path, jpgPath: convertedPath);
-      imageFile = File(jpgPath);
-    }
-    else {
-      /* invalid file extension */
-      result = false;
-    }
-
-    fileList.add(imageFile);
-    return result;
+    return true;
   }
 
   Widget _createInputSignatureMenu(int index) {
     return HashTagTextField(
       controller: signatureMenuTextControllers[index],
       basicStyle: TextStyle(fontSize: 15, color: Colors.black),
-      decoratedStyle:
-      TextStyle(fontSize: 15, color: Colors.blue),
+      decoratedStyle: TextStyle(fontSize: 15, color: Colors.blue),
       // keyboardType: TextInputType.multiline,
       decoration: InputDecoration(
-        contentPadding: new EdgeInsets.symmetric(
-            vertical: 6.0, horizontal: 0.0),
+        contentPadding:
+            new EdgeInsets.symmetric(vertical: 6.0, horizontal: 0.0),
         // border: OutlineInputBorder(
         //   borderSide: BorderSide(
         //     width: 5.0,
