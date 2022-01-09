@@ -18,7 +18,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
   //움직일 페이지 설정
   // final List<Widget> _children = [BaseMapPage(), SearchBakeryPage(), MyInfoEditPage(), LoginPage()];
-  final _children= ["/main","/register_bakery/search_bakery_page","/my_page/my_info_edit","/"];
+  final _children= ["/main","/register_bakery/search_bakery_page","/my_page/my_info_edit","/further_info/further_info"];
 
   void _onTap(int index) {
     setState(() {
