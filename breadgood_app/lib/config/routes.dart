@@ -19,6 +19,7 @@ import 'package:get/get.dart';
 import 'package:breadgood_app/modules/register_bakery/naver_search.dart';
 import 'package:breadgood_app/modules/register_bakery/screens/search_bakery.dart';
 import 'package:breadgood_app/modules/register_review/register_review.dart';
+import 'package:breadgood_app/modules/further_info/further_info.dart';
 
 // 아래와 같은 양식으로 라우트 설정
 // GetPage(name:"/first",page:()=>FirstNamedPage(),transition:Transition.zoom),
@@ -62,8 +63,8 @@ final Routes = [
       name: '/register_bakery/search_bakery_page',
       page: () => SearchBakeryPage()),
   GetPage(
-    name: '/four',
-  ),
+    name: '/further_info/further_info',
+    page: () => FurtherInfo()),
   GetPage(
     name: '/five/:param',
   ),

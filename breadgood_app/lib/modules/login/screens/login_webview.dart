@@ -5,6 +5,7 @@ import 'package:breadgood_app/modules/main/controller/main_map_controller.dart';
 import 'package:breadgood_app/modules/main/screens/bakery_list_webview.dart';
 import 'package:breadgood_app/modules/signup/controller/signup_controller.dart';
 import 'package:breadgood_app/utils/services/secure_storage_service.dart';
+import 'package:breadgood_app/utils/ui/main_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:get/get.dart';
@@ -149,22 +150,6 @@ class _LoginWebViewState extends State<LoginWebView> {
             ? PATH.KAKAO_LOGIN_URL
             : PATH.APPLE_LOGIN_URL,
         javascriptChannels: jsChannels,
-        appBar: AppBar(
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SizedBox(
-                  width: 30,
-                  height: 30,
-                  child: Image.asset('asset/images/bread.png')),
-              SizedBox(
-                  width: 35,
-                  height: 25,
-                  child: Image.asset('asset/images/breadgood.png'))
-            ],
-          ),
-          backgroundColor: Colors.white,
-          centerTitle: false,
-        ));
+        appBar: DefaultAppBar());
   }
 }
