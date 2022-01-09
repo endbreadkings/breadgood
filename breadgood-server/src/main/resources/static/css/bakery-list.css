@@ -252,7 +252,7 @@
   height: 100vh;
   position: fixed;
   z-index: 100;
-  top: 100%;
+  top: 150%;
   left: 0;
   right: 0;
   bottom: 0;
@@ -280,7 +280,7 @@
   z-index: 100;
   background-color: #FFFFFF;
   border-radius: 16px 16px 0 0;
-  padding: 8px 20px 20px 20px;
+  padding: 10px 20px 28px 20px;
   filter: drop-shadow(0px -12px 18px rgba(0, 0, 0, 0.28));
 }
 
@@ -330,7 +330,7 @@
 }
 
 .filter-button-wrapper {
-  margin: 28px 0;
+  margin-top: 28px;
 }
 
 .lo-filter-btn {
