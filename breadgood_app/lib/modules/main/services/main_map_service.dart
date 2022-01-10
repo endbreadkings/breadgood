@@ -6,8 +6,8 @@ import 'package:breadgood_app/modules/main/model/current_positions/area.dart';
 import 'package:breadgood_app/modules/main/model/current_positions/region.dart';
 import 'package:breadgood_app/modules/main/model/user_models.dart';
 import 'package:http/http.dart' as http;
-import 'package:breadgood_app/constant/api_path.dart' as PATH;
-import 'package:breadgood_app/utils/services/rest_api_service.dart' as REST_API;
+import 'package:breadgood_app/constant/api_path.dart' as api_path;
+import 'package:breadgood_app/utils/services/rest_api_service.dart' as rest_api;
 
 class MainMapService{
   static Future<List> getCurrentPosition(latitude,longitude) async{
@@ -27,9 +27,8 @@ class MainMapService{
   }
 
   static Future<dynamic> fetchUserId() async{
-
-    final url=Uri.parse("${PATH.REST_API_URL}/user/me");
-    Map<String,String> headers=await REST_API.headers();
+    final url=Uri.parse("${api_path.restApiUrl}/user/me");
+    Map<String,String> headers=await rest_api.headers();
     final response=await http.get(url,headers: headers);
     var responseJson=jsonDecode(utf8.decode(response.bodyBytes));
     return UserModels.fromJson(responseJson).id;

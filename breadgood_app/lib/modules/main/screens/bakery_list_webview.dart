@@ -5,8 +5,7 @@ import 'package:breadgood_app/utils/ui/main_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import 'package:breadgood_app/constant/api_path.dart' as PATH;
-// import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:breadgood_app/constant/api_path.dart' as api_path;
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -35,7 +34,7 @@ class _BakeryListWebviewState extends State<BakeryListWebview> {
   @override
   Widget build(BuildContext context) {
     return WebView(
-      initialUrl: "${PATH.URL}/pages/bakery/list",
+      initialUrl: "${api_path.url}/pages/bakery/list",
       javascriptMode: JavascriptMode.unrestricted,
       javascriptChannels: jsChannels,
     );

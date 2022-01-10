@@ -1,8 +1,7 @@
-import 'package:breadgood_app/modules/register_bakery/screens/search_bakery.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:breadgood_app/modules/register_bakery/model/bakery_data.dart';
-
+import 'package:breadgood_app/modules/register_bakery/screens/search_bakery.dart';
 
 class BakeryController extends GetxController {
   /* bakery data variables */

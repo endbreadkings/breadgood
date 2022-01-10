@@ -22,11 +22,12 @@ class AlreadyRegisteredBakeryPage extends StatefulWidget {
 class _AlreadyRegisteredBakeryPageState
     extends State<AlreadyRegisteredBakeryPage> {
   final controller = Get.put(BakeryController());
+  String first_registerer = (Get.arguments)[0];
+  int bakeryId = (Get.arguments)[1];
 
   // var args = Get.arguments;
   SearchData selectedBakery;
   // = controller.selectedBakery;
-  String first_registerer = Get.arguments;
   // String first_registerer = '동오언니';
   @override
   Widget build(BuildContext context) {
@@ -131,7 +132,7 @@ class _AlreadyRegisteredBakeryPageState
                                         fontWeight: FontWeight.w600,
                                       )),
                                   onPressed: () {
-                                    Get.to(RegisterReviewPage());
+                                    Get.to(RegisterReviewPage(), arguments: bakeryId);
                                   },
                                 ),
                               ),

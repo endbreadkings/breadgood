@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:naver_map_plugin/naver_map_plugin.dart';
 import 'package:http/http.dart' as http;
-import 'package:breadgood_app/constant/api_path.dart' as PATH;
+import 'package:breadgood_app/constant/api_path.dart' as api_path;
 import 'package:breadgood_app/utils/services/rest_api_service.dart' as REST_API;
 
 class MainMapController extends GetxController {
@@ -71,7 +71,7 @@ class MainMapController extends GetxController {
   }
 
   Future<List> bakeryList(city,district) async {
-    final url = Uri.parse("${PATH.REST_API_URL}/bakery/search");
+    final url = Uri.parse("${api_path.restApiUrl}/bakery/search");
     Map<String,String> headers = await REST_API.headers();
     // var body=json.encode({"city": city, "district": district, "bakeryCategory1": "1"});
     var body=json.encode({"city": city, "district": district, "bakeryCategory": null});
