@@ -53,4 +53,6 @@ class BakeryServiceTest {
 //        System.out.println(bakeryResponseDto.getBakeryReviews());
 //        assertEquals(bakeryResponseDto.getBakeryReviews().get(0).getUserId(), 1L);
 //    }
+
+    
 }
