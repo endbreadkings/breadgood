@@ -16,6 +16,23 @@ jobs:
     #    needs: [continuous-integration]
     #    if: github.ref == 'refs/heads/main'
     steps:
+
+      - name: Get Github action IP
+        id: ip
+        uses: haythem/public-ip@v1.2
+      - name: Setting environment variables..
+        run: |
+          echo "AWS_DEFAULT_REGION=ap-southeast-2" >> $GITHUB_ENV
+          echo "AWS_SG_NAME=breadgood-apiservice-ec2-secure" >> $GITHUB_ENV
+
+      - name: Add Github Actions IP to Security group
+        run: |
+          aws ec2 authorize-security-group-ingress --group-name breadgood-apiservice-ec2-secure --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ap-southeast-2
+
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.head_ref }}
@@ -57,22 +74,6 @@ jobs:
           dockerfile: Dockerfile
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Get Github action IP
-        id: ip
-        uses: haythem/public-ip@v1.2
-      - name: Setting environment variables..
-        run: |
-          echo "AWS_DEFAULT_REGION=ap-southeast-2" >> $GITHUB_ENV
-          echo "AWS_SG_NAME=breadgood-apiservice-ec2-secure" >> $GITHUB_ENV
-
-      - name: Add Github Actions IP to Security group
-        run: |
-          aws ec2 authorize-security-group-ingress --group-name breadgood-apiservice-ec2-secure --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ env.AWS_DEFAULT_REGION }}
 
       - name: Deploy to dev api server
         uses: garygrossgarten/github-action-ssh@v0.5.0
