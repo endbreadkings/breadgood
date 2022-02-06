@@ -6,6 +6,7 @@ import com.bside.breadgood.ddd.bakery.application.dto.BakeryReviewResponseDto;
 import com.bside.breadgood.ddd.bakery.application.dto.BakerySaveRequestDto;
 import com.bside.breadgood.ddd.bakery.application.dto.BakerySearchRequestDto;
 import com.bside.breadgood.ddd.bakery.application.dto.BakerySearchResponseDto;
+import com.bside.breadgood.ddd.bakery.application.enums.BakerySortType;
 import com.bside.breadgood.ddd.bakery.application.dto.CheckDuplicateBakeryResponseDto;
 import com.bside.breadgood.ddd.bakery.application.exception.BakeryNotFoundException;
 import com.bside.breadgood.ddd.bakery.application.exception.DuplicateBakeryException;
@@ -213,7 +214,7 @@ public class BakeryService {
         bakeryStream = filterBakeryCategories(bakeryStream, bakeryCategories);
         bakeryStream = filterCity(bakeryStream, city);
         bakeryStream = filterDistrict(bakeryStream, district);
-        bakeryStream = orderByIdDesc(bakeryStream);
+        bakeryStream = orderBySortType(bakeryStream, dto.getBakerySortType());
 
         return convertBakerySearchResponseDtos(bakeryStream);
     }
@@ -240,8 +241,20 @@ public class BakeryService {
         return bakeryStream;
     }
 
-    private Stream<Bakery> orderByIdDesc(Stream<Bakery> bakeryStream) {
-        return bakeryStream.sorted(Comparator.comparingLong(Bakery::getId).reversed());
+    /**
+     * 스트림을 정렬 타입에 따라 정렬한다.
+     *
+     * @param bakeryStream 빵집 리스트 스트림
+     * @param bakerySortType 정렬 타입
+     * @return 정렬된 스트림
+     */
+    private Stream<Bakery> orderBySortType(Stream<Bakery> bakeryStream, BakerySortType bakerySortType) {
+        if (bakerySortType == BakerySortType.ID_DESC || bakerySortType == null) {
+            return bakeryStream.sorted(Comparator.comparingLong(Bakery::getId).reversed());
+        } else if (bakerySortType == BakerySortType.ID_ASC) {
+            return bakeryStream.sorted(Comparator.comparingLong(Bakery::getId));
+        }
+        throw new IllegalArgumentException();
     }
 
     private void validateCityContainsWord(String city) {
