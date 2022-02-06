@@ -81,6 +81,11 @@ const BakeryList = () => {
     setSelectedLocation(filter.location);
   }, [filter]);
 
+  React.useEffect(() => {
+    if (isOpen) document.body.style.overflow = 'hidden';
+    else document.body.style.overflow = 'unset';
+  }, [isOpen])
+
   const handleFilter = (type, value) => {
     const newFilter = { ...filter }
     if (type === 'location') {
@@ -260,7 +265,7 @@ const BakeryList = () => {
         <div className="backdrop" onClick={close} />
         <div className="location-filter-modal">
           <div
-            className="drag-bar"
+            className="drag-bar-wrapper"
             onTouchStart={((event) => {
               startY = event.touches[0].pageY;
             })}
@@ -269,7 +274,9 @@ const BakeryList = () => {
               const diffY = endY - startY;
               if (diffY > 10) close();
             }}
-          />
+          >
+            <div className="drag-bar"/>
+          </div>
           <div className="location-item-wrapper">
             {locationList.map((subLocationArray, idx1) => {
               return (
