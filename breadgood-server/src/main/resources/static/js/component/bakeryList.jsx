@@ -71,8 +71,17 @@ const BakeryList = () => {
     }
   }
 
+  const setViewHeight = () => {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`)
+  }
+
   React.useEffect(() => {
+    setViewHeight();
     getBakeryCategoryList();
+    window.addEventListener('resize', setViewHeight);
+  }, () => {
+    window.removeEventListener('resize', setViewHeight);
   }, []);
 
   React.useEffect(() => {
