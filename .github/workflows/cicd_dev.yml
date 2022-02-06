@@ -9,7 +9,7 @@ on:
       developer, # 개발서버 반영 브랜치
       designer # 디자인 검수 브랜치
     ]
-    
+
 #  pull_request:
 #    branches: [ developer ]
 
