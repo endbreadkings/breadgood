@@ -67,6 +67,7 @@ div#bakery-contents.loaded {
     flex-wrap: wrap;
     gap: 3px 5px;
     display: flex;
+    font-family: NanumSquareRound;
 }
 
 .bakery-title span {
