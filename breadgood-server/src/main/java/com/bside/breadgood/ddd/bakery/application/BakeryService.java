@@ -213,6 +213,7 @@ public class BakeryService {
         bakeryStream = filterBakeryCategories(bakeryStream, bakeryCategories);
         bakeryStream = filterCity(bakeryStream, city);
         bakeryStream = filterDistrict(bakeryStream, district);
+        bakeryStream = orderByIdDesc(bakeryStream);
 
         return convertBakerySearchResponseDtos(bakeryStream);
     }
@@ -237,6 +238,10 @@ public class BakeryService {
             return bakeryStream.filter(bakery -> bakery.getAddress().getCity().equals(city));
         }
         return bakeryStream;
+    }
+
+    private Stream<Bakery> orderByIdDesc(Stream<Bakery> bakeryStream) {
+        return bakeryStream.sorted(Comparator.comparingLong(Bakery::getId).reversed());
     }
 
     private void validateCityContainsWord(String city) {
