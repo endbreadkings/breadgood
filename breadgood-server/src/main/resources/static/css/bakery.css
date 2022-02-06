@@ -145,6 +145,7 @@ div#bakery-contents.loaded {
 }
 
 .review-count span b {
+    font-family: NanumSquareRound;
     color: #4579FF;
     font-weight: 800;
 }
