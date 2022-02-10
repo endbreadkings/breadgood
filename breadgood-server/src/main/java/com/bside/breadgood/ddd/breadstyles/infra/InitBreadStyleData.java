@@ -26,7 +26,6 @@ public class InitBreadStyleData {
                         "짭짤한 맛의 조리빵", "https://d74hbwjus7qtu.cloudfront.net/admin/case_2_salty_.png",
                 "https://d74hbwjus7qtu.cloudfront.net/admin/case_1_salty.png",
                 "#FFBC4A");
-
         add("담백", "식빵, 바게트, 치아바타, \n" +
                         "크루아상, 베이글 등\n" +
                         "자극적이지 않은 담백한 빵", "https://d74hbwjus7qtu.cloudfront.net/admin/case_2_plain_.png",

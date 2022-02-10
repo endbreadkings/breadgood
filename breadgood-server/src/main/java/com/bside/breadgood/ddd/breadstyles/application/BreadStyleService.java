@@ -33,7 +33,8 @@ public class BreadStyleService {
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public BreadStyleResponseDto findById(Long breadStyleId) {
-        final BreadStyle breadStyle = breadStyleRepository.findById(breadStyleId).orElseThrow(() -> new BreadStyleNotFoundException("id", Long.toString(breadStyleId)));
+        final BreadStyle breadStyle = breadStyleRepository.findById(breadStyleId)
+                .orElseThrow(() -> new BreadStyleNotFoundException("id", Long.toString(breadStyleId)));
         return new BreadStyleResponseDto(breadStyle);
     }
 }
