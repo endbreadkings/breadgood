@@ -79,7 +79,7 @@ dependencies {
     implementation group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.60'
 
     testImplementation 'io.rest-assured:rest-assured'
-    testImplementation 'com.h2database:h2:2.1.210'
+    testImplementation 'com.h2database:h2:1.4.200'
 
 }
 
