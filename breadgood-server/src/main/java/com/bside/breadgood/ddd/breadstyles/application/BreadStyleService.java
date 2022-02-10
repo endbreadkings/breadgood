@@ -24,6 +24,7 @@ public class BreadStyleService {
         breadStyleRepository.saveAll(new InitBreadStyleData().get());
     }
 
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<BreadStyleResponseDto> findAll() {
         return breadStyleRepository.findAllOrderByIdDesc().stream()
                 .map(BreadStyleResponseDto::new)
