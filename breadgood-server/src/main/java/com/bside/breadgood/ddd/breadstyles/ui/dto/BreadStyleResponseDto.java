@@ -21,7 +21,7 @@ public class BreadStyleResponseDto {
         this.id = entity.getId();
         this.name = entity.getName();
         this.content = entity.getContent();
-        this.imgUrl = entity.getImgUrl();
+        this.imgUrl = entity.getContentImgUrl();
         this.profileImgUrl = entity.getProfileImgUrl();
         this.color = entity.getColor();
     }
