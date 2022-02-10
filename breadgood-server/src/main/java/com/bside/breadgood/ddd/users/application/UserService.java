@@ -57,6 +57,7 @@ public class UserService {
             return UserInfoResponseDto.builder()
                     .breadStyleId(breadStyleResponseDto.getId())
                     .breadStyleName(breadStyleResponseDto.getName())
+                    .breadStyleColor(breadStyleResponseDto.getColor())
                     .userId(user.getId())
                     .nickName(user.getNickName())
                     .profileImgUrl(user.getProfileImg())
@@ -72,6 +73,7 @@ public class UserService {
                     .breadStyleName(null)
                     .userId(0L)
                     .nickName("빵긋")
+                    .breadStyleColor("#D8D8D8")
                     .profileImgUrl("https://d74hbwjus7qtu.cloudfront.net/admin/case_2_off.png")
                     .isWithdrawal(false)
                     .build();

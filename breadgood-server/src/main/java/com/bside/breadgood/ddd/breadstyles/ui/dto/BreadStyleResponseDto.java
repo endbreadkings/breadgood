@@ -12,8 +12,10 @@ public class BreadStyleResponseDto {
     private final String content;
     // 설명 이미지
     private final String imgUrl;
-
+    // 프로필 이미지
     private final String profileImgUrl;
+    // 최애빵 색상
+    private String color;
 
     public BreadStyleResponseDto(BreadStyle entity) {
         this.id = entity.getId();
@@ -21,5 +23,6 @@ public class BreadStyleResponseDto {
         this.content = entity.getContent();
         this.imgUrl = entity.getImgUrl();
         this.profileImgUrl = entity.getProfileImgUrl();
+        this.color = entity.getColor();
     }
 }
