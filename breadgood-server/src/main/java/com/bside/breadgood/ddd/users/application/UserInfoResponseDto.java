@@ -6,6 +6,16 @@ import lombok.Getter;
 @Getter
 public class UserInfoResponseDto {
 
+    public static final UserInfoResponseDto DEFAULT_USER_INFO_RESPONSE_DTO = UserInfoResponseDto.builder()
+            .breadStyleId(null)
+            .breadStyleName(null)
+            .userId(0L)
+            .nickName("빵긋")
+            .breadStyleColor("#B0B0B0")
+            .profileImgUrl("https://d74hbwjus7qtu.cloudfront.net/admin/case_2_off.png")
+            .isWithdrawal(false)
+            .build();
+
     private final Long id;
     private final String nickName;
     private final String profileImgUrl;
@@ -13,7 +23,6 @@ public class UserInfoResponseDto {
     private final String breadStyleName;
     private final String breadStyleColor;
     private final boolean isWithdrawal;
-
 
     @Builder
     public UserInfoResponseDto(Long userId, String nickName, String profileImgUrl, Long breadStyleId, String breadStyleName, String breadStyleColor, boolean isWithdrawal) {
@@ -24,5 +33,9 @@ public class UserInfoResponseDto {
         this.breadStyleName = breadStyleName;
         this.breadStyleColor = breadStyleColor;
         this.isWithdrawal = isWithdrawal;
+    }
+
+    public static UserInfoResponseDto getDefault() {
+        return DEFAULT_USER_INFO_RESPONSE_DTO;
     }
 }
