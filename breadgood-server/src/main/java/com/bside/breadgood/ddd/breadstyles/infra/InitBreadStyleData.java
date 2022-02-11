@@ -20,7 +20,7 @@ public class InitBreadStyleData {
                         "시나몬롤 등 \n" +
                         "크림이 없는 달콤한 빵", "https://d74hbwjus7qtu.cloudfront.net/admin/case_2_sweet_.png",
                 "https://d74hbwjus7qtu.cloudfront.net/admin/case_1_sweet.png",
-                "#7d9573");
+                "#c59577");
         add("짭짤", "피자빵, 고로케,양파빵, \n" +
                         "마늘바게트 등 \n" +
                         "짭짤한 맛의 조리빵", "https://d74hbwjus7qtu.cloudfront.net/admin/case_2_salty_.png",
