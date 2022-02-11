@@ -1,6 +1,5 @@
 package com.bside.breadgood.ddd.users.infra;
 
-import com.bside.breadgood.ddd.bakerycategory.domain.BakeryCategory;
 import com.bside.breadgood.ddd.users.domain.Role;
 import com.bside.breadgood.ddd.users.domain.User;
 import com.bside.breadgood.ddd.users.domain.UserTerms;
@@ -42,12 +41,12 @@ public class InitUserData {
         final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         final String password = bCryptPasswordEncoder.encode("1234");
 
-        add("테스트유저", "test@breadgood.com", password, 1L, "https://d74hbwjus7qtu.cloudfront.net/admin/case_1_cream.png", userTermsList, role);
-        add("테스트유저2", "test2@breadgood.com", password, 2L, "https://d74hbwjus7qtu.cloudfront.net/admin/case_1_sweet.png", userTermsList, role);
-        add("테스트유저3", "test3@breadgood.com", password, 2L, "https://d74hbwjus7qtu.cloudfront.net/admin/case_1_sweet.png", userTermsList, role);
-        add("테스트유저4", "test4@breadgood.com", password, 3L, "https://d74hbwjus7qtu.cloudfront.net/admin/case_1_salty.png", userTermsList, role);
-        add("테스트유저5", "test5@breadgood.com", password, 3L, "https://d74hbwjus7qtu.cloudfront.net/admin/case_1_salty.png", userTermsList, role);
-        add("테스트유저6", "test6@breadgood.com", password, 3L, "https://d74hbwjus7qtu.cloudfront.net/admin/case_1_salty.png", userTermsList, role);
+        add("테스트유저", "test@breadgood.com", password, 1L, userTermsList, role);
+        add("테스트유저2", "test2@breadgood.com", password, 2L, userTermsList, role);
+        add("테스트유저3", "test3@breadgood.com", password, 2L, userTermsList, role);
+        add("테스트유저4", "test4@breadgood.com", password, 3L, userTermsList, role);
+        add("테스트유저5", "test5@breadgood.com", password, 3L, userTermsList, role);
+        add("테스트유저6", "test6@breadgood.com", password, 3L, userTermsList, role);
 
     }
 
@@ -55,8 +54,8 @@ public class InitUserData {
         return data;
     }
 
-    private void add(String nickName, String email, String password, Long breadStyle, String profileImg, List<UserTerms> userTerms, Role role) {
-        data.add(new User(nickName, email, password, breadStyle, profileImg, userTerms, role));
+    private void add(String nickName, String email, String password, Long breadStyle, List<UserTerms> userTerms, Role role) {
+        data.add(new User(nickName, email, password, breadStyle, userTerms, role));
     }
 
 }

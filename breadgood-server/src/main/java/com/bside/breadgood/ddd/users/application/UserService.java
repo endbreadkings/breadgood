@@ -5,7 +5,7 @@ import com.bside.breadgood.ddd.breadstyles.application.BreadStyleService;
 import com.bside.breadgood.ddd.breadstyles.ui.dto.BreadStyleResponseDto;
 import com.bside.breadgood.ddd.termstype.application.TermsTypeService;
 import com.bside.breadgood.ddd.termstype.ui.dto.TermsTypeResponseDto;
-import com.bside.breadgood.ddd.users.application.dto.UserProfileResponseDto;
+import com.bside.breadgood.ddd.users.application.dto.UserResponseDto;
 import com.bside.breadgood.ddd.users.application.exception.DuplicateUserNickNameException;
 import com.bside.breadgood.ddd.users.application.exception.OnlySocialLinkException;
 import com.bside.breadgood.ddd.users.application.exception.UserNotFoundException;
@@ -13,7 +13,6 @@ import com.bside.breadgood.ddd.users.domain.User;
 import com.bside.breadgood.ddd.users.domain.WithdrawalUser;
 import com.bside.breadgood.ddd.users.infra.InitUserData;
 import com.bside.breadgood.ddd.users.infra.UserRepository;
-import com.bside.breadgood.ddd.users.application.dto.UserResponseDto;
 import com.bside.breadgood.ddd.users.infra.WithdrawalUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -34,10 +33,12 @@ public class UserService {
     private final BreadStyleService breadStyleService;
     private final TermsTypeService termsTypeService;
 
+
     @Transactional(readOnly = true)
     public UserResponseDto findById(Long userId) {
         final User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("id", Long.toString(userId)));
-        return new UserResponseDto(user);
+        final BreadStyleResponseDto breadStyleResponseDto = breadStyleService.findById(user.getBreadStyle());
+        return new UserResponseDto(user, breadStyleResponseDto);
 
     }
 
@@ -58,25 +59,16 @@ public class UserService {
                     .breadStyleId(breadStyleResponseDto.getId())
                     .breadStyleName(breadStyleResponseDto.getName())
                     .breadStyleColor(breadStyleResponseDto.getColor())
+                    .profileImgUrl(breadStyleResponseDto.getProfileImgUrl())
                     .userId(user.getId())
                     .nickName(user.getNickName())
-                    .profileImgUrl(user.getProfileImg())
                     .isWithdrawal(true)
                     .build();
         }
 
-        // 존재하지 않고, 탈퇴한 회원이라면 기본 UserInfo 데이터 넣기
+        // 존재하지 않고, 탈퇴한 회원이라면 기본 UserInfo
         if (isWithdrawal(userId)) {
-            // return default UserInfo Response
-            return UserInfoResponseDto.builder()
-                    .breadStyleId(null)
-                    .breadStyleName(null)
-                    .userId(0L)
-                    .nickName("빵긋")
-                    .breadStyleColor("#D8D8D8")
-                    .profileImgUrl("https://d74hbwjus7qtu.cloudfront.net/admin/case_2_off.png")
-                    .isWithdrawal(false)
-                    .build();
+            return UserInfoResponseDto.getDefault();
         }
 
         throw new UserNotFoundException("id", Long.toString(userId));
@@ -137,14 +129,13 @@ public class UserService {
     public UserResponseDto updateNickName(Long userId, String nickName) {
 
         final User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("id", Long.toString(userId)));
-
         if (duplicateNickName(nickName, userId)) {
             throw new DuplicateUserNickNameException();
         }
-
         user.updateNickName(nickName);
 
-        return new UserResponseDto(user);
+        final BreadStyleResponseDto breadStyleResponseDto = breadStyleService.findById(user.getBreadStyle());
+        return new UserResponseDto(user, breadStyleResponseDto);
     }
 
     @Transactional
@@ -156,7 +147,7 @@ public class UserService {
 
         user.updateBreadStyle(breadStyleResponseDto);
 
-        return new UserResponseDto(user);
+        return new UserResponseDto(user, breadStyleResponseDto);
     }
 
 
@@ -180,7 +171,6 @@ public class UserService {
         return withdrawalUsers != null && withdrawalUsers.size() > 0;
 
     }
-
 
     public void initData() {
         userRepository.saveAll(new InitUserData().get());
