@@ -13,7 +13,7 @@ import java.util.Set;
 
 public class InitUserData {
 
-    Set<User> data = new HashSet<>();
+    List<User> data = new ArrayList<>();
 
     {
 
@@ -50,7 +50,7 @@ public class InitUserData {
 
     }
 
-    public Set<User> get() {
+    public List<User> get() {
         return data;
     }
 
