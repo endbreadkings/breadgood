@@ -43,10 +43,10 @@ public class InitUserData {
 
         add("테스트유저", "test@breadgood.com", password, 1L, userTermsList, role);
         add("테스트유저2", "test2@breadgood.com", password, 2L, userTermsList, role);
-        add("테스트유저3", "test3@breadgood.com", password, 2L, userTermsList, role);
+        add("테스트유저3", "test3@breadgood.com", password, 3L, userTermsList, role);
         add("테스트유저4", "test4@breadgood.com", password, 3L, userTermsList, role);
-        add("테스트유저5", "test5@breadgood.com", password, 3L, userTermsList, role);
-        add("테스트유저6", "test6@breadgood.com", password, 3L, userTermsList, role);
+        add("테스트유저5", "test5@breadgood.com", password, 4L, userTermsList, role);
+        add("테스트유저6", "test6@breadgood.com", password, 1L, userTermsList, role);
 
     }
 
