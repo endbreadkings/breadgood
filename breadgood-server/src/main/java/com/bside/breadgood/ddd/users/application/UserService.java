@@ -15,10 +15,8 @@ import com.bside.breadgood.ddd.users.infra.InitUserData;
 import com.bside.breadgood.ddd.users.infra.UserRepository;
 import com.bside.breadgood.ddd.users.infra.WithdrawalUserRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
@@ -39,11 +37,9 @@ public class UserService {
     @Transactional(readOnly = true)
     public UserResponseDto findById(Long userId) {
         final User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("id", Long.toString(userId)));
-        if (user.isGuest()) {
-            return new UserResponseDto(user);
-        }
         final BreadStyleResponseDto breadStyleResponseDto = breadStyleService.findById(user.getBreadStyle());
         return new UserResponseDto(user, breadStyleResponseDto);
+
     }
 
     /**
@@ -176,7 +172,6 @@ public class UserService {
 
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void initData() {
         userRepository.saveAll(new InitUserData().get());
     }

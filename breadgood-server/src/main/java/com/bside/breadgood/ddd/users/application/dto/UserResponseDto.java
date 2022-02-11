@@ -18,11 +18,4 @@ public class UserResponseDto {
         this.nickName = user.getNickName();
         this.breadStyleId = user.getBreadStyle();
     }
-
-    public UserResponseDto(User user) {
-        this.id = user.getId();
-        this.profileImgUrl = null;
-        this.nickName = user.getNickName();
-        this.breadStyleId = user.getBreadStyle();
-    }
 }

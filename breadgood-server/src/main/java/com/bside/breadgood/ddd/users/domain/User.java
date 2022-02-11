@@ -121,8 +121,4 @@ public class User extends BaseEntity {
         }
         return email.getEmail();
     }
-
-    public boolean isGuest() {
-        return this.role == Role.GUEST;
-    }
 }
