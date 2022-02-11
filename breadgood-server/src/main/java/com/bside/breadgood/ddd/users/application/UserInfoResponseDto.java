@@ -11,7 +11,7 @@ public class UserInfoResponseDto {
             .breadStyleName(null)
             .userId(0L)
             .nickName("빵긋")
-            .breadStyleColor("#B0B0B0")
+            .breadStyleColor("#696972")
             .profileImgUrl("https://d74hbwjus7qtu.cloudfront.net/admin/case_2_off.png")
             .isWithdrawal(false)
             .build();
