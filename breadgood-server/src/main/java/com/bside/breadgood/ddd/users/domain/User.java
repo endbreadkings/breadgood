@@ -1,22 +1,16 @@
 package com.bside.breadgood.ddd.users.domain;
 
 import com.bside.breadgood.common.domain.BaseEntity;
-import com.bside.breadgood.ddd.breadstyles.domain.BreadStyle;
 import com.bside.breadgood.ddd.breadstyles.ui.dto.BreadStyleResponseDto;
-import com.bside.breadgood.ddd.termstype.domain.TermsType;
 import com.bside.breadgood.ddd.termstype.ui.dto.TermsTypeResponseDto;
 import com.sun.istack.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.thymeleaf.util.StringUtils;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Getter
@@ -52,7 +46,7 @@ public class User extends BaseEntity {
     @ElementCollection
     private List<UserTerms> userTerms;
 
-    @Enumerated
+    @Embedded
     private SocialLink socialLink;
 
     @NotNull
