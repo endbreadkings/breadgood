@@ -38,6 +38,7 @@ class ImageUrlTest {
     @ValueSource(strings = {
             "https://d74hbwjus7qtu.cloudfront.net/admin/case_2_off.png",
             "http://d74hbwjus7qtu.cloudfront.net/admin/case_2_off.svg",
+            "http://d74hbwjus7qtu.cloudfront.net/admin/c121=asd+=123-%$#ase_2_off.svg",
             "http://d74hbwjus7qtu.cloudfront.net/adm_in/case_2_off.svg"
     })
     void from(String url) {
