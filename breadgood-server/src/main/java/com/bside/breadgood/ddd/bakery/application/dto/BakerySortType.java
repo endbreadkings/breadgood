@@ -1,4 +1,4 @@
-package com.bside.breadgood.ddd.bakery.application.enums;
+package com.bside.breadgood.ddd.bakery.application.dto;
 
 /**
  * create on 2022/02/06. create by IntelliJ IDEA.
@@ -9,6 +9,5 @@ package com.bside.breadgood.ddd.bakery.application.enums;
  * @version 1.0
  */
 public enum BakerySortType {
-  ID_DESC,
-  ID_ASC
+  ID_DESC
 }

@@ -1,12 +1,13 @@
 package com.bside.breadgood.ddd.bakery.application;
 
+import com.bside.breadgood.common.exception.WrongValueException;
 import com.bside.breadgood.ddd.bakery.application.dto.BakeryResponseDto;
 import com.bside.breadgood.ddd.bakery.application.dto.BakeryReviewRequestDto;
 import com.bside.breadgood.ddd.bakery.application.dto.BakeryReviewResponseDto;
 import com.bside.breadgood.ddd.bakery.application.dto.BakerySaveRequestDto;
 import com.bside.breadgood.ddd.bakery.application.dto.BakerySearchRequestDto;
 import com.bside.breadgood.ddd.bakery.application.dto.BakerySearchResponseDto;
-import com.bside.breadgood.ddd.bakery.application.enums.BakerySortType;
+import com.bside.breadgood.ddd.bakery.application.dto.BakerySortType;
 import com.bside.breadgood.ddd.bakery.application.dto.CheckDuplicateBakeryResponseDto;
 import com.bside.breadgood.ddd.bakery.application.exception.BakeryNotFoundException;
 import com.bside.breadgood.ddd.bakery.application.exception.DuplicateBakeryException;
@@ -208,13 +209,12 @@ public class BakeryService {
             return Collections.emptyList();
         }
 
-        final List<Bakery> bakeries = bakeryRepository.findAll();
+        final List<Bakery> bakeries = bakeryRepository.findAllOrderByIdDesc();
         Stream<Bakery> bakeryStream = bakeries.stream();
 
         bakeryStream = filterBakeryCategories(bakeryStream, bakeryCategories);
         bakeryStream = filterCity(bakeryStream, city);
         bakeryStream = filterDistrict(bakeryStream, district);
-        bakeryStream = orderBySortType(bakeryStream, dto.getBakerySortType());
 
         return convertBakerySearchResponseDtos(bakeryStream);
     }
@@ -242,8 +242,9 @@ public class BakeryService {
     }
 
     /**
-     * 스트림을 정렬 타입에 따라 정렬한다.
+     * <p> 스트림을 정렬 타입에 따라 정렬한다. </p>
      *
+     * @deprecated 추후에 정렬 요구사항이 추가되면 사용하도록 하자.
      * @param bakeryStream 빵집 리스트 스트림
      * @param bakerySortType 정렬 타입
      * @return 정렬된 스트림
@@ -251,10 +252,8 @@ public class BakeryService {
     private Stream<Bakery> orderBySortType(Stream<Bakery> bakeryStream, BakerySortType bakerySortType) {
         if (bakerySortType == BakerySortType.ID_DESC || bakerySortType == null) {
             return bakeryStream.sorted(Comparator.comparingLong(Bakery::getId).reversed());
-        } else if (bakerySortType == BakerySortType.ID_ASC) {
-            return bakeryStream.sorted(Comparator.comparingLong(Bakery::getId));
         }
-        throw new IllegalArgumentException();
+        throw new WrongValueException(String.format("빵집 정렬 타입은 %s가 될 수 없습니다.", bakerySortType));
     }
 
     private void validateCityContainsWord(String city) {
