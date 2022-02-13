@@ -21,11 +21,11 @@ public class InitBakeryCategoryData {
         return data;
     }
 
-    private void add(String title, String titleActiveImgUrl, String titleInactiveImgUrl, String color, String markerImgUrl, String content, int sortNumber) {
+    private void add(String title, String titleColoredImgUrl, String titleWhiteImgUrl, String color, String markerImgUrl, String content, int sortNumber) {
         data.add(BakeryCategory.builder()
             .title(title)
-            .titleActiveImgUrl(titleActiveImgUrl)
-            .titleInactiveImgUrl(titleInactiveImgUrl)
+            .titleColoredImgUrl(titleColoredImgUrl)
+            .titleWhiteImgUrl(titleWhiteImgUrl)
             .color(color)
             .markerImgUrl(markerImgUrl)
             .content(content)
