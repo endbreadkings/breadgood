@@ -1,6 +1,7 @@
 package com.bside.breadgood.ddd.bakerycategory.domain;
 
 import com.bside.breadgood.common.domain.BaseEntity;
+import com.bside.breadgood.common.vo.ImageUrl;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,11 +26,13 @@ public class BakeryCategory extends BaseEntity {
     @Column(nullable = false)
     private String content;
 
-    @Column(nullable = false)
-    private String titleColoredImgUrl;
+    @Embedded
+    @AttributeOverride(name = "imgUrl", column = @Column(name = "titleColoredImgUrl", nullable = false))
+    private ImageUrl titleColoredImgUrl;
 
-    @Column(nullable = false)
-    private String titleWhiteImgUrl;
+    @Embedded
+    @AttributeOverride(name = "imgUrl", column = @Column(name = "titleWhiteImgUrl", nullable = false))
+    private ImageUrl titleWhiteImgUrl;
 
     @Column(nullable = false)
     private String color;
@@ -45,10 +48,18 @@ public class BakeryCategory extends BaseEntity {
         String titleWhiteImgUrl, String color, String markerImgUrl, int sortNumber) {
         this.title = title;
         this.content = content;
-        this.titleColoredImgUrl = titleColoredImgUrl;
-        this.titleWhiteImgUrl = titleWhiteImgUrl;
+        this.titleColoredImgUrl = ImageUrl.from(titleColoredImgUrl);
+        this.titleWhiteImgUrl = ImageUrl.from(titleWhiteImgUrl);
         this.color = color;
         this.markerImgUrl = markerImgUrl;
         this.sortNumber = sortNumber;
+    }
+
+    public String getTitleColoredImgUrl() {
+        return titleColoredImgUrl.getImgUrl();
+    }
+
+    public String getTitleWhiteImgUrl() {
+        return titleWhiteImgUrl.getImgUrl();
     }
 }
