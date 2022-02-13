@@ -22,7 +22,6 @@ public class BakerySearchResponseDto {
     @ApiModelProperty(value = "도로명 주소", example = "서울 강서구 화곡로64길 70")
     private final String roadAddress;
 
-
     @ApiModelProperty(value = "X좌표", example = "1.41211704222904E7")
     private final Double mapX;
     @ApiModelProperty(value = "Y좌표", example = "4516889.7719205")
@@ -34,6 +33,9 @@ public class BakerySearchResponseDto {
     private final String profileImgUrl;
     @ApiModelProperty(value = "빵집 카드 빵 스타일 이름", example = "\"크림\"")
     private final String breadStyleName;
+
+    @ApiModelProperty(value = "빵집 카드 빵 스타일 색상", example = "\"#EEEEEE\"")
+    private final String breadStyleColor;
     @ApiModelProperty(value = "빵집 카드 닉네임", example = "테스트유저2")
     private final String nickName;
 
@@ -59,6 +61,7 @@ public class BakerySearchResponseDto {
         this.userId = userResponseDto.getId();
         this.profileImgUrl = userResponseDto.getProfileImgUrl();
         this.breadStyleName = userResponseDto.getBreadStyleName();
+        this.breadStyleColor = userResponseDto.getBreadStyleColor();
         this.nickName = userResponseDto.getNickName();
         this.categoryTitle = bakeryCategoryResponseDto.getTitle();
         this.categoryImgUrl = bakeryCategoryResponseDto.getTitleColoredImgUrl();
