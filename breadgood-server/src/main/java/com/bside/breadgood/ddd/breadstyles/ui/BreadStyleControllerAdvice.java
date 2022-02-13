@@ -21,7 +21,7 @@ public class BreadStyleControllerAdvice extends ExceptionAdvice {
     }
 
     @ExceptionHandler(BreadStyleNotFoundException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected ExceptionResponse breadStyleNotFoundException(BreadStyleNotFoundException ex, WebRequest request) {
         String messagePath = super.getMessagePathByMyMethodName();
         return super.getExceptionResponse(request, messagePath, ex.getArgs());

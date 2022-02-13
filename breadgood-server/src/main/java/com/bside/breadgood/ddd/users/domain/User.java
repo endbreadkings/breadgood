@@ -8,7 +8,17 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,14 +45,11 @@ public class User extends BaseEntity {
     @AttributeOverrides({
             @AttributeOverride(name = "email", column = @Column(name = "email"))
     })
-
     private Email email;
 
     private String password;
 
     private Long breadStyle;
-
-    private String profileImg;
 
     @ElementCollection
     private List<UserTerms> userTerms;
@@ -63,12 +70,11 @@ public class User extends BaseEntity {
         this.role = role;
     }
 
-    public User(String nickName, String email, String password, Long breadStyle, String profileImg, List<UserTerms> userTerms, Role role) {
+    public User(String nickName, String email, String password, Long breadStyle, List<UserTerms> userTerms, Role role) {
         this.nickName = NickName.valueOf(nickName);
         this.email = Email.valueOf(email);
         this.password = password;
         this.breadStyle = breadStyle;
-        this.profileImg = profileImg;
         this.userTerms = userTerms;
         this.role = role;
     }
@@ -77,7 +83,6 @@ public class User extends BaseEntity {
     public void socialGuestSignUp(String nickName, BreadStyleResponseDto breadStyle, List<TermsTypeResponseDto> termsTypes) {
         this.nickName = NickName.valueOf(nickName);
         this.breadStyle = breadStyle.getId();
-        this.profileImg = breadStyle.getProfileImgUrl();
         setUserTerms(termsTypes);
         this.role = Role.USER;
     }
@@ -102,7 +107,6 @@ public class User extends BaseEntity {
 
     public void updateBreadStyle(BreadStyleResponseDto breadStyleResponseDto) {
         this.breadStyle = breadStyleResponseDto.getId();
-        this.profileImg = breadStyleResponseDto.getProfileImgUrl();
     }
 
     public String getNickName() {
@@ -117,5 +121,9 @@ public class User extends BaseEntity {
             return null;
         }
         return email.getEmail();
+    }
+
+    public boolean isGuest() {
+        return this.role == Role.GUEST;
     }
 }

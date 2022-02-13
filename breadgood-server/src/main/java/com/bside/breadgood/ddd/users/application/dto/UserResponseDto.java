@@ -12,9 +12,16 @@ public class UserResponseDto {
     private final String nickName;
     private final Long breadStyleId;
 
+    public UserResponseDto(User user, BreadStyleResponseDto breadStyleResponseDto) {
+        this.id = user.getId();
+        this.profileImgUrl = breadStyleResponseDto.getProfileImgUrl();
+        this.nickName = user.getNickName();
+        this.breadStyleId = user.getBreadStyle();
+    }
+
     public UserResponseDto(User user) {
         this.id = user.getId();
-        this.profileImgUrl = user.getProfileImg();
+        this.profileImgUrl = null;
         this.nickName = user.getNickName();
         this.breadStyleId = user.getBreadStyle();
     }
