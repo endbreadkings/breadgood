@@ -33,14 +33,13 @@ class BreadStyle extends GetView<SignUpController> {
   GridTile getGridTile(int index) {
     return GridTile(
         child: GestureDetector(
-      child: Container(
-          decoration: new BoxDecoration(
-            borderRadius: new BorderRadius.circular(16.0),
-            color: controller.bread_style.value[index].check
-                ? null
-                : THEME.GRAY_244,
-            image: (controller.bread_style.value[index].check)
-                ? DecorationImage(
+          child: Container(
+              decoration: new BoxDecoration(
+                borderRadius: new BorderRadius.circular(16.0),
+                color: controller.bread_style.value[index].check
+                    ? null : THEME.GRAY_244,
+                image: (controller.bread_style.value[index].check)
+                    ? DecorationImage(
                     // image:SvgPicture.asset(
                     //     controller.bread_style.value[index].profileImgUrl,
                     //     semanticsLabel: 'Acme Logo'
@@ -48,42 +47,40 @@ class BreadStyle extends GetView<SignUpController> {
                     // image:Image.asset("asset/images/icon/map/focus_bread.png"),
                     image: NetworkImage(
                         controller.bread_style.value[index].imgUrl),
-                    fit: BoxFit.cover,
-                  )
-                : null,
-          ),
-          padding: EdgeInsets.all(10),
-          // width:155,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Expanded(
-                  child: Align(
-                      alignment: Alignment.topLeft,
-                      child: CircleCheckBox(
-                          text: "${controller.bread_style.value[index].name}",
-                          circle_size: 2,
-                          icon_size: 14,
-                          font_size: 16,
-                          line_height: 1.4,
-                          false_color: controller.false_color,
-                          true_color: THEME.MAIN,
-                          isClick: controller.bread_style.value[index].check))),
-              Expanded(
-                  child: Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  "${controller.bread_style.value[index].content}",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(fontSize: 12),
-                ),
-              ))
-            ],
-          )),
-      onTap: () {
-        controller.setBreadStyle(index);
-      },
-    ));
+                    fit: BoxFit.cover,)
+                    : null,
+              ),
+              padding: EdgeInsets.all(10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Expanded(
+                      child: Align(
+                          alignment: Alignment.topLeft,
+                          child: CircleCheckBox(
+                              text: "${controller.bread_style.value[index].name}",
+                              circle_size: 2,
+                              icon_size: 14,
+                              font_size: 16,
+                              line_height: 1.4,
+                              false_color: controller.false_color,
+                              true_color: THEME.MAIN,
+                              isClick: controller.bread_style.value[index].check))),
+                  Expanded(
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          "${controller.bread_style.value[index].content}",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(fontSize: 12),
+                        ),
+                      ))
+                ],
+              )),
+          onTap: () {
+            controller.setBreadStyle(index);
+            },
+        ));
   }
 
   @override
@@ -104,22 +101,22 @@ class BreadStyle extends GetView<SignUpController> {
                           children: [
                             Expanded(
                                 child: Row(
-                              children: [
-                                Text('최애빵',
-                                    style: TextStyle(
-                                        color: THEME.MAIN,
-                                        fontSize: 26,
-                                        fontWeight: FontWeight.w800,
-                                        fontFamily: 'NanumSquareRoundEB')),
-                                Text(
-                                  ' 스타일을 알려주세요!',
-                                  style: TextStyle(
-                                      fontSize: 26,
-                                      fontWeight: FontWeight.w800,
-                                      fontFamily: 'NanumSquareRoundEB'),
-                                )
-                              ],
-                            )),
+                                  children: [
+                                    Text('최애빵',
+                                        style: TextStyle(
+                                            color: THEME.MAIN,
+                                            fontSize: 26,
+                                            fontWeight: FontWeight.w800,
+                                            fontFamily: 'NanumSquareRoundEB')),
+                                    Text(
+                                      ' 스타일을 알려주세요!',
+                                      style: TextStyle(
+                                          fontSize: 26,
+                                          fontWeight: FontWeight.w800,
+                                          fontFamily: 'NanumSquareRoundEB'),
+                                    )
+                                  ],
+                                )),
                           ],
                         )),
                     Container(
