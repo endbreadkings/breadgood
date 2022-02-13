@@ -2,11 +2,9 @@ package com.bside.breadgood.ddd.utils;
 
 import com.google.common.base.CaseFormat;
 import lombok.extern.slf4j.Slf4j;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,7 +39,9 @@ public class DatabaseCleanup implements InitializingBean {
                 .filter(e -> e.getJavaType().getAnnotation(Entity.class) != null)
                 .map(e -> CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, e.getName()))
                 .collect(toList());
+
     }
+
 
     @Transactional
     public void execute() {
@@ -50,8 +50,20 @@ public class DatabaseCleanup implements InitializingBean {
 
         for (String tableName : tableNames) {
             entityManager.createNativeQuery("TRUNCATE TABLE " + tableName).executeUpdate();
-            entityManager.createNativeQuery("ALTER TABLE " + tableName + " ALTER COLUMN ID RESTART WITH 1").executeUpdate();
         }
+
+        // generator reset
+        entityManager.createNativeQuery("alter table bakery alter column bakery_id restart with 1").executeUpdate();
+        entityManager.createNativeQuery("alter table bakery_category alter column bakery_category_id restart with 1").executeUpdate();
+        entityManager.createNativeQuery("alter table bakery_review alter column bakery_review_id restart with 1").executeUpdate();
+        entityManager.createNativeQuery("alter table bread_style alter column bread_style_id restart with 1").executeUpdate();
+        entityManager.createNativeQuery("alter table emoji alter column emoji_id restart with 1").executeUpdate();
+        entityManager.createNativeQuery("alter table refresh_token alter column id restart with 1").executeUpdate();
+        entityManager.createNativeQuery("alter table terms alter column terms_id restart with  1").executeUpdate();
+        entityManager.createNativeQuery("alter table terms_type alter column terms_type_id restart with 1").executeUpdate();
+        entityManager.createNativeQuery("alter table user alter column id restart with 1").executeUpdate();
+        entityManager.createNativeQuery("alter table withdrawal_user alter column id restart with 1").executeUpdate();
+
 
         entityManager.createNativeQuery("SET REFERENTIAL_INTEGRITY TRUE").executeUpdate();
 
