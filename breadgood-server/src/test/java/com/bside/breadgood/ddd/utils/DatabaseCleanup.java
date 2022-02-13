@@ -13,9 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.toList;
 
 /**
  * author : haedoang
@@ -42,6 +41,9 @@ public class DatabaseCleanup implements InitializingBean {
 
     }
 
+    private String pkColumnName(String tableName) {
+        return String.format("%s_id", tableName);
+    }
 
     @Transactional
     public void execute() {
@@ -50,20 +52,8 @@ public class DatabaseCleanup implements InitializingBean {
 
         for (String tableName : tableNames) {
             entityManager.createNativeQuery("TRUNCATE TABLE " + tableName).executeUpdate();
+            entityManager.createNativeQuery("alter table " + tableName + " alter column " + pkColumnName(tableName) + " restart with 1").executeUpdate();
         }
-
-        // generator reset
-        entityManager.createNativeQuery("alter table bakery alter column bakery_id restart with 1").executeUpdate();
-        entityManager.createNativeQuery("alter table bakery_category alter column bakery_category_id restart with 1").executeUpdate();
-        entityManager.createNativeQuery("alter table bakery_review alter column bakery_review_id restart with 1").executeUpdate();
-        entityManager.createNativeQuery("alter table bread_style alter column bread_style_id restart with 1").executeUpdate();
-        entityManager.createNativeQuery("alter table emoji alter column emoji_id restart with 1").executeUpdate();
-        entityManager.createNativeQuery("alter table refresh_token alter column id restart with 1").executeUpdate();
-        entityManager.createNativeQuery("alter table terms alter column terms_id restart with  1").executeUpdate();
-        entityManager.createNativeQuery("alter table terms_type alter column terms_type_id restart with 1").executeUpdate();
-        entityManager.createNativeQuery("alter table user alter column id restart with 1").executeUpdate();
-        entityManager.createNativeQuery("alter table withdrawal_user alter column id restart with 1").executeUpdate();
-
 
         entityManager.createNativeQuery("SET REFERENTIAL_INTEGRITY TRUE").executeUpdate();
 
