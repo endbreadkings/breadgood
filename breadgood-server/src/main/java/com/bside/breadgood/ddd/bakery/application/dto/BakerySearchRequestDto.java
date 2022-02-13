@@ -1,6 +1,5 @@
 package com.bside.breadgood.ddd.bakery.application.dto;
 
-import com.bside.breadgood.ddd.bakery.application.enums.BakerySortType;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,11 +20,11 @@ public class BakerySearchRequestDto {
     @ApiModelProperty(position = 3, dataType = "Set", example = "[1, 2]", notes = "필터를 적용하고 싶지 않을 떈 빈 배열을 넣어주세요.")
     private final Set<Long> bakeryCategories;
 
-    @ApiModelProperty(position = 4, dataType = "Enum", example = "ID_DESC", notes = "파라미터를 보내지 않으면(null일 경우) ID_DESC 타입으로 정렬됩니다.")
-    private final BakerySortType bakerySortType;
+    @ApiModelProperty(position = 4, dataType = "String", example = "ID_DESC", notes = "null 또는 공백일 경우 ID_DESC 타입으로 정렬됩니다.")
+    private final String bakerySortType;
 
     @Builder
-    public BakerySearchRequestDto(String city, String district, Set<Long> bakeryCategories, BakerySortType bakerySortType) {
+    public BakerySearchRequestDto(String city, String district, Set<Long> bakeryCategories, String bakerySortType) {
         this.city = city;
         this.district = district;
         this.bakeryCategories = bakeryCategories;

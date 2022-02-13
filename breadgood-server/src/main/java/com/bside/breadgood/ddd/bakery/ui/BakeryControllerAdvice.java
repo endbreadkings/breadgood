@@ -5,6 +5,7 @@ import com.bside.breadgood.common.exception.ExceptionResponse;
 import com.bside.breadgood.ddd.bakery.application.exception.BakeryNotFoundException;
 import com.bside.breadgood.ddd.bakery.application.exception.DuplicateBakeryException;
 import com.bside.breadgood.ddd.bakery.application.exception.IllegalCityException;
+import com.bside.breadgood.ddd.bakery.application.exception.IllegalSortTypeException;
 import com.bside.breadgood.s3.application.exception.S3UploadException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -50,5 +51,10 @@ public class BakeryControllerAdvice extends ExceptionAdvice {
         return super.getExceptionResponse(request, messagePath, ex.getArgs());
     }
 
-
+    @ExceptionHandler(IllegalSortTypeException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected ExceptionResponse illegalSortTypeException(IllegalSortTypeException ex, WebRequest request) {
+        String messagePath = super.getMessagePathByMyMethodName();
+        return super.getExceptionResponse(request, messagePath, ex.getArgs());
+    }
 }

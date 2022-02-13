@@ -101,6 +101,10 @@ illegalCity:
   code: "-1703"
   msg: " {0} 는 허용하지 않는 도시입니다."
 
+illegalSortType:
+  code: "-1704"
+  msg: " {0} 는 허용하지 않는 정렬 타입입니다."
+
 # *********** breadStyle ***********#
 breadStyleNotFound:
   code: "-1802"

@@ -1,6 +1,5 @@
 package com.bside.breadgood.ddd.bakery.application;
 
-import com.bside.breadgood.common.exception.WrongValueException;
 import com.bside.breadgood.ddd.bakery.application.dto.BakeryResponseDto;
 import com.bside.breadgood.ddd.bakery.application.dto.BakeryReviewRequestDto;
 import com.bside.breadgood.ddd.bakery.application.dto.BakeryReviewResponseDto;
@@ -12,6 +11,7 @@ import com.bside.breadgood.ddd.bakery.application.dto.CheckDuplicateBakeryRespon
 import com.bside.breadgood.ddd.bakery.application.exception.BakeryNotFoundException;
 import com.bside.breadgood.ddd.bakery.application.exception.DuplicateBakeryException;
 import com.bside.breadgood.ddd.bakery.application.exception.IllegalCityException;
+import com.bside.breadgood.ddd.bakery.application.exception.IllegalSortTypeException;
 import com.bside.breadgood.ddd.bakery.domain.Bakery;
 import com.bside.breadgood.ddd.bakery.domain.BakeryReview;
 import com.bside.breadgood.ddd.bakery.infra.BakeryRepository;
@@ -204,6 +204,7 @@ public class BakeryService {
         final String city = dto.getCity();
         final String district = dto.getDistrict();
         final Set<Long> bakeryCategories = dto.getBakeryCategories();
+        final BakerySortType bakerySortType = BakerySortType.getEnumByName(dto.getBakerySortType());
 
         if (Objects.nonNull(bakeryCategories) && bakeryCategories.isEmpty()) {
             return Collections.emptyList();
@@ -215,6 +216,7 @@ public class BakeryService {
         bakeryStream = filterBakeryCategories(bakeryStream, bakeryCategories);
         bakeryStream = filterCity(bakeryStream, city);
         bakeryStream = filterDistrict(bakeryStream, district);
+//        bakeryStream = orderBySortType(bakeryStream, bakerySortType);
 
         return convertBakerySearchResponseDtos(bakeryStream);
     }
@@ -253,7 +255,7 @@ public class BakeryService {
         if (bakerySortType == BakerySortType.ID_DESC || bakerySortType == null) {
             return bakeryStream.sorted(Comparator.comparingLong(Bakery::getId).reversed());
         }
-        throw new WrongValueException(String.format("빵집 정렬 타입은 %s가 될 수 없습니다.", bakerySortType));
+        throw new IllegalSortTypeException(bakerySortType.name());
     }
 
     private void validateCityContainsWord(String city) {
