@@ -40,8 +40,12 @@ public class BakerySearchResponseDto {
     // 카테고리
     @ApiModelProperty(value = "빵집 카테고리 이름", example = "빵에집중")
     private final String categoryTitle;
-    @ApiModelProperty(value = "마커 이미지", example = "https://d74hbwjus7qtu.cloudfront.net/admin/tbc2.svg")
-    private final String makerImgUrl;
+    @ApiModelProperty(value = "아이콘 활성화 이미지", example = "https://d74hbwjus7qtu.cloudfront.net/admin/cate1_blue.svg")
+    private final String categoryActiveImg;
+    @ApiModelProperty(value = "아이콘 비활성화 이미지", example = "https://d74hbwjus7qtu.cloudfront.net/admin/cate1_white.svg")
+    private final String categoryInactiveImg;
+    @ApiModelProperty(value = "카테고리 컬러", example = "#4579FF")
+    private final String categoryColor;
 
     // review
     @ApiModelProperty(value = "빵집 리뷰 내용", example = "잉 너무 맛있는 걸욧??")
@@ -61,7 +65,9 @@ public class BakerySearchResponseDto {
         this.breadStyleName = userResponseDto.getBreadStyleName();
         this.nickName = userResponseDto.getNickName();
         this.categoryTitle = bakeryCategoryResponseDto.getTitle();
-        this.makerImgUrl = bakeryCategoryResponseDto.getMakerImgUrl();
+        this.categoryActiveImg = bakeryCategoryResponseDto.getTitleActiveImgUrl();
+        this.categoryInactiveImg = bakeryCategoryResponseDto.getTitleInactiveImgUrl();
+        this.categoryColor = bakeryCategoryResponseDto.getColor();
         this.content = bakeryReview.getContent();
         this.signatureMenus = bakeryReview.getSignatureMenus();
 

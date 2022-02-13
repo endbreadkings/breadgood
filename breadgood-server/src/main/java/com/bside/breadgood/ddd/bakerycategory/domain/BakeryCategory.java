@@ -26,7 +26,13 @@ public class BakeryCategory extends BaseEntity {
     private String content;
 
     @Column(nullable = false)
-    private String titleImgUrl;
+    private String titleActiveImgUrl;
+
+    @Column(nullable = false)
+    private String titleInactiveImgUrl;
+
+    @Column(nullable = false)
+    private String color;
 
     @Column(nullable = false)
     private String markerImgUrl;
@@ -35,11 +41,14 @@ public class BakeryCategory extends BaseEntity {
     private int sortNumber;
 
     @Builder
-    public BakeryCategory(String title, String titleImgUrl, String markerImgUrl, String content, int sortNumber) {
+    public BakeryCategory(String title, String content, String titleActiveImgUrl,
+        String titleInactiveImgUrl, String color, String markerImgUrl, int sortNumber) {
         this.title = title;
-        this.titleImgUrl = titleImgUrl;
-        this.markerImgUrl = markerImgUrl;
         this.content = content;
+        this.titleActiveImgUrl = titleActiveImgUrl;
+        this.titleInactiveImgUrl = titleInactiveImgUrl;
+        this.color = color;
+        this.markerImgUrl = markerImgUrl;
         this.sortNumber = sortNumber;
     }
 }
