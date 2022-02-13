@@ -1,7 +1,8 @@
 package com.bside.breadgood.common.vo;
 
+import com.bside.breadgood.common.exception.EmptyException;
+import com.bside.breadgood.common.exception.IllegalFileExtensionException;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -14,14 +15,14 @@ class ImageUrlTest {
 
     @ParameterizedTest(name = " \"{0}\" 빈값일 경우 오류가 발생한다.")
     @NullAndEmptySource
-    void fromWithEmpty(String name) {
-        assertThrows(RuntimeException.class, () -> ImageUrl.from(name));
+    void fromWithEmpty(String url) {
+        assertThrows(EmptyException.class, () -> ImageUrl.from(url));
     }
 
     @ParameterizedTest(name = " \"{0}\" URL 형식이 아닐 경우 오류가 발생한다.")
     @ValueSource(strings = {"asd", "htt.resouser.com", "aaaskjkdfasdfadf.png"})
-    void fromNotURL(String name) {
-        assertThrows(RuntimeException.class, () -> ImageUrl.from(name));
+    void fromNotURL(String url) {
+        assertThrows(IllegalImageUrlException.class, () -> ImageUrl.from(url));
     }
 
     @ParameterizedTest(name = " \"{0}\" 지원하지 않는 확장자 일 경우 오류가 발생한다.")
@@ -29,12 +30,17 @@ class ImageUrlTest {
             "https://d74hbwjus7qtu.cloudfront.net/admin/case_2_off.pn",
             "https://d74hbwjus7qtu.cloudfront.net/admin/case_2_off.afg"
     })
-    void fromNotSupportExtension(String name) {
-        assertThrows(RuntimeException.class, () -> ImageUrl.from(name));
+    void fromNotSupportExtension(String url) {
+        assertThrows(IllegalFileExtensionException.class, () -> ImageUrl.from(url));
     }
 
-    @Test
-    void from() {
-        assertDoesNotThrow(() -> ImageUrl.from("https://d74hbwjus7qtu.cloudfront.net/admin/case_2_off.png"));
+    @ParameterizedTest(name = " \"{0}\" ImageUrl ValueObject 생성")
+    @ValueSource(strings = {
+            "https://d74hbwjus7qtu.cloudfront.net/admin/case_2_off.png",
+            "http://d74hbwjus7qtu.cloudfront.net/admin/case_2_off.svg",
+            "http://d74hbwjus7qtu.cloudfront.net/adm_in/case_2_off.svg"
+    })
+    void from(String url) {
+        assertDoesNotThrow(() -> ImageUrl.from(url));
     }
 }
