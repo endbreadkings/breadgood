@@ -1,6 +1,7 @@
 package com.bside.breadgood.ddd.users.acceptance;
 
 import com.bside.breadgood.ddd.AcceptanceTest;
+import com.bside.breadgood.ddd.breadstyles.application.BreadStyleService;
 import com.bside.breadgood.ddd.users.application.UserService;
 import com.bside.breadgood.ddd.users.application.dto.LoginRequest;
 import com.bside.breadgood.jwt.ui.dto.TokenRefreshResponse;
@@ -30,11 +31,16 @@ public class UserAcceptanceTest extends AcceptanceTest {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private BreadStyleService breadStyleService;
 
     @Override
     @BeforeEach
     public void setUp() {
         super.setUp();
+
+        //FIXME 텍스트 픽스처 생성하기(init데이터를 텍스트 픽스처로 사용하지 말것)
+        breadStyleService.initData();
         userService.initData();
     }
 

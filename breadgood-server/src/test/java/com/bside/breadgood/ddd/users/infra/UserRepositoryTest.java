@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @DataJpaTest
 @DisplayName("사용자 리파지토리 테스트")
+@ActiveProfiles("test")
 class UserRepositoryTest {
 
     @Autowired
@@ -35,7 +37,6 @@ class UserRepositoryTest {
                         "virus0@xmail.com",
                         "8282",
                         null,
-                        "profile.png",
                         null,
                         Role.USER
                 )
@@ -51,7 +52,6 @@ class UserRepositoryTest {
                 "ho0@xmail.com",
                 "0000",
                 null,
-                "sample.png",
                 null,
                 Role.USER
         );

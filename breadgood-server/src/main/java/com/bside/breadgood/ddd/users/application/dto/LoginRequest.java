@@ -8,6 +8,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
+//FIXME Lombok 설정 수정 예정
 public class LoginRequest {
     @ApiModelProperty(example = "test@breadgood.com")
     private String email;
