@@ -7,6 +7,7 @@ import com.bside.breadgood.ddd.breadstyles.infra.InitBreadStyleData;
 import com.bside.breadgood.ddd.breadstyles.ui.dto.BreadStyleResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -23,14 +24,17 @@ public class BreadStyleService {
         breadStyleRepository.saveAll(new InitBreadStyleData().get());
     }
 
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<BreadStyleResponseDto> findAll() {
         return breadStyleRepository.findAllOrderByIdDesc().stream()
                 .map(BreadStyleResponseDto::new)
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public BreadStyleResponseDto findById(Long breadStyleId) {
-        final BreadStyle breadStyle = breadStyleRepository.findById(breadStyleId).orElseThrow(() -> new BreadStyleNotFoundException("id", Long.toString(breadStyleId)));
+        final BreadStyle breadStyle = breadStyleRepository.findById(breadStyleId)
+                .orElseThrow(() -> new BreadStyleNotFoundException("id", Long.toString(breadStyleId)));
         return new BreadStyleResponseDto(breadStyle);
     }
 }
