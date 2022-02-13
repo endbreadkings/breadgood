@@ -1,6 +1,8 @@
 package com.bside.breadgood.ddd.bakery.application;
 
 import com.bside.breadgood.ddd.bakery.application.dto.BakeryResponseDto;
+import com.bside.breadgood.ddd.bakery.application.dto.BakerySearchRequestDto;
+import com.bside.breadgood.ddd.bakery.application.dto.BakerySearchResponseDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -45,6 +47,22 @@ class BakeryServiceTest {
 //                        List::addAll );
 //
 //        System.out.println(res);
+    }
+
+    @Test
+    void 빵집_리스트_최신순_정렬_확인() {
+        // given
+        BakerySearchRequestDto request = BakerySearchRequestDto.builder()
+            .city("서울특별시")
+            .district("")
+            .bakeryCategories(Set.of(1L, 2L))
+            .build();
+
+        // when
+        List<BakerySearchResponseDto> response = bakeryService.search(request);
+
+        //then
+        assertTrue(response.get(0).getId() > response.get(1).getId());
     }
 
 //    @Test
