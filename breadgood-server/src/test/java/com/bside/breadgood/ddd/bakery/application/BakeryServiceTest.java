@@ -1,5 +1,6 @@
 package com.bside.breadgood.ddd.bakery.application;
 
+import com.bside.breadgood.common.vo.ImageUrl;
 import com.bside.breadgood.ddd.bakery.application.dto.BakerySearchRequestDto;
 import com.bside.breadgood.ddd.bakery.application.dto.BakerySearchResponseDto;
 import com.bside.breadgood.ddd.bakery.domain.Address;
@@ -161,13 +162,13 @@ class BakeryServiceTest {
         Bakery bakery2 = new Bakery(2L, "2번 빵집", "2번 빵집 설명입니다.", 1L, address2, point, 2L);
 
         // review
-        User user = new User(1L, NickName.valueOf("뛰뛰빵빵"), Email.valueOf("test@breadgood.com"), "1234", 1L, "img.img", null, null, Role.USER);
+        User user = new User(1L, NickName.valueOf("테스트유저"), Email.valueOf("test@breadgood.com"), "1234", 1L, null, null, Role.USER);
         UserResponseDto userDto = new UserResponseDto(user);
 
         Emoji emoji = new Emoji(1L, "emojiName", "img.url", 1);
         EmojiResponseDto emojiDto = new EmojiResponseDto(emoji);
 
-        BreadStyle breadStyle = new BreadStyle(1L,"담백", "담백빵 내용", "img.url", "img.url");
+        BreadStyle breadStyle = new BreadStyle(1L,"담백", "담백빵 내용", ImageUrl.from("https://test.domain.com/path1/img.png"), ImageUrl.from("https://test.domain.com/path1/img.png"), "#FFFFFF");
         BreadStyleResponseDto breadStyleDto = new BreadStyleResponseDto(breadStyle);
 
         bakery1.addBakeryReview(userDto, "리뷰 내용이지롱. 10글자 채워야되네...", emojiDto, null, List.of("메뉴1", "메뉴2"), "hosthost", breadStyleDto);
