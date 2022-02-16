@@ -2,13 +2,13 @@ import 'package:breadgood_app/modules/register_bakery/screens/already_registered
 import 'package:breadgood_app/modules/register_bakery/screens/select_bakery_category.dart';
 import 'package:breadgood_app/utils/ui/main_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:word_break_text/word_break_text.dart';
 import 'package:get/get.dart';
-import 'dart:io';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:core';
-import 'package:naver_map_plugin/naver_map_plugin.dart';
 import 'package:breadgood_app/modules/register_bakery/model/bakery_data.dart';
 import 'package:breadgood_app/modules/register_bakery/controller/bakery_controller.dart';
 import 'package:breadgood_app/utils/services/rest_api_service.dart';
@@ -83,8 +83,7 @@ class _SearchBakeryPageState extends State<SearchBakeryPage> {
               child: Text("최애 빵집 등록하기",
                   style: TextStyle(
                     fontSize: 26.0,
-                    fontWeight: FontWeight.w800,
-                    fontFamily: 'NanumSquareExtraBold',
+                    fontFamily: 'NanumSquareRoundEB',
                   )),
             ),
             Padding(
@@ -101,7 +100,7 @@ class _SearchBakeryPageState extends State<SearchBakeryPage> {
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 16.0,
-                    fontWeight: FontWeight.w600,
+                    fontFamily: 'NanumSquareRoundB',
                   ),
                   children: <TextSpan>[
                     TextSpan(
@@ -167,13 +166,24 @@ class _SearchBakeryPageState extends State<SearchBakeryPage> {
                     (item.category == '카페,디저트>베이커리') ||
                     (item.category == '음식점>브런치'))
                   Padding(
-                    padding: EdgeInsets.only(bottom: 8),
+                    padding: EdgeInsets.only(bottom: 16),
                     child: Container(
                         // width: 335,
                         width: double.infinity,
-                        height: 103,
-                        //   height: 100,
-                        //   height: 200,
+                        // 도로명 주소 16자 이상 & 가게이름 14자 미만 이거나
+                        // 도로명 주소 16자 미만 & 가게이름 14자 이상이면 높이: 103
+                        // 도로명 주소 16자 미만 & 가게이름 14자 미만이면 높이: 86
+                        // 도로명 주소 16자 이상 & 가게 이름 14자 이상이면 높이: 123
+                        height: ((item.title.length > 14) &&
+                                (item.roadAddress.length > 16))
+                            ? 123
+                            : ((item.title.length > 14) &&
+                                    (item.roadAddress.length <= 16))
+                                ? 103
+                                : ((item.title.length <= 14) &&
+                                        (item.roadAddress.length > 16))
+                                    ? 103
+                                    : 86,
                         child: BakeryCard(
                           selectedBakery: item,
                         )),
@@ -249,111 +259,99 @@ class _BakeryCardState extends State<BakeryCard> {
       // return Text('getBuilder called');
       //   return Container(height: 0, width: 0);
       // }),
-      return
-        Container(
-        // new ConstrainedBox(
-        //     constraints: new BoxConstraints(
-        //       minHeight: 103.0,
-        //       minWidth: 5.0,
-              // maxHeight: 123.0,
-              // maxWidth: 30.0,
-            // ),
-          // child: DecoratedBox(
+      return Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16.0),
-              border: Border.all(color: Colors.blueAccent)),
-          child: Padding(
-              padding: EdgeInsets.fromLTRB(14, 21.48, 14, 26.0),
-              child:
-                  Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(0, 8.52, 11.3, 3),
-                child: Image.asset('asset/images/bread_black_and_white.png',
-                    height: 44, width: 46.4)),
-                Padding(
-                    padding: EdgeInsets.only(right: 14.0),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Color(0xFF1C2F85).withOpacity(0.15),
+                  offset: Offset(2.0, 2.0),
+                  blurRadius: 10.0,
+                  spreadRadius: 0,
+                )
+              ]),
+          child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+            Padding(
+                padding: EdgeInsets.fromLTRB(14, 0, 0, 0),
+                child: Center(
+                    child: Container(
+                        height: 44,
+                        width: 46.4,
+                        child: SvgPicture.asset(
+                          'asset/images/icon/registerBakery/bread_black_and_white.svg',
+                          fit: BoxFit.scaleDown,
+                        )))),
+            Padding(
+                padding: EdgeInsets.fromLTRB(11.3, 21.48, 0, 26),
+                child: Container(
+                    width: 180,
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(widget.selectedBakery.title,
-                              // selectedBakery.title,
-                              style: TextStyle(
-                                fontFamily: 'NanumSquareRound',
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.w800,
-                              )),
                           SizedBox(
-                            width: 181,
-                            height: 5.52,
+                              width: 180,
+                              child: WordBreakText(widget.selectedBakery.title,
+                                  style: TextStyle(
+                                    fontFamily: 'NanumSquareRoundEB',
+                                    fontSize: 14.0,
+                                  ))),
+                          SizedBox(
+                            width: 180,
+                            height: 5.04,
                           ),
-                          Container (
-                    width: 181,
-                          child: Text(
-                              // selectedBakery.roadAddress,
-                              widget.selectedBakery.roadAddress,
-                              style: TextStyle(
-                                fontSize: 10.0,
-                              ))),
-                        ])),
-                Spacer(),
-                // checkDuplicatedBakery(selectedBakery: selectedBakery,),
-                // Align(
-                //     alignment: Alignment.topRight,
-                //     child:
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(0, 15.52, 0, 12),
+                          SizedBox(
+                            width: 180,
+                            child: WordBreakText(
+                                widget.selectedBakery.roadAddress,
+                                style: TextStyle(
+                                    fontSize: 12.0, color: Color(0xFFA4A4A4))),
+                          )
+                        ]))),
+            Spacer(),
+            Padding(
+                padding: EdgeInsets.fromLTRB(0, 29, 14, 29),
                 child: SizedBox(
-                  width: 57,
+                  width: 54,
                   height: 28,
                   //   height: 58,
                   //   height: 85,
-                  child:
-                      // checkDuplicatedBakery(selectedBakery: selectedBakery,)
-                      RaisedButton(
-                          // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          color: Color(0xFF4579FF),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          child: Text('선택',
-                              style: TextStyle(
-                                fontSize: 14.0,
-                                color: Color(0xFFFFFFFF),
-                              )),
-                          onPressed: () async {
-                            print('onPressed');
+                  child: RaisedButton(
+                      // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      color: Color(0xFF4579FF),
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Container(
+                          height: 28,
+                          child: Flexible(
+                              child: Center(
+                                  child: Text('선택',
+                                      maxLines: 1,
+                                      softWrap: false,
+                                      overflow: TextOverflow.visible,
+                                      style: TextStyle(
+                                        fontSize: 14.0,
+                                        color: Color(0xFFFFFFFF),
+                                      ))))),
+                      onPressed: () async {
+                        print('onPressed');
+                        controller.UpdateBakery(widget.selectedBakery);
 
-                            // controller update
-                            // selected bakery
-                            // duplicate
-                            // controller.UpdateDuplicateCheck(duplicate)
-                            controller.UpdateBakery(widget.selectedBakery);
-
-                            var checkDuplicate = await checkRegisteredBakery(
-                                widget.selectedBakery.roadAddress);
-                            print('In Builder');
-                            // checkDup = checkDuplicatedBakery(selectedBakery: widget.selectedBakery);
-                            // buildFutureBuilder();
-                            // setState((){buildFutureBuilder();});
-
-                            // (checkRegisteredBakery(selectedBakery.roadAddress).isDuplicate == true)
-                            // (result.isDuplicate == true)
-                            // (true)
-                            // (controller.duplicateCheck == true)
-                            (checkDuplicate.idDuplicate == true)
-                                ? Get.to(AlreadyRegisteredBakeryPage(),
-                                    arguments: checkDuplicate.nickName)
-                                // :Get.to(SelectBakeryCategoryPage(), arguments: selectedBakery);
-                                : Get.to(SelectBakeryCategoryPage(),
-                                    arguments: widget.selectedBakery);
-                            print('executed');
-                          }),
+                        var checkDuplicate = await checkRegisteredBakery(
+                            widget.selectedBakery.roadAddress);
+                        print('In Builder');
+                        (checkDuplicate.idDuplicate == true)
+                            ? Get.to(AlreadyRegisteredBakeryPage(),
+                                arguments: checkDuplicate.nickName)
+                            // :Get.to(SelectBakeryCategoryPage(), arguments: selectedBakery);
+                            : Get.to(SelectBakeryCategoryPage(),
+                                arguments: widget.selectedBakery);
+                        print('executed');
+                      }),
                 ))
-                // )
-              ])));
-    })
-        // ]
-        );
-    // ),
+          ]));
+    }));
   }
 
   FutureBuilder<CheckDuplicateBakery> buildFutureBuilder() {
