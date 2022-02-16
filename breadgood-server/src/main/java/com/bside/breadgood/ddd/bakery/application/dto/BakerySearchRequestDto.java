@@ -20,14 +20,10 @@ public class BakerySearchRequestDto {
     @ApiModelProperty(position = 3, dataType = "Set", example = "[1, 2]", notes = "필터를 적용하고 싶지 않을 떈 빈 배열을 넣어주세요.")
     private final Set<Long> bakeryCategories;
 
-    @ApiModelProperty(position = 4, dataType = "String", example = "ID_DESC", notes = "null 또는 공백일 경우 ID_DESC 타입으로 정렬됩니다.")
-    private final String bakerySortType;
-
     @Builder
-    public BakerySearchRequestDto(String city, String district, Set<Long> bakeryCategories, String bakerySortType) {
+    public BakerySearchRequestDto(String city, String district, Set<Long> bakeryCategories) {
         this.city = city;
         this.district = district;
         this.bakeryCategories = bakeryCategories;
-        this.bakerySortType = bakerySortType;
     }
 }
