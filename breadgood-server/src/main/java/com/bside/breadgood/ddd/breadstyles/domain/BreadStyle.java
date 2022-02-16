@@ -2,6 +2,7 @@ package com.bside.breadgood.ddd.breadstyles.domain;
 
 
 import com.bside.breadgood.common.domain.BaseEntity;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -11,6 +12,7 @@ import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 //@EqualsAndHashCode(of = "id", callSuper = false)
 public class BreadStyle extends BaseEntity {
