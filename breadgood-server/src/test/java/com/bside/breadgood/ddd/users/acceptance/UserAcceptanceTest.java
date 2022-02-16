@@ -4,6 +4,8 @@ import com.bside.breadgood.ddd.AcceptanceTest;
 import com.bside.breadgood.ddd.breadstyles.application.BreadStyleService;
 import com.bside.breadgood.ddd.users.application.UserService;
 import com.bside.breadgood.ddd.users.application.dto.LoginRequest;
+import com.bside.breadgood.ddd.users.domain.User;
+import com.bside.breadgood.ddd.users.infra.UserRepository;
 import com.bside.breadgood.jwt.ui.dto.TokenRefreshResponse;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
@@ -17,6 +19,7 @@ import org.springframework.http.MediaType;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -31,8 +34,12 @@ public class UserAcceptanceTest extends AcceptanceTest {
 
     @Autowired
     private UserService userService;
+
     @Autowired
     private BreadStyleService breadStyleService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     @BeforeEach
@@ -40,8 +47,19 @@ public class UserAcceptanceTest extends AcceptanceTest {
         super.setUp();
 
         //FIXME 텍스트 픽스처 생성하기(init데이터를 텍스트 픽스처로 사용하지 말것)
-        breadStyleService.initData();
-        userService.initData();
+       breadStyleService.initData();
+       userService.initData();
+
+    }
+
+    @Test
+    @DisplayName("asd")
+    public void asdasd() {
+        // given
+
+        // when
+
+        // then
     }
 
     @Test
@@ -91,6 +109,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
 
     public  void 로그인_토큰_발급됨(ExtractableResponse<Response> response) {
         final TokenRefreshResponse actual = response.jsonPath().getObject("", TokenRefreshResponse.class);
+        assertThat(actual.getTokenType()).isEqualTo("Bearer");
         assertThat(actual.getAccessToken()).isNotNull();
         assertThat(actual.getAccessTokenExpirationTimeMsec()).isGreaterThan(Timestamp.valueOf(LocalDateTime.now()).getTime());
     }

@@ -100,8 +100,4 @@ public class UserController {
     public boolean duplicateNickName(@ApiParam(value = "중복 체크 대상인 별명") @PathVariable String nickName) {
         return userService.duplicateNickName(nickName);
     }
-
-
-    
-
 }

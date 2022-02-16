@@ -1,17 +1,27 @@
 package com.bside.breadgood.jwt.ui.dto;
 
-import lombok.*;
+import com.bside.breadgood.jwt.domain.TokenType;
+import lombok.Builder;
+import lombok.Getter;
 
-@ToString
 @Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder
-//FIXME Lombok 설정 수정 예정 & tokenType 객체화할지 고민 예정(사용성 검토)
 public class TokenRefreshResponse {
     private String accessToken;
     private Long accessTokenExpirationTimeMsec;
     private String refreshToken;
     private Long refreshTokenExpirationTimeMsec;
-    private String tokenType = "Bearer";
+    private TokenType tokenType;
+
+    @Builder
+    public TokenRefreshResponse(String accessToken, Long accessTokenExpirationTimeMsec, String refreshToken, Long refreshTokenExpirationTimeMsec) {
+        this.accessToken = accessToken;
+        this.accessTokenExpirationTimeMsec = accessTokenExpirationTimeMsec;
+        this.refreshToken = refreshToken;
+        this.refreshTokenExpirationTimeMsec = refreshTokenExpirationTimeMsec;
+        this.tokenType = TokenType.BEARER;
+    }
+
+    public String getTokenType() {
+        return tokenType.getValue();
+    }
 }

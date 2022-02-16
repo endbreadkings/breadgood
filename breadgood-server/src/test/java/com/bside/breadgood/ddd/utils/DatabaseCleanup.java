@@ -56,7 +56,6 @@ public class DatabaseCleanup implements InitializingBean {
         }
 
         entityManager.createNativeQuery("SET REFERENTIAL_INTEGRITY TRUE").executeUpdate();
-
         logger.info("database cleanup successfully");
     }
 }
