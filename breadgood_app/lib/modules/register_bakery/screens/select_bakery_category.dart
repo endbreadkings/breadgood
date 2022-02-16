@@ -343,8 +343,8 @@ class _SelectBakeryCategoryPageState extends State<SelectBakeryCategoryPage> {
           Padding(
             padding: EdgeInsets.fromLTRB(0, 40, 0, 8),
             child:
-              _createBakeryCategoryToggle(snapshot.data[1]),),
-              _createBakeryCategoryToggle(snapshot.data[0]),
+              _createBakeryCategoryToggle(snapshot.data[0]),),
+              _createBakeryCategoryToggle(snapshot.data[1]),
         ]
           );
         } else if (snapshot.hasError) {
@@ -393,11 +393,13 @@ class _SelectBakeryCategoryPageState extends State<SelectBakeryCategoryPage> {
                 children: [
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, 2, 16, 2),
-                    child: Image.network(
-                        // 'asset/images/icon/map/with_bread.png',
-                      category.makerImgUrl,
-                        height: 36,
-                        width: 44),
+                    child: Container(
+                        width: 36,
+                        height: 44,
+                        child: Image.network(
+                          category.makerImgUrl,
+                          fit: BoxFit.scaleDown,
+                        )),
                   ),
                   Text(
                     (category.id == 1)
