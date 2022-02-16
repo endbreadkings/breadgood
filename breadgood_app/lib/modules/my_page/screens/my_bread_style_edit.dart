@@ -142,9 +142,8 @@ class _MyBreadStyleEditPageState extends State<MyBreadStyleEditPage> {
               child: Text(
                 '최애빵 스타일 변경하기',
                 style: TextStyle(
-                  fontFamily: 'NanumSquareExtraBold',
+                  fontFamily: 'NanumSquareRoundEB',
                   fontSize: 26.0,
-                  // fontWeight: FontWeight.w800
                 ),
               ),
             ),

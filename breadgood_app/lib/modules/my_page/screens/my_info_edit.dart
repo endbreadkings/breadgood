@@ -173,7 +173,7 @@ class _MyInfoEditPageState extends State<MyInfoEditPage> {
                             child: Text(
                               '${nickname}',
                               style:
-                                  TextStyle(color: Colors.blue, fontSize: 18.0),
+                                  TextStyle(color: Color(0xFF4579FF), fontSize: 18.0),
                             ),
                           ),
                         ],
@@ -200,7 +200,7 @@ class _MyInfoEditPageState extends State<MyInfoEditPage> {
                             padding: EdgeInsets.only(right: 20.0),
                             child: Text('${favorite_bread_style}빵',
                                 style: TextStyle(
-                                    color: Colors.blue, fontSize: 18.0)),
+                                    color: Color(0xFF4579FF), fontSize: 18.0)),
                           ),
                         ],
                       ),
@@ -239,9 +239,8 @@ class _MyInfoEditPageState extends State<MyInfoEditPage> {
           child: Text(
             '내 정보 설정',
             style: TextStyle(
-                fontFamily: 'NanumSquareRound',
-                fontSize: 26.0,
-                fontWeight: FontWeight.w800),
+                fontFamily: 'NanumSquareRoundEB',
+                fontSize: 26.0),
           ),
         ),
         SizedBox(
@@ -365,8 +364,7 @@ showAlertDialog(BuildContext context) {
             "회원탈퇴",
             style: TextStyle(
                 fontSize: 26.0,
-                // fontWeight: FontWeight.w800,
-                fontFamily: 'NanumSquareExtraBold'),
+                fontFamily: 'NanumSquareRoundEB'),
           ),
         ),
         new Spacer(),
