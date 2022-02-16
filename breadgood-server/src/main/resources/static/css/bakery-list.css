@@ -1,7 +1,7 @@
 #bakery-list-container {
   width: 100%;
   height: 100%;
-  min-height: 100vh;
+  min-height: calc(var(--vh, 1vh) * 100);
   background: linear-gradient(180deg, #FFFFFF 0%, #F6F6F6 100%);
 }
 
@@ -111,7 +111,7 @@
 .bl-list-empty-wrapper {
   display: flex;
   width: 100%;
-  height: calc(100vh - 80px);
+  height: calc(var(--vh, 1vh) * 100 - 80px);
 }
 
 .bl-list-empty {
@@ -249,14 +249,14 @@
 
 .modal-wrapper {
   width: 100%;
-  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
   position: fixed;
   z-index: 100;
   top: 150%;
   left: 0;
   right: 0;
   bottom: 0;
-  transition: all 1s cubic-bezier(0.86, 0, 0.07, 1);
+  transition: all 0.8s cubic-bezier(0.86, 0, 0.07, 1);
 }
 
 .modal-wrapper.open {
@@ -280,16 +280,24 @@
   z-index: 100;
   background-color: #FFFFFF;
   border-radius: 16px 16px 0 0;
-  padding: 10px 20px 28px 20px;
+  padding: 0 20px 28px 20px;
   filter: drop-shadow(0px -12px 18px rgba(0, 0, 0, 0.28));
+}
+
+.drag-bar-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding-top: 8px;
+  padding-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .drag-bar {
   width: 40px;
   height: 4px;
   background-color: #000000;
-  margin: auto;
-  margin-bottom: 40px;
   border-radius: 4px;
   touch-action: none;
 }
@@ -342,6 +350,7 @@
   border-radius: 30px;
   color: #FFFFFF;
   font-size: 16px;
+  font-weight: 600;
   text-align: center;
 }
 
