@@ -128,7 +128,7 @@ class BreadStyle extends GetView<SignUpController> {
                           ],
                         )),
                     Padding(
-                      padding: EdgeInsets.only(left: 0),
+                      padding: EdgeInsets.only(bottom:18),
                       child: Text('중복 선택 불가',
                           style: TextStyle(
                             fontSize: 12.0,
