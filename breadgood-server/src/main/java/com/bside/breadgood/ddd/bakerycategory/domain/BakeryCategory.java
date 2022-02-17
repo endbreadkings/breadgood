@@ -38,7 +38,7 @@ public class BakeryCategory extends BaseEntity {
     private String color;
 
     @Column(nullable = false)
-    private String markerImgUrl;
+    private ImageUrl markerImgUrl;
 
     @Column(nullable = false)
     private int sortNumber;
@@ -51,7 +51,7 @@ public class BakeryCategory extends BaseEntity {
         this.titleColoredImgUrl = ImageUrl.from(titleColoredImgUrl);
         this.titleWhiteImgUrl = ImageUrl.from(titleWhiteImgUrl);
         this.color = color;
-        this.markerImgUrl = markerImgUrl;
+        this.markerImgUrl = ImageUrl.from(markerImgUrl);
         this.sortNumber = sortNumber;
     }
 
@@ -61,5 +61,9 @@ public class BakeryCategory extends BaseEntity {
 
     public String getTitleWhiteImgUrl() {
         return titleWhiteImgUrl.getImgUrl();
+    }
+
+    public String getMakerImgUrl() {
+        return markerImgUrl.getImgUrl();
     }
 }

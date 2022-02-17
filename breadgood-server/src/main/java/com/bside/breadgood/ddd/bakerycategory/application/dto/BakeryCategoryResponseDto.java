@@ -20,7 +20,7 @@ public class BakeryCategoryResponseDto {
         this.titleColoredImgUrl = entity.getTitleColoredImgUrl();
         this.titleWhiteImgUrl = entity.getTitleWhiteImgUrl();
         this.color = entity.getColor();
-        this.makerImgUrl = entity.getMarkerImgUrl();
+        this.makerImgUrl = entity.getMakerImgUrl();
         this.sortNumber = entity.getSortNumber();
     }
 }
