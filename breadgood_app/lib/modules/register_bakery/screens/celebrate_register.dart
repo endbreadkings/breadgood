@@ -34,18 +34,16 @@ class _CelebrateRegisterPageState extends State<CelebrateRegisterPage> {
                 "당신은 진정한 빵덕후",
                 style: TextStyle(
                   fontSize: 26,
-                    fontWeight: FontWeight.w800,
-                fontFamily: 'NanumSquareExtraBold'),
+                  fontFamily: 'NanumSquareRoundEB'),
               ),
               SizedBox(
                 height:12,
               ),
               Text(
                 // "다른 빵덕후들에게\n${controller.}의 최애빵집을\n널리 알릴 수 있게 되었어요",
-                  "다른 빵덕후들에게\n${nickname}의 최애빵집을\n널리 알릴 수 있게 되었어요",
+                  "다른 빵덕후들에게\n당신의 최애빵집을\n널리 알릴 수 있게 되었어요",
                   style: TextStyle(
                   fontSize: 16,
-                  fontWeight: FontWeight.w400,
                     height: 1.3,
                 )
               ),
@@ -75,6 +73,7 @@ class _CelebrateRegisterPageState extends State<CelebrateRegisterPage> {
                     borderRadius: BorderRadius.circular(30.0),
                   ),
                   color: Color(0xFF4579FF),
+                  elevation: 0,
                   onPressed:(){
                     print('onPressed');
                     Get.offAllNamed('/main');
