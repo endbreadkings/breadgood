@@ -37,7 +37,7 @@ class _SelectBakeryCategoryPageState extends State<SelectBakeryCategoryPage> {
             // margin: EdgeInsets.all(12.0),
             width: double.infinity,
             child: Padding(
-              padding: EdgeInsets.fromLTRB(31, 26, 30, 127),
+              padding: EdgeInsets.fromLTRB(31, 26, 30, 52),
               child:
               // SingleChildScrollView(
               //   child:
@@ -55,8 +55,7 @@ class _SelectBakeryCategoryPageState extends State<SelectBakeryCategoryPage> {
                         TextSpan(
                             text: '${selectedBakery.title}',
                             style: TextStyle(
-                              fontWeight: FontWeight.w800,
-                              fontFamily: 'NanumSquareRound',
+                              fontFamily: 'NanumSquareRoundEB',
                               fontSize: 26.0,
                             )),
                         TextSpan(
@@ -308,8 +307,8 @@ class _SelectBakeryCategoryPageState extends State<SelectBakeryCategoryPage> {
                         minimumSize: Size(double.infinity, 56),
                         primary: Color(0xFF4579FF),
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                30)), // double.infinity is the width and 30 is the height
+                            borderRadius: BorderRadius.circular(30)),
+                        elevation: 0,
                       ),
                       child: Text("다음",
                           style: TextStyle(
@@ -367,6 +366,18 @@ class _SelectBakeryCategoryPageState extends State<SelectBakeryCategoryPage> {
     return ButtonTheme(
         minWidth: 314,
         height: 88,
+        child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16.0),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Color(0xFF1C2F85).withOpacity(0.15),
+                offset: Offset(2.0, 2.0),
+                blurRadius: 10.0,
+                spreadRadius: 0,
+              )
+            ]),
         child: ElevatedButton(
             onPressed: () {
               print('pressed: ${category.id}');
@@ -375,7 +386,7 @@ class _SelectBakeryCategoryPageState extends State<SelectBakeryCategoryPage> {
             },
             style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(16),
                   side: BorderSide(
                       width: 1.0,
                       color: controller.bakery_category_border_color[category.id - 1]
@@ -383,7 +394,7 @@ class _SelectBakeryCategoryPageState extends State<SelectBakeryCategoryPage> {
                     //     ?Color(0xFF007AFF)
                     //     :Colors.transparent,
                   )),
-              elevation: 1.0,
+              elevation: 0,
               primary: Colors.white,
               padding: EdgeInsets.fromLTRB(22, 20, 25, 20),
             ),
@@ -413,7 +424,7 @@ class _SelectBakeryCategoryPageState extends State<SelectBakeryCategoryPage> {
                   ),
                   // Text('color change'),
                 ])
-        ));
+        )));
 
   }
 }
