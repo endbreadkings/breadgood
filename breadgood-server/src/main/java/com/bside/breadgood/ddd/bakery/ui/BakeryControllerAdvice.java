@@ -49,6 +49,4 @@ public class BakeryControllerAdvice extends ExceptionAdvice {
         String messagePath = super.getMessagePathByMyMethodName();
         return super.getExceptionResponse(request, messagePath, ex.getArgs());
     }
-
-
 }

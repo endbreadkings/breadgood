@@ -18,4 +18,7 @@ public interface BakeryRepository extends CrudRepository<Bakery, Long>/*, Bakery
 
     @Override
     List<Bakery> findAll();
+
+    @Query("select b from Bakery b order by b.id desc")
+    List<Bakery> findAllOrderByIdDesc();
 }
