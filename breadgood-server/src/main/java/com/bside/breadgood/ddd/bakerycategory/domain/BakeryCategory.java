@@ -37,7 +37,8 @@ public class BakeryCategory extends BaseEntity {
     @Column(nullable = false)
     private String color;
 
-    @Column(nullable = false)
+    @Embedded
+    @AttributeOverride(name = "imgUrl", column = @Column(name = "markerImgUrl", nullable = false))
     private ImageUrl markerImgUrl;
 
     @Column(nullable = false)
