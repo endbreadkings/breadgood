@@ -4,7 +4,6 @@ import com.bside.breadgood.ddd.bakery.domain.Bakery;
 import com.bside.breadgood.ddd.bakery.domain.BakeryReview;
 import com.bside.breadgood.ddd.bakerycategory.application.dto.BakeryCategoryResponseDto;
 import com.bside.breadgood.ddd.users.application.UserInfoResponseDto;
-import com.bside.breadgood.ddd.users.application.dto.UserResponseDto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 

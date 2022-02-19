@@ -31,8 +31,8 @@ public class BakeryCategory extends BaseEntity {
     private ImageUrl titleColoredImgUrl;
 
     @Embedded
-    @AttributeOverride(name = "imgUrl", column = @Column(name = "titleWhiteImgUrl", nullable = false))
-    private ImageUrl titleWhiteImgUrl;
+    @AttributeOverride(name = "imgUrl", column = @Column(name = "titleUncoloredImgUrl", nullable = false))
+    private ImageUrl titleUncoloredImgUrl;
 
     @Column(nullable = false)
     private String color;
@@ -46,11 +46,11 @@ public class BakeryCategory extends BaseEntity {
 
     @Builder
     public BakeryCategory(String title, String content, String titleColoredImgUrl,
-        String titleWhiteImgUrl, String color, String markerImgUrl, int sortNumber) {
+        String titleUncoloredImgUrl, String color, String markerImgUrl, int sortNumber) {
         this.title = title;
         this.content = content;
         this.titleColoredImgUrl = ImageUrl.from(titleColoredImgUrl);
-        this.titleWhiteImgUrl = ImageUrl.from(titleWhiteImgUrl);
+        this.titleUncoloredImgUrl = ImageUrl.from(titleUncoloredImgUrl);
         this.color = color;
         this.markerImgUrl = ImageUrl.from(markerImgUrl);
         this.sortNumber = sortNumber;
@@ -60,8 +60,8 @@ public class BakeryCategory extends BaseEntity {
         return titleColoredImgUrl.getImgUrl();
     }
 
-    public String getTitleWhiteImgUrl() {
-        return titleWhiteImgUrl.getImgUrl();
+    public String getTitleUncoloredImgUrl() {
+        return titleUncoloredImgUrl.getImgUrl();
     }
 
     public String getMakerImgUrl() {

@@ -166,7 +166,7 @@ const BakeryList = () => {
               }}
               onClick={() => handleFilter('category', category.id)}
             >
-              <img src={active ? category.titleWhiteImgUrl : category.titleColoredImgUrl} alt="카테고리 이미지"/>
+              <img src={active ? category.titleUncoloredImgUrl : category.titleColoredImgUrl} alt="카테고리 이미지"/>
               {category.title}
             </div>
           );
