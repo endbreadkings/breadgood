@@ -106,25 +106,6 @@ const BakeryList = () => {
     setFilter(newFilter);
   }
 
-  const getBreadStyleColor = (style) => {
-    let color = '#B0B0B0';
-    switch (style) {
-      case '담백':
-        color = '#8FBCFF';
-        break;
-      case '크림':
-        color = '#FFB39A';
-        break;
-      case '달콤':
-        color = '#D48F62';
-        break;
-      case '짭짤':
-        color = '#FFBC4A';
-        break;
-    }
-    return color;
-  }
-
   const close = () => {
     setIsOpen(false);
     setSelectedLocation(filter.location);
@@ -215,7 +196,7 @@ const BakeryList = () => {
                        style={{ width: "22px", height: "22px" }} />
                 </div>
                 <div className="rg-nickname-txt">
-                  {bakery.nickName} <span style={{ color: getBreadStyleColor(bakery.breadStyleName)}}>Pick</span>
+                  {bakery.nickName} <span style={{ color: bakery.breadStyleColor }}>Pick</span>
                 </div>
               </div>
               <div className="bl-li-bakery-name">
