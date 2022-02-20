@@ -54,39 +54,11 @@
 }
 
 .filter-category {
-  background-color: #FFFFFF;
-  border: 1px solid #E0E5F0;
   color: #2D2D41;
 }
 
 .filter-category.active {
   color: #FFFFFF;
-}
-
-.filter-category.blue > svg > path {
-  fill: #4579FF;
-}
-
-.filter-category.yellow > svg > path {
-  fill: #FEBE52;
-}
-
-.filter-category.blue.active {
-  background-color: #4579FF;
-  border: 1px solid #4579FF;
-}
-
-.filter-category.blue.active > svg > path {
-  fill: white;
-}
-
-.filter-category.yellow.active {
-  background-color: #FEBE52;
-  border: 1px solid #FEBE52;
-}
-
-.filter-category.yellow.active > svg > path {
-  fill: white;
 }
 
 .bl-filter.gray {
@@ -95,7 +67,7 @@
   color: #2D2D41;
 }
 
-.filter-category svg {
+.filter-category img {
   margin-right: 5px;
 }
 
@@ -187,7 +159,7 @@
   align-items: center;
 }
 
-.bk-nm-img svg {
+.bk-nm-img img {
   margin-bottom: 2px;
 }
 

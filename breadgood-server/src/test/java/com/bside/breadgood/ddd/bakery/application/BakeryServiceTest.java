@@ -178,8 +178,22 @@ class BakeryServiceTest {
     }
 
     private void setSearchMockReturns() {
-        BakeryCategory bakeryCategory1 = new BakeryCategory(1L, "카테고리1", "카테고리 1의 설명입니다.", "urlurlurl", "urlurlurl", 1);
-        BakeryCategory bakeryCategory2 = new BakeryCategory(2L, "카테고리2", "카테고리 2의 설명입니다.", "urlurlurl", "urlurlurl", 2);
+        BakeryCategory category1 = new BakeryCategory(1L,
+            "카테고리1",
+            "카테고리1 설명입니다.",
+            ImageUrl.from("https://test.breadgood.com/path1/img.png"),
+            ImageUrl.from("https://test.breadgood.com/path1/img.png"),
+            "#FFFFFF",
+            ImageUrl.from("https://test.breadgood.com/path1/img.png"),
+            1);
+        BakeryCategory category2 = new BakeryCategory(2L,
+            "카테고리2",
+            "카테고리2 설명입니다.",
+            ImageUrl.from("https://test.breadgood.com/path1/img.png"),
+            ImageUrl.from("https://test.breadgood.com/path1/img.png"),
+            "#000000",
+            ImageUrl.from("https://test.breadgood.com/path1/img.png"),
+            2);
         UserInfoResponseDto userInfoResponseDto = UserInfoResponseDto.builder()
             .nickName("테스트유저")
             .userId(1L)
@@ -194,9 +208,9 @@ class BakeryServiceTest {
         when(userService.findUserInfoById(1L))
             .thenReturn(userInfoResponseDto);
         when(bakeryCategoryService.findById(1L))
-            .thenReturn(new BakeryCategoryResponseDto(bakeryCategory1));
+            .thenReturn(new BakeryCategoryResponseDto(category1));
         when(bakeryCategoryService.findById(2L))
-            .thenReturn(new BakeryCategoryResponseDto(bakeryCategory2));
+            .thenReturn(new BakeryCategoryResponseDto(category2));
         when(bakeryRepository.findAllOrderByIdDesc())
             .thenReturn(bakeries);
     }

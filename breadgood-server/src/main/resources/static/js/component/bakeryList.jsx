@@ -140,20 +140,14 @@ const BakeryList = () => {
           return (
             <div
               key={category.id}
-              className={`bl-filter filter-category ${category.id === 1 ? 'blue' : 'yellow'} ${active && 'active'}`}
+              className={`bl-filter filter-category ${active && 'active'}`}
+              style={{
+                backgroundColor: active ? category.color : "#FFFFFF",
+                border: `1px solid ${ active ? category.color : "#E0E5F0"}`
+              }}
               onClick={() => handleFilter('category', category.id)}
             >
-              {category.id === 1 ? (
-                <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M14.3988 1.59936H12.7996V0H0V7.2C0 9.85152 2.14831 12 4.79962 12H8C10.3307 11.9866 12.3158 10.2989 12.7036 8.00064H12.7996C14.5659 8.00064 16 6.56832 16 4.8V3.20064C15.9981 2.31552 15.282 1.59936 14.3988 1.59936ZM14.3988 4.8C14.3988 5.6832 13.6827 6.39936 12.7996 6.39936V3.20064H14.3988V4.8Z"/>
-                </svg>
-              ) : (
-                <svg width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M15 2.24427C15 3.1436 14.4419 3.9179 13.6368 4.27481V13.1854C13.6368 13.637 13.2512 14 12.7762 14H2.2238C1.74879 14 1.36325 13.635 1.36325 13.1854V4.27279C0.55808 3.9179 0 3.14158 0 2.24427C0 1.62725 0.26413 1.06467 0.694405 0.657353C1.11403 0.260118 1.69128 0.0120985 2.3303 0H12.6314C13.9414 0 15 1.00619 15 2.24427Z"/>
-                </svg>
-              )}
+              <img src={active ? category.titleUncoloredImgUrl : category.titleColoredImgUrl} alt="카테고리 이미지"/>
               {category.title}
             </div>
           );
@@ -202,18 +196,7 @@ const BakeryList = () => {
               <div className="bl-li-bakery-name">
                 <div className="bk-nm-text">{bakery.title}</div>
                 <div className="bk-nm-img">
-                  {bakery.categoryTitle === '음료&빵' && (
-                    <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        d="M14.3988 1.59936H12.7996V0H0V7.2C0 9.85152 2.14831 12 4.79962 12H8C10.3307 11.9866 12.3158 10.2989 12.7036 8.00064H12.7996C14.5659 8.00064 16 6.56832 16 4.8V3.20064C15.9981 2.31552 15.282 1.59936 14.3988 1.59936ZM14.3988 4.8C14.3988 5.6832 13.6827 6.39936 12.7996 6.39936V3.20064H14.3988V4.8Z"
-                        fill="#4579FF"/>
-                    </svg>
-                  )}
-                  {bakery.categoryTitle === '빵에집중' && (
-                    <svg width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M15 2.24427C15 3.1436 14.4419 3.9179 13.6368 4.27481V13.1854C13.6368 13.637 13.2512 14 12.7762 14H2.2238C1.74879 14 1.36325 13.635 1.36325 13.1854V4.27279C0.55808 3.9179 0 3.14158 0 2.24427C0 1.62725 0.26413 1.06467 0.694405 0.657353C1.11403 0.260118 1.69128 0.0120985 2.3303 0H12.6314C13.9414 0 15 1.00619 15 2.24427Z" fill="#FEBE52"/>
-                    </svg>
-                  )}
+                  <img src={bakery.categoryImgUrl} alt="카테고리 이미지" />
                 </div>
               </div>
               <div className="bl-li-signature-and-review">
