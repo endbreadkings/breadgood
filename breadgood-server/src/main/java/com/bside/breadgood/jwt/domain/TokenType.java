@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * description :
  */
 public enum TokenType {
-    BASIC("Basic"),
     BEARER("Bearer");
 
     private String name;

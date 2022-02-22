@@ -2,10 +2,9 @@ package com.bside.breadgood.ddd.users.acceptance;
 
 import com.bside.breadgood.ddd.AcceptanceTest;
 import com.bside.breadgood.ddd.breadstyles.application.BreadStyleService;
+import com.bside.breadgood.ddd.breadstyles.fixtures.BreadStyleFixture;
 import com.bside.breadgood.ddd.users.application.UserService;
 import com.bside.breadgood.ddd.users.application.dto.LoginRequest;
-import com.bside.breadgood.ddd.users.domain.User;
-import com.bside.breadgood.ddd.users.infra.UserRepository;
 import com.bside.breadgood.jwt.ui.dto.TokenRefreshResponse;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
@@ -19,8 +18,8 @@ import org.springframework.http.MediaType;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.List;
 
+import static com.bside.breadgood.ddd.breadstyles.fixtures.BreadStyleFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -38,28 +37,17 @@ public class UserAcceptanceTest extends AcceptanceTest {
     @Autowired
     private BreadStyleService breadStyleService;
 
-    @Autowired
-    private UserRepository userRepository;
-
     @Override
     @BeforeEach
     public void setUp() {
         super.setUp();
 
-        //FIXME 텍스트 픽스처 생성하기(init데이터를 텍스트 픽스처로 사용하지 말것)
-       breadStyleService.initData();
-       userService.initData();
+        breadStyleService.save(달콤);
+        breadStyleService.save(짭짤);
+        breadStyleService.save(크림);
+        breadStyleService.save(담백);
 
-    }
-
-    @Test
-    @DisplayName("asd")
-    public void asdasd() {
-        // given
-
-        // when
-
-        // then
+        userService.initData(); //termsType fixtures 구현 후 refactoring 예정
     }
 
     @Test
@@ -107,7 +95,7 @@ public class UserAcceptanceTest extends AcceptanceTest {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 
-    public  void 로그인_토큰_발급됨(ExtractableResponse<Response> response) {
+    public void 로그인_토큰_발급됨(ExtractableResponse<Response> response) {
         final TokenRefreshResponse actual = response.jsonPath().getObject("", TokenRefreshResponse.class);
         assertThat(actual.getTokenType()).isEqualTo("Bearer");
         assertThat(actual.getAccessToken()).isNotNull();

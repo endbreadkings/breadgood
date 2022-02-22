@@ -39,7 +39,7 @@ public class InitBreadStyleData {
         return data;
     }
 
-    private void add(String name, String content, String imgUrl, String porfileImgUrl, String color) {
-        data.add(new BreadStyle(name, content, imgUrl, porfileImgUrl, color));
+    private void add(String name, String content, String contentImgUrl, String profileImgUrl, String color) {
+        data.add(new BreadStyle(name, content, contentImgUrl, profileImgUrl, color));
     }
 }
