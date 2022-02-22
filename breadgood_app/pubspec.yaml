@@ -46,6 +46,7 @@ dependencies:
   flutter_launcher_icons: ^0.9.1
   flutter_native_splash: ^1.2.1
   flutter_svg: ^0.22.0
+  word_break_text: ^0.1.0
 
 flutter_icons:
   android: "launcher_icon"
@@ -79,22 +80,23 @@ flutter:
     - asset/images/icon/main/
     - asset/images/icon/map/
     - asset/images/icon/profile/
+    - asset/images/icon/registerBakery/
     - asset/images/icon/registerReview/
     - asset/images/onboard/
 
   fonts:
       - family: NanumSquareBold
         fonts:
-        - asset: asset/fonts/NanumSquareBold.ttf
+          - asset: asset/fonts/NanumSquareBold.ttf
       - family: NanumSquareExtraBold
         fonts:
-        - asset: asset/fonts/NanumSquareExtraBold.ttf
+          - asset: asset/fonts/NanumSquareExtraBold.ttf
       - family: NanumSquareLight
         fonts:
-        - asset: asset/fonts/NanumSquareLight.ttf
+          - asset: asset/fonts/NanumSquareLight.ttf
       - family: NanumSquareRegular
         fonts:
-        - asset: asset/fonts/NanumSquareRegular.ttf
+          - asset: asset/fonts/NanumSquareRegular.ttf
       - family: NanumSquareRoundL
         fonts:
           - asset: asset/fonts/NanumSquareRoundL.ttf

@@ -207,7 +207,7 @@ public class BakeryService {
             return Collections.emptyList();
         }
 
-        final List<Bakery> bakeries = bakeryRepository.findAll();
+        final List<Bakery> bakeries = bakeryRepository.findAllOrderByIdDesc();
         Stream<Bakery> bakeryStream = bakeries.stream();
 
         bakeryStream = filterBakeryCategories(bakeryStream, bakeryCategories);

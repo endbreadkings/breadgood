@@ -154,9 +154,8 @@ class _MyNicknameEditPageState extends State<MyNicknameEditPage> {
               child: Text(
                 '별명 수정하기',
                 style: TextStyle(
-                    fontFamily: 'NanumSquareExtraBold',
+                    fontFamily: 'NanumSquareRoundEB',
                     fontSize: 26.0,
-                    // fontWeight: FontWeight.w800
                 ),
               ),
             ),
@@ -253,7 +252,7 @@ class _MyNicknameEditPageState extends State<MyNicknameEditPage> {
                     //       )
                         : Text('사용할 수 있는 별명이에요',
                             style: TextStyle(
-                              color: Colors.blue,
+                              color: Color(0xFF4579FF),
                               fontSize: 12.0,
                             ))
 
@@ -276,7 +275,7 @@ class _MyNicknameEditPageState extends State<MyNicknameEditPage> {
                   padding: EdgeInsets.only(bottom: 50.0),
                   child: ButtonTheme(
                     minWidth: 314.0,
-                    height: 48.0,
+                    height: 56.0,
                     child: RaisedButton(
                       child: Text("수정 완료",
                           style: TextStyle(
@@ -285,6 +284,7 @@ class _MyNicknameEditPageState extends State<MyNicknameEditPage> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
                       ),
+                      elevation: 0,
                       onPressed: () {
                         final response = updateNickname(newNickname);
                         Get.offAndToNamed('/my_page/my_info_edit');
@@ -292,7 +292,7 @@ class _MyNicknameEditPageState extends State<MyNicknameEditPage> {
                         //   context,
                         // );
                       },
-                      color: Colors.blue,
+                      color: Color(0xFF4579FF),
                     ),
                   ),
                 ),
