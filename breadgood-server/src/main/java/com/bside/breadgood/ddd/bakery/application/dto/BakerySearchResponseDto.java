@@ -4,7 +4,6 @@ import com.bside.breadgood.ddd.bakery.domain.Bakery;
 import com.bside.breadgood.ddd.bakery.domain.BakeryReview;
 import com.bside.breadgood.ddd.bakerycategory.application.dto.BakeryCategoryResponseDto;
 import com.bside.breadgood.ddd.users.application.UserInfoResponseDto;
-import com.bside.breadgood.ddd.users.application.dto.UserResponseDto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 
@@ -42,8 +41,8 @@ public class BakerySearchResponseDto {
     // 카테고리
     @ApiModelProperty(value = "빵집 카테고리 이름", example = "빵에집중")
     private final String categoryTitle;
-    @ApiModelProperty(value = "마커 이미지", example = "https://d74hbwjus7qtu.cloudfront.net/admin/tbc2.svg")
-    private final String makerImgUrl;
+    @ApiModelProperty(value = "빵집 카테고리 아이콘 이미지", example = "https://d74hbwjus7qtu.cloudfront.net/admin/cate1_blue.svg")
+    private final String categoryImgUrl;
 
     // review
     @ApiModelProperty(value = "빵집 리뷰 내용", example = "잉 너무 맛있는 걸욧??")
@@ -64,7 +63,7 @@ public class BakerySearchResponseDto {
         this.breadStyleColor = userResponseDto.getBreadStyleColor();
         this.nickName = userResponseDto.getNickName();
         this.categoryTitle = bakeryCategoryResponseDto.getTitle();
-        this.makerImgUrl = bakeryCategoryResponseDto.getMakerImgUrl();
+        this.categoryImgUrl = bakeryCategoryResponseDto.getTitleColoredImgUrl();
         this.content = bakeryReview.getContent();
         this.signatureMenus = bakeryReview.getSignatureMenus();
 

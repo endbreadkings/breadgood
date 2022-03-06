@@ -282,7 +282,7 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 16.0,
-                      fontWeight: FontWeight.w700,
+                      fontFamily: 'NanumSquareRoundEB'
                     ),
                     children: <TextSpan>[
                       TextSpan(
@@ -294,7 +294,7 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
                             color: Color(0xFF4579FF),
                           )),
                       TextSpan(
-                        text: ' 를 들려주세요!',
+                        text: '를 들려주세요!',
                       ),
                     ], // buildFutureBuilder(),
                   ),
@@ -317,34 +317,31 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
                 // 텍스트리뷰 남기기
                 Container(
                   height: 160,
-                  child: Material(
-                    elevation: 1.0,
-                    borderRadius: BorderRadius.circular(8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16.0),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color(0xFF1C2F85).withOpacity(0.15),
+                          offset: Offset(2.0, 2.0),
+                          blurRadius: 10.0,
+                          spreadRadius: 0,
+                        )
+                      ]),
+                  child:
                         TextFormField(
                           controller: reviewTextController,
                           onChanged: _onChanged,
                           keyboardType: TextInputType.multiline,
                           maxLines: null,
                           minLines: 5,
-                          // maxLength: 500,
                           style: TextStyle(
                             fontSize: 15,
                           ),
-                          // onChanged: (text) {
-                          //   textcnt = text.length;
-                          // },
-                          // initialValue: nickname,
                           decoration: InputDecoration(
                               contentPadding: new EdgeInsets.symmetric(
                                   vertical: 20.0, horizontal: 20.0),
                               border: InputBorder.none,
-                              // border: OutlineInputBorder(
-                              //   borderRadius: BorderRadius.circular(8),
-                              //   borderSide: BorderSide(color: Colors.white, width: 1.0)
-                              // ),
                               hintText: '진정한 빵덕후라면 10글자 이상 리뷰는 필수!',
                               hintStyle: TextStyle(
                                 fontSize: 15,
@@ -353,24 +350,7 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
                               counterStyle: TextStyle(
                                 fontSize: 16,
                               )),
-                          // inputFormatters: [
-                          //   LengthLimitingTextInputFormatter(1),
-                          // ],
                         ),
-                        // Align(
-                        //   alignment: Alignment.bottomRight,
-                        //   child: Padding(
-                        //     padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
-                        //     child: Text('${textcnt}/500',
-                        //         style: TextStyle(
-                        //             fontSize: 16,
-                        //             fontWeight: FontWeight.w400,
-                        //             color: Color(0xFF5C5C5C))),
-                        //   ),
-                        // ),
-                      ],
-                    ),
-                  ),
                 ),
                 // 시그니처메뉴 선택하기
                 Padding(
@@ -380,6 +360,7 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 15.0,
+                        fontFamily: 'NanumSquareRoundEB'
                       ),
                       children: <TextSpan>[
                         TextSpan(
@@ -388,8 +369,7 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
                         TextSpan(
                             text: '시그니처 메뉴',
                             style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.blue,
+                              color: Color(0xFF4579FF),
                             )),
                         TextSpan(
                           text: '를 해시태그로 남겨주세요!',
@@ -556,7 +536,7 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 16.0,
-                        fontWeight: FontWeight.w700,
+                        fontFamily: 'NanumSquareRoundEB'
                       ),
                       children: <TextSpan>[
                         TextSpan(
@@ -565,7 +545,7 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
                         TextSpan(
                             text: '인증샷',
                             style: TextStyle(
-                              color: Colors.blue,
+                              color: Color(0xFF4579FF),
                             )),
                         TextSpan(
                           text: '이 있나요?',
@@ -578,8 +558,7 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
                   padding: EdgeInsets.only(bottom: 16.0),
                   child: Text("생생한 후기 사진은\n다른 빵덕후들에게도 도움이 됩니다",
                       style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 16,
+                        fontSize: 15,
                       )),
                 ),
                 RaisedButton(
@@ -608,14 +587,10 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
                                 cur_image_cnt++;
                                 _image = image;
                               });
-                              // //
-                              // //   // upload(image);
-                              // //
                               Navigator.pop(
                                 context,
                               );
                             },
-                            // onPressed: () => getImage(ImageSource.camera),
                           ),
                           CupertinoActionSheetAction(
                             child: const Text('앨범에서 추가'),
@@ -646,64 +621,64 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
                 ),
                 //사진 list
 
-                Padding(
-                  padding: EdgeInsets.fromLTRB(0, 24, 0, 32),
-                  child: Container(
-                    // margin: EdgeInsets.symmetric(vertical: 20.0),
-                    height: 120.0,
-                    child:
-                        // ListView.builder(
-                        //   itemBuilder: (BuildContext ctx, int index) {
-                        //
-                        //     return Image.file(imageList[index]);
-                        //   },
-                        //   itemCount: imageList.length,
-                        // ),
-                        ListView(
-                            scrollDirection: Axis.horizontal,
-                            children: List.generate(imageList.length, (index) {
-                              // children: List.generate(10, (index) {
-                              Asset asset = imageList[index];
-                              // return ViewImages(index, asset, key: UniqueKey(),);}
-                              return Padding(
-                                  padding: EdgeInsets.only(right: 8.0),
-                                  child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      child:Stack(
+              (imageList.length > 0)
+                  ? Padding(
+                  padding: EdgeInsets.fromLTRB(0, 24, 0, 82),
+                  child:
+                  Container(
+                      height: 120.0,
+                      child:
+                      ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: List.generate(imageList.length, (index) {
+                            Asset asset = imageList[index];
+                            return Padding(
+                                padding: EdgeInsets.only(right: 8.0),
+                                child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    child:Stack(
                                         children: <Widget>[
-                                      AssetThumb(
-                                        asset: asset,
-                                        width: 120,
-                                        height: 120,
-                                      ),
-                              Positioned(
-                              right: -5,
-                              top: -5,
-                              child:
-                              // SvgPicture.asset('asset/images/icon/registerReview/x.svg'),
-                              IconButton(
-                                icon:
-                                    SvgPicture.asset('asset/images/icon/registerReview/x.svg'),
-                                // Image.asset('asset/images/icon/main/Icon.png'),
-                              iconSize: 32,
-                              onPressed: () => setState(() {
-                              imageList.removeAt(index);
-                              })
-                              )
-                              )
-                              ])));
-                            })),
-                  ),
-                ),
-                SizedBox(
+                                          AssetThumb(
+                                            asset: asset,
+                                            width: 120,
+                                            height: 120,
+                                          ),
+                                          Positioned(
+                                              right: -5,
+                                              top: -5,
+                                              child:
+                                              IconButton(
+                                                  icon:
+                                                  SvgPicture.asset('asset/images/icon/registerReview/x.svg'),
+                                                  iconSize: 32,
+                                                  onPressed: () => setState(() {
+                                                    imageList.removeAt(index);
+                                                  })
+                                              )
+                                          )
+                                        ]
+                                      )
+                                  )
+                              );
+                            })
+                        )))
+                  : SizedBox(
+                width: double.infinity,
+                height: 82,
+              ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, 0, 0, 66),
+                  child: SizedBox(
                   width: double.infinity,
+                  height: 56,
                   child: RaisedButton(
                     child: Text("완성!",
                         style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold)),
+                            color: Colors.white, fontWeight: FontWeight.w600)),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.0),
                     ),
+                    elevation: 0,
                     onPressed:
                         // 최초등록자 추가 등록자 구분 필요
                         ((textcnt > 9) && (controller.selected_emoji_id != -1))
@@ -773,7 +748,7 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
                                 // }
                               }
                             : null,
-                    color: Colors.blue,
+                    color: Color(0xFF4579FF),
 
                     // () {
                     //   if(((textcnt > 9) && (controller.selected_emoji_id != -1)))
@@ -792,6 +767,7 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
                     // }
                   ),
                 ),
+              ),
               ],
             ),
           ));

@@ -44,7 +44,7 @@ import java.util.stream.Stream;
 @Service
 @RequiredArgsConstructor
 public class BakeryService {
-    private static final String SEOUL_WORD = "서울특별시";
+    private static final String SEOUL_WORD = "서울";
     private static final String SEOUL_CITY_WORD = "서울특별시";
     private final BakeryRepository bakeryRepository;
     private final S3Service s3Service;
@@ -207,7 +207,7 @@ public class BakeryService {
             return Collections.emptyList();
         }
 
-        final List<Bakery> bakeries = bakeryRepository.findAll();
+        final List<Bakery> bakeries = bakeryRepository.findAllOrderByIdDesc();
         Stream<Bakery> bakeryStream = bakeries.stream();
 
         bakeryStream = filterBakeryCategories(bakeryStream, bakeryCategories);

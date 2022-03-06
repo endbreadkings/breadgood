@@ -20,6 +20,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         fontFamily: 'AppleSDGothicNeo',
+        scaffoldBackgroundColor: Colors.white,
+        highlightColor: Colors.transparent,
+        splashColor: Colors.transparent,
       ),
       defaultTransition: Transition.noTransition,
       getPages: Routes,

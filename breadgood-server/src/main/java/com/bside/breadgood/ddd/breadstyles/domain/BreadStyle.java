@@ -2,6 +2,7 @@ package com.bside.breadgood.ddd.breadstyles.domain;
 
 
 import com.bside.breadgood.common.domain.BaseEntity;
+import lombok.AllArgsConstructor;
 import com.bside.breadgood.common.exception.EmptyException;
 import com.bside.breadgood.common.vo.ImageUrl;
 import lombok.AccessLevel;
@@ -21,6 +22,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Getter
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"name"}, name = "unique_bread_style_name")})
