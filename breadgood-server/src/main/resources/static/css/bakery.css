@@ -474,6 +474,7 @@ span.emoji-txt img {
     width: 100%;
     height: 146px;
     margin-right: 0;
+    background-color: #eee;
 }
 
 .ri-images.layout2 > div {
