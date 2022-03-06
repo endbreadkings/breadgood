@@ -303,8 +303,12 @@ span.emoji-txt img {
 }
 
 .ri-image-item img {
-    width: 100%;
+    width: auto;
     height: 100%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .ri-images {
@@ -323,6 +327,7 @@ span.emoji-txt img {
     background: rgb(0 0 0 / 50%);
     display: flex;
     justify-content: center;
+    z-index: 1;
     align-items: center;
 }
 
@@ -450,6 +455,7 @@ span.emoji-txt img {
     width: calc(50% - 1px);
     height: calc(50% - 1px);
     float: right;
+    background-color: #eee;
     margin-right: 0;
     /* align-content: space-between; */
 }
@@ -490,4 +496,5 @@ rect {}
     position: absolute;
     right: 10px;
     bottom: 10px;
+    z-index: 1;
 }
