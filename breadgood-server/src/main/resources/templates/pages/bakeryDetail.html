@@ -70,7 +70,7 @@
                 <div class="ri-tags">
                     <div class="ri-tag-item" v-for="(signatureMenu, sindex) in bakeryReview.signatureMenus"
                          :key="'signatureMenu'+sindex">
-                        <span><b>#</b>{{signatureMenu}}</span>
+                        <span><b>#</b>{{signatureMenu.length > 10 ? signatureMenu.substr(0, 10).concat('...') : signatureMenu}}</span>
                     </div>
                 </div>
 
