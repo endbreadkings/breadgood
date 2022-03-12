@@ -63,6 +63,10 @@ const BakeryList = () => {
     try {
       setIsLoading(true);
       const { data } = await axios.post('/pages/webview-api/bakery/search', params);
+      data.forEach((bakery) => {
+        bakery.content = bakery.content.length > 23 ? bakery.content.substr(0, 23).concat('...') : bakery.content;
+        bakery.signatureMenus = bakery.signatureMenus.map((menu) => menu.length > 10 ? menu.substr(0, 10).concat('...') : menu);
+      })
       setBakeries(data);
     } catch (e) {
       console.error(e);
