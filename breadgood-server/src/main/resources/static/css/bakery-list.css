@@ -170,7 +170,7 @@
 
 .bl-li-signature {
   display: flex;
-  margin-bottom: 6px;
+  flex-wrap: wrap;
   color: #666677;
   font-size: 14px;
 }
@@ -179,6 +179,7 @@
   border-radius: 4px;
   padding: 3px 4px;
   margin-right: 4px;
+  margin-bottom: 6px;
 }
 
 .signature-item.blue {
