@@ -24,7 +24,7 @@ public class BakeryCategoryService {
     }
 
     public List<BakeryCategoryResponseDto> findAll() {
-        return bakeryCategoryRepository.findAllOrderById().stream()
+        return bakeryCategoryRepository.findAllOrderBySortNumberAsc().stream()
                 .map(BakeryCategoryResponseDto::new)
                 .collect(Collectors.toList());
     }
