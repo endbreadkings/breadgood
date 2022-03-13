@@ -23,6 +23,7 @@ public class BakeryCategoryService {
         bakeryCategoryRepository.saveAll(new InitBakeryCategoryData().get());
     }
 
+    @Transactional(readOnly = true)
     public List<BakeryCategoryResponseDto> findAll() {
         return bakeryCategoryRepository.findAllOrderBySortNumberAsc().stream()
                 .map(BakeryCategoryResponseDto::new)
