@@ -1,12 +1,6 @@
 package com.bside.breadgood.ddd.bakery.application;
 
-import com.bside.breadgood.ddd.bakery.application.dto.BakeryResponseDto;
-import com.bside.breadgood.ddd.bakery.application.dto.BakeryReviewRequestDto;
-import com.bside.breadgood.ddd.bakery.application.dto.BakeryReviewResponseDto;
-import com.bside.breadgood.ddd.bakery.application.dto.BakerySaveRequestDto;
-import com.bside.breadgood.ddd.bakery.application.dto.BakerySearchRequestDto;
-import com.bside.breadgood.ddd.bakery.application.dto.BakerySearchResponseDto;
-import com.bside.breadgood.ddd.bakery.application.dto.CheckDuplicateBakeryResponseDto;
+import com.bside.breadgood.ddd.bakery.application.dto.*;
 import com.bside.breadgood.ddd.bakery.application.exception.BakeryNotFoundException;
 import com.bside.breadgood.ddd.bakery.application.exception.DuplicateBakeryException;
 import com.bside.breadgood.ddd.bakery.application.exception.IllegalCityException;
@@ -31,13 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -53,7 +41,6 @@ public class BakeryService {
     private final EmojiService emojiService;
     private final BreadStyleService breadStyleService;
 
-//    private final BakeryRepositorySupport bakeryRepositorySupport;
 
     /**
      * - 서울특별시 만 가능
@@ -91,7 +78,9 @@ public class BakeryService {
     }
 
     private void validateSave(BakerySaveRequestDto dto, MultipartFile[] files) {
-        if (StringUtils.isEmpty(dto.getCity()) || !dto.getCity().equals(SEOUL_CITY_WORD) || !dto.getCity().contains(SEOUL_WORD)) {
+
+        // 서울
+            if (StringUtils.isEmpty(dto.getCity()) || !dto.getCity().equals(SEOUL_CITY_WORD) && !dto.getCity().contains(SEOUL_WORD)) {
             throw new IllegalCityException(dto.getCity());
         }
         if (checkDuplicatedRoadAddress(dto.getRoadAddress())) {
