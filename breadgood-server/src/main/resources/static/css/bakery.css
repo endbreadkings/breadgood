@@ -445,6 +445,17 @@ span.emoji-txt img {
     margin-right: 2px;
 }
 
+
+.ri-images.layout3 > div:first-child img.verticallyShape {
+    height: 100%;
+    width: auto;
+}
+
+.ri-images.layout3 > div:first-child img.horizontallyShape {
+    width: 100%;
+    height: auto;
+}
+
 .ri-images.layout3 {
     /* width: 295px; */
     height: 168px;
