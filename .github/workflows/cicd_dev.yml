@@ -5,7 +5,10 @@ name: BackEnd Dev CI/CD
 
 on:
   push:
-    branches: [ developer ]
+    branches: [
+      developer, # 개발서버 반영 브랜치
+      designer # 디자인 검수 브랜치
+    ]
 
 #  pull_request:
 #    branches: [ developer ]
@@ -58,13 +61,38 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Run SSH command
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Get Github action IP
+        id: ip
+        uses: haythem/public-ip@v1.2
+
+      - name: Setting environment variables..
+        run: |
+          echo "AWS_DEFAULT_REGION=ap-southeast-2" >> $GITHUB_ENV
+          echo "AWS_SG_NAME=breadgood-apiservice-ec2-secure" >> $GITHUB_ENV
+
+      - name: Add Github Actions IP to Security group
+        run: |
+          aws ec2 authorize-security-group-ingress --group-name ${{ env.AWS_SG_NAME }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+
+      - name: Deploy to dev api server
         uses: garygrossgarten/github-action-ssh@v0.5.0
         with:
           command: /home/ec2-user/deploy.sh
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           privateKey: ${{ secrets.EC2_PRIVATE_KEY}}
+
+      - name: Remove Github Actions IP from security group
+        run: |
+          aws ec2 revoke-security-group-ingress --group-name ${{ env.AWS_SG_NAME }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+        if: always()
 
       - name: action-slack
         uses: 8398a7/action-slack@v3

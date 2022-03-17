@@ -207,7 +207,7 @@ public class BakeryService {
             return Collections.emptyList();
         }
 
-        final List<Bakery> bakeries = bakeryRepository.findAll();
+        final List<Bakery> bakeries = bakeryRepository.findAllOrderByIdDesc();
         Stream<Bakery> bakeryStream = bakeries.stream();
 
         bakeryStream = filterBakeryCategories(bakeryStream, bakeryCategories);
@@ -269,7 +269,7 @@ public class BakeryService {
 
         final String fileHost = "https://globaltwojob.com/";
         final List<String> filePaths = List.of("wp-content/uploads/2020/03/pixabay-252777_1920-1.jpg", "wp-content/uploads/2020/03/pixabay-252777_1920-1.jpg", "wp-content/uploads/2020/03/pixabay-252777_1920-1.jpg", "wp-content/uploads/2020/03/pixabay-252777_1920-1.jpg", "wp-content/uploads/2020/03/pixabay-252777_1920-1.jpg", "wp-content/uploads/2020/03/pixabay-252777_1920-1.jpg", "wp-content/uploads/2020/03/pixabay-252777_1920-1.jpg");
-        final UserResponseDto userResponseDto = userService.findById(3L);
+        final UserResponseDto userResponseDto = userService.findById(1L);
         final BakeryCategoryResponseDto bakeryCategoryResponseDto = bakeryCategoryService.findById(1L);
         final BakeryCategoryResponseDto bakeryCategoryResponseDto2 = bakeryCategoryService.findById(2L);
         final EmojiResponseDto emojiResponseDto = emojiService.findById(1L);
@@ -346,12 +346,121 @@ public class BakeryService {
                     .roadAddress(roadAddress)
                     .signatureMenus(signatureMenus)
                     .title(title)
-                    .user(userService.findById(1L))
+                    .user(userService.findById(2L))
                     .breadStyle(breadStyleResponseDto)
                     .build();
 
-            bakeries.add(bakery);
             bakery.addBakeryReview(userService.findById(3L), "통밀맛 존맛이에요 진짜루...", emojiService.findById(1L), filePaths, Arrays.asList("산딸기 케이크", "소보루빵"), fileHost, breadStyleResponseDto);
+            bakeries.add(bakery);
+        }
+
+        {
+            String city = "서울특별시";
+            String content = "내가 진짜 수많은 빵을 먹어봤지만 태극당의 야채사라다는 진짜 최고였음... 이 야채사라다는" +
+                    " 크기부터 완전 압도 ㅎㅎ 물론 가격대는 조금 있었지만 이 정도의 맛과 양이면 인정...그리고 " +
+                    "일단 빵 자체가 너무 맛있음!!! 무엇보다 여긴 방문하면 어른들에게는 추억을~ " +
+                    "아이들에게는 재미를 선사할 수 있음~^^";
+            String description = "";
+            String district = "중구";
+            double mapX = 37.559553;
+            double mapY = 127.005132;
+            String roadAddress = "서울 중구 동호로 24길 7";
+            List<String> signatureMenus = Arrays.asList("태극당 모나카", "버터케익");
+            String title = "태극당";
+
+            final Bakery bakery = Bakery.builder()
+                    .bakeryCategory(bakeryCategoryResponseDto2)
+                    .city(city)
+                    .content(content)
+                    .description(description)
+                    .district(district)
+                    .emoji(emojiResponseDto)
+                    .imgHost(fileHost)
+                    .imgUrls(filePaths)
+                    .mapX(mapX)
+                    .mapY(mapY)
+                    .roadAddress(roadAddress)
+                    .signatureMenus(signatureMenus)
+                    .title(title)
+                    .user(userService.findById(3L))
+                    .breadStyle(breadStyleResponseDto)
+                    .build();
+
+            bakery.addBakeryReview(userService.findById(2L), "버터케익 존맛이에요 진짜루...", emojiService.findById(1L), filePaths, Arrays.asList("태극당 모나카", "버터케익"), fileHost, breadStyleResponseDto);
+            bakeries.add(bakery);
+        }
+
+        {
+            String city = "서울특별시";
+            String content = "말로만 듣던 서울3대빵집!!! 명성에 맞게 사람도 엄청 많고 넓고 빵종류도 어마어마했다!! " +
+                    "다 너무 맛있어보여서 다 사고싶었지만ㅠㅠ 다른것도 다 맛있었지만 저 크고 하얀 크림치즈빵이 " +
+                    "진짜 비주얼부터 맛까지 최고였다!! 빵피도 완전 쫀득쫀득하고 크림치즈도 가득 들어있다!!" +
+                    " 다음엔 케이크도 먹어보고싶다!!";
+            String description = "";
+            String district = "성북구";
+            double mapX = 37.554965;
+            double mapY = 126.855886;
+            String roadAddress = "서울 성북구 성북로 7";
+            List<String> signatureMenus = Arrays.asList("생크림빵", "고소한 맛 사라다");
+            String title = "나폴레옹과자점";
+
+            final Bakery bakery = Bakery.builder()
+                    .bakeryCategory(bakeryCategoryResponseDto2)
+                    .city(city)
+                    .content(content)
+                    .description(description)
+                    .district(district)
+                    .emoji(emojiResponseDto)
+                    .imgHost(fileHost)
+                    .imgUrls(filePaths)
+                    .mapX(mapX)
+                    .mapY(mapY)
+                    .roadAddress(roadAddress)
+                    .signatureMenus(signatureMenus)
+                    .title(title)
+                    .user(userService.findById(4L))
+                    .breadStyle(breadStyleResponseDto)
+                    .build();
+
+            bakery.addBakeryReview(userService.findById(3L), "생크림빵 존맛이에요 진짜루...",
+                    emojiService.findById(2L), filePaths,
+                    Arrays.asList("생크림빵", "고소한 맛 사라다"), fileHost, breadStyleResponseDto);
+            bakeries.add(bakery);
+        }
+
+        {
+            String city = "서울특별시";
+            String content = "통밀한빵 정말 맛있어요.";
+            String description = "";
+            String district = "마포구";
+            double mapX = 37.554965;
+            double mapY = 126.855886;
+            String roadAddress = "서울 마포구 월드컵북로 86";
+            List<String> signatureMenus = Arrays.asList("슈크림", "공주밤 파이");
+            String title = "리치몬드 제과점";
+
+            final Bakery bakery = Bakery.builder()
+                    .bakeryCategory(bakeryCategoryResponseDto2)
+                    .city(city)
+                    .content(content)
+                    .description(description)
+                    .district(district)
+                    .emoji(emojiResponseDto)
+                    .imgHost(fileHost)
+                    .imgUrls(filePaths)
+                    .mapX(mapX)
+                    .mapY(mapY)
+                    .roadAddress(roadAddress)
+                    .signatureMenus(signatureMenus)
+                    .title(title)
+                    .user(userService.findById(5L))
+                    .breadStyle(breadStyleResponseDto)
+                    .build();
+
+            bakery.addBakeryReview(userService.findById(3L), "슈크림 존맛이에요 진짜루...",
+                    emojiService.findById(1L), filePaths, Arrays.asList("슈크림", "공주밤 파이"),
+                    fileHost, breadStyleResponseDto);
+            bakeries.add(bakery);
         }
 
         bakeryRepository.saveAll(bakeries);

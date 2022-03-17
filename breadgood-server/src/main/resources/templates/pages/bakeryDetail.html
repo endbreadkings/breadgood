@@ -20,11 +20,18 @@
                 <div class="bc-h-profile-img">
                     <img style="width: 22px;height: 22px;" :src="writerProfileImgUrl" alt="프로필 이미지">
                 </div>
-                <div class="bc-h-profile-txt"><span><span v-text="writerNickName">빵쳐돌이</span>님 최애빵집</span></div>
+                <div class="bc-h-profile-txt">
+                    <span>
+                        <span v-text="writerNickName">빵쳐돌이</span>
+                        <span :style="{color: breadStyleColor}">Pick</span>
+                    </span>
+                </div>
             </div>
             <div class="bc-h-title">
-                <div class="bakery-title"><h2 v-text="title">경성빵공장 숙대점</h2><span><b
-                        v-text="categoryTitle">음료&빵</b></span></div>
+                <div class="bakery-title">
+                    <h2>{{title}}<span><b v-text="categoryTitle">음료&빵</b></span>
+                    </h2>
+                </div>
                 <div class="bakery-address"><span v-text="roadAddress">서울 용산구 한강대로88길 11-5 1층</span></div>
             </div>
         </div>
@@ -154,6 +161,7 @@
             data: {
                 bakeryReviews: [],
                 categoryTitle: '',
+                breadStyleColor: '',
                 roadAddress: '',
                 title: '',
                 writerNickName: '',
@@ -182,6 +190,7 @@
 
                     this.writerProfileImgUrl = data.userInfoResponseDto.profileImgUrl;
                     this.writerNickName = data.userInfoResponseDto.nickName;
+                    this.breadStyleColor = data.userInfoResponseDto.breadStyleColor;
                     this.title = data.title;
                     this.roadAddress = data.roadAddress;
                     this.categoryTitle = data.categoryTitle;
