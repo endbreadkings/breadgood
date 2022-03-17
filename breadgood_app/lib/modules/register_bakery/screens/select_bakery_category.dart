@@ -318,7 +318,7 @@ class _SelectBakeryCategoryPageState extends State<SelectBakeryCategoryPage> {
                             fontWeight: FontWeight.w600,
                           )),
                       onPressed: () {
-                        Get.toNamed('/register_review/register_reivew_page', arguments: -1);
+                        Get.to(RegisterReviewPage());
                       },
                     ),
                     // ),

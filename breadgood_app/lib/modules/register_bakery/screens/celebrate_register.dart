@@ -5,7 +5,8 @@ import 'package:get/get.dart';
 import 'package:breadgood_app/utils/ui/main_app_bar.dart';
 import 'package:breadgood_app/modules/register_bakery/controller/bakery_controller.dart';
 
-String nickname = '당신';
+String nickname = "동오언니";
+
 class CelebrateRegisterPage extends StatefulWidget {
   const CelebrateRegisterPage({Key key}) : super(key: key);
 
@@ -15,7 +16,6 @@ class CelebrateRegisterPage extends StatefulWidget {
 
 class _CelebrateRegisterPageState extends State<CelebrateRegisterPage> {
   final controller = Get.put(BakeryController());
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

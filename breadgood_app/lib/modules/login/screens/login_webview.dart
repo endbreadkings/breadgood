@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:breadgood_app/constant/api_path.dart' as api_path;
+import 'package:breadgood_app/constant/api_path.dart' as PATH;
 import 'package:breadgood_app/modules/main/controller/main_map_controller.dart';
 import 'package:breadgood_app/modules/main/screens/bakery_list_webview.dart';
 import 'package:breadgood_app/modules/signup/controller/signup_controller.dart';
@@ -147,8 +147,8 @@ class _LoginWebViewState extends State<LoginWebView> {
   Widget build(BuildContext context) {
     return WebviewScaffold(
         url: Get.arguments == 'KAKAO'
-            ? api_path.kakaoLoginUrl
-            : api_path.appleLoginUrl,
+            ? PATH.KAKAO_LOGIN_URL
+            : PATH.APPLE_LOGIN_URL,
         javascriptChannels: jsChannels,
         appBar: DefaultAppBar());
   }

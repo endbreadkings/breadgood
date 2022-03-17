@@ -1,12 +1,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:breadgood_app/constant/api_path.dart' as api_path;
-import 'package:breadgood_app/utils/services/rest_api_service.dart' as rest_api;
+import 'package:breadgood_app/utils/services/rest_api_service.dart';
 
 Future<List<BakeryCategory>> fetchBakeryCategoryList() async {
   final response = await http.get(
-      Uri.parse('${api_path.restApiUrl}/bakeryCategory/list'),
-      headers: await rest_api.headers());
+      Uri.parse('https://api.breadgood.com/api/v1/bakeryCategory/list'),
+      headers: await headers());
   final responseJson = jsonDecode(utf8.decode(response.bodyBytes));
   print('fetch BakeryCategory');
   print(responseJson);

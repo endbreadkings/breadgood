@@ -340,10 +340,10 @@ class _BakeryCardState extends State<BakeryCard> {
                             // (true)
                             // (controller.duplicateCheck == true)
                             (checkDuplicate.idDuplicate == true)
-                                ? Get.toNamed('/register_bakery/already_registered_bakery',
-                                    arguments: [checkDuplicate.nickName, checkDuplicate.bakeryId])
+                                ? Get.to(AlreadyRegisteredBakeryPage(),
+                                    arguments: checkDuplicate.nickName)
                                 // :Get.to(SelectBakeryCategoryPage(), arguments: selectedBakery);
-                                : Get.toNamed('/register_bakery/select_bakery_category',
+                                : Get.to(SelectBakeryCategoryPage(),
                                     arguments: widget.selectedBakery);
                             print('executed');
                           }),
@@ -430,12 +430,10 @@ Future<CheckDuplicateBakery> checkRegisteredBakery(String roadAddress) async {
 }
 
 class CheckDuplicateBakery {
-  final int bakeryId;
   final bool idDuplicate;
   final String nickName;
 
   CheckDuplicateBakery({
-    this.bakeryId,
     this.idDuplicate,
     this.nickName,
   });
@@ -443,7 +441,6 @@ class CheckDuplicateBakery {
   factory CheckDuplicateBakery.fromJson(Map<String, dynamic> json) {
     print("CheckDuplicateBakery data called");
     return CheckDuplicateBakery(
-      bakeryId: json['bakeryId'],
       idDuplicate: json['idDuplicate'],
       nickName: json['nickName'],
     );

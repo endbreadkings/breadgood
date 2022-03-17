@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:breadgood_app/constant/api_path.dart' as api_path;
+import 'package:breadgood_app/constant/api_path.dart' as PATH;
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:get/get.dart';
 import 'package:breadgood_app/utils/ui/main_app_bar.dart';
@@ -41,7 +41,7 @@ class _TermsWebViewState extends State<TermsWebView> {
   @override
   Widget build(BuildContext context) {
     return WebviewScaffold(
-        url: "${api_path.url}${Get.arguments}",
+        url: "${PATH.URL}${Get.arguments}",
         javascriptChannels: jsChannels,
         scrollBar: true,
         appBar: TermsWebviewAppbar(),
