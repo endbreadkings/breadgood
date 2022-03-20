@@ -11,7 +11,6 @@ import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,7 +25,7 @@ public class BakeryController {
     private final BakeryService bakeryService;
 
     @ApiParam(allowMultiple = true)
-    @ApiOperation(value = "최애 빵집을 등록합니다.", notes = "등록 성공시 빵집 아이디 반환", response = Long.class)
+    @ApiOperation(value = "최애 빵집을 등록합니다.", notes = "등록 성공시 빵집 아이디 반환", response = Long.class )
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "등록 성공시 아이디 반환", response = Long.class),
             @ApiResponse(code = 400, message = "BadRequest", response = BadRequestError.class),
@@ -35,20 +34,17 @@ public class BakeryController {
     )
     @ApiImplicitParams({
     })
-    @PostMapping(
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    public ResponseEntity<Long> save(@RequestPart("files") MultipartFile[] files,
-                                  @ModelAttribute BakerySaveRequestDto requestDto,
-                                  @CurrentUser UserPrincipal userPrincipal) {
-
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Long> save(
+            @RequestPart("files") MultipartFile[] files,
+            @ModelAttribute BakerySaveRequestDto requestDto,
+            @CurrentUser UserPrincipal userPrincipal) {
         return ResponseEntity.ok(bakeryService.save(userPrincipal.getId(), requestDto, files));
 
     }
 
 
-    @ApiOperation(value = "최애 빵집 리뷰를 등록합니다.", notes = "등록 성공시 ture 반환", response = Boolean.class)
+    @ApiOperation(value = "최애 빵집 리뷰를 등록합니다.", notes = "등록 성공시 ture 반환", response = Boolean.class, consumes = "multipart/form-data")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "등록 성공시 ture 반환", response = Boolean.class),
             @ApiResponse(code = 400, message = "BadRequest", response = BadRequestError.class),
@@ -57,7 +53,7 @@ public class BakeryController {
     )
     @ApiImplicitParams({
     })
-    @PostMapping("/{bakeryId}/review")
+    @PostMapping(value = "/{bakeryId}/review", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Boolean addReview(@PathVariable Long bakeryId,
                              @ModelAttribute BakeryReviewRequestDto dto,
                              @RequestPart(value = "files", required = false) MultipartFile[] files,
