@@ -5,10 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.web.multipart.MultipartFile;
-import org.thymeleaf.util.StringUtils;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Getter
@@ -32,8 +29,8 @@ public class BakerySaveRequestDto {
     @ApiModelProperty(value = "빵집 리뷰 내용", example = "잉 너무 맛있는 걸욧??")
     private final String content;
 
-    @ApiModelProperty(value = "빵집 리뷰 시그니처 메뉴", example = "딸기크림케이크,딸기크림케이크,딸기크림케이크")
-    private final String signatureMenus;
+    @ApiModelProperty(value = "빵집 리뷰 시그니처 메뉴", example = "[\"딸기크림케이크\", \"단팥빵\", \"카야소보로\"]")
+    private final List<String> signatureMenus;
 
     @ApiModelProperty(value = "주소 설명", example = "")
     private final String description;
@@ -62,7 +59,7 @@ public class BakerySaveRequestDto {
             Long bakeryCategoryId,
             String content,
             Long emojiId,
-            String signatureMenus
+            List<String> signatureMenus
     ) {
         this.title = title;
         this.description = description;
@@ -77,13 +74,4 @@ public class BakerySaveRequestDto {
         this.signatureMenus = signatureMenus;
     }
 
-    public List<String> getSignatureMenus() {
-
-        if (StringUtils.isEmpty(this.signatureMenus)) {
-            return null;
-        }
-
-        return Arrays.asList(this.signatureMenus.split(","));
-
-    }
 }
