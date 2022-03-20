@@ -107,12 +107,15 @@
                         <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"
                              v-if="(tindex == 2 || bakeryReview.thumbnailImgUrls.length == tindex+1)">
                             <rect width="28" height="28" rx="4" fill="black" fill-opacity="0.3"/>
-                            <path d="M21.057 21.0238L6.97233 6.93916" stroke="#E9E9E9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M6.9689 13.1872L6.95548 6.95658L13.1866 6.96948" stroke="#E9E9E9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M21.2177 15.0003L21.2312 21.2309L15 21.218" stroke="#E9E9E9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M21.057 21.0238L6.97233 6.93916" stroke="#E9E9E9" stroke-width="1.5"
+                                  stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M6.9689 13.1872L6.95548 6.95658L13.1866 6.96948" stroke="#E9E9E9"
+                                  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M21.2177 15.0003L21.2312 21.2309L15 21.218" stroke="#E9E9E9" stroke-width="1.5"
+                                  stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
 
-                        <img :src="thumbnailImgUrl" alt="섬네일 이미지" :class = "thumbnailImgUrl | thumbnailImgShapeType">
+                        <thumbnail-image :src="thumbnailImgUrl"></thumbnail-image>
                     </div>
                 </div>
 
@@ -145,15 +148,41 @@
 
 정사각형 이거나 가로가 더 넓은 영역인 경우
 1. 가로가 긴 사진이 왔을 경우: 상하를 자름, height auto, wight 100%
-2. 세로가 긴 사진이 왔을 경우: 좌우를 자름, height 100%, width auto
+2. 세로가 긴 사진이 왔을 경우: 상하를 자름, height auto, width 100%
 -->
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 <script>
     window.onload = function () {
+
+        Vue.component('thumbnail-image', {
+            template: '<template><transition name="fade"><img v-if ="isLoaded" :src="src" alt="섬네일 이미지" :class = "shapeType"><div v-else class="image-loading"></div></transition></template>',
+            props: ['src'],
+            data: () => {
+                return {
+                    shapeType: '',
+                    isLoaded: false
+                }
+            },
+            methods: {
+                async initThumbnailImgShapeType() {
+                    const thumbnailImg = new Image();
+                    thumbnailImg.src = this.src;
+                    thumbnailImg.onload = () => {
+                        this.shapeType = thumbnailImg.width >= thumbnailImg.height ? 'verticallyShape' : 'horizontallyShape';
+                        this.isLoaded = true;
+                    };
+                },
+            },
+            async created() {
+                await this.initThumbnailImgShapeType();
+            }
+        })
+
         const app = new Vue({
             el: '#app',
+            components: ['thumbnail-image'],
             filters: {
                 arrCounting: function (arr) {
                     return arr.length + '개';
@@ -169,11 +198,6 @@
 
                     return 'empty';
                 },
-                thumbnailImgShapeType: function (imgUrl) {
-                    const thumbnailImg = new Image();
-                    thumbnailImg.src = imgUrl;
-                    return thumbnailImg.width > thumbnailImg.height ? 'horizontallyShape' : 'verticallyShape'
-                }
             },
             data: {
                 bakeryReviews: [],
@@ -199,6 +223,7 @@
                     this.isPreview = false;
                 },
                 async fetchBakeryInfo() {
+
                     const URLSearch = new URLSearchParams(location.search);
                     const bakeryId = URLSearch.get('bakeryId');
                     const userId = URLSearch.get('userId');
@@ -220,6 +245,7 @@
                     review.isDetailImageActive = !isActive;
                     this.$set(this.bakeryReviews, index, review)
                 },
+
             },
             async created() {
                 await this.fetchBakeryInfo();
