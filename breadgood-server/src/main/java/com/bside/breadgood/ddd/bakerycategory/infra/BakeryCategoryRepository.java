@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface BakeryCategoryRepository extends CrudRepository<BakeryCategory, Long> {
 
-    @Query("select b from BakeryCategory b order by b.id")
-    List<BakeryCategory> findAllOrderById();
+    @Query("select b from BakeryCategory b order by b.sortNumber")
+    List<BakeryCategory> findAllOrderBySortNumberAsc();
+
 }

@@ -23,8 +23,9 @@ public class BakeryCategoryService {
         bakeryCategoryRepository.saveAll(new InitBakeryCategoryData().get());
     }
 
+    @Transactional(readOnly = true)
     public List<BakeryCategoryResponseDto> findAll() {
-        return bakeryCategoryRepository.findAllOrderById().stream()
+        return bakeryCategoryRepository.findAllOrderBySortNumberAsc().stream()
                 .map(BakeryCategoryResponseDto::new)
                 .collect(Collectors.toList());
     }
