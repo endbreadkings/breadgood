@@ -157,7 +157,7 @@
     window.onload = function () {
 
         Vue.component('thumbnail-image', {
-            template: '<template><transition name="fade"><img v-if ="isLoaded" :src="src" alt="섬네일 이미지" :class = "shapeType"><div v-else class="image-loading"></div></transition></template>',
+            template: '<template><img v-if ="isLoaded" :src="src" alt="섬네일 이미지" :class = "shapeType"><div v-else class="image-loading"></div></template>',
             props: ['src'],
             data: () => {
                 return {

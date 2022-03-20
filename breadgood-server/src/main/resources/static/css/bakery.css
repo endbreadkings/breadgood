@@ -156,6 +156,7 @@ div#bakery-contents.loaded {
 
 .review-items {
     margin-top: 14px;
+    position: relative;
     overflow: visible;
 }
 
@@ -166,6 +167,8 @@ div#bakery-contents.loaded {
     border-radius: 16px;
     padding: 20px;
     filter: drop-shadow(4px 4px 10px rgba(28, 47, 133, 0.09));
+    z-index: 33;
+    position: relative;
 }
 
 .ri-header {
@@ -571,10 +574,3 @@ span.emoji-txt img {
     }
 }
 
-.fade-enter-active, .fade-leave-active {
-    transition: opacity .3s;
-}
-
-.fade-enter, .fade-leave-to .fade-leave-active {
-    opacity: 0;
-}
