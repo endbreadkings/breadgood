@@ -455,7 +455,6 @@ span.emoji-txt img {
     width: calc(50% - 1px);
     height: calc(50% - 1px);
     float: right;
-    background-color: #eee;
     margin-right: 0;
     /* align-content: space-between; */
 }
@@ -496,4 +495,71 @@ span.emoji-txt img {
     right: 10px;
     bottom: 10px;
     z-index: 1;
+}
+
+
+/*크롭*/
+
+.ri-images.layout3 > div:first-child img.verticallyShape {
+    width: auto;
+    height: 100%;
+}
+
+.ri-images.layout3 > div:first-child img.horizontallyShape {
+    width: 100%;
+    height: auto;
+}
+
+.ri-images.layout3 > div:not(:first-child) img.verticallyShape {
+    height: auto;
+    width: 100%;
+}
+
+.ri-images.layout3 > div:not(:first-child) img.horizontallyShape {
+    width: 100%;
+    height: auto;
+}
+
+.ri-images.layout2 > div img.verticallyShape {
+    width: auto;
+    height: 100%;
+}
+
+.ri-images.layout2 > div img.horizontallyShape {
+    width: 100%;
+    height: auto;
+}
+
+.ri-images > div img.verticallyShape {
+    height: auto;
+    width: 100%;
+}
+
+.ri-images > div img.horizontallyShape {
+    height: auto;
+    width: 100%;
+}
+
+
+.image-loading {
+    width: 100%;
+    height: 100%;
+    background-color: #e0e0e0;
+    animation: image-loading-key-frames 1s ease infinite alternate;
+}
+
+@keyframes image-loading-key-frames {
+    0% {
+        background-color: #d9d9d9;
+    }
+    100% {
+        background-color: hsl(200deg 2% 81%);
+    }
+}
+
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .3s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
 }
