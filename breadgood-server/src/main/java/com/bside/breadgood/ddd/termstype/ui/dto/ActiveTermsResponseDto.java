@@ -2,25 +2,30 @@ package com.bside.breadgood.ddd.termstype.ui.dto;
 
 import com.bside.breadgood.ddd.termstype.domain.Terms;
 import com.bside.breadgood.ddd.termstype.domain.TermsType;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ActiveTermsResponseDto {
 
-    private final Long typeId;
+    private Long typeId;
 
-    private final String name;
+    private String name;
 
-    private final boolean required;
+    private boolean required;
 
-    private final Long termsId;
+    private Long termsId;
 
-    private final String termsTypeLink;
+    private String termsTypeLink;
 
-    private final String termsLink;
+    private String termsLink;
 
     public ActiveTermsResponseDto(TermsType termsType, Terms terms) {
         this.typeId = termsType.getId();

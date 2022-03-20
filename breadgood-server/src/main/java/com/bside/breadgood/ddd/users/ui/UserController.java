@@ -46,9 +46,6 @@ public class UserController {
         return userService.socialGuestSignUp(userPrincipal.getId(), dto);
     }
 
-
-
-
     @ApiOperation(value = "회원 로그인을 합니다.", notes = "로그인 성공 시 TokenRefreshResponse 타입 반환 [유저]:test@breadgood.com//1234", response = TokenRefreshResponse.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "성공적으로 변경시 TokenRefreshResponse 반환", response = TokenRefreshResponse.class),

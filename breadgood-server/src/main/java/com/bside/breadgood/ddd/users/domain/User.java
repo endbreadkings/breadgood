@@ -24,6 +24,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
+//FIXME user 도메인 객체 내 password 캡슐화 필요
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
