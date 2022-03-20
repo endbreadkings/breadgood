@@ -156,6 +156,7 @@ div#bakery-contents.loaded {
 
 .review-items {
     margin-top: 14px;
+    overflow: visible;
 }
 
 .review-item {
@@ -329,6 +330,7 @@ span.emoji-txt img {
     justify-content: center;
     z-index: 1;
     align-items: center;
+    border-radius: 0 0 8px 0;
 }
 
 .ri-item-overlay span {
@@ -498,7 +500,18 @@ span.emoji-txt img {
 }
 
 
-/*크롭*/
+/*
+크롭
+
+세로가 더 넓은 영역인 경우
+1. 가로가 긴 사진이 왔을 경우: 좌우를 자름, height 100%, wight auto
+2. 세로가 긴 사진이 왔을 경우: 상하를 자름, height auto, width 100%
+
+정사각형 이거나 가로가 더 넓은 영역인 경우
+1. 가로가 긴 사진이 왔을 경우: 상하를 자름, height auto, wight 100%
+2. 세로가 긴 사진이 왔을 경우: 상하를 자름, height auto, width 100%
+
+*/
 
 .ri-images.layout3 > div:first-child img.verticallyShape {
     width: auto;
@@ -561,6 +574,7 @@ span.emoji-txt img {
 .fade-enter-active, .fade-leave-active {
     transition: opacity .3s;
 }
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+
+.fade-enter, .fade-leave-to .fade-leave-active {
     opacity: 0;
 }
