@@ -19,12 +19,16 @@ class BakeryCategory {
   final String makerImgUrl;
   final String title;
   final String titleImgUrl;
+  final int sortNumber;
+  final String content;
 
   BakeryCategory({
     this.id,
     this.makerImgUrl,
     this.title,
     this.titleImgUrl,
+    this.sortNumber,
+    this.content,
   });
 
   factory BakeryCategory.fromJson(Map<String, dynamic> json) {
@@ -33,6 +37,8 @@ class BakeryCategory {
       makerImgUrl: json['makerImgUrl'],
       title: json['title'],
       titleImgUrl: json['titleImgUrl'],
+      sortNumber: json['sortNumber'],
+      content: json['content'],
     );
   }
 }
