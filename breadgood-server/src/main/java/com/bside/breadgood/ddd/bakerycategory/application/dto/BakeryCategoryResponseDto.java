@@ -13,6 +13,7 @@ public class BakeryCategoryResponseDto {
     private final String color;
     private final String makerImgUrl;
     private final int sortNumber;
+    private final String content;
 
     public BakeryCategoryResponseDto(BakeryCategory entity) {
         this.id = entity.getId();
@@ -22,5 +23,6 @@ public class BakeryCategoryResponseDto {
         this.color = entity.getColor();
         this.makerImgUrl = entity.getMakerImgUrl();
         this.sortNumber = entity.getSortNumber();
+        this.content = entity.getContent();
     }
 }

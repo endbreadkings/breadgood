@@ -23,25 +23,18 @@ class _SelectBakeryCategoryPageState extends State<SelectBakeryCategoryPage> {
   @override
   void initState() {
     // TODO: implement initState
-    // fetchBakeryCategoryList();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    // Color borderC = Colors.transparent;
-
     return Scaffold(
         appBar: SelectBakeryCategoryPageAppbar(),
         body: Container(
-            // margin: EdgeInsets.all(12.0),
             width: double.infinity,
             child: Padding(
               padding: EdgeInsets.fromLTRB(31, 26, 30, 52),
-              child:
-              // SingleChildScrollView(
-              //   child:
-              Column(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   RichText(
@@ -57,7 +50,8 @@ class _SelectBakeryCategoryPageState extends State<SelectBakeryCategoryPage> {
                             style: TextStyle(
                               fontFamily: 'NanumSquareRoundEB',
                               fontSize: 26.0,
-                            )),
+                            )
+                        ),
                         TextSpan(
                           text: '의',
                         ),
@@ -72,237 +66,15 @@ class _SelectBakeryCategoryPageState extends State<SelectBakeryCategoryPage> {
                       style: TextStyle(
                         fontSize: 18.0,
                       )),
-
                   GetBuilder<BakeryController>(
                     builder: (_) {
-    // return Container(width:0, height:0);
-    // }),
-                      return
-    buildFutureBakeryCategoryListBuilder();
-
-                        //original
-                      //   Column(
-                      //   children: [
-                      // Padding(
-                      //   padding: EdgeInsets.fromLTRB(0, 40, 0, 8),
-                      //   child:
-                      //
-                      //
-                      //   ButtonTheme(
-                      //       minWidth: 314,
-                      //       height: 88,
-                      //       child: ElevatedButton(
-                      //           onPressed: () {
-                      //             controller.toggleButton(0);
-                      //             // borderC = (controller.selected) ?Color(0xFF007AFF):Colors.transparent;
-                      //           },
-                      //           style: ElevatedButton.styleFrom(
-                      //               shape: RoundedRectangleBorder(
-                      //                   borderRadius: BorderRadius.circular(8),
-                      //                   side: BorderSide(
-                      //                   width: 1.0,
-                      //                   color: controller.border_color[0]
-                      //                 // controller.selected
-                      //                 //     ?Color(0xFF007AFF)
-                      //                 //     :Colors.transparent,
-                      //                   )),
-                      //               elevation: 1.0,
-                      //               primary: Colors.white,
-                      //               padding: EdgeInsets.fromLTRB(22, 20, 25, 20),
-                      //               ),
-                      //
-                      //           child: Row(
-                      //               crossAxisAlignment: CrossAxisAlignment.start,
-                      //               children: [
-                      //                 Padding(
-                      //                   padding: EdgeInsets.fromLTRB(0, 2, 16, 2),
-                      //                 child: Image.asset(
-                      //                     'asset/images/icon/map/with_bread.png',
-                      //                     height: 36,
-                      //                     width: 44),
-                      //                 ),
-                      //                 Text(
-                      //                   '커피&차와 함께 빵을\n즐길 수 있는 베이커리 카페',
-                      //                   // 'toggle? ${controller.selected}',
-                      //                   style: TextStyle(
-                      //                     fontSize: 16,
-                      //                     color: Colors.black,
-                      //                   ),
-                      //                 ),
-                      //                 // Text('color change'),
-                      //               ])
-                      //       ))
-                      // ),
-                      //
-                      //       ButtonTheme(
-                      //           minWidth: 314,
-                      //           height: 88,
-                      //           child: ElevatedButton(
-                      //               onPressed: () {
-                      //                 controller.toggleButton(1);
-                      //                 // borderC = (controller.selected) ?Color(0xFF007AFF):Colors.transparent;
-                      //               },
-                      //               style: ElevatedButton.styleFrom(
-                      //                 shape: RoundedRectangleBorder(
-                      //                     borderRadius: BorderRadius.circular(8),
-                      //                     side: BorderSide(
-                      //                         width: 1.0,
-                      //                         color: controller.border_color[1]
-                      //                       // controller.selected
-                      //                       //     ?Color(0xFF007AFF)
-                      //                       //     :Colors.transparent,
-                      //                     )),
-                      //                 elevation: 1.0,
-                      //                 primary: Colors.white,
-                      //                 padding: EdgeInsets.fromLTRB(22, 20, 25, 20),
-                      //               ),
-                      //
-                      //               child: Row(
-                      //                   crossAxisAlignment: CrossAxisAlignment.start,
-                      //                   children: [
-                      //                     Padding(
-                      //                       padding: EdgeInsets.fromLTRB(0, 2, 16, 2),
-                      //                       child: Image.asset(
-                      //                           'asset/images/icon/map/focus_bread.png',
-                      //                           height: 36,
-                      //                           width: 44),
-                      //                     ),
-                      //                     Text(
-                      //                       '빵을 전문적으로 파는\n일반 베이커리',
-                      //                       // 'toggle? ${controller.selected}',
-                      //                       style: TextStyle(
-                      //                         fontSize: 16,
-                      //                         color: Colors.black,
-                      //                       ),
-                      //                     ),
-                      //                     // Text('color change'),
-                      //                   ])
-                      //           )),
-                      // ]);
-                      //end of original
-
-
-                        // Text('selected: ${_.selected}, border_color: ${_.border_color}');
+                      return buildFutureBakeryCategoryListBuilder();
                     }
                   ),
-
-
-
-
-                  // Padding(
-                  //   padding: EdgeInsets.fromLTRB(0, 40, 0, 8),
-                  //   child: ButtonTheme(
-                  //       minWidth: 314,
-                  //       height: 88,
-                  //       child: ElevatedButton(
-                  //           onPressed: () {
-                  //             controller.toggleButton();
-                  //             borderC = (controller.selected) ?Color(0xFF007AFF):Colors.transparent;
-                  //           },
-                  //           style:
-                  //           // ButtonStyle(
-                  //           //   backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                  //           //   side: MaterialStateProperty.resolveWith<BorderSide>(
-                  //           //               (Set<MaterialState> states) {
-                  //           //             if (states.contains(MaterialState.pressed))
-                  //           //               return BorderSide(
-                  //           //                 color: Color(0xFF007AFF),
-                  //           //               );
-                  //           //             return null; // Defer to the widget's default.
-                  //           //           },
-                  //           //         ),
-                  //           //     ),
-                  //
-                  //
-                  //               ElevatedButton.styleFrom(
-                  //               shape: RoundedRectangleBorder(
-                  //                   borderRadius: BorderRadius.circular(8),
-                  //                   side:
-                  //                   // MaterialStateProperty.resolveWith<BorderSide>(
-                  //                   //       (Set<MaterialState> states) {
-                  //                   //     if (states.contains(MaterialState.pressed))
-                  //                   //       return BorderSide(
-                  //                   //         color: Color(0xFF007AFF),
-                  //                   //       );
-                  //                   //     return null; // Defer to the widget's default.
-                  //                   //   },
-                  //                   // ),
-                  //
-                  //                 BorderSide(
-                  //                   width: 1.0,
-                  //                   color: controller.border_color
-                  //                 // controller.selected
-                  //                 //     ?Color(0xFF007AFF)
-                  //                 //     :Colors.transparent,
-                  //                   )),
-                  //               elevation: 1.0,
-                  //               primary: Colors.white,
-                  //               padding: EdgeInsets.fromLTRB(22, 20, 25, 20),
-                  //               ),
-                  //
-                  //           child: Row(
-                  //               crossAxisAlignment: CrossAxisAlignment.start,
-                  //               children: [
-                  //                 Padding(
-                  //                   padding: EdgeInsets.fromLTRB(0, 2, 16, 2),
-                  //                 child: Image.asset(
-                  //                     'asset/images/icon/map/with_bread.png',
-                  //                     height: 36,
-                  //                     width: 44),
-                  //                 ),
-                  //                 Text(
-                  //                   // '커피&차와 함께 빵을\n즐길 수 있는 베이커리 카페',
-                  //                   'toggle? ${controller.selected}',
-                  //                   style: TextStyle(
-                  //                     fontSize: 16,
-                  //                     color: Colors.black,
-                  //                   ),
-                  //                 ),
-                  //                 // Text('color change'),
-                  //               ])
-                  //       )),
-                  // ),
-
-
-
-
-                  // Text(
-                  //     '${selectedBakery.title}',
-                  // style: TextStyle(
-                  //   fontWeight: FontWeight.w800,
-                  //   fontFamily: 'NanumSquareRound',
-                  //   fontSize: 26.0,
-                  // )),
-                  // Text(
-                  //     '의\n빵집 카테고리를 설정해주세요.',
-                  //     style: TextStyle(
-                  //       fontWeight: FontWeight.w400,
-                  //       fontSize: 18.0,
-                  //     )),
-
-                  // Text("표정으로 당신의 마음을 보여주세요!"),
-                  // Card(
-                  //   child: InkWell(
-                  //
-                  //   ),
-                  //   SizedBox(
-                  //     width: 300,
-                  //     height: 100,
-                  //     child: Text(
-                  //       '커피&차와 함께 빵을 즐길 수 있는 베이커리',
-                  //     ),
-                  //   ),
-                  // ),
                   Spacer(),
                   Align(
                     alignment: Alignment.bottomCenter,
-                    child:
-                        // SizedBox(
-                        //   width: 314,
-                        //   height: 56,
-
-                        // child:
-                        ElevatedButton(
+                    child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         minimumSize: Size(double.infinity, 56),
                         primary: Color(0xFF4579FF),
@@ -320,112 +92,101 @@ class _SelectBakeryCategoryPageState extends State<SelectBakeryCategoryPage> {
                         Get.to(RegisterReviewPage());
                       },
                     ),
-                    // ),
                   ),
                 ],
-              // ),
               ),
-            )));
-  }
-
-  FutureBuilder<List<BakeryCategory>> buildFutureBakeryCategoryListBuilder() {
-    print('future Bakery Category List builder');
-    return FutureBuilder<List<BakeryCategory>>(
-
-      future: bakeryCategoryList = fetchBakeryCategoryList(),
-      builder: (context, snapshot) {
-        print('builder');
-        if (snapshot.hasData) {
-          print('has data');
-          return Column(
-            children: [
-          Padding(
-            padding: EdgeInsets.fromLTRB(0, 40, 0, 8),
-            child:
-              _createBakeryCategoryToggle(snapshot.data[0]),),
-              _createBakeryCategoryToggle(snapshot.data[1]),
-        ]
-          );
-        } else if (snapshot.hasError) {
-          // print(snapshot.data[0].name);
-          return Text("this: ${snapshot.error}");
-        }
-
-        // By default, show a loading spinner.
-        // return CircularProgressIndicator();
-        return
-          // Text('err');
-          Text('none');
-      },
+            )
+        )
     );
   }
 
-
+  FutureBuilder<List<BakeryCategory>> buildFutureBakeryCategoryListBuilder() {
+    return FutureBuilder<List<BakeryCategory>>(
+      future: bakeryCategoryList = fetchBakeryCategoryList(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          snapshot.data.sort((a, b) => a.sortNumber.compareTo(b.sortNumber));
+          return Padding(
+              padding: EdgeInsets.fromLTRB(0, 40, 0, 0),
+              child: Column(
+                  children: [
+                    _createBakeryCategoryToggle(snapshot.data[0]),
+                    SizedBox(height: 8),
+                    _createBakeryCategoryToggle(snapshot.data[1])]
+              )
+          );
+        } else if (snapshot.hasError) {
+          /* TO BE DEFINED */
+        }
+        return Center(
+            child: Padding(
+              padding: EdgeInsets.only(top:88),
+                child: CircularProgressIndicator(),
+            )
+        );
+      },
+    );
+  }
   Widget _createBakeryCategoryToggle(BakeryCategory category) {
-    print('createBakeryCategoryToggle');
     return ButtonTheme(
         minWidth: 314,
         height: 88,
         child: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16.0),
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Color(0xFF1C2F85).withOpacity(0.15),
-                offset: Offset(2.0, 2.0),
-                blurRadius: 10.0,
-                spreadRadius: 0,
-              )
-            ]),
-        child: ElevatedButton(
-            onPressed: () {
-              print('pressed: ${category.id}');
-              controller.toggleButton(category.id - 1);
-              // borderC = (controller.selected) ?Color(0xFF007AFF):Colors.transparent;
-            },
-            style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                  side: BorderSide(
-                      width: 1.0,
-                      color: controller.bakery_category_border_color[category.id - 1]
-                    // controller.selected
-                    //     ?Color(0xFF007AFF)
-                    //     :Colors.transparent,
-                  )),
-              elevation: 0,
-              primary: Colors.white,
-              padding: EdgeInsets.fromLTRB(22, 20, 25, 20),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16.0),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Color(0xFF1C2F85).withOpacity(0.15),
+                    offset: Offset(2.0, 2.0),
+                    blurRadius: 10.0,
+                    spreadRadius: 0,
+                  )
+                ]
             ),
-
-            child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0, 2, 16, 2),
-                    child: Container(
-                        width: 36,
-                        height: 44,
-                        child: Image.network(
-                          category.makerImgUrl,
-                          fit: BoxFit.scaleDown,
-                        )),
-                  ),
-                  Text(
-                    (category.id == 1)
-                    ?'커피&차와 함께 빵을\n즐길 수 있는 베이커리 카페'
-                    :'빵을 전문적으로 파는\n일반 베이커리',
-                    // 'toggle? ${controller.selected}',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.black,
+            child: ElevatedButton(
+              onPressed: () {
+                controller.toggleButton(category.id - 1);
+                },
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    side: BorderSide(
+                        width: 1.0,
+                        color: controller.bakery_category_border_color[category.id - 1]
+                    )
+                ),
+                elevation: 0,
+                primary: Colors.white,
+                padding: EdgeInsets.fromLTRB(22, 18, 25, 22),
+              ),
+              child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(0, 2, 16, 2),
+                      child: Container(
+                          width: 36,
+                          height: 44,
+                          child: Image.network(
+                            category.makerImgUrl,
+                            fit: BoxFit.scaleDown,
+                          )
+                      ),
                     ),
-                  ),
-                  // Text('color change'),
-                ])
-        )));
-
+                    Text(
+                      category.content,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                        height: 1.45,
+                      ),
+                    )
+                  ]
+              )
+            )
+        )
+    );
   }
 }
 
