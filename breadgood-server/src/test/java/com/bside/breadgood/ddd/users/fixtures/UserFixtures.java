@@ -39,4 +39,17 @@ public class UserFixtures {
                 Role.USER
         );
     }
+
+    public static User 테스트유저() {
+        return new User(
+                1L,
+                NickName.valueOf("테스트유저"),
+                Email.valueOf("test@breadgood.com"),
+                "1234",
+                1L,
+                null,
+                null,
+                Role.USER
+        );
+    }
 }
