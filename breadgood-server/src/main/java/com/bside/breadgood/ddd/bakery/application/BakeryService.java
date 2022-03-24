@@ -277,6 +277,7 @@ public class BakeryService {
 
 
         {
+
             String city = "서울특별시";
             String content = "루브래드는 정말 맛있어요.";
             String description = "휴무일 : 매주일요일 2째주월요일 4째주월요일\n" +
@@ -312,11 +313,11 @@ public class BakeryService {
                     .breadStyle(breadStyleResponseDto)
                     .build();
 
-            bakery.addBakeryReview(userService.findById(4L), "잉 너무 맛있는 걸욧??", emojiResponseDto, List.of("wp-content/uploads/2020/03/pixabay-252777_1920-1.jpg"), Arrays.asList("딸기크림케이크", "케이크"), fileHost, breadStyleResponseDto);
-            bakery.addBakeryReview(userService.findById(2L), "정말 정말 그냥 그럭 저럭", emojiResponseDto, List.of("wp-content/uploads/2020/03/pixabay-252777_1920-1.jpg", "wp-content/uploads/2020/03/pixabay-252777_1920-1.jpg"), null, fileHost, breadStyleResponseDto);
-            bakery.addBakeryReview(userService.findById(1L), "소보루 존맛 소보루 존맛 !!", emojiService.findById(2L), List.of("wp-content/uploads/2020/03/pixabay-252777_1920-1.jpg", "wp-content/uploads/2020/03/pixabay-252777_1920-1.jpg", "wp-content/uploads/2020/03/pixabay-252777_1920-1.jpg"), Arrays.asList("산딸기 케이크", "소보루빵"), fileHost, breadStyleResponseDto);
-            bakery.addBakeryReview(userService.findById(2L), "냥냥냥 냥냥냥 냥냥냥 !!", emojiService.findById(2L), List.of("wp-content/uploads/2020/03/pixabay-252777_1920-1.jpg", "wp-content/uploads/2020/03/pixabay-252777_1920-1.jpg", "wp-content/uploads/2020/03/pixabay-252777_1920-1.jpg", "wp-content/uploads/2020/03/pixabay-252777_1920-1.jpg", "wp-content/uploads/2020/03/pixabay-252777_1920-1.jpg"), Arrays.asList("산딸기 케이크", "소보루빵"), fileHost, breadStyleResponseDto);
-            bakery.addBakeryReview(userService.findById(5L), "냥냥냥 냥냥냥 냥냥냥 냥냥냥 !!", emojiService.findById(2L), filePaths, Arrays.asList("산딸기 케이크", "소보루빵"), fileHost, breadStyleResponseDto);
+            bakery.addBakeryReview(userService.findById(4L), "잉 너무 맛있는 걸욧??", emojiResponseDto, List.of("MjAxOTEwMDlfNTQg/MDAxNTcwNjAyOTkyNDc4.0YQy3to-9ap_Hk_YHBoWra1_sVDGnPtqrK7tstchhE8g.9Dy_hFfKce0Kj1SFG1ZMUo-dw-OgCikNkXwxJzFnDzYg.PNG.azzi_01/_.png?type=w800"), Arrays.asList("딸기크림케이크", "케이크"), "https://mblogthumb-phinf.pstatic.net/", breadStyleResponseDto);
+            bakery.addBakeryReview(userService.findById(3L), "잉 너무 맛있는 걸욧??", emojiResponseDto, List.of("wp-content/uploads/2020/03/pixabay-252777_1920-1.jpg"), Arrays.asList("딸기크림케이크", "케이크"), fileHost, breadStyleResponseDto);
+            bakery.addBakeryReview(userService.findById(2L), "정말 정말 그냥 그럭 저럭", emojiResponseDto, List.of("MjAxOTEwMDlfNTQg/MDAxNTcwNjAyOTkyNDc4.0YQy3to-9ap_Hk_YHBoWra1_sVDGnPtqrK7tstchhE8g.9Dy_hFfKce0Kj1SFG1ZMUo-dw-OgCikNkXwxJzFnDzYg.PNG.azzi_01/_.png?type=w800", "MjAxOTEwMDlfNTQg/MDAxNTcwNjAyOTkyNDc4.0YQy3to-9ap_Hk_YHBoWra1_sVDGnPtqrK7tstchhE8g.9Dy_hFfKce0Kj1SFG1ZMUo-dw-OgCikNkXwxJzFnDzYg.PNG.azzi_01/_.png?type=w800"), null, "https://mblogthumb-phinf.pstatic.net/", breadStyleResponseDto);
+            bakery.addBakeryReview(userService.findById(1L), "정말 정말 그냥 그럭 저럭", emojiResponseDto, List.of("wp-content/uploads/2020/03/pixabay-252777_1920-1.jpg", "wp-content/uploads/2020/03/pixabay-252777_1920-1.jpg"), null, fileHost, breadStyleResponseDto);
+            bakery.addBakeryReview(userService.findById(5L), "소보루 존맛 소보루 존맛 !!", emojiService.findById(2L), List.of("MjAxOTEwMDlfNTQg/MDAxNTcwNjAyOTkyNDc4.0YQy3to-9ap_Hk_YHBoWra1_sVDGnPtqrK7tstchhE8g.9Dy_hFfKce0Kj1SFG1ZMUo-dw-OgCikNkXwxJzFnDzYg.PNG.azzi_01/_.png?type=w800", "MjAxOTEwMDlfNTQg/MDAxNTcwNjAyOTkyNDc4.0YQy3to-9ap_Hk_YHBoWra1_sVDGnPtqrK7tstchhE8g.9Dy_hFfKce0Kj1SFG1ZMUo-dw-OgCikNkXwxJzFnDzYg.PNG.azzi_01/_.png?type=w800", "MjAxOTEwMDlfNTQg/MDAxNTcwNjAyOTkyNDc4.0YQy3to-9ap_Hk_YHBoWra1_sVDGnPtqrK7tstchhE8g.9Dy_hFfKce0Kj1SFG1ZMUo-dw-OgCikNkXwxJzFnDzYg.PNG.azzi_01/_.png?type=w800"), Arrays.asList("산딸기 케이크", "소보루빵"), "https://mblogthumb-phinf.pstatic.net/", breadStyleResponseDto);
 
             bakeries.add(bakery);
         }
@@ -423,7 +424,7 @@ public class BakeryService {
                     .build();
 
             bakery.addBakeryReview(userService.findById(3L), "생크림빵 존맛이에요 진짜루...",
-                    emojiService.findById(2L), filePaths,
+                    emojiService.findById(2L), List.of("wp-content/uploads/2020/03/pixabay-252777_1920-1.jpg"),
                     Arrays.asList("생크림빵", "고소한 맛 사라다"), fileHost, breadStyleResponseDto);
             bakeries.add(bakery);
         }
