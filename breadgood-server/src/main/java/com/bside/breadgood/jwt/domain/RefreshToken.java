@@ -14,7 +14,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class RefreshToken {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "refresh_token_id")
     private long id;
 
 //    @OneToOne

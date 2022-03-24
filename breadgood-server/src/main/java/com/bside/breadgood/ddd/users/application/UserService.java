@@ -179,5 +179,4 @@ public class UserService {
     public void initData() {
         userRepository.saveAll(new InitUserData().get());
     }
-
 }
