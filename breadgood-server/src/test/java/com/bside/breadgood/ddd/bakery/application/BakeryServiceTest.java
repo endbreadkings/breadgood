@@ -5,7 +5,6 @@ import com.bside.breadgood.ddd.bakery.application.dto.BakerySaveRequestDto;
 import com.bside.breadgood.ddd.bakery.application.dto.BakerySearchRequestDto;
 import com.bside.breadgood.ddd.bakery.application.dto.BakerySearchResponseDto;
 import com.bside.breadgood.ddd.bakery.application.exception.IllegalCityException;
-import com.bside.breadgood.ddd.bakery.bakerycategory.fixtures.BakeryCategoryFixtures;
 import com.bside.breadgood.ddd.bakery.domain.Address;
 import com.bside.breadgood.ddd.bakery.domain.Bakery;
 import com.bside.breadgood.ddd.bakery.domain.Point;
@@ -15,12 +14,10 @@ import com.bside.breadgood.ddd.bakerycategory.application.dto.BakeryCategoryResp
 import com.bside.breadgood.ddd.bakerycategory.domain.BakeryCategory;
 import com.bside.breadgood.ddd.breadstyles.application.BreadStyleService;
 import com.bside.breadgood.ddd.breadstyles.domain.BreadStyle;
-import com.bside.breadgood.ddd.breadstyles.fixtures.BreadStyleFixtures;
 import com.bside.breadgood.ddd.breadstyles.ui.dto.BreadStyleResponseDto;
 import com.bside.breadgood.ddd.emoji.application.EmojiService;
 import com.bside.breadgood.ddd.emoji.application.dto.EmojiResponseDto;
 import com.bside.breadgood.ddd.emoji.domain.Emoji;
-import com.bside.breadgood.ddd.emoji.fixtures.EmojiFixtures;
 import com.bside.breadgood.ddd.users.application.UserInfoResponseDto;
 import com.bside.breadgood.ddd.users.application.UserService;
 import com.bside.breadgood.ddd.users.application.dto.UserResponseDto;
@@ -28,7 +25,6 @@ import com.bside.breadgood.ddd.users.domain.Email;
 import com.bside.breadgood.ddd.users.domain.NickName;
 import com.bside.breadgood.ddd.users.domain.Role;
 import com.bside.breadgood.ddd.users.domain.User;
-import com.bside.breadgood.ddd.users.fixtures.UserFixtures;
 import com.bside.breadgood.s3.application.S3Service;
 import com.bside.breadgood.s3.application.dto.S3UploadResponseDto;
 import org.assertj.core.util.Lists;
@@ -42,12 +38,13 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.*;
 
 import static com.bside.breadgood.ddd.bakery.application.dto.BakerySaveRequestDto.builder;
-import static com.bside.breadgood.ddd.bakery.bakerycategory.fixtures.BakeryCategoryFixtures.*;
+import static com.bside.breadgood.ddd.bakery.bakerycategory.fixtures.BakeryCategoryFixtures.카테고리1;
+import static com.bside.breadgood.ddd.bakery.bakerycategory.fixtures.BakeryCategoryFixtures.카테고리2;
 import static com.bside.breadgood.ddd.bakery.fixtures.BakeryFixtures.빵집1;
 import static com.bside.breadgood.ddd.bakery.fixtures.BakeryFixtures.빵집등록요청;
-import static com.bside.breadgood.ddd.breadstyles.fixtures.BreadStyleFixtures.*;
-import static com.bside.breadgood.ddd.emoji.fixtures.EmojiFixtures.*;
-import static com.bside.breadgood.ddd.users.fixtures.UserFixtures.*;
+import static com.bside.breadgood.ddd.breadstyles.fixtures.BreadStyleFixtures.빵스타일1;
+import static com.bside.breadgood.ddd.emoji.fixtures.EmojiFixtures.이모지1;
+import static com.bside.breadgood.ddd.users.fixtures.UserFixtures.테스트유저;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -208,8 +205,8 @@ class BakeryServiceTest {
     }
 
     private void setSearchMockReturns() {
-        BakeryCategory category1 = 카테고리1();
-        BakeryCategory category2 = 카테고리2();
+        BakeryCategory category1 = 카테고리1;
+        BakeryCategory category2 = 카테고리2;
         UserInfoResponseDto userInfoResponseDto = UserInfoResponseDto.builder()
                 .nickName("테스트유저")
                 .userId(1L)
@@ -242,24 +239,13 @@ class BakeryServiceTest {
                 Lists.newArrayList("1", "2", "3")
         );
 
-
-        final User user = 테스트유저();
-
-        final BakeryCategory category = 카테고리2();
-
-        final Emoji emoji = 이모지1();
-
-        final BreadStyle breadStyle = 빵스타일1();
-
-        final Bakery bakery = 빵집1();
-
         // when
         when(s3Service.upload((MultipartFile[]) any(), anyString())).thenReturn(new S3UploadResponseDto("", Lists.newArrayList()));
-        when(userService.findById(any())).thenReturn(new UserResponseDto(user));
-        when(bakeryCategoryService.findById(any())).thenReturn(new BakeryCategoryResponseDto(category));
-        when(emojiService.findById(any())).thenReturn(new EmojiResponseDto(emoji));
-        when(breadStyleService.findById(any())).thenReturn(new BreadStyleResponseDto(breadStyle));
-        when(bakeryRepository.save(any())).thenReturn(bakery);
+        when(userService.findById(any())).thenReturn(new UserResponseDto(테스트유저));
+        when(bakeryCategoryService.findById(any())).thenReturn(new BakeryCategoryResponseDto(카테고리2));
+        when(emojiService.findById(any())).thenReturn(new EmojiResponseDto(이모지1));
+        when(breadStyleService.findById(any())).thenReturn(new BreadStyleResponseDto(빵스타일1));
+        when(bakeryRepository.save(any())).thenReturn(빵집1);
 
         //then
         final Long actual = bakeryService.save(null, 서울특별시, null);

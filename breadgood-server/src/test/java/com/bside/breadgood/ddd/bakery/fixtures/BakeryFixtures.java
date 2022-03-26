@@ -30,16 +30,14 @@ public class BakeryFixtures {
                 .build();
     }
 
-    public static Bakery 빵집1() {
-        return new Bakery(
-                1L,
-                "1번 빵집",
-                "1번 빵집 설명입니다.",
-                1L,
-                null,
-                null,
-                1L
-        )
-    }
-
+    public static final Bakery 빵집1 =
+            new Bakery(
+                    1L,
+                    "1번 빵집",
+                    "1번 빵집 설명입니다.",
+                    1L,
+                    null,
+                    null,
+                    1L
+            );
 }
