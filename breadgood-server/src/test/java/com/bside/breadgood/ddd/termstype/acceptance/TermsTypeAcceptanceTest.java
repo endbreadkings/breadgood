@@ -21,7 +21,7 @@ import org.springframework.http.MediaType;
 import java.util.List;
 
 import static com.bside.breadgood.fixtures.breadstyle.BreadStyleFixture.달콤;
-import static com.bside.breadgood.fixtures.termstype.TermsTypeFixture.집행중인약관1;
+import static com.bside.breadgood.fixtures.termstype.TermsTypeFixture.필수_개인정보_수집_및_이용_동의_약관_진행중;
 import static com.bside.breadgood.ddd.users.acceptance.UserAcceptanceTest.로그인_토큰;
 import static com.bside.breadgood.fixtures.user.UserFixture.사용자_등록_요청;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -55,7 +55,7 @@ public class TermsTypeAcceptanceTest extends AcceptanceTest {
     private void 사용자_초기_데이터() {
         final BreadStyle savedBreadStyle = breadStyleRepository.save(달콤);
 
-        final TermsType savedTermsType = termsTypeRepository.save(집행중인약관1);
+        final TermsType savedTermsType = termsTypeRepository.save(필수_개인정보_수집_및_이용_동의_약관_진행중);
 
         userRepository.save(
                 사용자_등록_요청(
