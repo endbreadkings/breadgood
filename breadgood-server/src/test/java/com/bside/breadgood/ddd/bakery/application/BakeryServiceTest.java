@@ -239,9 +239,11 @@ class BakeryServiceTest {
         // when
         when(s3Service.upload((MultipartFile[]) any(), anyString())).thenReturn(new S3UploadResponseDto("", Lists.newArrayList()));
         when(userService.findById(any())).thenReturn(new UserResponseDto(테스트유저));
+
         when(bakeryCategoryService.findById(any())).thenReturn(new BakeryCategoryResponseDto(빵에집중));
         when(emojiService.findById(any())).thenReturn(new EmojiResponseDto(이모지1));
         when(breadStyleService.findById(any())).thenReturn(new BreadStyleResponseDto(달콤));
+
         when(bakeryRepository.save(any())).thenReturn(빵집1);
 
         //then
