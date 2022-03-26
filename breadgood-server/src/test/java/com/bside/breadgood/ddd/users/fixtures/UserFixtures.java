@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
  * description :
  */
 public class UserFixtures {
+<<<<<<< HEAD
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     /**
@@ -52,4 +53,18 @@ public class UserFixtures {
                 Role.USER
         );
     }
+=======
+    public static final User 테스트유저 =
+            new User(
+                    1L,
+                    NickName.valueOf("테스트유저"),
+                    Email.valueOf("test@breadgood.com"),
+                    "1234",
+                    1L,
+                    null,
+                    null,
+                    Role.USER
+            );
+
+>>>>>>> db8152c (refactor(fixtures): 도메인 테스트픽스처 타입 변경)
 }
