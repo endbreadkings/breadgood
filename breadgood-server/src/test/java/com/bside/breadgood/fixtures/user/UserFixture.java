@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  * date : 2022/02/16
  * description :
  */
-public class UserFixtures {
+public class UserFixture {
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     /**

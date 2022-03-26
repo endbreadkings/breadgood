@@ -11,7 +11,7 @@ import java.time.LocalDate;
  * date : 2022/03/20
  * description :
  */
-public class TermsTypeFixtures {
+public class TermsTypeFixture {
 
     public static Terms 추가된약관 =
             Terms.builder()

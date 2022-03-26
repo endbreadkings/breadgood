@@ -1,14 +1,14 @@
 package com.bside.breadgood.ddd.termstype.infra;
 
 import com.bside.breadgood.ddd.termstype.domain.TermsType;
-import com.bside.breadgood.fixtures.termstype.TermsTypeFixtures;
+import com.bside.breadgood.fixtures.termstype.TermsTypeFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import static com.bside.breadgood.fixtures.termstype.TermsTypeFixtures.*;
+import static com.bside.breadgood.fixtures.termstype.TermsTypeFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -28,7 +28,7 @@ public class TermsTypeRepositoryTest {
     @DisplayName("필수 약관 등록 테스트")
     public void addRequiredTermsType() {
         // given
-        final TermsType 필수약관1 = TermsTypeFixtures.집행중인약관1;
+        final TermsType 필수약관1 = TermsTypeFixture.집행중인약관1;
 
         // when
         final TermsType termsType = repository.save(필수약관1);
@@ -42,7 +42,7 @@ public class TermsTypeRepositoryTest {
     @Test
     @DisplayName("선택 약관 등록 테스트")
     public void addNonRequiredTermsType() {
-        final TermsType 선택약관 = TermsTypeFixtures.선택약관1;
+        final TermsType 선택약관 = TermsTypeFixture.선택약관1;
 
         // when
         final TermsType termsType = repository.save(선택약관);

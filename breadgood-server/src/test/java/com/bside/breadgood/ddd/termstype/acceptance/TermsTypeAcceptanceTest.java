@@ -21,9 +21,9 @@ import org.springframework.http.MediaType;
 import java.util.List;
 
 import static com.bside.breadgood.fixtures.breadstyle.BreadStyleFixture.달콤;
-import static com.bside.breadgood.fixtures.termstype.TermsTypeFixtures.집행중인약관1;
+import static com.bside.breadgood.fixtures.termstype.TermsTypeFixture.집행중인약관1;
 import static com.bside.breadgood.ddd.users.acceptance.UserAcceptanceTest.로그인_토큰;
-import static com.bside.breadgood.fixtures.user.UserFixtures.사용자_등록_요청;
+import static com.bside.breadgood.fixtures.user.UserFixture.사용자_등록_요청;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**

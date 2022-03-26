@@ -12,7 +12,7 @@ import static com.bside.breadgood.ddd.bakery.application.dto.BakerySaveRequestDt
  * date : 2022/03/23
  * description :
  */
-public class BakeryFixtures {
+public class BakeryFixture {
 
     public static BakerySaveRequestDto 빵집등록요청(
             String city,

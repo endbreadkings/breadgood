@@ -37,13 +37,13 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.*;
 
 import static com.bside.breadgood.ddd.bakery.application.dto.BakerySaveRequestDto.builder;
-import static com.bside.breadgood.fixtures.bakery.BakeryFixtures.빵집1;
-import static com.bside.breadgood.fixtures.bakery.BakeryFixtures.빵집등록요청;
+import static com.bside.breadgood.fixtures.bakery.BakeryFixture.빵집1;
+import static com.bside.breadgood.fixtures.bakery.BakeryFixture.빵집등록요청;
 import static com.bside.breadgood.fixtures.bakerycategory.BakeryCategoryFixture.빵에집중;
 import static com.bside.breadgood.fixtures.bakerycategory.BakeryCategoryFixture.음료와빵;
 import static com.bside.breadgood.fixtures.breadstyle.BreadStyleFixture.달콤;
-import static com.bside.breadgood.fixtures.emoji.EmojiFixtures.이모지1;
-import static com.bside.breadgood.fixtures.user.UserFixtures.테스트유저;
+import static com.bside.breadgood.fixtures.emoji.EmojiFixture.이모지1;
+import static com.bside.breadgood.fixtures.user.UserFixture.테스트유저;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
