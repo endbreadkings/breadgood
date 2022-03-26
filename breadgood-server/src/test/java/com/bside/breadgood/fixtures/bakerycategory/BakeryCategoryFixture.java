@@ -1,4 +1,4 @@
-package com.bside.breadgood.ddd.bakerycategory.application;
+package com.bside.breadgood.fixtures.bakerycategory;
 
 import com.bside.breadgood.ddd.bakerycategory.domain.BakeryCategory;
 

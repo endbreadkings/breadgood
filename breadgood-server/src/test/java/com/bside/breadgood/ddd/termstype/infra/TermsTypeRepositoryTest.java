@@ -1,15 +1,14 @@
-package com.bside.breadgood.ddd.termstype.fixtures.infra;
+package com.bside.breadgood.ddd.termstype.infra;
 
 import com.bside.breadgood.ddd.termstype.domain.TermsType;
-import com.bside.breadgood.ddd.termstype.fixtures.TermsTypeFixtures;
-import com.bside.breadgood.ddd.termstype.infra.TermsTypeRepository;
+import com.bside.breadgood.fixtures.termstype.TermsTypeFixtures;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import static com.bside.breadgood.ddd.termstype.fixtures.TermsTypeFixtures.*;
+import static com.bside.breadgood.fixtures.termstype.TermsTypeFixtures.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**

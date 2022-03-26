@@ -1,4 +1,4 @@
-package com.bside.breadgood.ddd.termstype.fixtures;
+package com.bside.breadgood.fixtures.termstype;
 
 import com.bside.breadgood.ddd.termstype.domain.Terms;
 import com.bside.breadgood.ddd.termstype.domain.TermsType;

@@ -1,4 +1,4 @@
-package com.bside.breadgood.ddd.emoji.fixtures;
+package com.bside.breadgood.fixtures.emoji;
 
 import com.bside.breadgood.ddd.emoji.domain.Emoji;
 

@@ -11,7 +11,6 @@ import com.bside.breadgood.ddd.bakery.domain.Point;
 import com.bside.breadgood.ddd.bakery.infra.BakeryRepository;
 import com.bside.breadgood.ddd.bakerycategory.application.BakeryCategoryService;
 import com.bside.breadgood.ddd.bakerycategory.application.dto.BakeryCategoryResponseDto;
-import com.bside.breadgood.ddd.bakerycategory.domain.BakeryCategory;
 import com.bside.breadgood.ddd.breadstyles.application.BreadStyleService;
 import com.bside.breadgood.ddd.breadstyles.domain.BreadStyle;
 import com.bside.breadgood.ddd.breadstyles.ui.dto.BreadStyleResponseDto;
@@ -38,13 +37,13 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.*;
 
 import static com.bside.breadgood.ddd.bakery.application.dto.BakerySaveRequestDto.builder;
-import static com.bside.breadgood.ddd.bakery.bakerycategory.fixtures.BakeryCategoryFixtures.카테고리1;
-import static com.bside.breadgood.ddd.bakery.bakerycategory.fixtures.BakeryCategoryFixtures.카테고리2;
-import static com.bside.breadgood.ddd.bakery.fixtures.BakeryFixtures.빵집1;
-import static com.bside.breadgood.ddd.bakery.fixtures.BakeryFixtures.빵집등록요청;
-import static com.bside.breadgood.ddd.breadstyles.fixtures.BreadStyleFixtures.빵스타일1;
-import static com.bside.breadgood.ddd.emoji.fixtures.EmojiFixtures.이모지1;
-import static com.bside.breadgood.ddd.users.fixtures.UserFixtures.테스트유저;
+import static com.bside.breadgood.fixtures.bakery.BakeryFixtures.빵집1;
+import static com.bside.breadgood.fixtures.bakery.BakeryFixtures.빵집등록요청;
+import static com.bside.breadgood.fixtures.bakerycategory.BakeryCategoryFixture.빵에집중;
+import static com.bside.breadgood.fixtures.bakerycategory.BakeryCategoryFixture.음료와빵;
+import static com.bside.breadgood.fixtures.breadstyle.BreadStyleFixture.달콤;
+import static com.bside.breadgood.fixtures.emoji.EmojiFixtures.이모지1;
+import static com.bside.breadgood.fixtures.user.UserFixtures.테스트유저;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -205,8 +204,6 @@ class BakeryServiceTest {
     }
 
     private void setSearchMockReturns() {
-        BakeryCategory category1 = 카테고리1;
-        BakeryCategory category2 = 카테고리2;
         UserInfoResponseDto userInfoResponseDto = UserInfoResponseDto.builder()
                 .nickName("테스트유저")
                 .userId(1L)
@@ -221,9 +218,9 @@ class BakeryServiceTest {
         when(userService.findUserInfoById(1L))
                 .thenReturn(userInfoResponseDto);
         when(bakeryCategoryService.findById(1L))
-                .thenReturn(new BakeryCategoryResponseDto(category1));
+                .thenReturn(new BakeryCategoryResponseDto(빵에집중));
         when(bakeryCategoryService.findById(2L))
-                .thenReturn(new BakeryCategoryResponseDto(category2));
+                .thenReturn(new BakeryCategoryResponseDto(음료와빵));
         when(bakeryRepository.findAllOrderByIdDesc())
                 .thenReturn(bakeries);
     }
@@ -242,9 +239,9 @@ class BakeryServiceTest {
         // when
         when(s3Service.upload((MultipartFile[]) any(), anyString())).thenReturn(new S3UploadResponseDto("", Lists.newArrayList()));
         when(userService.findById(any())).thenReturn(new UserResponseDto(테스트유저));
-        when(bakeryCategoryService.findById(any())).thenReturn(new BakeryCategoryResponseDto(카테고리2));
+        when(bakeryCategoryService.findById(any())).thenReturn(new BakeryCategoryResponseDto(빵에집중));
         when(emojiService.findById(any())).thenReturn(new EmojiResponseDto(이모지1));
-        when(breadStyleService.findById(any())).thenReturn(new BreadStyleResponseDto(빵스타일1));
+        when(breadStyleService.findById(any())).thenReturn(new BreadStyleResponseDto(달콤));
         when(bakeryRepository.save(any())).thenReturn(빵집1);
 
         //then

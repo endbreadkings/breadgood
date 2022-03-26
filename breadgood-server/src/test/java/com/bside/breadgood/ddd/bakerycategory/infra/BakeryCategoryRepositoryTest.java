@@ -9,8 +9,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
 
-import static com.bside.breadgood.ddd.bakerycategory.application.BakeryCategoryFixture.빵에집중;
-import static com.bside.breadgood.ddd.bakerycategory.application.BakeryCategoryFixture.음료와빵;
+import static com.bside.breadgood.fixtures.bakerycategory.BakeryCategoryFixture.빵에집중;
+import static com.bside.breadgood.fixtures.bakerycategory.BakeryCategoryFixture.음료와빵;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("빵집 카테고리 저장소 테스트")

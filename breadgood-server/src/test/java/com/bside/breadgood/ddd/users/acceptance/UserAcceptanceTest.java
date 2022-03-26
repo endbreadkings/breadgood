@@ -23,9 +23,9 @@ import org.springframework.http.MediaType;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-import static com.bside.breadgood.ddd.breadstyles.fixtures.BreadStyleFixture.달콤;
-import static com.bside.breadgood.ddd.termstype.fixtures.TermsTypeFixtures.집행중인약관1;
-import static com.bside.breadgood.ddd.users.fixtures.UserFixtures.사용자_등록_요청;
+import static com.bside.breadgood.fixtures.breadstyle.BreadStyleFixture.달콤;
+import static com.bside.breadgood.fixtures.termstype.TermsTypeFixtures.집행중인약관1;
+import static com.bside.breadgood.fixtures.user.UserFixtures.사용자_등록_요청;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
