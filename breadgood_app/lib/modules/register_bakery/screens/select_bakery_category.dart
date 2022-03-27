@@ -1,5 +1,5 @@
 import 'package:breadgood_app/modules/register_bakery/screens/search_bakery.dart';
-import 'package:breadgood_app/modules/register_review/register_review.dart';
+import 'package:breadgood_app/modules/register_review/screens/register_review.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:breadgood_app/utils/ui/main_app_bar.dart';
@@ -89,7 +89,7 @@ class _SelectBakeryCategoryPageState extends State<SelectBakeryCategoryPage> {
                             fontWeight: FontWeight.w600,
                           )),
                       onPressed: () {
-                        Get.to(RegisterReviewPage());
+                        Get.to(RegisterReviewPage(), arguments: -1);
                       },
                     ),
                   ),
