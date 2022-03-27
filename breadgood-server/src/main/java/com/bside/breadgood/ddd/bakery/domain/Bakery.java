@@ -32,10 +32,10 @@ public class Bakery extends BaseEntity {
 
     private Long user;
 
-    @Enumerated
+    @Embedded
     private Address address;
 
-    @Enumerated
+    @Embedded
     private Point point;
 
     private Long bakeryCategory;

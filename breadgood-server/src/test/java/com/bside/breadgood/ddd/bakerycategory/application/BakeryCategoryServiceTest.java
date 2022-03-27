@@ -11,8 +11,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
-import static com.bside.breadgood.ddd.bakerycategory.application.BakeryCategoryFixture.빵에집중;
-import static com.bside.breadgood.ddd.bakerycategory.application.BakeryCategoryFixture.음료와빵;
+import static com.bside.breadgood.fixtures.bakerycategory.BakeryCategoryFixture.빵에집중;
+import static com.bside.breadgood.fixtures.bakerycategory.BakeryCategoryFixture.음료와빵;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
