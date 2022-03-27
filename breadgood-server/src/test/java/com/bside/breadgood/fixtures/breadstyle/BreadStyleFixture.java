@@ -1,4 +1,4 @@
-package com.bside.breadgood.ddd.breadstyles.fixtures;
+package com.bside.breadgood.fixtures.breadstyle;
 
 import com.bside.breadgood.ddd.breadstyles.domain.BreadStyle;
 

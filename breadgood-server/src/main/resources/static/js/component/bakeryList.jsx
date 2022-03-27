@@ -63,6 +63,10 @@ const BakeryList = () => {
     try {
       setIsLoading(true);
       const { data } = await axios.post('/pages/webview-api/bakery/search', params);
+      data.forEach((bakery) => {
+        bakery.content = bakery.content.length > 23 ? bakery.content.substr(0, 23).concat('...') : bakery.content;
+        bakery.signatureMenus = bakery.signatureMenus.map((menu) => menu.length > 10 ? menu.substr(0, 10).concat('...') : menu);
+      })
       setBakeries(data);
     } catch (e) {
       console.error(e);
@@ -211,23 +215,27 @@ const BakeryList = () => {
                       <div
                         key={`menu${idx}`}
                         className={`signature-item ${bakery.categoryTitle === '음료&빵' ? 'blue' : 'yellow'}`}>
-                        <span className="sg-item-hashtag">#</span>{menu}
+                        <span>
+                          <span className="sg-item-hashtag">#</span>{menu}
+                        </span>
                       </div>
                     )
                   })}
                 </div>
                 <div className="bl-li-review">
                   {bakery.content ? (
-                    <React.Fragment>
+                    <div className="review-item">
                       <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M8.47746 9.81527H3.66412" stroke="#C0C0C0" strokeLinecap="round" strokeLinejoin="round"/>
                         <path d="M8.47746 7.02425H3.66412" stroke="#C0C0C0" strokeLinecap="round" strokeLinejoin="round"/>
                         <path d="M5.50087 4.24007H3.6642" stroke="#C0C0C0" strokeLinecap="round" strokeLinejoin="round"/>
                         <path fillRule="evenodd" clipRule="evenodd" d="M8.60573 0.833008C8.60573 0.833008 3.48773 0.835674 3.47973 0.835674C1.63973 0.847008 0.500397 2.05767 0.500397 3.90434V10.035C0.500397 11.891 1.6484 13.1063 3.5044 13.1063C3.5044 13.1063 8.62173 13.1043 8.6304 13.1043C10.4704 13.093 11.6104 11.8817 11.6104 10.035V3.90434C11.6104 2.04834 10.4617 0.833008 8.60573 0.833008Z" stroke="#C0C0C0" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>
-                      {bakery.content}
-                    </React.Fragment>
-                  ) : '리뷰를 등록해주세요'}
+                      <span>{bakery.content}</span>
+                    </div>
+                  ) : (
+                    <div className="review-item">리뷰를 등록해주세요</div>
+                  )}
                 </div>
               </div>
             </div>

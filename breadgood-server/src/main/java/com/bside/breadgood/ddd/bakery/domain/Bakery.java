@@ -32,10 +32,10 @@ public class Bakery extends BaseEntity {
 
     private Long user;
 
-    @Enumerated
+    @Embedded
     private Address address;
 
-    @Enumerated
+    @Embedded
     private Point point;
 
     private Long bakeryCategory;
@@ -117,7 +117,7 @@ public class Bakery extends BaseEntity {
         if (signatureMenus != null) {
             for (String signatureMenu : signatureMenus) {
                 if (signatureMenu.length() > 15) {
-                    throw new WrongValueException("시그니처 메뉴 값은 최대 3개 까지 가능합니다.");
+                    throw new WrongValueException("시그니처 메뉴의 글자 수는 최대 15자 까지 가능합니다.");
                 }
             }
         }

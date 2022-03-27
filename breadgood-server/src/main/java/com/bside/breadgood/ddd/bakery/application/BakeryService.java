@@ -1,12 +1,6 @@
 package com.bside.breadgood.ddd.bakery.application;
 
-import com.bside.breadgood.ddd.bakery.application.dto.BakeryResponseDto;
-import com.bside.breadgood.ddd.bakery.application.dto.BakeryReviewRequestDto;
-import com.bside.breadgood.ddd.bakery.application.dto.BakeryReviewResponseDto;
-import com.bside.breadgood.ddd.bakery.application.dto.BakerySaveRequestDto;
-import com.bside.breadgood.ddd.bakery.application.dto.BakerySearchRequestDto;
-import com.bside.breadgood.ddd.bakery.application.dto.BakerySearchResponseDto;
-import com.bside.breadgood.ddd.bakery.application.dto.CheckDuplicateBakeryResponseDto;
+import com.bside.breadgood.ddd.bakery.application.dto.*;
 import com.bside.breadgood.ddd.bakery.application.exception.BakeryNotFoundException;
 import com.bside.breadgood.ddd.bakery.application.exception.DuplicateBakeryException;
 import com.bside.breadgood.ddd.bakery.application.exception.IllegalCityException;
@@ -31,13 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -53,7 +41,6 @@ public class BakeryService {
     private final EmojiService emojiService;
     private final BreadStyleService breadStyleService;
 
-//    private final BakeryRepositorySupport bakeryRepositorySupport;
 
     /**
      * - 서울특별시 만 가능
@@ -91,7 +78,9 @@ public class BakeryService {
     }
 
     private void validateSave(BakerySaveRequestDto dto, MultipartFile[] files) {
-        if (StringUtils.isEmpty(dto.getCity()) || !dto.getCity().equals(SEOUL_CITY_WORD) || !dto.getCity().contains(SEOUL_WORD)) {
+
+        // 서울
+            if (StringUtils.isEmpty(dto.getCity()) || !dto.getCity().equals(SEOUL_CITY_WORD)) {
             throw new IllegalCityException(dto.getCity());
         }
         if (checkDuplicatedRoadAddress(dto.getRoadAddress())) {
@@ -461,6 +450,41 @@ public class BakeryService {
             bakery.addBakeryReview(userService.findById(3L), "슈크림 존맛이에요 진짜루...",
                     emojiService.findById(1L), filePaths, Arrays.asList("슈크림", "공주밤 파이"),
                     fileHost, breadStyleResponseDto);
+            bakeries.add(bakery);
+        }
+
+        {
+            String city = "서울특별시";
+            String content = "정숙한 맛의 녹차마들렌.. 상큼한 맛의 레몬마들렌 최고입니다!!!!";
+            String description = "";
+            String district = "강남구";
+            double mapX = 37.521363;
+            double mapY = 127.022159;
+            String roadAddress = "서울 강남구 압구정로10길 35";
+            List<String> signatureMenus = Arrays.asList("녹차마들렌인데 줄임표 테스트", "레몬마들렌인데 줄임표 테스트");
+            String title = "에뚜왈";
+
+            final Bakery bakery = Bakery.builder()
+                .bakeryCategory(bakeryCategoryResponseDto2)
+                .city(city)
+                .content(content)
+                .description(description)
+                .district(district)
+                .emoji(emojiResponseDto)
+                .imgHost(fileHost)
+                .imgUrls(filePaths)
+                .mapX(mapX)
+                .mapY(mapY)
+                .roadAddress(roadAddress)
+                .signatureMenus(signatureMenus)
+                .title(title)
+                .user(userService.findById(5L))
+                .breadStyle(breadStyleResponseDto)
+                .build();
+
+            bakery.addBakeryReview(userService.findById(3L), "그냥 모든 마들렌이 존맛탱입니다.\n그런데 줄바꿈은 어떻게 뜨나요? 내부에 좌석은 없어서 테이크 아웃만 가능합니다!",
+                emojiService.findById(1L), filePaths, Arrays.asList("녹차마들렌인데 줄임표 테스트", "레몬마들렌인데 줄임표 테스트"),
+                fileHost, breadStyleResponseDto);
             bakeries.add(bakery);
         }
 
