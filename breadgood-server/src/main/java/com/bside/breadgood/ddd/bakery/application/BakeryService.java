@@ -464,6 +464,41 @@ public class BakeryService {
             bakeries.add(bakery);
         }
 
+        {
+            String city = "서울특별시";
+            String content = "정숙한 맛의 녹차마들렌.. 상큼한 맛의 레몬마들렌 최고입니다!!!!";
+            String description = "";
+            String district = "강남구";
+            double mapX = 37.521363;
+            double mapY = 127.022159;
+            String roadAddress = "서울 강남구 압구정로10길 35";
+            List<String> signatureMenus = Arrays.asList("녹차마들렌인데 줄임표 테스트", "레몬마들렌인데 줄임표 테스트");
+            String title = "에뚜왈";
+
+            final Bakery bakery = Bakery.builder()
+                .bakeryCategory(bakeryCategoryResponseDto2)
+                .city(city)
+                .content(content)
+                .description(description)
+                .district(district)
+                .emoji(emojiResponseDto)
+                .imgHost(fileHost)
+                .imgUrls(filePaths)
+                .mapX(mapX)
+                .mapY(mapY)
+                .roadAddress(roadAddress)
+                .signatureMenus(signatureMenus)
+                .title(title)
+                .user(userService.findById(5L))
+                .breadStyle(breadStyleResponseDto)
+                .build();
+
+            bakery.addBakeryReview(userService.findById(3L), "그냥 모든 마들렌이 존맛탱입니다.\n그런데 줄바꿈은 어떻게 뜨나요? 내부에 좌석은 없어서 테이크 아웃만 가능합니다!",
+                emojiService.findById(1L), filePaths, Arrays.asList("녹차마들렌인데 줄임표 테스트", "레몬마들렌인데 줄임표 테스트"),
+                fileHost, breadStyleResponseDto);
+            bakeries.add(bakery);
+        }
+
         bakeryRepository.saveAll(bakeries);
     }
 }

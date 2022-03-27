@@ -170,15 +170,17 @@
 
 .bl-li-signature {
   display: flex;
-  margin-bottom: 6px;
+  flex-wrap: wrap;
   color: #666677;
-  font-size: 14px;
 }
 
 .signature-item {
   border-radius: 4px;
-  padding: 3px 4px;
+  height: 20px;
+  padding: 0 4px;
   margin-right: 4px;
+  margin-bottom: 6px;
+  font-size: 14px;
 }
 
 .signature-item.blue {
@@ -193,15 +195,20 @@
   background-color: #FFF5E3;
 }
 
+.signature-item > span {
+  display: flex;
+  margin-top: 2px;
+}
+
 .sg-item-hashtag {
   margin-right: 2px;
 }
 
-.blue > .sg-item-hashtag {
+.blue .sg-item-hashtag {
   color: #BFCDF0;
 }
 
-.yellow > .sg-item-hashtag {
+.yellow .sg-item-hashtag {
   color: #FFCA72;
 }
 
@@ -210,13 +217,19 @@
   width: fit-content;
   background-color: #F6F6F6;
   border-radius: 4px;
-  padding: 2px 4px;
+  padding: 0 4px;
   color: #666677;
+  height: 20px;
+}
+
+.review-item span{
   font-size: 14px;
 }
 
 .bl-li-review svg {
+  margin-top: 1px;
   margin-right: 2px;
+  transform: translate(0, 2px);
 }
 
 .modal-wrapper {
