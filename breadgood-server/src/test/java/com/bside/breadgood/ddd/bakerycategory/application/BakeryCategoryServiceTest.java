@@ -1,59 +1,49 @@
 package com.bside.breadgood.ddd.bakerycategory.application;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
-
-import com.bside.breadgood.common.vo.ImageUrl;
 import com.bside.breadgood.ddd.bakerycategory.application.dto.BakeryCategoryResponseDto;
-import com.bside.breadgood.ddd.bakerycategory.domain.BakeryCategory;
 import com.bside.breadgood.ddd.bakerycategory.infra.BakeryCategoryRepository;
-import java.util.List;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
+
+import static com.bside.breadgood.ddd.bakerycategory.application.BakeryCategoryFixture.빵에집중;
+import static com.bside.breadgood.ddd.bakerycategory.application.BakeryCategoryFixture.음료와빵;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.BDDMockito.given;
+
+@DisplayName("빵집 카테고리 서비스 테스트")
+@ExtendWith(MockitoExtension.class)
 class BakeryCategoryServiceTest {
 
+  @InjectMocks
   BakeryCategoryService bakeryCategoryService;
 
+  @Mock
   BakeryCategoryRepository bakeryCategoryRepository;
 
-  @BeforeEach
-  void setUp() {
-    bakeryCategoryRepository = Mockito.mock(BakeryCategoryRepository.class);
-    bakeryCategoryService = new BakeryCategoryService(bakeryCategoryRepository);
-  }
 
+  @DisplayName("카테고리 전체조회")
   @Test
-  void 카테고리_전체조회() {
-    // when
-    List<BakeryCategory> categories = getDummyCategoryList();
-    when(bakeryCategoryRepository.findAllOrderById()).thenReturn(categories);
+  void findAll() {
+    // given
+    given(bakeryCategoryRepository.findAllOrderBySortNumberAsc()).willReturn(List.of(음료와빵, 빵에집중));
 
-    List<BakeryCategoryResponseDto> responseDtos = bakeryCategoryService.findAll();
+    // when
+    List<BakeryCategoryResponseDto> actual = bakeryCategoryService.findAll();
 
     // then
-    assertEquals(2, responseDtos.size());
-  }
+    assertAll(
+            () -> assertEquals(2, actual.size()),
+            () -> assertThat(actual.get(0).getSortNumber()).isLessThan(actual.get(1).getSortNumber())
+                    .as("빵집 카테고리를 조회하면 정렬번호 (sortNumber) 가 낮은 순으로 조회된다.")
+    );
 
-  private List<BakeryCategory> getDummyCategoryList() {
-    BakeryCategory category1 = new BakeryCategory(1L,
-        "카테고리1",
-        "카테고리1 설명입니다.",
-        ImageUrl.from("https://test.breadgood.com/path1/img.png"),
-        ImageUrl.from("https://test.breadgood.com/path1/img.png"),
-        "#FFFFFF",
-        ImageUrl.from("https://test.breadgood.com/path1/img.png"),
-        1);
-    BakeryCategory category2 = new BakeryCategory(2L,
-        "카테고리2",
-        "카테고리2 설명입니다.",
-        ImageUrl.from("https://test.breadgood.com/path1/img.png"),
-        ImageUrl.from("https://test.breadgood.com/path1/img.png"),
-        "#000000",
-        ImageUrl.from("https://test.breadgood.com/path1/img.png"),
-        2);
-
-    return List.of(category1, category2);
   }
 }

@@ -351,7 +351,8 @@ showAlertDialog(BuildContext context) {
   for (var item in split_text) print(item);
   // set up the AlertDialog
   AlertDialog alert = AlertDialog(
-    // contentPadding: EdgeInsets.fromLTRB(39.0, 24.0, 0, 0.0),
+    shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10.0))),
     titlePadding: EdgeInsets.fromLTRB(30.0, 24.0, 24.0, 0),
     contentPadding: EdgeInsets.fromLTRB(30.0, 16.0, 30.0, 0.0),
     title: Row(
@@ -359,7 +360,6 @@ showAlertDialog(BuildContext context) {
       children: [
         Padding(
           padding: EdgeInsets.fromLTRB(0, 6.0, 0, 0),
-          // EdgeInsets.fromLTRB(39.0, 30.0, 0, 0),
           child: Text(
             "회원탈퇴",
             style: TextStyle(
@@ -395,15 +395,15 @@ showAlertDialog(BuildContext context) {
                 Text('2. ', style: TextStyle(fontSize: 12)),
                 Expanded(
                     child: Text(
-                        '회원 탈퇴 시 등록한 리뷰 정보는 자동 삭제되지 않으며 탈퇴한 회원의 닉네임은 랜덤 값으로 표기됩니다.\n리뷰 삭제를 원하시는 경우 반드시 탈퇴 전 삭제하시기 바랍니다.\n탈퇴 후에는 리뷰를 임의로 삭제해드릴 수 없습니다.\n',
+                        '회원 탈퇴 시 등록한 리뷰 정보는 자동 삭제되지 않으며 탈퇴한 회원의 닉네임은 랜덤 값으로 표기됩니다.',
                         style: TextStyle(fontSize: 12)))
               ], crossAxisAlignment: CrossAxisAlignment.start),
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 16.0, 0, 19.0),
+                padding: EdgeInsets.fromLTRB(0, 21.0, 0, 21.0),
                 child: Divider(
                   thickness: 1.0,
                   color: Color(0xFFEAEAEA),
-                  endIndent: 21.0,
+                  // endIndent: 21.0,
                 ),
               ),
               CheckAgreement(),
@@ -500,7 +500,7 @@ class _CheckAgreementState extends State<CheckAgreement> {
           ],
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(0, 32.0, 0.0, 30.0),
+          padding: EdgeInsets.fromLTRB(0, 23.0, 0.0, 31.0),
           child: IntrinsicHeight(
             // Container(
             //   width: double.maxFinite,

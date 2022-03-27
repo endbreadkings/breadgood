@@ -156,6 +156,8 @@ div#bakery-contents.loaded {
 
 .review-items {
     margin-top: 14px;
+    position: relative;
+    overflow: visible;
 }
 
 .review-item {
@@ -165,6 +167,8 @@ div#bakery-contents.loaded {
     border-radius: 16px;
     padding: 20px;
     filter: drop-shadow(4px 4px 10px rgba(28, 47, 133, 0.09));
+    z-index: 33;
+    position: relative;
 }
 
 .ri-header {
@@ -303,8 +307,12 @@ span.emoji-txt img {
 }
 
 .ri-image-item img {
-    width: 100%;
+    width: auto;
     height: 100%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .ri-images {
@@ -323,7 +331,9 @@ span.emoji-txt img {
     background: rgb(0 0 0 / 50%);
     display: flex;
     justify-content: center;
+    z-index: 1;
     align-items: center;
+    border-radius: 0 0 8px 0;
 }
 
 .ri-item-overlay span {
@@ -468,6 +478,7 @@ span.emoji-txt img {
     width: 100%;
     height: 146px;
     margin-right: 0;
+    background-color: #eee;
 }
 
 .ri-images.layout2 > div {
@@ -484,10 +495,82 @@ span.emoji-txt img {
     display: none;
 }
 
-rect {}
-
 .ri-image-item svg {
     position: absolute;
     right: 10px;
     bottom: 10px;
+    z-index: 1;
 }
+
+
+/*
+크롭
+
+세로가 더 넓은 영역인 경우
+1. 가로가 긴 사진이 왔을 경우: 좌우를 자름, height 100%, wight auto
+2. 세로가 긴 사진이 왔을 경우: 상하를 자름, height auto, width 100%
+
+정사각형 이거나 가로가 더 넓은 영역인 경우
+1. 가로가 긴 사진이 왔을 경우: 상하를 자름, height auto, wight 100%
+2. 세로가 긴 사진이 왔을 경우: 상하를 자름, height auto, width 100%
+
+*/
+
+.ri-images.layout3 > div:first-child img.verticallyShape {
+    width: auto;
+    height: 100%;
+}
+
+.ri-images.layout3 > div:first-child img.horizontallyShape {
+    width: 100%;
+    height: auto;
+}
+
+.ri-images.layout3 > div:not(:first-child) img.verticallyShape {
+    height: auto;
+    width: 100%;
+}
+
+.ri-images.layout3 > div:not(:first-child) img.horizontallyShape {
+    width: 100%;
+    height: auto;
+}
+
+.ri-images.layout2 > div img.verticallyShape {
+    width: auto;
+    height: 100%;
+}
+
+.ri-images.layout2 > div img.horizontallyShape {
+    width: 100%;
+    height: auto;
+}
+
+.ri-images > div img.verticallyShape {
+    height: auto;
+    width: 100%;
+}
+
+.ri-images > div img.horizontallyShape {
+    height: auto;
+    width: 100%;
+}
+
+
+.image-loading {
+    width: 100%;
+    height: 100%;
+    background-color: #e0e0e0;
+    animation: image-loading-key-frames 1s ease infinite alternate;
+}
+
+@keyframes image-loading-key-frames {
+    0% {
+        background-color: #999999;
+    }
+
+    100% {
+        background-color: #e3e3e3;
+    }
+}
+

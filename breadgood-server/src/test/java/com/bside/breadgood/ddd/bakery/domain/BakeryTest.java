@@ -13,6 +13,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -21,6 +22,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@ActiveProfiles("test")
 @DisplayName("빵집 엔티티 생성 테스트")
 class BakeryTest {
 
@@ -41,7 +43,7 @@ class BakeryTest {
 
         final long emojiId = 1L;
         final long bakeryStyleId = 1L;
-        final long userId = 3L;
+        final long userId = 1L;
         final long bakeryCategoryId = 2L;
 
         final String fileHost = "https://d74hbwjus7qtu.cloudfront.net/";

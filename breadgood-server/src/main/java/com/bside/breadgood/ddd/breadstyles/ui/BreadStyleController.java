@@ -5,9 +5,11 @@ import com.bside.breadgood.apifirstdesign.models.InternalServerError;
 import com.bside.breadgood.common.exception.ExceptionResponse;
 import com.bside.breadgood.ddd.breadstyles.application.BreadStyleService;
 import com.bside.breadgood.ddd.breadstyles.ui.dto.BreadStyleResponseDto;
-import com.bside.breadgood.ddd.termstype.ui.dto.ActiveTermsResponseDto;
-import com.bside.breadgood.jwt.ui.dto.TokenRefreshResponse;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,4 +38,5 @@ public class BreadStyleController {
     public List<BreadStyleResponseDto> findAll() {
         return breadStyleService.findAll();
     }
+
 }

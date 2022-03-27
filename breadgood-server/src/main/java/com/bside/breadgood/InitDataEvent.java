@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Controller;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
@@ -20,6 +21,7 @@ import java.time.LocalDateTime;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
+@ActiveProfiles("!test")
 public class InitDataEvent {
 
     private final TermsTypeService termsTypeService;

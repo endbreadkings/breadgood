@@ -37,4 +37,10 @@ public class BreadStyleService {
                 .orElseThrow(() -> new BreadStyleNotFoundException("id", Long.toString(breadStyleId)));
         return new BreadStyleResponseDto(breadStyle);
     }
+
+    @Transactional
+    public BreadStyleResponseDto save(BreadStyle breadStyle) {
+        final BreadStyle savedBreadStyle = breadStyleRepository.save(breadStyle);
+        return new BreadStyleResponseDto(savedBreadStyle);
+    }
 }

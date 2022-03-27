@@ -15,8 +15,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static com.bside.breadgood.ddd.breadstyles.application.BreadStyleFixture.담백;
-import static com.bside.breadgood.ddd.breadstyles.application.BreadStyleFixture.짭짤;
+import static com.bside.breadgood.ddd.breadstyles.fixtures.BreadStyleFixture.담백;
+import static com.bside.breadgood.ddd.breadstyles.fixtures.BreadStyleFixture.짭짤;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyLong;
