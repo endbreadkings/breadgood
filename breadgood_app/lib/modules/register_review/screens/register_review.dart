@@ -92,13 +92,17 @@ Future<http.Response> postNewBakery(BakeryMapData newBakery) async {
   request.fields['mapY'] = newBakery.mapY.toString();
   request.fields['roadAddress'] = newBakery.roadAddress;
   request.fields['title'] = newBakery.title;
-  request.fields['signatureMenus'] = newBakery.signatureMenus;
+
+  if (newBakery.signatureMenus != null) {
+    for (String item in newBakery.signatureMenus) {
+      request.files.add(http.MultipartFile.fromString('signatureMenus', item));
+    }
+  }
 
   var response = await request.send();
   if (response.statusCode != 200) {
     /* TBD: error should be handled */
   }
-  http.Response responseStream = await http.Response.fromStream(response);
 }
 
 Future<http.Response> postReview(ReviewData newReview) async {
@@ -482,16 +486,12 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
                       controller.selectedBakery.roadAddress;
                   bakeryToRegister.content = reviewTextController.text;
                   for (int i = 0; i < 3; i++) {
-                    print('${i}: ${signatureMenuTextControllers[i].text}');
+                    if (signatureMenuTextControllers[i].text.isNotEmpty)
+                      signatureMenuList.add(signatureMenuTextControllers[i]
+                          .text
+                          .replaceAll("#", ""));
                   }
-                  bakeryToRegister.signatureMenus =
-                      signatureMenuTextControllers[0].text.replaceAll("#", "");
-                  bakeryToRegister.signatureMenus += ',';
-                  bakeryToRegister.signatureMenus +=
-                      signatureMenuTextControllers[1].text.replaceAll("#", "");
-                  bakeryToRegister.signatureMenus += ',';
-                  bakeryToRegister.signatureMenus +=
-                      signatureMenuTextControllers[2].text.replaceAll("#", "");
+                  bakeryToRegister.signatureMenus = signatureMenuList;
                   bakeryToRegister.emojiId = controller.selected_emoji_id;
                   bakeryToRegister.title = controller.selectedBakery.title;
                   bakeryToRegister.city =
