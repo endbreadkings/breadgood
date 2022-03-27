@@ -5,6 +5,7 @@ import 'package:breadgood_app/modules/main/screens/bakery_list_webview.dart';
 import 'package:breadgood_app/modules/main/screens/bread_store_deatil_webview.dart';
 import 'package:breadgood_app/modules/main/screens/main_list.dart';
 import 'package:breadgood_app/modules/main/screens/main_map.dart';
+import 'package:breadgood_app/modules/register_bakery/screens/celebrate_register.dart';
 import 'package:breadgood_app/modules/signup/controller/signup_controller.dart';
 import 'package:breadgood_app/modules/signup/screens/bread_style.dart';
 import 'package:breadgood_app/modules/signup/screens/nick_name.dart';
@@ -17,8 +18,10 @@ import 'package:breadgood_app/modules/signup/screens/policy.dart';
 import 'package:breadgood_app/modules/signup/screens/terms_webview.dart';
 import 'package:get/get.dart';
 import 'package:breadgood_app/modules/register_bakery/naver_search.dart';
+import 'package:breadgood_app/modules/register_bakery/screens/already_registered_bakery.dart';
 import 'package:breadgood_app/modules/register_bakery/screens/search_bakery.dart';
-import 'package:breadgood_app/modules/register_review/register_review.dart';
+import 'package:breadgood_app/modules/register_bakery/screens/select_bakery_category.dart';
+import 'package:breadgood_app/modules/register_review/screens/register_review.dart';
 import 'package:breadgood_app/modules/further_info/further_info.dart';
 
 // 아래와 같은 양식으로 라우트 설정
@@ -66,6 +69,12 @@ final Routes = [
     name: '/further_info/further_info',
     page: () => FurtherInfo()),
   GetPage(
-    name: '/five/:param',
-  ),
+    name: '/register_bakery/select_bakery_category',
+    page: () => SelectBakeryCategoryPage()),
+  GetPage(
+    name: '/register_bakery/celebrate_register_page',
+    page: () => CelebrateRegisterPage()),
+  GetPage(
+      name: '/register_bakery/already_registered_bakery',
+      page: () => AlreadyRegisteredBakeryPage()),
 ];
