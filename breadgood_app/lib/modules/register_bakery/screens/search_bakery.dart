@@ -141,9 +141,7 @@ class _SearchBakeryPageState extends State<SearchBakeryPage> {
                 ? GetNoResult()
                 : Padding(
                     padding: EdgeInsets.fromLTRB(20, 40, 20, 0),
-                    child: (FsearchedBakeries == null)
-                        ? GetNoResult()
-                        : buildFutureSearchedBakeriesBuilder(),
+                    child: buildFutureSearchedBakeriesBuilder(),
                   ),
           ],
         ),
@@ -343,9 +341,10 @@ class _BakeryCardState extends State<BakeryCard> {
                                 controller.UpdateBakery(widget.selectedBakery);
                                 var checkDuplicate = await checkRegisteredBakery(
                                     widget.selectedBakery.roadAddress);
-                                (checkDuplicate.idDuplicate == true)
-                                    ? Get.to(AlreadyRegisteredBakeryPage(), arguments: checkDuplicate.nickName)
-                                    : Get.to(SelectBakeryCategoryPage(), arguments: widget.selectedBakery);
+                                if (checkDuplicate.idDuplicate) {
+                                  Get.to(AlreadyRegisteredBakeryPage(), arguments: checkDuplicate.nickName);
+                                }
+                                Get.to(SelectBakeryCategoryPage(), arguments: widget.selectedBakery);
                               }),
                 ))
           ]));
