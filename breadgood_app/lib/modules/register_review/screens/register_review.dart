@@ -484,7 +484,7 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
                                 bakeryToRegister.signatureMenus += signatureMenuTextControllers[2].text.replaceAll("#", "");
                                 bakeryToRegister.emojiId = controller.selected_emoji_id;
                                 bakeryToRegister.title = controller.selectedBakery.title;
-                                bakeryToRegister.city = controller.selectedBakery.roadAddress.split(" ")[0];                                print('city: ${bakeryToRegister.city}');
+                                bakeryToRegister.city = controller.selectedBakery.roadAddress.split(" ")[0];
                                 bakeryToRegister.description = controller.selectedBakery.description;
                                 bakeryToRegister.district = controller.selectedBakery.roadAddress.split(" ")[1];
                                 bakeryToRegister.mapX = controller.selectedBakery.mapx;
