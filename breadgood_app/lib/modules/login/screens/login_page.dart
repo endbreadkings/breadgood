@@ -43,13 +43,7 @@ class _LoginState extends State<LoginPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          Container(
-            child: Column(
-              children: [
-                Image.asset("asset/images/onboard/login_onboard.png"),
-              ],
-            ),
-          ),
+          Image.asset("asset/images/onboard/login_onboard.png"),
           Container(
               child: Column(
             children: [
