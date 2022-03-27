@@ -32,9 +32,9 @@ import 'package:breadgood_app/modules/register_bakery/model/bakery_data.dart';
 import 'package:breadgood_app/modules/register_review/model/review_data.dart';
 
 Future<List<Emoji>> fetchEmoji() async {
-  final response = await http
-      .get(Uri.parse('${api_path.restApiUrl}/emoji/list'),
-      headers: await rest_api.headers(),
+  final response = await http.get(
+    Uri.parse('${api_path.restApiUrl}/emoji/list'),
+    headers: await rest_api.headers(),
   );
   final responseJson = jsonDecode(utf8.decode(response.bodyBytes));
   return responseJson.map<Emoji>((json) => Emoji.fromJson(json)).toList();
@@ -63,42 +63,14 @@ class Emoji {
   }
 }
 
-Future<http.Response> uploadReviewImages(List<File> fileList) async {
-  var uri = Uri.parse('${api_path.restApiUrl}/s3/test/upload');
-  var request = http.MultipartRequest('POST', uri);
-  request.headers.addAll(
-    await rest_api.headers()
-  );
-
-  await Future.forEach(
-    fileList,
-    (file) async => {
-      request.files.add(
-        http.MultipartFile(
-          'image',
-          (http.ByteStream(file.openRead())).cast(),
-          await file.length(),
-          filename: file.path.split('/').last,
-        ),
-      )
-    },
-  );
-  var response = await request.send();
-  if (response.statusCode != 200) {
-    /* TBD: error action should be defined */
-  }
-}
-
 Future<http.Response> postNewBakery(BakeryMapData newBakery) async {
   var uri = Uri.parse('${api_path.restApiUrl}/bakery');
   var request = http.MultipartRequest('POST', uri);
-  request.headers.addAll(
-    await rest_api.headers()
-  );
+  request.headers.addAll(await rest_api.headers());
 
   await Future.forEach(
     newBakery.files,
-        (file) async => {
+    (file) async => {
       request.files.add(
         http.MultipartFile(
           'files',
@@ -131,13 +103,13 @@ Future<http.Response> postNewBakery(BakeryMapData newBakery) async {
 
 Future<http.Response> postReview(ReviewData newReview) async {
   var uri =
-  Uri.parse('${api_path.restApiUrl}/bakery/${newReview.bakeryId}/review');
+      Uri.parse('${api_path.restApiUrl}/bakery/${newReview.bakeryId}/review');
   var request = http.MultipartRequest('POST', uri);
   request.headers.addAll(await rest_api.headers());
 
   await Future.forEach(
     newReview.files,
-        (file) async => {
+    (file) async => {
       request.files.add(
         http.MultipartFile(
           'files',
@@ -153,7 +125,7 @@ Future<http.Response> postReview(ReviewData newReview) async {
   request.fields['content'] = newReview.content;
   request.fields['emojiId'] = newReview.emojiId.toString();
 
-  if(newReview.signatureMenus != null) {
+  if (newReview.signatureMenus != null) {
     for (String item in newReview.signatureMenus) {
       request.files.add(http.MultipartFile.fromString('signatureMenus', item));
     }
@@ -215,310 +187,348 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
             body: GetBuilder<BakeryController>(builder: (_) {
               return SingleChildScrollView(
                   child: Padding(
-            padding: EdgeInsets.fromLTRB(31, 26, 30, 0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                RichText(
-                  text: TextSpan(
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16.0,
-                      fontFamily: 'NanumSquareRoundEB'
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: '남기고 싶은 이야기가 있나요?\n아래 ',
-                      ),
-                      TextSpan(
-                          text: '당신의 이야기',
-                          style: TextStyle(
-                            color: Color(0xFF4579FF),
-                          )),
-                      TextSpan(
-                        text: '를 들려주세요!',
-                      ),
-                    ], // buildFutureBuilder(),
-                  ),
-                ),
-                SizedBox(height: 8.0),
-                Text("표정으로 당신의 마음을 보여주세요!",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 14,
-                    )),
-                    /* emoji */
-                    Container(
-                      child: (emoji != null) ? buildFutureEmojiBuilder() : null,
-                    ),
-		    /* text review */
-                Container(
-                  height: 160,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16.0),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color(0xFF1C2F85).withOpacity(0.15),
-                          offset: Offset(2.0, 2.0),
-                          blurRadius: 10.0,
-                          spreadRadius: 0,
-                        )
-                      ]),
-                  child:
-                        TextFormField(
-                          controller: reviewTextController,
-                          onChanged: _onChanged,
-                          keyboardType: TextInputType.multiline,
-                          maxLines: null,
-                          minLines: 5,
-                          style: TextStyle(
-                            fontSize: 15,
-                          ),
-                          decoration: InputDecoration(
-                              contentPadding: new EdgeInsets.symmetric(
-                                  vertical: 20.0, horizontal: 20.0),
-                              border: InputBorder.none,
-                              hintText: '진정한 빵덕후라면 10글자 이상 리뷰는 필수!',
-                              hintStyle: TextStyle(
-                                fontSize: 15,
-                              ),
-                              counterText: '$textcnt/500',
-                              counterStyle: TextStyle(
-                                fontSize: 16,
-                              )),
-                        ),
-                ),
-                /* signature menus */
-                Padding(
-                  padding: EdgeInsets.fromLTRB(0, 40, 0, 17),
-                  child: RichText(
-                    text: TextSpan(
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 15.0,
-                        fontFamily: 'NanumSquareRoundEB'
-                      ),
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: '꼭 추천하고 싶은\n',
-                        ),
-                        TextSpan(
-                            text: '시그니처 메뉴',
-                            style: TextStyle(
-                              color: Color(0xFF4579FF),
-                            )),
-                        TextSpan(
-                          text: '를 해시태그로 남겨주세요!',
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _createInputSignatureMenu(0),
-                    SizedBox(height: 17),
-                    _createInputSignatureMenu(1),
-                    SizedBox(height: 17),
-                    _createInputSignatureMenu(2),
-                  ],
-                ),
-                /* photo */
-                
-		Padding(
-                  padding: EdgeInsets.only(top: 40.0, bottom: 10.0),
-                  child: RichText(
-                    text: TextSpan(
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16.0,
-                        fontFamily: 'NanumSquareRoundEB'
-                      ),
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: '남기고 싶은 ',
-                        ),
-                        TextSpan(
-                            text: '인증샷',
-                            style: TextStyle(
-                              color: Color(0xFF4579FF),
-                            )),
-                        TextSpan(
-                          text: '이 있나요?',
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 16.0),
-                  child: Text("생생한 후기 사진은\n다른 빵덕후들에게도 도움이 됩니다",
-                      style: TextStyle(
-                        fontSize: 15,
-                      )),
-                ),
-                RaisedButton(
-                  child: Text("사진 추가하기 ($cur_image_cnt/$max_image_cnt) >",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xFF2D2D41))),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  onPressed: () {
-                    showCupertinoModalPopup<void>(
-                      context: context,
-                      builder: (BuildContext context) => 
-		      CupertinoActionSheet(
-                        actions: <CupertinoActionSheetAction>[
-                          CupertinoActionSheetAction(
-                            child: const Text('카메라로 추가'),
-                            onPressed: () async {
-                              PickedFile f = await ImagePicker()
-                                  .getImage(source: ImageSource.camera);
-                              File image = File(f.path);
-                              setState(() {
-                                cur_image_cnt++;
-                                _image = image;
-                              });
-                              Navigator.pop(
-                                context,
-                              );
-                            },
-                          ),
-                          CupertinoActionSheetAction(
-                            child: const Text('앨범에서 추가'),
-                            onPressed: () async {
-                              getImage();
-                              Navigator.pop(
-                                context,
-                              );
-                            },
-                          )
+                      padding: EdgeInsets.fromLTRB(31, 26, 30, 0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ReviewIntro(),
+                          SizedBox(height: 8.0),
+                          ReviewEmoji(),
+                          ReviewText(),
+                          ReviewSinatureMenus(),
+                          ReviewImages(),
+                          ReviewUpload(),
                         ],
-                      ),
-                    );
-                  },
-                  color: Color(0xFFE5EDFF),
-                  elevation: 0,
-                ),
+                      )));
+            })));
+  }
 
-              (imageList.length > 0)
-                  ? Padding(
-                  padding: EdgeInsets.fromLTRB(0, 24, 0, 82),
-                  child:
-                  Container(
-                      height: 120.0,
-                      child:
-                      ListView(
-                          scrollDirection: Axis.horizontal,
-                          children: List.generate(imageList.length, (index) {
-                            Asset asset = imageList[index];
-                            return Padding(
-                                padding: EdgeInsets.only(right: 8.0),
-                                child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    child:Stack(
-                                        children: <Widget>[
-                                          AssetThumb(
-                                            asset: asset,
-                                            width: 120,
-                                            height: 120,
-                                          ),
-                                          Positioned(
-                                              right: -5,
-                                              top: -5,
-                                              child:
-                                              IconButton(
-                                                  icon:
-                                                  SvgPicture.asset('asset/images/icon/registerReview/x.svg'),
-                                                  iconSize: 32,
-                                                  onPressed: () => setState(() {
-                                                    imageList.removeAt(index);
-                                                  })))
-                                        ])));
-                            }))))
-                  : SizedBox(
-                width: double.infinity,
-                height: 82,
+  ReviewIntro() {
+    return RichText(
+      text: TextSpan(
+        style: TextStyle(
+            color: Colors.black,
+            fontSize: 16.0,
+            fontFamily: 'NanumSquareRoundEB'),
+        children: <TextSpan>[
+          TextSpan(
+            text: '남기고 싶은 이야기가 있나요?\n아래 ',
+          ),
+          TextSpan(
+              text: '당신의 이야기',
+              style: TextStyle(
+                color: Color(0xFF4579FF),
+              )),
+          TextSpan(
+            text: '를 들려주세요!',
+          ),
+        ], // buildFutureBuilder(),
+      ),
+    );
+  }
+
+  ReviewEmoji() {
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Text("표정으로 당신의 마음을 보여주세요!",
+          style: TextStyle(
+            fontWeight: FontWeight.w400,
+            fontSize: 14,
+          )),
+      /* emoji */
+      Container(
+        child: (emoji != null) ? buildFutureEmojiBuilder() : null,
+      ),
+    ]);
+  }
+
+  ReviewText() {
+    return Container(
+        height: 160,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16.0),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Color(0xFF1C2F85).withOpacity(0.15),
+                offset: Offset(2.0, 2.0),
+                blurRadius: 10.0,
+                spreadRadius: 0,
+              )
+            ]),
+        child: TextFormField(
+          controller: reviewTextController,
+          onChanged: _onChanged,
+          keyboardType: TextInputType.multiline,
+          maxLines: null,
+          minLines: 5,
+          style: TextStyle(
+            fontSize: 15,
+          ),
+          decoration: InputDecoration(
+              contentPadding:
+                  new EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+              border: InputBorder.none,
+              hintText: '진정한 빵덕후라면 10글자 이상 리뷰는 필수!',
+              hintStyle: TextStyle(
+                fontSize: 15,
               ),
-              Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 0, 66),
-                  child: SizedBox(
-              width: double.infinity,
-              height: 56,
-              child: RaisedButton(
-              child: Text("완성!",
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.w600)),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                    elevation: 0,
-                    color: ((textcnt > 9)
-                          && (controller.selected_emoji_id != -1) &&
-                        (((bakeryId == -1) && (signatureMenuTextControllers[0].text.isNotEmpty)) ||
-                        (bakeryId != -1)))
-                        ? Color(0xFF4579FF)
-                        : Color(0xFFC7C7C7),
-              onPressed:() {
-                            /* 최초등록자는 리뷰 10자 이상, 이모지 선택, 시그니처 메뉴 1개 이상 입력 필수 */
-                            if (bakeryId == -1) {
-                              if ((textcnt > 9) &&
-                                  (controller.selected_emoji_id != -1) &&
-                                  (signatureMenuTextControllers[0].text.isNotEmpty)) {
-                                bakeryToRegister.bakeryCategoryId = controller.selected_bakery_category_id + 1;
-                                bakeryToRegister.roadAddress = controller.selectedBakery.roadAddress;
-                                bakeryToRegister.content = reviewTextController.text;
-                                for(int i = 0; i < 3; i++) {
-                                  print('${i}: ${signatureMenuTextControllers[i]
-                                      .text}');
-                                }
-                                  bakeryToRegister.signatureMenus = signatureMenuTextControllers[0].text.replaceAll("#", "");
-                                bakeryToRegister.signatureMenus += ',';
-                                bakeryToRegister.signatureMenus += signatureMenuTextControllers[1].text.replaceAll("#", "");
-                                bakeryToRegister.signatureMenus += ',';
-                                bakeryToRegister.signatureMenus += signatureMenuTextControllers[2].text.replaceAll("#", "");
-                                bakeryToRegister.emojiId = controller.selected_emoji_id;
-                                bakeryToRegister.title = controller.selectedBakery.title;
-                                bakeryToRegister.city = controller.selectedBakery.roadAddress.split(" ")[0];
-                                bakeryToRegister.description = controller.selectedBakery.description;
-                                bakeryToRegister.district = controller.selectedBakery.roadAddress.split(" ")[1];
-                                bakeryToRegister.mapX = controller.selectedBakery.mapx;
-                                bakeryToRegister.mapY = controller.selectedBakery.mapy;
-                                bakeryToRegister.files = fileList;
-                                  postNewBakery(bakeryToRegister);
-                                Get.toNamed(
-                                    '/register_bakery/celebrate_register_page');
-                              }
-                              }
+              counterText: '$textcnt/500',
+              counterStyle: TextStyle(
+                fontSize: 16,
+              )),
+        ),
+      );
+  }
 
-                            /* 추가등록자는 리뷰 10자 이상, 이모지 선택 필수 */
-                            else {
-                              if ((textcnt > 9) &&
-                                  (controller.selected_emoji_id != -1)) {
-                                reviewToRegister.bakeryId = bakeryId;
-                                reviewToRegister.content = reviewTextController.text;
-                                for (int i = 0; i < 3; i++) {
-                                  if(signatureMenuTextControllers[i].text.isNotEmpty)
-                                    signatureMenuList.add(signatureMenuTextControllers[i].text.replaceAll("#", ""));
-                                }
-                                reviewToRegister.signatureMenus = signatureMenuList;
-                                reviewToRegister.emojiId = controller.selected_emoji_id;
-                                reviewToRegister.files = fileList;
-                                postReview(reviewToRegister);
-                                Get.toNamed('/main');
-                              }
-                            }
-                          }),
-                    ),
-                ),],
-              )));
-            })
-            ));
+  ReviewSinatureMenus() {
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Padding(
+        padding: EdgeInsets.fromLTRB(0, 40, 0, 17),
+        child: RichText(
+          text: TextSpan(
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 15.0,
+                fontFamily: 'NanumSquareRoundEB'),
+            children: <TextSpan>[
+              TextSpan(
+                text: '꼭 추천하고 싶은\n',
+              ),
+              TextSpan(
+                  text: '시그니처 메뉴',
+                  style: TextStyle(
+                    color: Color(0xFF4579FF),
+                  )),
+              TextSpan(
+                text: '를 해시태그로 남겨주세요!',
+              ),
+            ],
+          ),
+        ),
+      ),
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _createInputSignatureMenu(0),
+          SizedBox(height: 17),
+          _createInputSignatureMenu(1),
+          SizedBox(height: 17),
+          _createInputSignatureMenu(2),
+        ],
+      ),
+    ]);
+  }
+
+  ReviewImages() {
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Padding(
+        padding: EdgeInsets.only(top: 40.0, bottom: 10.0),
+        child: RichText(
+          text: TextSpan(
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 16.0,
+                fontFamily: 'NanumSquareRoundEB'),
+            children: <TextSpan>[
+              TextSpan(
+                text: '남기고 싶은 ',
+              ),
+              TextSpan(
+                  text: '인증샷',
+                  style: TextStyle(
+                    color: Color(0xFF4579FF),
+                  )),
+              TextSpan(
+                text: '이 있나요?',
+              ),
+            ],
+          ),
+        ),
+      ),
+      Padding(
+        padding: EdgeInsets.only(bottom: 16.0),
+        child: Text("생생한 후기 사진은\n다른 빵덕후들에게도 도움이 됩니다",
+            style: TextStyle(
+              fontSize: 15,
+            )),
+      ),
+      RaisedButton(
+        child: Text("사진 추가하기 ($cur_image_cnt/$max_image_cnt) >",
+            style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Color(0xFF2D2D41))),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+        onPressed: () {
+          SelectReviewImages();
+        },
+        color: Color(0xFFE5EDFF),
+        elevation: 0,
+      ),
+      DisplayReviewImages(),
+    ]);
+  }
+
+  SelectReviewImages() {
+    return showCupertinoModalPopup<void>(
+      context: context,
+      builder: (BuildContext context) => CupertinoActionSheet(
+        actions: <CupertinoActionSheetAction>[
+          CupertinoActionSheetAction(
+            child: const Text('카메라로 추가'),
+            onPressed: () async {
+              PickedFile f = await ImagePicker()
+                  .getImage(source: ImageSource.camera);
+              File image = File(f.path);
+              setState(() {
+                cur_image_cnt++;
+                _image = image;
+              });
+              Navigator.pop(
+                context,
+              );
+            },
+          ),
+          CupertinoActionSheetAction(
+            child: const Text('앨범에서 추가'),
+            onPressed: () async {
+              getImage();
+              Navigator.pop(
+                context,
+              );
+            },
+          )
+        ],
+      ),
+    );
+  }
+
+  DisplayReviewImages()
+  {
+    if(imageList.length > 0) {
+      return Padding(
+          padding: EdgeInsets.fromLTRB(0, 24, 0, 82),
+          child: Container(
+              height: 120.0,
+              child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: List.generate(imageList.length, (index) {
+                    Asset asset = imageList[index];
+                    return Padding(
+                        padding: EdgeInsets.only(right: 8.0),
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10.0),
+                            child: Stack(children: <Widget>[
+                              AssetThumb(
+                                asset: asset,
+                                width: 120,
+                                height: 120,
+                              ),
+                              Positioned(
+                                  right: -5,
+                                  top: -5,
+                                  child: IconButton(
+                                      icon: SvgPicture.asset(
+                                          'asset/images/icon/registerReview/x.svg'),
+                                      iconSize: 32,
+                                      onPressed: () =>
+                                          setState(() {
+                                            imageList.removeAt(index);
+                                          })))
+                            ])));
+                  }))));
+    } else {
+      return SizedBox(
+        width: double.infinity,
+        height: 82,
+      );
+    }
+  }
+
+  ReviewUpload() {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0, 0, 0, 66),
+      child: SizedBox(
+        width: double.infinity,
+        height: 56,
+        child: RaisedButton(
+            child: Text("완성!",
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.w600)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0),
+            ),
+            elevation: 0,
+            color: ((textcnt > 9) &&
+                    (controller.selected_emoji_id != -1) &&
+                    (((bakeryId == -1) &&
+                            (signatureMenuTextControllers[0]
+                                .text
+                                .isNotEmpty)) ||
+                        (bakeryId != -1)))
+                ? Color(0xFF4579FF)
+                : Color(0xFFC7C7C7),
+            onPressed: () {
+              /* 최초등록자는 리뷰 10자 이상, 이모지 선택, 시그니처 메뉴 1개 이상 입력 필수 */
+              if (bakeryId == -1) {
+                if ((textcnt > 9) &&
+                    (controller.selected_emoji_id != -1) &&
+                    (signatureMenuTextControllers[0].text.isNotEmpty)) {
+                  bakeryToRegister.bakeryCategoryId =
+                      controller.selected_bakery_category_id + 1;
+                  bakeryToRegister.roadAddress =
+                      controller.selectedBakery.roadAddress;
+                  bakeryToRegister.content = reviewTextController.text;
+                  for (int i = 0; i < 3; i++) {
+                    print('${i}: ${signatureMenuTextControllers[i].text}');
+                  }
+                  bakeryToRegister.signatureMenus =
+                      signatureMenuTextControllers[0].text.replaceAll("#", "");
+                  bakeryToRegister.signatureMenus += ',';
+                  bakeryToRegister.signatureMenus +=
+                      signatureMenuTextControllers[1].text.replaceAll("#", "");
+                  bakeryToRegister.signatureMenus += ',';
+                  bakeryToRegister.signatureMenus +=
+                      signatureMenuTextControllers[2].text.replaceAll("#", "");
+                  bakeryToRegister.emojiId = controller.selected_emoji_id;
+                  bakeryToRegister.title = controller.selectedBakery.title;
+                  bakeryToRegister.city =
+                      controller.selectedBakery.roadAddress.split(" ")[0];
+                  bakeryToRegister.description =
+                      controller.selectedBakery.description;
+                  bakeryToRegister.district =
+                      controller.selectedBakery.roadAddress.split(" ")[1];
+                  bakeryToRegister.mapX = controller.selectedBakery.mapx;
+                  bakeryToRegister.mapY = controller.selectedBakery.mapy;
+                  bakeryToRegister.files = fileList;
+                  postNewBakery(bakeryToRegister);
+                  Get.toNamed('/register_bakery/celebrate_register_page');
+                }
+              }
+
+              /* 추가등록자는 리뷰 10자 이상, 이모지 선택 필수 */
+              else {
+                if ((textcnt > 9) && (controller.selected_emoji_id != -1)) {
+                  reviewToRegister.bakeryId = bakeryId;
+                  reviewToRegister.content = reviewTextController.text;
+                  for (int i = 0; i < 3; i++) {
+                    if (signatureMenuTextControllers[i].text.isNotEmpty)
+                      signatureMenuList.add(signatureMenuTextControllers[i]
+                          .text
+                          .replaceAll("#", ""));
+                  }
+                  reviewToRegister.signatureMenus = signatureMenuList;
+                  reviewToRegister.emojiId = controller.selected_emoji_id;
+                  reviewToRegister.files = fileList;
+                  postReview(reviewToRegister);
+                  Get.toNamed('/main');
+                }
+              }
+            }),
+      ),
+    );
   }
 
   FutureBuilder<List<Emoji>> buildFutureEmojiBuilder() {
@@ -542,20 +552,18 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
                                   controller
                                       .toggleEmoji(snapshot.data[index].id);
                                 },
-
                                 style: ElevatedButton.styleFrom(
                                   padding: EdgeInsets.symmetric(
                                       vertical: 12.0, horizontal: 12.0),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(16),
                                     side: BorderSide(
-                                        color: controller.emoji_border_color[snapshot.data[index].id]
-                                    ),
+                                        color: controller.emoji_border_color[
+                                            snapshot.data[index].id]),
                                   ),
                                   elevation: 1.0,
                                   primary: Colors.white,
                                 ),
-
                                 child:
                                     Image.network(snapshot.data[index].imgUrl),
                               ))),
@@ -628,14 +636,14 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
   Future<String> getPath(String uri) async {
     String path = await FlutterAbsolutePath.getAbsolutePath(uri);
     String fileExtension = extractFileExtension(path);
-    if(isHeic(fileExtension)) {
+    if (isHeic(fileExtension)) {
       return await convertHeicToJpg(path);
     }
     return path;
   }
 
   bool isHeic(String fileExtension) {
-    if(fileExtension == 'HEIC') {
+    if (fileExtension == 'HEIC') {
       return true;
     }
     return false;
@@ -669,7 +677,7 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
         contentPadding:
             new EdgeInsets.symmetric(vertical: 6.0, horizontal: 0.0),
         isDense: true,
-        hintText: '#시그니처메뉴${index+1}',
+        hintText: '#시그니처메뉴${index + 1}',
       ),
 
       /// Called when detection (word starts with #, or # and @) is being typed
