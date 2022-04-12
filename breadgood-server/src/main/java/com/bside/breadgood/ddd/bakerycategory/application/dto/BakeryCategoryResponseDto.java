@@ -11,7 +11,7 @@ public class BakeryCategoryResponseDto {
     private final String titleColoredImgUrl;
     private final String titleUncoloredImgUrl;
     private final String color;
-    private final String makerImgUrl;
+    private final String markerImgUrl;
     private final int sortNumber;
     private final String content;
 
@@ -21,7 +21,7 @@ public class BakeryCategoryResponseDto {
         this.titleColoredImgUrl = entity.getTitleColoredImgUrl();
         this.titleUncoloredImgUrl = entity.getTitleUncoloredImgUrl();
         this.color = entity.getColor();
-        this.makerImgUrl = entity.getMakerImgUrl();
+        this.markerImgUrl = entity.getMarkerImgUrl();
         this.sortNumber = entity.getSortNumber();
         this.content = entity.getContent();
     }
