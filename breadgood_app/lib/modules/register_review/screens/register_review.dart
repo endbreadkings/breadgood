@@ -5,6 +5,7 @@ import 'package:breadgood_app/modules/main/screens/main_map.dart';
 import 'package:breadgood_app/modules/register_bakery/controller/bakery_controller.dart';
 import 'package:breadgood_app/modules/register_bakery/model/bakery_data.dart';
 import 'package:breadgood_app/modules/register_bakery/screens/celebrate_register.dart';
+import 'package:breadgood_app/utils/ui/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -452,82 +453,109 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
   }
 
   ReviewUpload() {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(0, 0, 0, 66),
-      child: SizedBox(
-        width: double.infinity,
-        height: 56,
-        child: RaisedButton(
-            child: Text("완성!",
-                style: TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.w600)),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
-            ),
-            elevation: 0,
-            color: ((textcnt > 9) &&
-                    (controller.selected_emoji_id != -1) &&
-                    (((bakeryId == -1) &&
-                            (signatureMenuTextControllers[0]
-                                .text
-                                .isNotEmpty)) ||
-                        (bakeryId != -1)))
-                ? Color(0xFF4579FF)
-                : Color(0xFFC7C7C7),
-            onPressed: () {
-              /* 최초등록자는 리뷰 10자 이상, 이모지 선택, 시그니처 메뉴 1개 이상 입력 필수 */
-              if (bakeryId == -1) {
-                if ((textcnt > 9) &&
-                    (controller.selected_emoji_id != -1) &&
-                    (signatureMenuTextControllers[0].text.isNotEmpty)) {
-                  bakeryToRegister.bakeryCategoryId =
-                      controller.selected_bakery_category_id + 1;
-                  bakeryToRegister.roadAddress =
-                      controller.selectedBakery.roadAddress;
-                  bakeryToRegister.content = reviewTextController.text;
-                  for (int i = 0; i < 3; i++) {
-                    if (signatureMenuTextControllers[i].text.isNotEmpty)
-                      signatureMenuList.add(signatureMenuTextControllers[i]
-                          .text
-                          .replaceAll("#", ""));
+    return Flex(
+      direction: Axis.vertical,
+      children: [
+        Padding(
+          padding: EdgeInsets.only(bottom: 10),
+          child: SizedBox(
+            width: double.infinity,
+            height: 56,
+            child: RaisedButton(
+                child: Text("완성!",
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.w600)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+                elevation: 0,
+                color: ((textcnt > 9) &&
+                        (controller.selected_emoji_id != -1) &&
+                        (((bakeryId == -1) &&
+                                (signatureMenuTextControllers[0]
+                                    .text
+                                    .isNotEmpty)) ||
+                            (bakeryId != -1)))
+                    ? Color(0xFF4579FF)
+                    : Color(0xFFC7C7C7),
+                onPressed: () {
+                  /* 최초등록자는 리뷰 10자 이상, 이모지 선택, 시그니처 메뉴 1개 이상 입력 필수 */
+                  if (bakeryId == -1) {
+                    if ((textcnt > 9) &&
+                        (controller.selected_emoji_id != -1) &&
+                        (signatureMenuTextControllers[0].text.isNotEmpty)) {
+                      bakeryToRegister.bakeryCategoryId =
+                          controller.selected_bakery_category_id + 1;
+                      bakeryToRegister.roadAddress =
+                          controller.selectedBakery.roadAddress;
+                      bakeryToRegister.content = reviewTextController.text;
+                      for (int i = 0; i < 3; i++) {
+                        if (signatureMenuTextControllers[i].text.isNotEmpty)
+                          signatureMenuList.add(signatureMenuTextControllers[i]
+                              .text
+                              .replaceAll("#", ""));
+                      }
+                      bakeryToRegister.signatureMenus = signatureMenuList;
+                      bakeryToRegister.emojiId = controller.selected_emoji_id;
+                      bakeryToRegister.title = controller.selectedBakery.title;
+                      bakeryToRegister.city =
+                          controller.selectedBakery.roadAddress.split(" ")[0];
+                      bakeryToRegister.description =
+                          controller.selectedBakery.description;
+                      bakeryToRegister.district =
+                          controller.selectedBakery.roadAddress.split(" ")[1];
+                      bakeryToRegister.mapX = controller.selectedBakery.mapx;
+                      bakeryToRegister.mapY = controller.selectedBakery.mapy;
+                      bakeryToRegister.files = fileList;
+                      postNewBakery(bakeryToRegister);
+                      Get.toNamed('/register_bakery/celebrate_register_page');
+                    }
                   }
-                  bakeryToRegister.signatureMenus = signatureMenuList;
-                  bakeryToRegister.emojiId = controller.selected_emoji_id;
-                  bakeryToRegister.title = controller.selectedBakery.title;
-                  bakeryToRegister.city =
-                      controller.selectedBakery.roadAddress.split(" ")[0];
-                  bakeryToRegister.description =
-                      controller.selectedBakery.description;
-                  bakeryToRegister.district =
-                      controller.selectedBakery.roadAddress.split(" ")[1];
-                  bakeryToRegister.mapX = controller.selectedBakery.mapx;
-                  bakeryToRegister.mapY = controller.selectedBakery.mapy;
-                  bakeryToRegister.files = fileList;
-                  postNewBakery(bakeryToRegister);
-                  Get.toNamed('/register_bakery/celebrate_register_page');
-                }
-              }
 
-              /* 추가등록자는 리뷰 10자 이상, 이모지 선택 필수 */
-              else {
-                if ((textcnt > 9) && (controller.selected_emoji_id != -1)) {
-                  reviewToRegister.bakeryId = bakeryId;
-                  reviewToRegister.content = reviewTextController.text;
-                  for (int i = 0; i < 3; i++) {
-                    if (signatureMenuTextControllers[i].text.isNotEmpty)
-                      signatureMenuList.add(signatureMenuTextControllers[i]
-                          .text
-                          .replaceAll("#", ""));
+                  /* 추가등록자는 리뷰 10자 이상, 이모지 선택 필수 */
+                  else {
+                    if ((textcnt > 9) && (controller.selected_emoji_id != -1)) {
+                      reviewToRegister.bakeryId = bakeryId;
+                      reviewToRegister.content = reviewTextController.text;
+                      for (int i = 0; i < 3; i++) {
+                        if (signatureMenuTextControllers[i].text.isNotEmpty)
+                          signatureMenuList.add(signatureMenuTextControllers[i]
+                              .text
+                              .replaceAll("#", ""));
+                      }
+                      reviewToRegister.signatureMenus = signatureMenuList;
+                      reviewToRegister.emojiId = controller.selected_emoji_id;
+                      reviewToRegister.files = fileList;
+                      postReview(reviewToRegister);
+                      Get.toNamed('/main');
+                    }
                   }
-                  reviewToRegister.signatureMenus = signatureMenuList;
-                  reviewToRegister.emojiId = controller.selected_emoji_id;
-                  reviewToRegister.files = fileList;
-                  postReview(reviewToRegister);
-                  Get.toNamed('/main');
-                }
-              }
-            }),
-      ),
+                }),
+          ),
+        ),
+        Padding(
+            padding: EdgeInsets.only(bottom: 56),
+            child: RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(children: [
+                  WidgetSpan(
+                      alignment: PlaceholderAlignment.middle,
+                      child: Container(
+                          margin: EdgeInsets.only(right: 4),
+                          child: SvgPicture.asset(
+                              'asset/images/icon/registerReview/register_review_info.svg',
+                              height: 13,
+                              width: 13))),
+                  TextSpan(
+                      text: bakeryId == -1
+                          ? '표정, 리뷰10글자 이상, 시그니처메뉴 1개를 입력해주세요.'
+                          : '표정, 리뷰 10글자 이상을 입력해주세요.',
+                      style: TextStyle(
+                          color: bColorsBlue,
+                          fontSize: 12,
+                          fontFamily: 'AppleSDGothicNeo'))
+                ])))
+      ],
     );
   }
 
