@@ -47,12 +47,9 @@ public class UserAcceptanceTest extends AcceptanceTest {
     @Autowired
     private BreadStyleRepository breadStyleRepository;
 
-
-    @Override
     @BeforeEach
     public void setUp() {
         super.setUp();
-
         사용자_초기_데이터();
     }
 

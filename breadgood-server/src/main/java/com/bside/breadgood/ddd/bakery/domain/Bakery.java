@@ -82,6 +82,7 @@ public class Bakery extends BaseEntity {
             throw new EmptyException("빵집의 Y좌표 위치 값이 없습니다.");
         }
 
+        //FIXME 내용 문의하기
         if (bakeryCategory == null || bakeryCategory.getId() == null || bakeryCategory.getId() == 0) {
             throw new EmptyException("빵집 카테고리 값이 없습니다.");
         }
