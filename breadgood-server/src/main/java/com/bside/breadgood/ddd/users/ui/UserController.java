@@ -62,7 +62,6 @@ public class UserController {
                         loginRequest.getEmail(),
                         loginRequest.getPassword()
                 )
-
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
