@@ -211,7 +211,14 @@ GetNoResult() {
       padding: EdgeInsets.only(top: 107),
       child: Align(
         alignment: Alignment.center,
-        child: Image.asset('asset/images/cat_black_and_white.png'),
+        child: Container(
+            width: 215,
+            height: 134,
+            child: SvgPicture.asset(
+              'asset/images/registerBakery/cat_black_and_white.svg',
+              fit: BoxFit.scaleDown,
+            )
+        )
       )
   );
 }
@@ -273,7 +280,7 @@ class _BakeryCardState extends State<BakeryCard> {
                                 height: 44,
                                 width: 46.4,
                                 child: SvgPicture.asset(
-                                  'asset/images/icon/registerBakery/bread_black_and_white.svg',
+                                  'asset/images/registerBakery/bread_black_and_white.svg',
                                   fit: BoxFit.scaleDown,
                                 )
                             )
