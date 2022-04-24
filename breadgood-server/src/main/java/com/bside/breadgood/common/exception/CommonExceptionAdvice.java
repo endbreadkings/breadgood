@@ -1,9 +1,8 @@
 package com.bside.breadgood.common.exception;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -32,6 +31,13 @@ public class CommonExceptionAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = {IllegalArgumentException.class, IllegalStateException.class})
     public ExceptionResponse badRequestHandler(Exception e) {
+        log.error(e.getMessage(), e);
+        return new ExceptionResponse(400, e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = {BindException.class})
+    public ExceptionResponse bindExceptionHandler(BindException e) {
         log.error(e.getMessage(), e);
         return new ExceptionResponse(400, e.getMessage());
     }
