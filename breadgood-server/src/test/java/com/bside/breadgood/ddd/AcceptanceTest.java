@@ -13,6 +13,7 @@ import org.springframework.test.context.ActiveProfiles;
  * date : 2022/02/13
  * description :
  */
+@ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AcceptanceTest {
 

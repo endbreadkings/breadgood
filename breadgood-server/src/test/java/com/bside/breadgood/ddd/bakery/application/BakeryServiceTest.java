@@ -38,7 +38,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.*;
 
 import static com.bside.breadgood.ddd.bakery.application.dto.BakerySaveRequestDto.builder;
-import static com.bside.breadgood.fixtures.TestUtils.setId;
+import static com.bside.breadgood.ddd.utils.EntityReflectionUtils.setId;
 import static com.bside.breadgood.fixtures.bakery.BakeryFixture.빵집1;
 import static com.bside.breadgood.fixtures.bakery.BakeryFixture.빵집등록요청;
 import static com.bside.breadgood.fixtures.bakerycategory.BakeryCategoryFixture.빵에집중;
@@ -245,12 +245,12 @@ class BakeryServiceTest {
         when(s3Service.upload((MultipartFile[]) any(), anyString())).thenReturn(new S3UploadResponseDto("", Lists.newArrayList()));
         when(userService.findById(any())).thenReturn(new UserResponseDto(테스트유저));
 
-        setId(빵에집중, BakeryCategory.class);
+        setId(빵에집중, BakeryCategory.class, 1L);
 
         when(bakeryCategoryService.findById(any())).thenReturn(new BakeryCategoryResponseDto(빵에집중));
         when(emojiService.findById(any())).thenReturn(new EmojiResponseDto(이모지1));
 
-        setId(달콤, BreadStyle.class);
+        setId(달콤, BreadStyle.class, 1L);
 
         when(breadStyleService.findById(any())).thenReturn(new BreadStyleResponseDto(달콤));
         when(bakeryRepository.save(any())).thenReturn(빵집1);
