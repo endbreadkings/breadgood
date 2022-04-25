@@ -32,6 +32,12 @@ public class TermsTypeService {
     }
 
     @Transactional
+    public TermsTypeResponseDto saveTerms(TermsTypeSaveRequestDto termsTypeSaveRequestDto) {
+        final TermsType termsType = termsTypeRepository.save(termsTypeSaveRequestDto.toEntity());
+        return TermsTypeResponseDto.valueOf(termsType);
+    }
+
+    @Transactional
     public void initData() {
         termsTypeRepository.saveAll(new InitTermsTypeData().get());
     }

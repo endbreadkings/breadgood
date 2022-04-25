@@ -70,18 +70,20 @@ public class TermsTypeAcceptanceTest extends AcceptanceTest {
     @Test
     @DisplayName("진행중인 약관 조회를 요청할 수 있다")
     public void getTermsList() {
+        // given
         final String 토큰 = 로그인_토큰("test@breadgood.com", "1234");
 
+        // when
         final ExtractableResponse<Response> response = 집행중인_약관_조회_요청함(토큰);
 
+        // then
         집행중인_약관_조회됨(response);
-
     }
 
-    private ExtractableResponse<Response> 집행중인_약관_조회_요청함(String 토큰) {
+    private ExtractableResponse<Response> 집행중인_약관_조회_요청함(String token) {
         return RestAssured
                 .given().log().all()
-                .auth().oauth2(토큰)
+                .auth().oauth2(token)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .when().get(TERMS_TYPE_BASE_URI + "/list")
                 .then().log().all()
