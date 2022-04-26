@@ -47,7 +47,8 @@ public class InitUserData {
         add("테스트유저4", "test4@breadgood.com", password, 3L, userTermsList, role);
         add("테스트유저5", "test5@breadgood.com", password, 4L, userTermsList, role);
         add("테스트유저6", "test6@breadgood.com", password, 1L, userTermsList, role);
-        add("관리자", "manager@breadgood.com", password, 1L, userTermsList, Role.ADMIN);
+        //delete 하기
+        add("관리자", "admin@breadgood.com", password, 1L, userTermsList, Role.ADMIN);
 
     }
 

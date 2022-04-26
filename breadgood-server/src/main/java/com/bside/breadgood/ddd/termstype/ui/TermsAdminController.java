@@ -27,9 +27,9 @@ public class TermsAdminController {
 
     private final TermsTypeService termsTypeService;
 
-    @ApiOperation(value = "집행중인 약관 리스트를 조회 합니다.", notes = "타입 아이디가 루트 아이디 입니다.")
+    @ApiOperation(value = "", notes = "타입 아이디가 루트 아이디 입니다.")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "성공적으로 조회시 ActiveTermsResponseDto 반환", response = ActiveTermsResponseDto.class, responseContainer = "List"),
+            @ApiResponse(code = 200, message = "성공적으로 조회시 ActiveTermsResponseDto 반환", response = TermsTypeResponseDto.class),
             @ApiResponse(code = 400, message = "BadRequest", response = BadRequestError.class),
             @ApiResponse(code = 500, message = "InternalServerError", response = InternalServerError.class),
             @ApiResponse(code = -1, message = "ExceptionResponse", response = ExceptionResponse.class)}

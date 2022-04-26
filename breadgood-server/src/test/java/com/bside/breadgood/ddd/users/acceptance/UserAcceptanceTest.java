@@ -6,6 +6,7 @@ import com.bside.breadgood.ddd.breadstyles.infra.BreadStyleRepository;
 import com.bside.breadgood.ddd.termstype.domain.TermsType;
 import com.bside.breadgood.ddd.termstype.infra.TermsTypeRepository;
 import com.bside.breadgood.ddd.users.application.dto.LoginRequest;
+import com.bside.breadgood.ddd.users.domain.Role;
 import com.bside.breadgood.ddd.users.domain.User;
 import com.bside.breadgood.ddd.users.infra.UserRepository;
 import com.bside.breadgood.jwt.ui.dto.TokenRefreshResponse;
@@ -66,7 +67,8 @@ public class UserAcceptanceTest extends AcceptanceTest {
                         "test@breadgood.com",
                         "1234",
                         Lists.newArrayList(savedTermsType),
-                        savedBreadStyle.getId()
+                        savedBreadStyle.getId(),
+                        Role.USER
                 ));
     }
 
