@@ -68,8 +68,8 @@ public class UserManageAcceptanceTest extends AcceptanceTest {
 
         등록된_관리자 = userRepository.save(
                 사용자_등록_요청(
-                        "manager",
-                        "manager@breadgood.com",
+                        "admin",
+                        "admin@breadgood.com",
                         "1234",
                         Lists.newArrayList(savedTermsType),
                         savedBreadStyle.getId(),
@@ -81,7 +81,7 @@ public class UserManageAcceptanceTest extends AcceptanceTest {
     @DisplayName("관리자 로그인 시 토큰을 발급받는다")
     void signInOk() {
         // given
-        final LoginRequest 등록된_관리자_로그인_요청 = LoginRequest.valueOf("manager@breadgood.com", "1234");
+        final LoginRequest 등록된_관리자_로그인_요청 = LoginRequest.valueOf("admin@breadgood.com", "1234");
 
         // when
         final ExtractableResponse<Response> response = 로그인_요청함(등록된_관리자_로그인_요청);

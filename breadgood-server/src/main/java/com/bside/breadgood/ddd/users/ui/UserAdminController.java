@@ -25,13 +25,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/admin")
 public class UserAdminController {
-
-    private final AuthenticationManager authenticationManager;
     private final RefreshTokenService refreshTokenService;
     private final AccessTokenService accessTokenService;
     private final AdminAuthenticationValidator authenticationValidator;
 
-    @ApiOperation(value = "관리자 로그인 요청을 합니다.", notes = "로그인 성공 시 TokenRefreshResponse 타입 반환 [관리자]:manager@breadgood.com//1234", response = TokenRefreshResponse.class)
+    @ApiOperation(value = "관리자 로그인 요청을 합니다.", notes = "로그인 성공 시 TokenRefreshResponse 타입 반환 [관리자]:admin@breadgood.com//1234", response = TokenRefreshResponse.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "성공적으로 변경시 TokenRefreshResponse 반환", response = TokenRefreshResponse.class),
             @ApiResponse(code = 400, message = "BadRequest", response = BadRequestError.class),
@@ -42,7 +40,7 @@ public class UserAdminController {
     })
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
-        Authentication authentication = authenticationValidator.validate(loginRequest, authenticationManager);
+        Authentication authentication = authenticationValidator.validate(loginRequest);
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
