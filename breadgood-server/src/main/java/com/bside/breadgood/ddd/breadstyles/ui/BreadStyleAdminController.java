@@ -36,7 +36,7 @@ public class BreadStyleAdminController {
       @ApiResponse(code = 500, message = "InternalServerError", response = InternalServerError.class),
       @ApiResponse(code = -1, message = "ExceptionResponse", response = ExceptionResponse.class)}
   )
-  @GetMapping("")
+  @GetMapping("/list")
   public List<BreadStyleResponseDto> findAll() {
     return breadStyleService.findAll();
   }
