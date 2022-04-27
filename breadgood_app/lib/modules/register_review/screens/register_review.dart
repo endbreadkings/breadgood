@@ -248,41 +248,41 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
 
   ReviewText() {
     return Container(
-        height: 160,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16.0),
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Color(0xFF1C2F85).withOpacity(0.15),
-                offset: Offset(2.0, 2.0),
-                blurRadius: 10.0,
-                spreadRadius: 0,
-              )
-            ]),
-        child: TextFormField(
-          controller: reviewTextController,
-          onChanged: _onChanged,
-          keyboardType: TextInputType.multiline,
-          maxLines: null,
-          minLines: 5,
-          style: TextStyle(
-            fontSize: 15,
-          ),
-          decoration: InputDecoration(
-              contentPadding:
-                  new EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
-              border: InputBorder.none,
-              hintText: '진정한 빵덕후라면 10글자 이상 리뷰는 필수!',
-              hintStyle: TextStyle(
-                fontSize: 15,
-              ),
-              counterText: '$textcnt/500',
-              counterStyle: TextStyle(
-                fontSize: 16,
-              )),
+      height: 160,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16.0),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Color(0xFF1C2F85).withOpacity(0.15),
+              offset: Offset(2.0, 2.0),
+              blurRadius: 10.0,
+              spreadRadius: 0,
+            )
+          ]),
+      child: TextFormField(
+        controller: reviewTextController,
+        onChanged: _onChanged,
+        keyboardType: TextInputType.multiline,
+        maxLines: null,
+        minLines: 5,
+        style: TextStyle(
+          fontSize: 15,
         ),
-      );
+        decoration: InputDecoration(
+            contentPadding:
+                new EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+            border: InputBorder.none,
+            hintText: '진정한 빵덕후라면 10글자 이상 리뷰는 필수!',
+            hintStyle: TextStyle(
+              fontSize: 15,
+            ),
+            counterText: '$textcnt/500',
+            counterStyle: TextStyle(
+              fontSize: 16,
+            )),
+      ),
+    );
   }
 
   ReviewSinatureMenus() {
@@ -384,8 +384,8 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
           CupertinoActionSheetAction(
             child: const Text('카메라로 추가'),
             onPressed: () async {
-              PickedFile f = await ImagePicker()
-                  .getImage(source: ImageSource.camera);
+              PickedFile f =
+                  await ImagePicker().getImage(source: ImageSource.camera);
               File image = File(f.path);
               setState(() {
                 cur_image_cnt++;
@@ -410,9 +410,8 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
     );
   }
 
-  DisplayReviewImages()
-  {
-    if(imageList.length > 0) {
+  DisplayReviewImages() {
+    if (imageList.length > 0) {
       return Padding(
           padding: EdgeInsets.fromLTRB(0, 24, 0, 82),
           child: Container(
@@ -438,8 +437,7 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
                                       icon: SvgPicture.asset(
                                           'asset/images/icon/registerReview/x.svg'),
                                       iconSize: 32,
-                                      onPressed: () =>
-                                          setState(() {
+                                      onPressed: () => setState(() {
                                             imageList.removeAt(index);
                                           })))
                             ])));
@@ -548,7 +546,7 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
                               width: 13))),
                   TextSpan(
                       text: bakeryId == -1
-                          ? '표정, 리뷰10글자 이상, 시그니처메뉴 1개를 입력해주세요.'
+                          ? '표정, 리뷰 10글자 이상, 시그니처 메뉴 1개를 입력해주세요.'
                           : '표정, 리뷰 10글자 이상을 입력해주세요.',
                       style: TextStyle(
                           color: bColorsBlue,
