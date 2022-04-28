@@ -46,6 +46,33 @@ public class UserFixture {
         );
     }
 
+    public static User 관리자_등록_요청(
+            String nickName,
+            String email,
+            String notEncryptedPassword,
+            List<TermsType> termsTypes,
+            Long breadStyledId
+    ) {
+        final List<UserTerms> userTerms = termsTypes.stream()
+                .map(it ->
+                        UserTerms.builder()
+                                .termsType(it.getId())
+                                .termsAgree(true)
+                                .termsDate(LocalDateTime.now())
+                                .build()
+                )
+                .collect(Collectors.toList());
+
+        return new User(
+                nickName,
+                email,
+                encoder.encode(notEncryptedPassword),
+                breadStyledId,
+                userTerms,
+                Role.ADMIN
+        );
+    }
+
     public static final User 테스트유저 =
             new User(
                     1L,

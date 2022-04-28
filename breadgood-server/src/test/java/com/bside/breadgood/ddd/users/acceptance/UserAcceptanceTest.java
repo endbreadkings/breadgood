@@ -37,9 +37,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DisplayName("사용자 인수테스트")
 public class UserAcceptanceTest extends AcceptanceTest {
     public static final String USER_BASE_URI = "api/v1/user";
-    public static final String ADMIN_BASE_URI = "api/v1/user";
+    public static final String ADMIN_BASE_URI = "api/v1/admin";
     public static User 등록된_사용자;
-    public static User 등록된_관리자;
 
     @Autowired
     private UserRepository userRepository;
