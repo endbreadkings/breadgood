@@ -27,8 +27,8 @@ public class TermsTypeService {
 
     @Transactional
     public TermsTypeResponseDto save(TermsTypeSaveRequestDto termsTypeSaveRequestDto) {
-        final int nextSortOrder = termsTypeRepository.findNextSortOrder();
-        final TermsType termsType = termsTypeRepository.save(termsTypeSaveRequestDto.toEntity(nextSortOrder));
+        final int nextSortNumber = termsTypeRepository.findNextSortNumber();
+        final TermsType termsType = termsTypeRepository.save(termsTypeSaveRequestDto.toEntity(nextSortNumber));
         return TermsTypeResponseDto.valueOf(termsType);
     }
 

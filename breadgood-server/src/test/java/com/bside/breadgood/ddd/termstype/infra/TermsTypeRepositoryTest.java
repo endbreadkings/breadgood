@@ -67,29 +67,29 @@ public class TermsTypeRepositoryTest {
 
     @Test
     @DisplayName("약관 항목이 존재하지 않는 경우 약관 항목의 다음 정렬 순서는 초기값인 100을 반환해야 한다")
-    public void findNextSortOrderWhenNotExistTermsType() {
+    public void findNextSortNumberWhenNotExistTermsType() {
         // given
         assertThat(repository.count()).isEqualTo(0);
 
         // when
-        final int actual = repository.findNextSortOrder();
+        final int actual = repository.findNextSortNumber();
 
         // then
         assertThat(actual).isEqualTo(100);
     }
 
     @Test
-    @DisplayName("약관 항목이 존재하는 경우 마지막 sortOrder보다 100 큰 값을 반환한다")
-    public void findNextSortOrder() {
+    @DisplayName("약관 항목이 존재하는 경우 마지막 sortNumber 보다 100 큰 값을 반환한다")
+    public void findNextSortNumber() {
         // given
         repository.save(필수_개인정보_수집_및_이용_동의_약관_100);
 
         // then
-        assertThat(repository.findNextSortOrder()).isEqualTo(200);
+        assertThat(repository.findNextSortNumber()).isEqualTo(200);
 
         // when
         repository.save(필수_위치_기반_서비스_약관_동의_200);
 
-        assertThat(repository.findNextSortOrder()).isEqualTo(300);
+        assertThat(repository.findNextSortNumber()).isEqualTo(300);
     }
 }

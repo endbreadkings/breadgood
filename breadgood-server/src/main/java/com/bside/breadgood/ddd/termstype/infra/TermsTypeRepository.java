@@ -18,5 +18,5 @@ public interface TermsTypeRepository extends JpaRepository<TermsType, Long> {
 //    List<TermsType> findByIds(List<Long> termsTypeIds);
 
     @Query(nativeQuery = true, value = "select IFNULL(max(sort_number), 0) + 100 from terms_type")
-    int findNextSortOrder();
+    int findNextSortNumber();
 }
