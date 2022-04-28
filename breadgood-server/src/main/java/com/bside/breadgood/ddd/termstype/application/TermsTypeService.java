@@ -87,7 +87,6 @@ public class TermsTypeService {
         }
     }
 
-
     @Transactional(readOnly = true)
     public List<TermsTypeResponseDto> findByIds(List<Long> termsTypeIds) {
 
@@ -99,22 +98,33 @@ public class TermsTypeService {
                     .name(termsType.getName())
                     .build();
         }).collect(Collectors.toList());
-
     }
 
-    @Transactional(readOnly = true)
     public TermsTypeInfoResponseDto findById(Long termsTypeId) {
-
-        final TermsType termsType = termsTypeRepository.findById(termsTypeId).orElseThrow(() -> new TermsNotFoundException("id", String.valueOf(termsTypeId)));
-
+        final TermsType termsType = findByIdOrElseThrow(termsTypeId);
         return new TermsTypeInfoResponseDto(termsType);
     }
 
     public Object findByIdAndTermsId(Long termsTypeId, Long termsId) {
-        final TermsType termsType = termsTypeRepository.findById(termsTypeId).orElseThrow(() -> new TermsNotFoundException("id", String.valueOf(termsTypeId)));
-        final Terms terms = termsType.getTerms().stream().filter(t -> t.getId().equals(termsId)).findFirst().orElseThrow(() -> new TermsNotFoundException("id", String.valueOf(termsTypeId)));
+        final TermsType termsType = findByIdOrElseThrow(termsTypeId);
+        final Terms terms = termsType.getTerms()
+                .stream()
+                .filter(t -> t.getId().equals(termsId))
+                .findFirst()
+                .orElseThrow(() -> new TermsNotFoundException("id", String.valueOf(termsTypeId)));
         return new TermsDetailResponseDto(termsType, terms);
+    }
 
+    @Transactional
+    public void addTerm(TermsSaveRequestDto request) {
+        final TermsType termsType = findByIdOrElseThrow(request.getTermsTypeId());
+        termsType.addTerms(request.toEntity());
+    }
+
+    @Transactional(readOnly = true)
+    public TermsType findByIdOrElseThrow(Long id) {
+        return termsTypeRepository.findById(id)
+                .orElseThrow(() -> new TermsNotFoundException("id", String.valueOf(id)));
     }
 
 //    private Sort sortBySortNumber() {
