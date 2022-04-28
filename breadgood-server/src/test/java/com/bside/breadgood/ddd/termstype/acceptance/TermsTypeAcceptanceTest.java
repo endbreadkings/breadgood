@@ -34,7 +34,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * date : 2022/03/20
  * description :
  */
-@DisplayName("약관 인수테스트")
+@DisplayName("약관 항목 인수테스트")
 public class TermsTypeAcceptanceTest extends AcceptanceTest {
     public static final String TERMS_TYPE_BASE_URI = "api/v1/termsType";
     public static final String ADMIN_TERMS_TYPE_BASE_URI = "api/v1/admin/termsType";
@@ -58,7 +58,7 @@ public class TermsTypeAcceptanceTest extends AcceptanceTest {
     private void 사용자_초기_데이터() {
         final BreadStyle savedBreadStyle = breadStyleRepository.save(달콤);
 
-        final TermsType savedTermsType = termsTypeRepository.save(필수_개인정보_수집_및_이용_동의_약관_진행중);
+        final TermsType savedTermsType = termsTypeRepository.save(필수_개인정보_수집_및_이용_동의_약관_100);
 
         userRepository.save(
                 사용자_등록_요청(
@@ -100,22 +100,66 @@ public class TermsTypeAcceptanceTest extends AcceptanceTest {
     @DisplayName("관리자는 약관을 등록할 수 있다")
     public void saveTermsType() {
         // given
-        final String 토큰 = 로그인_토큰("admin@breadgood.com", "1234");
+        final String 관리자토큰 = 로그인_토큰("admin@breadgood.com", "1234");
 
         // when
-        final ExtractableResponse<Response> 필수약관_등록요청함 = 약관_등록_요청함(토큰, 필수_개인정보_수집_및_이용_동의_약관_진행중_등록요청);
+        final ExtractableResponse<Response> 필수약관_등록요청함 = 약관_등록_요청함(관리자토큰, 필수_개인정보_수집_및_이용_동의_약관_등록요청);
 
         // then
-        약관_등록됨(필수약관_등록요청함, "개인정보 수집 및 이용 동의", true);
+        약관등록_성공함(필수약관_등록요청함, "개인정보 수집 및 이용 동의", true);
 
         // when
-        final ExtractableResponse<Response> 선택약관_등록요청함 = 약관_등록_요청함(토큰, 선택_광고_이용_정보_동의_등록요청);
+        final ExtractableResponse<Response> 선택약관_등록요청함 = 약관_등록_요청함(관리자토큰, 선택_광고_이용_정보_동의_등록요청);
 
         // then
-        약관_등록됨(선택약관_등록요청함, "광고 이용 정보 동의", false);
+        약관등록_성공함(선택약관_등록요청함, "광고 이용 정보 동의", false);
     }
 
-    //TODO FailTest &
+    @Test
+    @DisplayName("사용자는 약관을 등록할 권한이 없다")
+    public void saveTermsTypeFailByRole() {
+        // given
+        final String 사용자토큰 = 로그인_토큰("test@breadgood.com", "1234");
+
+        // when
+        final ExtractableResponse<Response> 필수약관_등록요청함 = 약관_등록_요청함(사용자토큰, 필수_개인정보_수집_및_이용_동의_약관_등록요청);
+
+        // then
+        약관등록_실패함(필수약관_등록요청함, HttpStatus.FORBIDDEN);
+
+        // when
+        final ExtractableResponse<Response> 선택약관_등록요청함 = 약관_등록_요청함(사용자토큰, 선택_광고_이용_정보_동의_등록요청);
+
+        // then
+        약관등록_실패함(선택약관_등록요청함, HttpStatus.FORBIDDEN);
+    }
+
+    @Test
+    @DisplayName("약관 등록 요청 시 토큰이 없는 경우 예외를 반환한다")
+    public void saveTermsTypeExceptToken() {
+        // given
+        final ExtractableResponse<Response> 필수약관_등록요청함 = 약관_등록_요청함_토큰x(필수_개인정보_수집_및_이용_동의_약관_등록요청);
+
+        // then
+        약관등록_실패함(필수약관_등록요청함, HttpStatus.UNAUTHORIZED);
+
+        // when
+        final ExtractableResponse<Response> 선택약관_등록요청함 = 약관_등록_요청함_토큰x(선택_광고_이용_정보_동의_등록요청);
+
+        // then
+        약관등록_실패함(선택약관_등록요청함, HttpStatus.UNAUTHORIZED);
+
+    }
+
+    private ExtractableResponse<Response> 약관_등록_요청함_토큰x(TermsTypeSaveRequestDto request) {
+        return RestAssured
+                .given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(request)
+                .when().post(ADMIN_TERMS_TYPE_BASE_URI)
+                .then().log().all()
+                .extract();
+    }
 
     private ExtractableResponse<Response> 약관_등록_요청함(String 토큰, TermsTypeSaveRequestDto request) {
         return RestAssured
@@ -128,7 +172,11 @@ public class TermsTypeAcceptanceTest extends AcceptanceTest {
                 .extract();
     }
 
-    private void 약관_등록됨(ExtractableResponse<Response> response, String expectedTermsTypeName, boolean expectedTermsTypeRequired) {
+    private void 약관등록_실패함(ExtractableResponse<Response> 필수약관_등록요청함, HttpStatus status) {
+        assertThat(필수약관_등록요청함.statusCode()).isEqualTo(status.value());
+    }
+
+    private void 약관등록_성공함(ExtractableResponse<Response> response, String expectedTermsTypeName, boolean expectedTermsTypeRequired) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
         assertThat(response.header("Location")).isNotNull();
         final TermsTypeResponseDto responseDto = response.jsonPath().getObject("", TermsTypeResponseDto.class);

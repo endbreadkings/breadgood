@@ -10,7 +10,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static com.bside.breadgood.fixtures.termstype.TermsTypeFixture.선택_광고_이용_정보_동의_등록요청;
-import static com.bside.breadgood.fixtures.termstype.TermsTypeFixture.필수_개인정보_수집_및_이용_동의_약관_진행중_등록요청;
+import static com.bside.breadgood.fixtures.termstype.TermsTypeFixture.필수_개인정보_수집_및_이용_동의_약관_등록요청;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -20,7 +20,7 @@ import static org.mockito.BDDMockito.given;
  * date : 2022/04/26
  * description :
  */
-@DisplayName("약관 서비스 테스트")
+@DisplayName("약관 항목 서비스 테스트")
 @ExtendWith(MockitoExtension.class)
 public class TermsTypeServiceTest {
     @InjectMocks
@@ -33,10 +33,10 @@ public class TermsTypeServiceTest {
     @DisplayName("필수 약관 등록 테스트")
     public void saveRequiredTermsType() {
         // given
-        given(termsTypeRepository.save(any())).willReturn(필수_개인정보_수집_및_이용_동의_약관_진행중_등록요청.toEntity());
+        given(termsTypeRepository.save(any())).willReturn(필수_개인정보_수집_및_이용_동의_약관_등록요청.toEntity());
 
         // when
-        final TermsTypeResponseDto actual = termsTypeService.saveTerms(필수_개인정보_수집_및_이용_동의_약관_진행중_등록요청);
+        final TermsTypeResponseDto actual = termsTypeService.saveTerms(필수_개인정보_수집_및_이용_동의_약관_등록요청);
 
         // then
         assertThat(actual.getName()).isEqualTo("개인정보 수집 및 이용 동의");
