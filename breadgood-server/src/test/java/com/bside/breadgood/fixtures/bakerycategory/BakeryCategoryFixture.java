@@ -1,6 +1,14 @@
 package com.bside.breadgood.fixtures.bakerycategory;
 
+import com.bside.breadgood.ddd.bakerycategory.application.dto.BakeryCategoryRequestDto;
 import com.bside.breadgood.ddd.bakerycategory.domain.BakeryCategory;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class BakeryCategoryFixture {
 
@@ -24,5 +32,36 @@ public class BakeryCategoryFixture {
             .sortNumber(2)
             .build();
 
+    private static MockMultipartFile markerImg;
+    private static MockMultipartFile titleColoredImg;
+    private static MockMultipartFile titleUncoloredImg;
+
+    static {
+        try {
+            markerImg = new MockMultipartFile("markerImg", "marker.png",
+                    MediaType.APPLICATION_OCTET_STREAM_VALUE,
+                    new FileInputStream("src/test/resources/images/marker.png"));
+
+            titleColoredImg = new MockMultipartFile("titleColoredImg", "titleColored.svg",
+                    MediaType.APPLICATION_OCTET_STREAM_VALUE,
+                    new FileInputStream("src/test/resources/images/titleColored.svg"));
+
+            titleUncoloredImg = new MockMultipartFile("titleUncoloredImg", "titleUncolored.svg",
+                    MediaType.APPLICATION_OCTET_STREAM_VALUE,
+                    new FileInputStream("src/test/resources/images/titleUncolored.svg"));
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static BakeryCategoryRequestDto 미등록된_빵에집중 = BakeryCategoryRequestDto.builder()
+            .color("#FEBE52")
+            .content("빵을 전문적으로 파는\n 일반 베이커리")
+            .title("빵에집중")
+            .markerImg(markerImg)
+            .titleColoredImg(titleColoredImg)
+            .titleUncoloredImg(titleUncoloredImg)
+            .build();
 
 }
