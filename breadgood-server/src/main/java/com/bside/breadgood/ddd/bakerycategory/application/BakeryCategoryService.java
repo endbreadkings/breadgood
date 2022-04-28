@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BakeryCategoryService {
     private static final String DIR_PATH = "bakeryCategory";
+    private static final int SORT_NUMBER_UNIT = 100;
 
     private final BakeryCategoryRepository bakeryCategoryRepository;
     private final S3Service s3Service;
@@ -49,16 +50,22 @@ public class BakeryCategoryService {
         final String titleColoredImgUrl = fileHost + s3Service.upload(request.getTitleColoredImg(), DIR_PATH);
         final String titleUncoloredImgUrl = fileHost + s3Service.upload(request.getTitleUncoloredImg(), DIR_PATH);
 
+        final int nextSortNumber = generateNextSortNumber();
         final BakeryCategory saved = bakeryCategoryRepository.save(BakeryCategory.builder()
                 .color(request.getColor())
                 .content(request.getContent())
                 .markerImgUrl(markerImgUrl)
-                .sortNumber(bakeryCategoryRepository.nextSortNumber())
+                .sortNumber(nextSortNumber)
                 .title(request.getTitle())
                 .titleColoredImgUrl(titleColoredImgUrl)
                 .titleUncoloredImgUrl(titleUncoloredImgUrl)
                 .build());
         return new BakeryCategoryResponseDto(saved);
 
+    }
+
+    private int generateNextSortNumber() {
+        final Integer maxSortNumber = bakeryCategoryRepository.maxSortNumber();
+        return maxSortNumber == null ? SORT_NUMBER_UNIT : maxSortNumber + SORT_NUMBER_UNIT;
     }
 }
