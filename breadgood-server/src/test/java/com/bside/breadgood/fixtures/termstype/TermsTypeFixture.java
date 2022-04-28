@@ -49,9 +49,9 @@ public class TermsTypeFixture {
                     .build();
 
     public static TermsTypeSaveRequestDto 필수_개인정보_수집_및_이용_동의_약관_등록요청 =
-            TermsTypeSaveRequestDto.valueOf("개인정보 수집 및 이용 동의", "필수 개인정보수집 및 이용 동의 약관의 내용입니다.", LocalDate.now(), true, 100);
+            TermsTypeSaveRequestDto.valueOf("개인정보 수집 및 이용 동의", "필수 개인정보수집 및 이용 동의 약관의 내용입니다.", LocalDate.now(), true);
 
     public static TermsTypeSaveRequestDto 선택_광고_이용_정보_동의_등록요청 =
-            TermsTypeSaveRequestDto.valueOf("광고 이용 정보 동의", "선택 광고 이용 정보 동의 약관 입니다.", LocalDate.now(), false, 200);
+            TermsTypeSaveRequestDto.valueOf("광고 이용 정보 동의", "선택 광고 이용 정보 동의 약관 입니다.", LocalDate.now(), false);
 }
 

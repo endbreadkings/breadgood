@@ -26,14 +26,9 @@ public class TermsTypeService {
     private final TermsTypeRepository termsTypeRepository;
 
     @Transactional
-    public Long save(TermsTypeSaveRequestDto termsTypeSaveRequestDto) {
-        final TermsType savedTermsType = termsTypeRepository.save(termsTypeSaveRequestDto.toEntity());
-        return savedTermsType.getId();
-    }
-
-    @Transactional
-    public TermsTypeResponseDto saveTerms(TermsTypeSaveRequestDto termsTypeSaveRequestDto) {
-        final TermsType termsType = termsTypeRepository.save(termsTypeSaveRequestDto.toEntity());
+    public TermsTypeResponseDto save(TermsTypeSaveRequestDto termsTypeSaveRequestDto) {
+        final int nextSortOrder = termsTypeRepository.findNextSortOrder();
+        final TermsType termsType = termsTypeRepository.save(termsTypeSaveRequestDto.toEntity(nextSortOrder));
         return TermsTypeResponseDto.valueOf(termsType);
     }
 

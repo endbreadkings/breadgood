@@ -37,7 +37,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DisplayName("약관 항목 인수테스트")
 public class TermsTypeAcceptanceTest extends AcceptanceTest {
     public static final String TERMS_TYPE_BASE_URI = "api/v1/termsType";
-    public static final String ADMIN_TERMS_TYPE_BASE_URI = "api/v1/admin/termsType";
 
     @Autowired
     TermsTypeRepository termsTypeRepository;
@@ -57,7 +56,6 @@ public class TermsTypeAcceptanceTest extends AcceptanceTest {
 
     private void 사용자_초기_데이터() {
         final BreadStyle savedBreadStyle = breadStyleRepository.save(달콤);
-
         final TermsType savedTermsType = termsTypeRepository.save(필수_개인정보_수집_및_이용_동의_약관_100);
 
         userRepository.save(
@@ -68,17 +66,6 @@ public class TermsTypeAcceptanceTest extends AcceptanceTest {
                         Lists.newArrayList(savedTermsType),
                         savedBreadStyle.getId(),
                         Role.USER
-                )
-        );
-
-        userRepository.save(
-                사용자_등록_요청(
-                        "admin",
-                        "admin@breadgood.com",
-                        "1234",
-                        Lists.newArrayList(savedTermsType),
-                        savedBreadStyle.getId(),
-                        Role.ADMIN
                 )
         );
     }
@@ -96,95 +83,7 @@ public class TermsTypeAcceptanceTest extends AcceptanceTest {
         집행중인_약관_조회됨(response);
     }
 
-    @Test
-    @DisplayName("관리자는 약관을 등록할 수 있다")
-    public void saveTermsType() {
-        // given
-        final String 관리자토큰 = 로그인_토큰("admin@breadgood.com", "1234");
-
-        // when
-        final ExtractableResponse<Response> 필수약관_등록요청함 = 약관_등록_요청함(관리자토큰, 필수_개인정보_수집_및_이용_동의_약관_등록요청);
-
-        // then
-        약관등록_성공함(필수약관_등록요청함, "개인정보 수집 및 이용 동의", true);
-
-        // when
-        final ExtractableResponse<Response> 선택약관_등록요청함 = 약관_등록_요청함(관리자토큰, 선택_광고_이용_정보_동의_등록요청);
-
-        // then
-        약관등록_성공함(선택약관_등록요청함, "광고 이용 정보 동의", false);
-    }
-
-    @Test
-    @DisplayName("사용자는 약관을 등록할 권한이 없다")
-    public void saveTermsTypeFailByRole() {
-        // given
-        final String 사용자토큰 = 로그인_토큰("test@breadgood.com", "1234");
-
-        // when
-        final ExtractableResponse<Response> 필수약관_등록요청함 = 약관_등록_요청함(사용자토큰, 필수_개인정보_수집_및_이용_동의_약관_등록요청);
-
-        // then
-        약관등록_실패함(필수약관_등록요청함, HttpStatus.FORBIDDEN);
-
-        // when
-        final ExtractableResponse<Response> 선택약관_등록요청함 = 약관_등록_요청함(사용자토큰, 선택_광고_이용_정보_동의_등록요청);
-
-        // then
-        약관등록_실패함(선택약관_등록요청함, HttpStatus.FORBIDDEN);
-    }
-
-    @Test
-    @DisplayName("약관 등록 요청 시 토큰이 없는 경우 예외를 반환한다")
-    public void saveTermsTypeExceptToken() {
-        // given
-        final ExtractableResponse<Response> 필수약관_등록요청함 = 약관_등록_요청함_토큰x(필수_개인정보_수집_및_이용_동의_약관_등록요청);
-
-        // then
-        약관등록_실패함(필수약관_등록요청함, HttpStatus.UNAUTHORIZED);
-
-        // when
-        final ExtractableResponse<Response> 선택약관_등록요청함 = 약관_등록_요청함_토큰x(선택_광고_이용_정보_동의_등록요청);
-
-        // then
-        약관등록_실패함(선택약관_등록요청함, HttpStatus.UNAUTHORIZED);
-
-    }
-
-    private ExtractableResponse<Response> 약관_등록_요청함_토큰x(TermsTypeSaveRequestDto request) {
-        return RestAssured
-                .given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(request)
-                .when().post(ADMIN_TERMS_TYPE_BASE_URI)
-                .then().log().all()
-                .extract();
-    }
-
-    private ExtractableResponse<Response> 약관_등록_요청함(String 토큰, TermsTypeSaveRequestDto request) {
-        return RestAssured
-                .given().log().all()
-                .auth().oauth2(토큰)
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(request)
-                .when().post(ADMIN_TERMS_TYPE_BASE_URI)
-                .then().log().all()
-                .extract();
-    }
-
-    private void 약관등록_실패함(ExtractableResponse<Response> 필수약관_등록요청함, HttpStatus status) {
-        assertThat(필수약관_등록요청함.statusCode()).isEqualTo(status.value());
-    }
-
-    private void 약관등록_성공함(ExtractableResponse<Response> response, String expectedTermsTypeName, boolean expectedTermsTypeRequired) {
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
-        assertThat(response.header("Location")).isNotNull();
-        final TermsTypeResponseDto responseDto = response.jsonPath().getObject("", TermsTypeResponseDto.class);
-        assertThat(responseDto.getName()).isEqualTo(expectedTermsTypeName);
-        assertThat(responseDto.isRequired()).isEqualTo(expectedTermsTypeRequired);
-    }
-
-    private ExtractableResponse<Response> 집행중인_약관_조회_요청함(String token) {
+    public static ExtractableResponse<Response> 집행중인_약관_조회_요청함(String token) {
         return RestAssured
                 .given().log().all()
                 .auth().oauth2(token)
@@ -194,7 +93,7 @@ public class TermsTypeAcceptanceTest extends AcceptanceTest {
                 .extract();
     }
 
-    private void 집행중인_약관_조회됨(ExtractableResponse<Response> response) {
+    public static void 집행중인_약관_조회됨(ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
         final List<ActiveTermsResponseDto> activeTermsResponseList = response
                 .jsonPath()

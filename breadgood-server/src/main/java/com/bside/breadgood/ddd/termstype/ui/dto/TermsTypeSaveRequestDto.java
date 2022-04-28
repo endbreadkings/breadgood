@@ -21,22 +21,18 @@ public class TermsTypeSaveRequestDto {
 
     private boolean required;
 
-    private int sortNumber;
-
-
-    private TermsTypeSaveRequestDto(String name, String content, LocalDate executionDate, boolean required, int sortNumber) {
+    private TermsTypeSaveRequestDto(String name, String content, LocalDate executionDate, boolean required) {
         this.name = name;
         this.content = content;
         this.executionDate = executionDate;
         this.required = required;
-        this.sortNumber = sortNumber;
     }
 
-    public static TermsTypeSaveRequestDto valueOf(String name, String content, LocalDate executionDate, boolean required, int sortNumber) {
-        return new TermsTypeSaveRequestDto(name, content, executionDate, required, sortNumber);
+    public static TermsTypeSaveRequestDto valueOf(String name, String content, LocalDate executionDate, boolean required) {
+        return new TermsTypeSaveRequestDto(name, content, executionDate, required);
     }
 
-    public TermsType toEntity() {
+    public TermsType toEntity(int sortNumber) {
         return TermsType.builder()
                 .name(name)
                 .content(content)
