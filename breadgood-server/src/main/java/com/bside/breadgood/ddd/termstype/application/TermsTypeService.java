@@ -100,29 +100,26 @@ public class TermsTypeService {
         }).collect(Collectors.toList());
     }
 
-    public TermsTypeInfoResponseDto findById(Long termsTypeId) {
-        final TermsType termsType = findByIdOrElseThrow(termsTypeId);
+        public TermsTypeInfoResponseDto findById(Long termsTypeId) {
+        final TermsType termsType = getById(termsTypeId);
         return new TermsTypeInfoResponseDto(termsType);
     }
 
-    public Object findByIdAndTermsId(Long termsTypeId, Long termsId) {
-        final TermsType termsType = findByIdOrElseThrow(termsTypeId);
-        final Terms terms = termsType.getTerms()
-                .stream()
-                .filter(t -> t.getId().equals(termsId))
-                .findFirst()
-                .orElseThrow(() -> new TermsNotFoundException("id", String.valueOf(termsTypeId)));
+    @Transactional(readOnly = true)
+    public TermsDetailResponseDto findByIdAndTermsId(Long termsTypeId, Long termsId) {
+        final TermsType termsType = getById(termsTypeId);
+        final Terms terms = termsType.getTermsById(termsId);
         return new TermsDetailResponseDto(termsType, terms);
     }
 
     @Transactional
     public void addTerm(TermsSaveRequestDto request) {
-        final TermsType termsType = findByIdOrElseThrow(request.getTermsTypeId());
+        final TermsType termsType = getById(request.getTermsTypeId());
         termsType.addTerms(request.toEntity());
     }
 
     @Transactional(readOnly = true)
-    public TermsType findByIdOrElseThrow(Long id) {
+    public TermsType getById(Long id) {
         return termsTypeRepository.findById(id)
                 .orElseThrow(() -> new TermsNotFoundException("id", String.valueOf(id)));
     }
