@@ -66,6 +66,9 @@ onlySocialLink:
 duplicateUserNickName:
   code: "-1301"
   msg: "별명이 중복되었습니다."
+illegalRole:
+  code: "-1303"
+  msg: "접근 권한이 유효하지 없습니다."
 
 # *********** s3 ***********
 s3Upload:

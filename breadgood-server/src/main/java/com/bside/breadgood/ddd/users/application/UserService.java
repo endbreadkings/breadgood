@@ -37,7 +37,8 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserResponseDto findById(Long userId) {
-        final User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("id", Long.toString(userId)));
+        final User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("id", Long.toString(userId)));
         if (user.isGuest()) {
             return new UserResponseDto(user);
         }
