@@ -1,5 +1,6 @@
 package com.bside.breadgood.ddd.users.acceptance;
 
+
 import com.bside.breadgood.common.exception.ExceptionResponse;
 import com.bside.breadgood.ddd.AcceptanceTest;
 import com.bside.breadgood.ddd.breadstyles.domain.BreadStyle;
@@ -30,10 +31,11 @@ import static com.bside.breadgood.fixtures.termstype.TermsTypeFixture.필수_개
 import static com.bside.breadgood.fixtures.user.UserFixture.사용자_등록_요청;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("사용자 관리 인수테스트")
-public class UserAcceptanceTest extends AcceptanceTest {
-    public static final String USER_BASE_URI = "api/v1/user";
+@DisplayName("관리자 사용자 관리 인수테스트")
+public class UserManageAcceptanceTest extends AcceptanceTest {
+    public static final String USER_BASE_URI = "api/v1/admin";
     public static User 등록된_사용자;
+    public static User 등록된_관리자;
 
     @Autowired
     private UserRepository userRepository;
@@ -63,16 +65,26 @@ public class UserAcceptanceTest extends AcceptanceTest {
                         savedBreadStyle.getId(),
                         Role.USER
                 ));
+
+        등록된_관리자 = userRepository.save(
+                사용자_등록_요청(
+                        "admin",
+                        "admin@breadgood.com",
+                        "1234",
+                        Lists.newArrayList(savedTermsType),
+                        savedBreadStyle.getId(),
+                        Role.ADMIN
+                ));
     }
 
     @Test
-    @DisplayName("회원 로그인 시 토큰을 발급받는다")
+    @DisplayName("관리자 로그인 시 토큰을 발급받는다")
     void signInOk() {
         // given
-        final LoginRequest 등록된_사용자_로그인_요청 = LoginRequest.valueOf("test@breadgood.com", "1234");
+        final LoginRequest 등록된_관리자_로그인_요청 = LoginRequest.valueOf("admin@breadgood.com", "1234");
 
         // when
-        final ExtractableResponse<Response> response = 로그인_요청함(등록된_사용자_로그인_요청);
+        final ExtractableResponse<Response> response = 로그인_요청함(등록된_관리자_로그인_요청);
 
         // then
         로그인_성공함(response);
@@ -80,8 +92,8 @@ public class UserAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    @DisplayName("등록되지 않은 회원 로그인 실패 시 예외를 반환한다")
-    public void singInFail() {
+    @DisplayName("존재하지 않는 사용자로 관리자 로그인을 시도하는 경우 예외를 발생한다")
+    public void singInFailByNotExistUser() {
         // given
         final LoginRequest 미등록된_사용자_로그인_요청 = LoginRequest.valueOf("notExist@breadgood.com", "1234");
 
@@ -90,6 +102,19 @@ public class UserAcceptanceTest extends AcceptanceTest {
 
         // then
         로그인_실패함_미존재(response);
+    }
+
+    @Test
+    @DisplayName("권한이 없는 사용자가 관리자 로그인을 시도하는 경우 예외를 발생한다")
+    public void singInFailByNotIllegalRole() {
+        // given
+        final LoginRequest 권한이_없는_사용자_로그인_요청 = LoginRequest.valueOf("test@breadgood.com", "1234");
+
+        // when
+        final ExtractableResponse<Response> response = 로그인_요청함(권한이_없는_사용자_로그인_요청);
+
+        // then
+        로그인_실패함_권한없음(response);
     }
 
     public static ExtractableResponse<Response> 로그인_요청함(LoginRequest loginRequest) {
@@ -119,6 +144,14 @@ public class UserAcceptanceTest extends AcceptanceTest {
         assertThat(actual.getMessage()).contains("유저를 찾을 수 없습니다.");
         assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
     }
+
+    private void 로그인_실패함_권한없음(ExtractableResponse<Response> response) {
+        final ExceptionResponse actual = response.jsonPath().getObject("", ExceptionResponse.class);
+        assertThat(actual.getCode()).isEqualTo(-1303);
+        assertThat(actual.getMessage()).contains("접근 권한이 유효하지 없습니다.");
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.FORBIDDEN.value());
+    }
+
 
     private void 로그인_성공함(ExtractableResponse<Response> response) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());

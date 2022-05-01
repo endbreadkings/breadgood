@@ -24,7 +24,8 @@ public class UserFixture {
             String email,
             String notEncryptedPassword,
             List<TermsType> termsTypes,
-            Long breadStyledId
+            Long breadStyledId,
+            Role role
     ) {
         final List<UserTerms> userTerms = termsTypes.stream()
                 .map(it ->
@@ -42,7 +43,7 @@ public class UserFixture {
                 encoder.encode(notEncryptedPassword),
                 breadStyledId,
                 userTerms,
-                Role.USER
+                role
         );
     }
 

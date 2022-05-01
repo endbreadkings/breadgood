@@ -6,6 +6,7 @@ import com.bside.breadgood.ddd.breadstyles.infra.BreadStyleRepository;
 import com.bside.breadgood.ddd.termstype.domain.TermsType;
 import com.bside.breadgood.ddd.termstype.infra.TermsTypeRepository;
 import com.bside.breadgood.ddd.termstype.ui.dto.ActiveTermsResponseDto;
+import com.bside.breadgood.ddd.users.domain.Role;
 import com.bside.breadgood.ddd.users.infra.UserRepository;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
@@ -54,7 +55,6 @@ public class TermsTypeAcceptanceTest extends AcceptanceTest {
 
     private void 사용자_초기_데이터() {
         final BreadStyle savedBreadStyle = breadStyleRepository.save(달콤);
-
         final TermsType savedTermsType = termsTypeRepository.save(필수_개인정보_수집_및_이용_동의_약관_진행중);
 
         userRepository.save(
@@ -63,7 +63,8 @@ public class TermsTypeAcceptanceTest extends AcceptanceTest {
                         "test@breadgood.com",
                         "1234",
                         Lists.newArrayList(savedTermsType),
-                        savedBreadStyle.getId()
+                        savedBreadStyle.getId(),
+                        Role.USER
                 ));
     }
 
