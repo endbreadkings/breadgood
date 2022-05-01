@@ -24,7 +24,8 @@ public class UserFixture {
             String email,
             String notEncryptedPassword,
             List<TermsType> termsTypes,
-            Long breadStyledId
+            Long breadStyledId,
+            Role role
     ) {
         final List<UserTerms> userTerms = termsTypes.stream()
                 .map(it ->
@@ -42,7 +43,7 @@ public class UserFixture {
                 encoder.encode(notEncryptedPassword),
                 breadStyledId,
                 userTerms,
-                Role.USER
+                role
         );
     }
 
@@ -83,5 +84,15 @@ public class UserFixture {
                     null,
                     null,
                     Role.USER
+            );
+
+    public static final User 관리자 =
+            new User(
+                    "관리자",
+                    "admin@breadgood.com",
+                    "1234",
+                    1L,
+                    null,
+                    Role.ADMIN
             );
 }
