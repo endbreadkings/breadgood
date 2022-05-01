@@ -42,7 +42,7 @@ public class UserControllerAdvice extends ExceptionAdvice {
     }
 
     @ExceptionHandler(IllegalRoleException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
     protected ExceptionResponse illegalRoleException(IllegalRoleException ex, WebRequest request) {
         String messagePath = super.getMessagePathByMyMethodName();
         return super.getExceptionResponse(request, messagePath, ex.getArgs());

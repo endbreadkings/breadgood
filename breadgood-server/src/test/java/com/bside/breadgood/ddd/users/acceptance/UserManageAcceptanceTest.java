@@ -33,7 +33,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("관리자 사용자 관리 인수테스트")
 public class UserManageAcceptanceTest extends AcceptanceTest {
-    public static final String USER_BASE_URI = "api/v1/manage/user";
+    public static final String USER_BASE_URI = "api/v1/admin";
     public static User 등록된_사용자;
     public static User 등록된_관리자;
 
@@ -149,7 +149,7 @@ public class UserManageAcceptanceTest extends AcceptanceTest {
         final ExceptionResponse actual = response.jsonPath().getObject("", ExceptionResponse.class);
         assertThat(actual.getCode()).isEqualTo(-1303);
         assertThat(actual.getMessage()).contains("접근 권한이 유효하지 없습니다.");
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.FORBIDDEN.value());
     }
 
 
