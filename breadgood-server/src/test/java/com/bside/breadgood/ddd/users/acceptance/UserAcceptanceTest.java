@@ -14,6 +14,7 @@ import com.bside.breadgood.jwt.ui.dto.TokenRefreshResponse;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import io.restassured.response.ResponseBodyExtractionOptions;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -33,6 +34,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DisplayName("사용자 관리 인수테스트")
 public class UserAcceptanceTest extends AcceptanceTest {
     public static final String USER_BASE_URI = "api/v1/user";
+    public static final String ADMIN_BASE_URI = "api/v1/admin";
     public static User 등록된_사용자;
 
     @Autowired
@@ -102,6 +104,16 @@ public class UserAcceptanceTest extends AcceptanceTest {
                 .then().log().all().extract();
     }
 
+    private static ResponseBodyExtractionOptions 관리자_로그인_요청함(LoginRequest loginRequest) {
+        return RestAssured
+                .given().log().all()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(loginRequest)
+                .when()
+                .post(ADMIN_BASE_URI + "/signin")
+                .then().log().all().extract();
+    }
+
     public static String 로그인_토큰(String email, String unencryptedPassword) {
         return 로그인_요청함(
                 LoginRequest.valueOf(
@@ -111,6 +123,23 @@ public class UserAcceptanceTest extends AcceptanceTest {
                 .jsonPath()
                 .getObject("", TokenRefreshResponse.class)
                 .getAccessToken();
+    }
+
+
+    public static String 관리자_로그인_토큰(String email, String unencryptedPassword) {
+        final TokenRefreshResponse tokenRefreshResponse = 관리자_로그인_요청함(
+                LoginRequest.valueOf(
+                        email,
+                        unencryptedPassword
+                ))
+                .jsonPath()
+                .getObject("", TokenRefreshResponse.class);
+        return String.format("%s %s", tokenRefreshResponse.getTokenType(), tokenRefreshResponse.getAccessToken());
+    }
+
+
+    private void 로그인_실패함(ExtractableResponse<Response> response) {
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR.value());
     }
 
     private void 로그인_실패함_미존재(ExtractableResponse<Response> response) {
