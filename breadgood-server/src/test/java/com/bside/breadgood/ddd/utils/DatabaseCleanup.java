@@ -17,11 +17,6 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 
-/**
- * author : haedoang
- * date : 2022/02/13
- * description :
- */
 @Service
 @ActiveProfiles("test")
 @Slf4j
@@ -39,7 +34,6 @@ public class DatabaseCleanup implements InitializingBean {
                 .filter(e -> e.getJavaType().getAnnotation(Entity.class) != null)
                 .map(e -> CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, e.getName()))
                 .collect(toList());
-
     }
 
     private String pkColumnName(String tableName) {

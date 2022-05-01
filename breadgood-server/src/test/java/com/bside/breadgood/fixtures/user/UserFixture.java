@@ -58,4 +58,14 @@ public class UserFixture {
                     null,
                     Role.USER
             );
+
+    public static final User 관리자 =
+            new User(
+                    "관리자",
+                    "admin@breadgood.com",
+                    "1234",
+                    1L,
+                    null,
+                    Role.ADMIN
+            );
 }

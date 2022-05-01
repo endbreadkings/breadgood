@@ -1,7 +1,6 @@
 package com.bside.breadgood.ddd.bakerycategory.application.dto;
 
 import com.bside.breadgood.ddd.bakerycategory.domain.BakeryCategory;
-import lombok.Builder;
 import lombok.Getter;
 
 @Getter
