@@ -1,6 +1,9 @@
 package com.bside.breadgood.fixtures.breadstyle;
 
 import com.bside.breadgood.ddd.breadstyles.domain.BreadStyle;
+import com.bside.breadgood.ddd.breadstyles.ui.dto.BreadStyleRequestDto;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
 public class BreadStyleFixture {
     public static final BreadStyle 크림 = BreadStyle.builder()
@@ -45,4 +48,16 @@ public class BreadStyleFixture {
             .contentImgUrl("https://d74hbwjus7qtu.cloudfront.net/admin/case_2_salty_.png")
             .profileImgUrl("https://d74hbwjus7qtu.cloudfront.net/admin/case_1_salty.png")
             .build();
+
+    public static BreadStyleRequestDto 최애빵스타일_등록요청(String name, String content, String color) {
+        return BreadStyleRequestDto.builder()
+            .name(name)
+            .content(content)
+            .color(color)
+            .build();
+    }
+
+    public static final MultipartFile 짭짤빵_요청이미지 = new MockMultipartFile("case_2_salty_.png", new byte[0]);
+
+    public static final MultipartFile 짭짤빵프로필_요청이미지 = new MockMultipartFile("case_1_salty.jpg", new byte[0]);
 }

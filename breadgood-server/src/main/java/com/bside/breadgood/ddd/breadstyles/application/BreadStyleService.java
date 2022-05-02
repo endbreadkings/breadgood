@@ -47,13 +47,14 @@ public class BreadStyleService {
     public BreadStyleResponseDto save(BreadStyleRequestDto requestDto,
         MultipartFile contentImg, MultipartFile profileImg) {
         String contentImgPath = s3Service.upload(contentImg, "admin");
-        String contentImgUrl = s3Service.cloudFrontDns + contentImgPath;
+        String contentImgUrl = s3Service.getFileHost() + contentImgPath;
 
         String profileImgPath = s3Service.upload(profileImg, "admin");
-        String profileImgUrl = s3Service.cloudFrontDns + profileImgPath;
+        String profileImgUrl = s3Service.getFileHost() + profileImgPath;
 
         BreadStyle breadStyle = requestDto.convertToEntity(contentImgUrl, profileImgUrl);
         final BreadStyle savedBreadStyle = breadStyleRepository.save(breadStyle);
+
         return new BreadStyleResponseDto(savedBreadStyle);
     }
 }
