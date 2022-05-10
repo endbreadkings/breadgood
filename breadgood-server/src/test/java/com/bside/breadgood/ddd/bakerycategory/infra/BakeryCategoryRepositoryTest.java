@@ -9,8 +9,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
 
-import static com.bside.breadgood.fixtures.bakerycategory.BakeryCategoryFixture.빵에집중;
-import static com.bside.breadgood.fixtures.bakerycategory.BakeryCategoryFixture.음료와빵;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("빵집 카테고리 저장소 테스트")
@@ -25,12 +23,32 @@ class BakeryCategoryRepositoryTest {
     @Test
     void findAllOrderBySortNumberAsc() {
         // given
-        bakeryCategoryRepository.saveAll(List.of(음료와빵, 빵에집중));
+        final BakeryCategory category1 = BakeryCategory.builder()
+                .title("카테고리1")
+                .titleColoredImgUrl("http://a/a.svg")
+                .titleUncoloredImgUrl("http://a/a.svg")
+                .color("1")
+                .markerImgUrl("http://a/a.svg")
+                .content("1")
+                .sortNumber(1)
+                .build();
+
+        final BakeryCategory category2 = BakeryCategory.builder()
+                .title("카테고리2")
+                .titleColoredImgUrl("http://b/b.svg")
+                .titleUncoloredImgUrl("http://b/b.svg")
+                .color("2")
+                .markerImgUrl("http://b/b.svg")
+                .content("2")
+                .sortNumber(2)
+                .build();
+
+        bakeryCategoryRepository.saveAll(List.of(category1, category2));
 
         // when
         final List<BakeryCategory> actual = bakeryCategoryRepository.findAllOrderBySortNumberAsc();
 
         // then
-        assertThat(actual.get(0).getSortNumber()).isLessThan(actual.get(1).getSortNumber());
+        assertThat(actual).extracting(BakeryCategory::getSortNumber).isSorted();
     }
 }

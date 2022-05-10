@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Email {
 
-    private final static String EMAIL_PATTERN = "^(.+)@(.+)$";
+    private final static String EMAIL_PATTERN = "^(.+)@([A-z].+[A-z])$";
 
     private String email;
 
