@@ -3,7 +3,7 @@ package com.bside.breadgood.fixtures.breadstyle;
 import com.bside.breadgood.ddd.breadstyles.domain.BreadStyle;
 
 public class BreadStyleFixture {
-    public static final BreadStyle 크림 = BreadStyle.builder()
+    public static final BreadStyle 크림_100 = BreadStyle.builder()
             .name("크림")
             .content("생크림빵, 슈크림빵, \n" +
                     "맘모스빵 케이크 등 \n" +
@@ -14,8 +14,7 @@ public class BreadStyleFixture {
             .sortNumber(100)
             .build();
 
-
-    public static final BreadStyle 달콤 = BreadStyle.builder()
+    public static final BreadStyle 달콤_200 = BreadStyle.builder()
             .name("달콤")
             .content("단팥빵, 연유브레드,\n" +
                     "시나몬롤 등 \n" +
@@ -26,7 +25,7 @@ public class BreadStyleFixture {
             .sortNumber(200)
             .build();
 
-    public static final BreadStyle 짭짤 = BreadStyle.builder()
+    public static final BreadStyle 짭짤_300 = BreadStyle.builder()
         .content("피자빵, 고로케,양파빵, \n" +
             "마늘바게트 등 \n" +
             "짭짤한 맛의 조리빵")
@@ -37,7 +36,7 @@ public class BreadStyleFixture {
         .sortNumber(300)
         .build();
 
-    public static final BreadStyle 담백 = BreadStyle.builder()
+    public static final BreadStyle 담백_400 = BreadStyle.builder()
             .content("식빵, 바게트, 치아바타, \n" +
                     "크루아상, 베이글 등\n" +
                     "자극적이지 않은 담백한 빵")

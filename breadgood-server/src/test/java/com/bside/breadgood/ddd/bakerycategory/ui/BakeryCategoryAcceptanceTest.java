@@ -24,7 +24,7 @@ import java.util.List;
 
 import static com.bside.breadgood.ddd.users.acceptance.UserAcceptanceTest.관리자_로그인_토큰;
 import static com.bside.breadgood.fixtures.bakerycategory.BakeryCategoryFixture.미등록된_빵에집중;
-import static com.bside.breadgood.fixtures.breadstyle.BreadStyleFixture.달콤;
+import static com.bside.breadgood.fixtures.breadstyle.BreadStyleFixture.달콤_200;
 import static com.bside.breadgood.fixtures.termstype.TermsTypeFixture.필수_개인정보_수집_및_이용_동의_약관_100;
 import static com.bside.breadgood.fixtures.user.UserFixture.관리자_등록_요청;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -49,7 +49,7 @@ public class BakeryCategoryAcceptanceTest extends AcceptanceTest {
     }
 
     private void 사용자_초기_데이터() {
-        final BreadStyle savedBreadStyle = breadStyleRepository.save(달콤);
+        final BreadStyle savedBreadStyle = breadStyleRepository.save(달콤_200);
         final TermsType savedTermsType = termsTypeRepository.save(필수_개인정보_수집_및_이용_동의_약관_100);
 
         final String 관리자_이메일 = "admin@breadgood.com";

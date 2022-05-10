@@ -43,7 +43,7 @@ import static com.bside.breadgood.fixtures.bakery.BakeryFixture.빵집1;
 import static com.bside.breadgood.fixtures.bakery.BakeryFixture.빵집등록요청;
 import static com.bside.breadgood.fixtures.bakerycategory.BakeryCategoryFixture.빵에집중;
 import static com.bside.breadgood.fixtures.bakerycategory.BakeryCategoryFixture.음료와빵;
-import static com.bside.breadgood.fixtures.breadstyle.BreadStyleFixture.달콤;
+import static com.bside.breadgood.fixtures.breadstyle.BreadStyleFixture.달콤_200;
 import static com.bside.breadgood.fixtures.emoji.EmojiFixture.이모지1;
 import static com.bside.breadgood.fixtures.user.UserFixture.테스트유저;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -250,9 +250,9 @@ class BakeryServiceTest {
         when(bakeryCategoryService.findById(any())).thenReturn(new BakeryCategoryResponseDto(빵에집중));
         when(emojiService.findById(any())).thenReturn(new EmojiResponseDto(이모지1));
 
-        setId(달콤, BreadStyle.class, 1L);
+        setId(달콤_200, BreadStyle.class, 1L);
 
-        when(breadStyleService.findById(any())).thenReturn(new BreadStyleResponseDto(달콤));
+        when(breadStyleService.findById(any())).thenReturn(new BreadStyleResponseDto(달콤_200));
         when(bakeryRepository.save(any())).thenReturn(빵집1);
 
         //then
