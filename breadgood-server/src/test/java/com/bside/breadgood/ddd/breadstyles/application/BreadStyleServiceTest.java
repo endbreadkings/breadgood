@@ -36,14 +36,14 @@ class BreadStyleServiceTest {
     @DisplayName("최애빵 스타일 리스트 조회")
     void findAll() {
         // given
-        final List<BreadStyle> expected = Arrays.asList(담백, 짭짤);
-        given(breadStyleRepository.findAllOrderByIdDesc()).willReturn(expected);
+        final List<BreadStyle> expected = Arrays.asList(짭짤, 담백);
+        given(breadStyleRepository.findAllOrderBySortNumberAsc()).willReturn(expected);
         // when
         List<BreadStyleResponseDto> actual = breadStyleService.findAll();
         // then
         assertThat(actual).containsExactlyElementsOf(
-                Arrays.asList(new BreadStyleResponseDto(담백),
-                        new BreadStyleResponseDto(짭짤)
+                Arrays.asList(new BreadStyleResponseDto(짭짤),
+                        new BreadStyleResponseDto(담백)
                 )
         );
     }

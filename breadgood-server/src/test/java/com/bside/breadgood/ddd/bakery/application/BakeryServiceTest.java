@@ -196,7 +196,7 @@ class BakeryServiceTest {
         Emoji emoji = new Emoji(1L, "emojiName", "img.url", 1);
         EmojiResponseDto emojiDto = new EmojiResponseDto(emoji);
 
-        BreadStyle breadStyle = new BreadStyle(1L, "담백", "담백빵 내용", ImageUrl.from("https://test.domain.com/path1/img.png"), ImageUrl.from("https://test.domain.com/path1/img.png"), "#FFFFFF");
+        BreadStyle breadStyle = new BreadStyle(1L, "담백", "담백빵 내용", ImageUrl.from("https://test.domain.com/path1/img.png"), ImageUrl.from("https://test.domain.com/path1/img.png"), "#FFFFFF", 400);
         BreadStyleResponseDto breadStyleDto = new BreadStyleResponseDto(breadStyle);
 
         bakery1.addBakeryReview(userDto, "리뷰 내용이지롱. 10글자 채워야되네...", emojiDto, null, List.of("메뉴1", "메뉴2"), "hosthost", breadStyleDto);

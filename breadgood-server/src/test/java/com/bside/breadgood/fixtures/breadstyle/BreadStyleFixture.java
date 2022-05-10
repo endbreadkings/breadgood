@@ -11,6 +11,7 @@ public class BreadStyleFixture {
             .contentImgUrl("https://d74hbwjus7qtu.cloudfront.net/admin/case_2_cream_.png")
             .profileImgUrl("https://d74hbwjus7qtu.cloudfront.net/admin/case_1_cream.png")
             .color("#fd9573")
+            .sortNumber(100)
             .build();
 
 
@@ -22,8 +23,19 @@ public class BreadStyleFixture {
             .contentImgUrl("https://d74hbwjus7qtu.cloudfront.net/admin/case_2_sweet_.png")
             .profileImgUrl("https://d74hbwjus7qtu.cloudfront.net/admin/case_1_sweet.png")
             .color("#c59577")
+            .sortNumber(200)
             .build();
 
+    public static final BreadStyle 짭짤 = BreadStyle.builder()
+        .content("피자빵, 고로케,양파빵, \n" +
+            "마늘바게트 등 \n" +
+            "짭짤한 맛의 조리빵")
+        .name("짭짤")
+        .color("#FFBC4A")
+        .contentImgUrl("https://d74hbwjus7qtu.cloudfront.net/admin/case_2_salty_.png")
+        .profileImgUrl("https://d74hbwjus7qtu.cloudfront.net/admin/case_1_salty.png")
+        .sortNumber(300)
+        .build();
 
     public static final BreadStyle 담백 = BreadStyle.builder()
             .content("식빵, 바게트, 치아바타, \n" +
@@ -33,16 +45,6 @@ public class BreadStyleFixture {
             .color("#8FBCFF")
             .contentImgUrl("https://d74hbwjus7qtu.cloudfront.net/admin/case_1_plain.png")
             .profileImgUrl("https://d74hbwjus7qtu.cloudfront.net/admin/case_2_plain_.png")
-            .build();
-
-
-    public static final BreadStyle 짭짤 = BreadStyle.builder()
-            .content("피자빵, 고로케,양파빵, \n" +
-                    "마늘바게트 등 \n" +
-                    "짭짤한 맛의 조리빵")
-            .name("짭짤")
-            .color("#FFBC4A")
-            .contentImgUrl("https://d74hbwjus7qtu.cloudfront.net/admin/case_2_salty_.png")
-            .profileImgUrl("https://d74hbwjus7qtu.cloudfront.net/admin/case_1_salty.png")
+            .sortNumber(400)
             .build();
 }
