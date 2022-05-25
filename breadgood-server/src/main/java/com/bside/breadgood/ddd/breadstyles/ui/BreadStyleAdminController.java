@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiResponses;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,7 +43,8 @@ public class BreadStyleAdminController {
       @ApiResponse(code = 500, message = "InternalServerError", response = InternalServerError.class),
       @ApiResponse(code = -1, message = "ExceptionResponse", response = ExceptionResponse.class)}
   )
-  @GetMapping("")
+  @GetMapping("/list")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   public List<BreadStyleResponseDto> findAll() {
     return breadStyleService.findAll();
   }

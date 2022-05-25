@@ -28,7 +28,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static com.bside.breadgood.fixtures.bakerycategory.BakeryCategoryFixture.빵에집중;
-import static com.bside.breadgood.fixtures.breadstyle.BreadStyleFixture.달콤;
+import static com.bside.breadgood.fixtures.breadstyle.BreadStyleFixture.달콤_200;
 import static com.bside.breadgood.fixtures.emoji.EmojiFixture.이모지1;
 import static com.bside.breadgood.fixtures.user.UserFixture.테스트유저;
 import static org.junit.jupiter.api.Assertions.*;
@@ -73,7 +73,7 @@ class BakeryTest {
     void setUp() {
         user = userRepository.save(테스트유저);
         emoji = emojiRepository.save(이모지1);
-        breadStyle = breadStyleRepository.save(달콤);
+        breadStyle = breadStyleRepository.save(달콤_200);
         bakeryCategory = bakeryCategoryRepository.save(빵에집중);
     }
 
