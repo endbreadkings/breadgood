@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:ui';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:breadgood_app/config/themes/light_theme.dart' as THEME;
 
@@ -37,8 +38,6 @@ class _LoginState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    // MainMapController _controllerWithGetX = Get.put(MainMapController());
-
     return Scaffold(
         body: Center(
       child: Column(
@@ -49,16 +48,16 @@ class _LoginState extends State<LoginPage> {
               child: Column(
             children: [
               new Container(
-                margin: EdgeInsets.only(bottom: 10),
                 width: 300,
                 child: ButtonTheme(
-                  buttonColor: Color.fromRGBO(255, 232, 18, 1),
+                  buttonColor: Color(0xFFFEE500),
                   textTheme: ButtonTextTheme.primary,
                   minWidth: 300.0,
                   height: 56.0,
                   child: RaisedButton(
                     elevation: 0,
                     child: Row(
+<<<<<<< Updated upstream
                       children: <Widget>[
                         Padding(
                           padding: EdgeInsets.fromLTRB(0, 20, 78, 19),
@@ -71,6 +70,22 @@ class _LoginState extends State<LoginPage> {
                             )
                         )),
                         Center(child: Text("카카오 로그인", style: TextStyle(color: Colors.black, fontSize: 15))),
+=======
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                       Padding(
+                          padding: EdgeInsets.fromLTRB(0, 16, 76, 16),
+                            child: Container(
+                                width: 24,
+                                height: 24,
+                                child: SvgPicture.asset(
+                                  'asset/images/icon/login/icon_kakao.svg',
+                                  fit: BoxFit.scaleDown,
+                                )
+                            )
+                        ),
+                        Text("카카오 로그인", style: TextStyle(color: Colors.black, fontSize: 15)),
+>>>>>>> Stashed changes
                       ],
                     ),
                     onPressed: () => {
@@ -84,7 +99,8 @@ class _LoginState extends State<LoginPage> {
                 ),
               ),
               if (Platform.isIOS)
-                new Container(width: 300, child: _appleLogin())
+                SizedBox(height: 8),
+                new Container(width: 300, child: _appleLogin()),
             ],
           ))
         ],
@@ -99,12 +115,13 @@ class _appleLogin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ButtonTheme(
-        buttonColor: Color.fromRGBO(0, 0, 0, 1),
+        buttonColor: Color(0xFF000000),
         minWidth: 300.0,
         height: 56.0,
         child: RaisedButton(
           elevation: 0,
           child: Row(
+<<<<<<< Updated upstream
             children: <Widget>[
               Padding(
           padding: EdgeInsets.fromLTRB(10, 20, 59, 19),
@@ -117,6 +134,22 @@ class _appleLogin extends StatelessWidget {
                   )
               )),
               Center(child:Text("애플 계정으로 로그인", style: TextStyle(color: Colors.white, fontSize: 15))),
+=======
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+          Padding(
+          padding: EdgeInsets.fromLTRB(6, 16, 55, 16),
+          child:
+          Container(
+                  width: 24,
+                  height: 24,
+                  child: SvgPicture.asset(
+                    'asset/images/icon/login/icon_apple.svg',
+                    fit: BoxFit.scaleDown,
+                  )
+              )),
+              Text("애플 계정으로 로그인", style: TextStyle(color: Colors.white, fontSize: 15)),
+>>>>>>> Stashed changes
             ],
           ),
           textColor: Colors.white,
