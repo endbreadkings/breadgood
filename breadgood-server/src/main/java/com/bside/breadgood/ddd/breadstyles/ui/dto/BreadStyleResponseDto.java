@@ -1,13 +1,14 @@
 package com.bside.breadgood.ddd.breadstyles.ui.dto;
 
 import com.bside.breadgood.ddd.breadstyles.domain.BreadStyle;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
-import java.util.Objects;
-
 @Getter
 @EqualsAndHashCode
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class BreadStyleResponseDto {
     private final Long id;
     //  이름
