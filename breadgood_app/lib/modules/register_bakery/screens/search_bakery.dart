@@ -49,14 +49,12 @@ class SearchBakeryPage extends StatefulWidget {
 }
 
 class _SearchBakeryPageState extends State<SearchBakeryPage> {
-  bool searched = false;
   Future<NaverMapData> FsearchedBakeries;
 
   _onChanged(String text) {
     FsearchedBakeries = fetchSearchData(text);
 
     setState(() {
-      (FsearchedBakeries != null) ? searched = true : searched = false;
     });
   }
 
@@ -137,7 +135,7 @@ class _SearchBakeryPageState extends State<SearchBakeryPage> {
                 ),
               ),
             ),
-            (searched == false)
+            FsearchedBakeries == null
                 ? GetNoResult()
                 : Padding(
                     padding: EdgeInsets.fromLTRB(20, 40, 20, 0),
