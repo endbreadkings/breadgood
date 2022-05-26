@@ -6,6 +6,7 @@ import 'package:breadgood_app/utils/ui/main_app_bar.dart';
 import 'package:breadgood_app/modules/register_bakery/controller/bakery_controller.dart';
 import 'package:breadgood_app/modules/register_bakery/model/bakery_data.dart';
 import 'package:breadgood_app/modules/register_bakery/model/bakery_category.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SelectBakeryCategoryPage extends StatefulWidget {
   const SelectBakeryCategoryPage({Key key}) : super(key: key);
@@ -168,8 +169,12 @@ class _SelectBakeryCategoryPageState extends State<SelectBakeryCategoryPage> {
                       child: Container(
                           width: 36,
                           height: 44,
-                          child: Image.network(
-                            category.makerImgUrl,
+                          child:
+                          category.markerImgUrl == null
+                          ? SvgPicture.asset(
+                              'asset/images/icon/registerReview/x.svg')
+                          : Image.network(
+                            category.markerImgUrl,
                             fit: BoxFit.scaleDown,
                           )
                       ),
