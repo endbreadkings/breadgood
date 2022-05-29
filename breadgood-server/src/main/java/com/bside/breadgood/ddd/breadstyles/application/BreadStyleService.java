@@ -31,7 +31,7 @@ public class BreadStyleService {
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<BreadStyleResponseDto> findAll() {
-        return breadStyleRepository.findAllOrderBySortNumberAsc().stream()
+        return breadStyleRepository.findAllByOrderBySortNumberAsc().stream()
                 .map(BreadStyleResponseDto::new)
                 .collect(Collectors.toList());
     }

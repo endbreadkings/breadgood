@@ -43,10 +43,9 @@ class BreadStyleRepositoryTest {
   @DisplayName("최애빵 sort_number 오름차순 조회 테스트")
   void findAllOrderBySortNumberAscTest() {
     // when
-    List<BreadStyle> breadStyles = repository.findAllOrderBySortNumberAsc();
+    List<BreadStyle> breadStyles = repository.findAllByOrderBySortNumberAsc();
 
     // then
-    assertThat(breadStyles.get(0)).isEqualTo(크림_100);
-    assertThat(breadStyles.get(1)).isEqualTo(달콤_200);
+    assertThat(breadStyles).containsExactly(크림_100, 달콤_200);
   }
 }

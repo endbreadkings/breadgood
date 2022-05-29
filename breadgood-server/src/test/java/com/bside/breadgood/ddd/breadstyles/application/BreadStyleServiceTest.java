@@ -46,7 +46,7 @@ class BreadStyleServiceTest {
     void findAll() {
         // given
         final List<BreadStyle> expected = Arrays.asList(짭짤_300, 담백_400);
-        given(breadStyleRepository.findAllOrderBySortNumberAsc()).willReturn(expected);
+        given(breadStyleRepository.findAllByOrderBySortNumberAsc()).willReturn(expected);
         // when
         List<BreadStyleResponseDto> actual = breadStyleService.findAll();
         // then
