@@ -15,8 +15,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static com.bside.breadgood.fixtures.breadstyle.BreadStyleFixture.담백;
-import static com.bside.breadgood.fixtures.breadstyle.BreadStyleFixture.짭짤;
+import static com.bside.breadgood.fixtures.breadstyle.BreadStyleFixture.담백_400;
+import static com.bside.breadgood.fixtures.breadstyle.BreadStyleFixture.짭짤_300;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -36,14 +36,14 @@ class BreadStyleServiceTest {
     @DisplayName("최애빵 스타일 리스트 조회")
     void findAll() {
         // given
-        final List<BreadStyle> expected = Arrays.asList(담백, 짭짤);
-        given(breadStyleRepository.findAllOrderByIdDesc()).willReturn(expected);
+        final List<BreadStyle> expected = Arrays.asList(짭짤_300, 담백_400);
+        given(breadStyleRepository.findAllByOrderBySortNumberAsc()).willReturn(expected);
         // when
         List<BreadStyleResponseDto> actual = breadStyleService.findAll();
         // then
         assertThat(actual).containsExactlyElementsOf(
-                Arrays.asList(new BreadStyleResponseDto(담백),
-                        new BreadStyleResponseDto(짭짤)
+                Arrays.asList(new BreadStyleResponseDto(짭짤_300),
+                        new BreadStyleResponseDto(담백_400)
                 )
         );
     }
@@ -52,12 +52,12 @@ class BreadStyleServiceTest {
     @DisplayName("최애빵 스타일 조회")
     void findById() {
         // given
-        BreadStyle expected = 담백;
+        BreadStyle expected = 담백_400;
         given(breadStyleRepository.findById(anyLong())).willReturn(Optional.of(expected));
         // when
         final BreadStyleResponseDto actual = breadStyleService.findById(anyLong());
         // then
-        assertThat(actual).isEqualTo(new BreadStyleResponseDto(담백));
+        assertThat(actual).isEqualTo(new BreadStyleResponseDto(담백_400));
     }
 
     @Test
