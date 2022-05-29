@@ -549,7 +549,7 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
                           ? '표정, 리뷰 10글자 이상, 시그니처 메뉴 1개를 입력해주세요.'
                           : '표정, 리뷰 10글자 이상을 입력해주세요.',
                       style: TextStyle(
-                          color: bColorsBlue,
+                          color: blue0700,
                           fontSize: 12,
                           fontFamily: 'AppleSDGothicNeo'))
                 ])))
