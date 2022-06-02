@@ -57,20 +57,6 @@ class _LoginState extends State<LoginPage> {
                   child: RaisedButton(
                     elevation: 0,
                     child: Row(
-<<<<<<< Updated upstream
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0, 20, 78, 19),
-                        child: Container(
-                            width: 18,
-                            height: 17,
-                            child: SvgPicture.asset(
-                              'asset/images/icon/login/kakao.svg',
-                              fit: BoxFit.scaleDown,
-                            )
-                        )),
-                        Center(child: Text("카카오 로그인", style: TextStyle(color: Colors.black, fontSize: 15))),
-=======
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                        Padding(
@@ -84,8 +70,11 @@ class _LoginState extends State<LoginPage> {
                                 )
                             )
                         ),
-                        Text("카카오 로그인", style: TextStyle(color: Colors.black, fontSize: 15)),
->>>>>>> Stashed changes
+                        Padding(
+                          padding: EdgeInsets.only(top:1),
+                            child:
+                            Text("카카오 로그인", style: TextStyle(color: Colors.black, fontSize: 15))
+                ),
                       ],
                     ),
                     onPressed: () => {
@@ -121,20 +110,6 @@ class _appleLogin extends StatelessWidget {
         child: RaisedButton(
           elevation: 0,
           child: Row(
-<<<<<<< Updated upstream
-            children: <Widget>[
-              Padding(
-          padding: EdgeInsets.fromLTRB(10, 20, 59, 19),
-          child: Container(
-                  width: 14,
-                  height: 17.49,
-                  child: SvgPicture.asset(
-                    'asset/images/icon/login/apple.svg',
-                    fit: BoxFit.scaleDown,
-                  )
-              )),
-              Center(child:Text("애플 계정으로 로그인", style: TextStyle(color: Colors.white, fontSize: 15))),
-=======
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
           Padding(
@@ -149,7 +124,6 @@ class _appleLogin extends StatelessWidget {
                   )
               )),
               Text("애플 계정으로 로그인", style: TextStyle(color: Colors.white, fontSize: 15)),
->>>>>>> Stashed changes
             ],
           ),
           textColor: Colors.white,
