@@ -9,4 +9,7 @@ import java.util.List;
 public interface BreadStyleRepository extends CrudRepository<BreadStyle, Long> {
 
     List<BreadStyle> findAllByOrderBySortNumberAsc();
+
+    @Query("select coalesce(max(b.sortNumber), 0) from BreadStyle b")
+    int findMaxSortNumber();
 }

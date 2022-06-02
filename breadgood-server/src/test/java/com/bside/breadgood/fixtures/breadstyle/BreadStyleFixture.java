@@ -2,6 +2,9 @@ package com.bside.breadgood.fixtures.breadstyle;
 
 import com.bside.breadgood.ddd.breadstyles.domain.BreadStyle;
 import com.bside.breadgood.ddd.breadstyles.ui.dto.BreadStyleRequestDto;
+import java.io.FileInputStream;
+import java.io.IOException;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -58,7 +61,24 @@ public class BreadStyleFixture {
             .build();
     }
 
-    public static final MultipartFile 짭짤빵_요청이미지 = new MockMultipartFile("case_2_salty_.png", new byte[0]);
+    public static MultipartFile 짭짤빵_요청이미지;
+    public static MultipartFile 짭짤빵프로필_요청이미지;
+    static {
+        try {
+            짭짤빵_요청이미지 = new MockMultipartFile(
+                "case_2_salty_.png", "salty_content.png",
+                MediaType.APPLICATION_OCTET_STREAM_VALUE,
+                new FileInputStream("src/test/resources/images/salty_content.png")
+            );
 
-    public static final MultipartFile 짭짤빵프로필_요청이미지 = new MockMultipartFile("case_1_salty.jpg", new byte[0]);
+            짭짤빵프로필_요청이미지 = new MockMultipartFile(
+                "case_1_salty.png", "salty_profile.png",
+                MediaType.APPLICATION_OCTET_STREAM_VALUE,
+                new FileInputStream("src/test/resources/images/salty_profile.png")
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

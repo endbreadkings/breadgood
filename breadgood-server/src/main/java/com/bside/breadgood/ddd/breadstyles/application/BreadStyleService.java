@@ -24,6 +24,8 @@ public class BreadStyleService {
 
     private final BreadStyleRepository breadStyleRepository;
 
+    private static final int UNIT_OF_SORT_NUMBER = 100;
+
     @Transactional
     public void initData() {
         breadStyleRepository.saveAll(new InitBreadStyleData().get());
@@ -52,9 +54,14 @@ public class BreadStyleService {
         String profileImgPath = s3Service.upload(profileImg, "admin");
         String profileImgUrl = s3Service.getFileHost() + profileImgPath;
 
-        BreadStyle breadStyle = requestDto.convertToEntity(contentImgUrl, profileImgUrl);
+        BreadStyle breadStyle = requestDto.toEntity(contentImgUrl, profileImgUrl, getSortNumber());
         final BreadStyle savedBreadStyle = breadStyleRepository.save(breadStyle);
 
         return new BreadStyleResponseDto(savedBreadStyle);
+    }
+
+    private int getSortNumber() {
+        int maxSortNumber = breadStyleRepository.findMaxSortNumber();
+        return maxSortNumber + UNIT_OF_SORT_NUMBER;
     }
 }

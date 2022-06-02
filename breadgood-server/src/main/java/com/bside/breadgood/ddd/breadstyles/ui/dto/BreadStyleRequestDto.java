@@ -35,13 +35,14 @@ public class BreadStyleRequestDto {
     this.color = color;
   }
 
-  public BreadStyle convertToEntity(String contentImgUrl, String profileImgUrl) {
+  public BreadStyle toEntity(String contentImgUrl, String profileImgUrl, int sortNumber) {
     return BreadStyle.builder()
         .name(this.name)
         .content(this.content)
         .color(this.color)
         .contentImgUrl(contentImgUrl)
         .profileImgUrl(profileImgUrl)
+        .sortNumber(sortNumber)
         .build();
   }
 }
