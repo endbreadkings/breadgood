@@ -1,13 +1,14 @@
 package com.bside.breadgood.ddd.breadstyles.ui.dto;
 
 import com.bside.breadgood.ddd.breadstyles.domain.BreadStyle;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
-import java.util.Objects;
-
 @Getter
 @EqualsAndHashCode
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class BreadStyleResponseDto {
     private final Long id;
     //  이름
@@ -20,6 +21,8 @@ public class BreadStyleResponseDto {
     private final String profileImgUrl;
     // 최애빵 색상
     private String color;
+    // 최애빵 정렬 순서
+    private final int sortNumber;
 
     public BreadStyleResponseDto(BreadStyle entity) {
         this.id = entity.getId();
@@ -28,5 +31,6 @@ public class BreadStyleResponseDto {
         this.imgUrl = entity.getContentImgUrl();
         this.profileImgUrl = entity.getProfileImgUrl();
         this.color = entity.getColor();
+        this.sortNumber = entity.getSortNumber();
     }
 }
