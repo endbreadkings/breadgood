@@ -9,9 +9,9 @@ import com.bside.breadgood.ddd.termstype.domain.TermsType;
 import com.bside.breadgood.ddd.termstype.infra.TermsTypeRepository;
 import com.bside.breadgood.ddd.users.infra.UserRepository;
 
+import static com.bside.breadgood.ddd.utils.MultipartFileUtils.getMultiPartSpecification;
 import static com.bside.breadgood.ddd.users.acceptance.UserAcceptanceTest.로그인_토큰;
 import static com.bside.breadgood.fixtures.breadstyle.BreadStyleFixture.달콤_200;
-import static com.bside.breadgood.fixtures.breadstyle.BreadStyleFixture.짭짤_300;
 import static com.bside.breadgood.fixtures.breadstyle.BreadStyleFixture.짭짤빵_요청이미지;
 import static com.bside.breadgood.fixtures.breadstyle.BreadStyleFixture.짭짤빵프로필_요청이미지;
 import static com.bside.breadgood.fixtures.breadstyle.BreadStyleFixture.최애빵스타일_등록요청;
@@ -21,7 +21,6 @@ import static com.bside.breadgood.fixtures.user.UserFixture.관리자_등록_요
 import static org.assertj.core.api.Assertions.assertThat;
 
 import io.restassured.RestAssured;
-import io.restassured.builder.MultiPartSpecBuilder;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.io.IOException;
@@ -92,9 +91,9 @@ public class BreadStyleAdminAcceptanceTest extends AcceptanceTest {
     // given
     final String 토큰 = 로그인_토큰("admin@breadgood.com", "admin1234");
 
-    final ExtractableResponse<Response> response = 최애빵_리스트_조회_요청(토큰);
+    final ExtractableResponse<Response> 최애빵_리스트_조회_응답 = 최애빵_리스트_조회_요청(토큰);
 
-    최애빵_리스트_조회_성공(response);
+    최애빵_리스트_조회_성공(최애빵_리스트_조회_응답);
   }
 
   @Test
@@ -110,13 +109,13 @@ public class BreadStyleAdminAcceptanceTest extends AcceptanceTest {
         "#FFBC4A");
 
     // when
-    final ExtractableResponse<Response> response = 최애빵_등록_요청(토큰,
+    final ExtractableResponse<Response> 최애빵_등록_응답 = 최애빵_등록_요청(토큰,
         등록요청,
         짭짤빵_요청이미지,
         짭짤빵프로필_요청이미지);
 
     // then
-    최애빵_등록_성공(response);
+    최애빵_등록_성공(최애빵_등록_응답);
   }
 
   public static ExtractableResponse<Response> 최애빵_리스트_조회_요청(String token) {
@@ -142,22 +141,14 @@ public class BreadStyleAdminAcceptanceTest extends AcceptanceTest {
     assertThat(dto1.getSortNumber()).isLessThan(dto2.getSortNumber());
   }
 
-  public ExtractableResponse<Response> 최애빵_등록_요청(String token,
+  public static ExtractableResponse<Response> 최애빵_등록_요청(String token,
       BreadStyleRequestDto dto, MultipartFile img,  MultipartFile profileImg) throws IOException {
     return RestAssured
         .given().log().all()
         .auth().oauth2(token)
         .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
-        .multiPart(new MultiPartSpecBuilder(img.getBytes())
-            .controlName("img")
-            .fileName(img.getName())
-            .mimeType(img.getContentType())
-            .build())
-        .multiPart(new MultiPartSpecBuilder(profileImg.getBytes())
-            .controlName("profileImg")
-            .fileName(img.getName())
-            .mimeType(profileImg.getContentType())
-            .build())
+        .multiPart(getMultiPartSpecification("img", img))
+        .multiPart(getMultiPartSpecification("profileImg", profileImg))
         .param("name",dto.getName())
         .param("content",dto.getContent())
         .param("color",dto.getColor())
@@ -166,7 +157,7 @@ public class BreadStyleAdminAcceptanceTest extends AcceptanceTest {
         .extract();
   }
 
-  public void 최애빵_등록_성공(ExtractableResponse<Response> response) {
+  public static void 최애빵_등록_성공(ExtractableResponse<Response> response) {
     final BreadStyleResponseDto responseDto = response.jsonPath()
         .getObject("", BreadStyleResponseDto.class);
 
