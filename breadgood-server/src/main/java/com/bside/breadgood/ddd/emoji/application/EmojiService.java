@@ -24,7 +24,7 @@ public class EmojiService {
     }
 
     public List<EmojiResponseDto> findAll() {
-        return emojiRepository.findAllOrderByIdDesc().stream()
+        return emojiRepository.findAllByOrderBySortNumberAsc().stream()
                 .map(EmojiResponseDto::new)
                 .collect(Collectors.toList());
     }
