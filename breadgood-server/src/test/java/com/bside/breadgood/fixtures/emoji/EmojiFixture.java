@@ -19,13 +19,13 @@ public class EmojiFixture {
       new Emoji(
           "음...?",
           "https://d74hbwjus7qtu.cloudfront.net/admin/e2.png",
-          100
+          200
       );
 
   public static final Emoji 이모지_300 =
       new Emoji(
           "괜찮아요",
           "https://d74hbwjus7qtu.cloudfront.net/admin/e3.png",
-          100
+          300
       );
 }
