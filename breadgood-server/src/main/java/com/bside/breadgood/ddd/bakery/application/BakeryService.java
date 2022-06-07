@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class BakeryService {
     private static final String SEOUL_WORD = "서울";
@@ -80,7 +81,7 @@ public class BakeryService {
     private void validateSave(BakerySaveRequestDto dto, MultipartFile[] files) {
 
         // 서울
-            if (StringUtils.isEmpty(dto.getCity()) || !dto.getCity().equals(SEOUL_CITY_WORD)) {
+        if (StringUtils.isEmpty(dto.getCity()) || !dto.getCity().equals(SEOUL_CITY_WORD)) {
             throw new IllegalCityException(dto.getCity());
         }
         if (checkDuplicatedRoadAddress(dto.getRoadAddress())) {
@@ -186,7 +187,6 @@ public class BakeryService {
         return new CheckDuplicateBakeryResponseDto(false, nickName, null);
     }
 
-    @Transactional(readOnly = true)
     public List<BakerySearchResponseDto> search(BakerySearchRequestDto dto) {
         final String city = dto.getCity();
         final String district = dto.getDistrict();
@@ -249,6 +249,12 @@ public class BakeryService {
             final UserInfoResponseDto userInfo = userService.findUserInfoById(bakery.getUser());
             return new BakerySearchResponseDto(bakery, bakeryReview, bakeryCategoryResponseDto, userInfo);
         }).collect(Collectors.toList());
+    }
+
+    public List<Bakery> findAll() {
+        final List<Bakery> bakeries = bakeryRepository.findAll();
+
+        return bakeries;
     }
 
 
@@ -465,26 +471,26 @@ public class BakeryService {
             String title = "에뚜왈";
 
             final Bakery bakery = Bakery.builder()
-                .bakeryCategory(bakeryCategoryResponseDto2)
-                .city(city)
-                .content(content)
-                .description(description)
-                .district(district)
-                .emoji(emojiResponseDto)
-                .imgHost(fileHost)
-                .imgUrls(filePaths)
-                .mapX(mapX)
-                .mapY(mapY)
-                .roadAddress(roadAddress)
-                .signatureMenus(signatureMenus)
-                .title(title)
-                .user(userService.findById(5L))
-                .breadStyle(breadStyleResponseDto)
-                .build();
+                    .bakeryCategory(bakeryCategoryResponseDto2)
+                    .city(city)
+                    .content(content)
+                    .description(description)
+                    .district(district)
+                    .emoji(emojiResponseDto)
+                    .imgHost(fileHost)
+                    .imgUrls(filePaths)
+                    .mapX(mapX)
+                    .mapY(mapY)
+                    .roadAddress(roadAddress)
+                    .signatureMenus(signatureMenus)
+                    .title(title)
+                    .user(userService.findById(5L))
+                    .breadStyle(breadStyleResponseDto)
+                    .build();
 
             bakery.addBakeryReview(userService.findById(3L), "그냥 모든 마들렌이 존맛탱입니다.\n그런데 줄바꿈은 어떻게 뜨나요? 내부에 좌석은 없어서 테이크 아웃만 가능합니다!",
-                emojiService.findById(1L), filePaths, Arrays.asList("녹차마들렌인데 줄임표 테스트", "레몬마들렌인데 줄임표 테스트"),
-                fileHost, breadStyleResponseDto);
+                    emojiService.findById(1L), filePaths, Arrays.asList("녹차마들렌인데 줄임표 테스트", "레몬마들렌인데 줄임표 테스트"),
+                    fileHost, breadStyleResponseDto);
             bakeries.add(bakery);
         }
 

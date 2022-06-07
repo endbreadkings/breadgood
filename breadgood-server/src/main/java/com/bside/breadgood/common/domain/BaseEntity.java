@@ -1,31 +1,27 @@
 package com.bside.breadgood.common.domain;
 
 import lombok.Getter;
-import lombok.Setter;
+import org.hibernate.annotations.Where;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Column;
+import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import java.time.LocalDateTime;
 
-@Setter
 @Getter
 @MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
 public abstract class BaseEntity {
-    @Column(updatable = false)
-    private LocalDateTime created_at;
-    private LocalDateTime updated_at;
+    @CreatedDate
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 
-    @PrePersist
-    public void prePersist() {
-        LocalDateTime now = LocalDateTime.now();
-        created_at = now;
-        updated_at = now;
-    }
+    @LastModifiedDate
+    @Column(name = "updatedAt", nullable = false)
+    private LocalDateTime updatedAt;
 
-    @PreUpdate
-    public void preUpdate() {
-        updated_at = LocalDateTime.now();
-    }
+    private boolean deleted = Boolean.FALSE;
 }

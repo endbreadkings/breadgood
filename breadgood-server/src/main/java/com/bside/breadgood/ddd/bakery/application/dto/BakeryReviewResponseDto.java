@@ -44,7 +44,7 @@ public class BakeryReviewResponseDto {
         this.signatureMenus = bakeryReview.getSignatureMenus();
         this.thumbnailImgUrls = bakeryReview.getImgUrls();
         this.detailImgUrls = bakeryReview.getImgUrls();
-        this.create_at = bakeryReview.getCreated_at().format(DateTimeFormatter.ofPattern("dd/MM/yy HH:mm"));
+        this.create_at = bakeryReview.getCreatedAt().format(DateTimeFormatter.ofPattern("dd/MM/yy HH:mm"));
         this.userId = bakeryReview.getUser();
         this.nickName = userInfoResponseDto.getNickName();
         this.breadStyleName = userInfoResponseDto.getBreadStyleName();
