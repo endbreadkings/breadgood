@@ -11,6 +11,7 @@ import 'dart:core';
 import 'package:breadgood_app/modules/register_bakery/model/bakery_data.dart';
 import 'package:breadgood_app/modules/register_bakery/controller/bakery_controller.dart';
 import 'package:breadgood_app/utils/services/rest_api_service.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 Future<NaverMapData> fetchSearchData(String searchKeyword) async {
   var endpointUrl = 'https://openapi.naver.com/v1/search/local.json';
@@ -214,7 +215,13 @@ class SearchBakeryPageAppbar extends DefaultAppBar {
   Widget build(BuildContext context) {
     return AppBar(
       leading: IconButton(
-        icon: Image.asset('asset/images/Vector.png'),
+        icon: Container(
+            height: 16,
+            width: 8,
+            child: SvgPicture.asset(
+              'asset/images/Vector.svg',
+              fit: BoxFit.scaleDown,
+            )),
         onPressed: () => Navigator.pushReplacementNamed(context, '/main'),
       ),
       backgroundColor: Colors.transparent,

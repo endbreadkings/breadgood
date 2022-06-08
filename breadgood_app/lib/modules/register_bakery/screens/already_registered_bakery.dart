@@ -4,6 +4,7 @@ import 'package:breadgood_app/modules/register_review/screens/register_review.da
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:breadgood_app/utils/ui/main_app_bar.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -294,7 +295,13 @@ class AlreadyRegisteredBakeryAppbar extends DefaultAppBar {
   Widget build(BuildContext context) {
     return AppBar(
       leading: IconButton(
-        icon: Image.asset('asset/images/Vector.png'),
+        icon: Container(
+            height: 16,
+            width: 8,
+            child: SvgPicture.asset(
+              'asset/images/Vector.svg',
+              fit: BoxFit.scaleDown,
+            )),
         onPressed: () => Navigator.of(context).pop(),
       ),
       backgroundColor: Colors.transparent,
