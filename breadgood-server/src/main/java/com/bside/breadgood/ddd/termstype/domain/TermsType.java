@@ -1,7 +1,6 @@
 package com.bside.breadgood.ddd.termstype.domain;
 
 import com.bside.breadgood.common.domain.BaseEntity;
-import com.bside.breadgood.ddd.termstype.application.excetion.TermsNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -56,11 +55,4 @@ public class TermsType extends BaseEntity {
     }
 
 
-    public Terms getTermsById(Long termsId) {
-        return this.getTerms()
-                .stream()
-                .filter(t -> t.getId().equals(termsId))
-                .findFirst()
-                .orElseThrow(() -> new TermsNotFoundException("id", String.valueOf(termsId)));
-    }
 }

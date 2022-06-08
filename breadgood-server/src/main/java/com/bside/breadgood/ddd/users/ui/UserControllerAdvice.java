@@ -3,7 +3,6 @@ package com.bside.breadgood.ddd.users.ui;
 import com.bside.breadgood.common.exception.ExceptionAdvice;
 import com.bside.breadgood.common.exception.ExceptionResponse;
 import com.bside.breadgood.ddd.users.application.exception.DuplicateUserNickNameException;
-import com.bside.breadgood.ddd.users.application.exception.IllegalRoleException;
 import com.bside.breadgood.ddd.users.application.exception.OnlySocialLinkException;
 import com.bside.breadgood.ddd.users.application.exception.UserNotFoundException;
 import org.springframework.context.MessageSource;
@@ -35,16 +34,11 @@ public class UserControllerAdvice extends ExceptionAdvice {
     }
 
     @ExceptionHandler(UserNotFoundException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     protected ExceptionResponse userNotFoundException(UserNotFoundException ex, WebRequest request) {
         String messagePath = super.getMessagePathByMyMethodName();
         return super.getExceptionResponse(request, messagePath, ex.getArgs());
     }
 
-    @ExceptionHandler(IllegalRoleException.class)
-    @ResponseStatus(HttpStatus.FORBIDDEN)
-    protected ExceptionResponse illegalRoleException(IllegalRoleException ex, WebRequest request) {
-        String messagePath = super.getMessagePathByMyMethodName();
-        return super.getExceptionResponse(request, messagePath, ex.getArgs());
-    }
+
 }

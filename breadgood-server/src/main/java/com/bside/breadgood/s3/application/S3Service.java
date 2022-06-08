@@ -87,10 +87,6 @@ public class S3Service {
         return filePath;
     }
 
-    public String getFileHost() {
-        return cloudFrontDns;
-    }
-
     public void delete() {
         // key 가 존재하면 기존 파일은 삭제
 //        if (!StringUtils.isEmpty(currentFilePath)) {

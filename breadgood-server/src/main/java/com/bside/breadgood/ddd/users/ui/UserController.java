@@ -62,6 +62,7 @@ public class UserController {
                         loginRequest.getEmail(),
                         loginRequest.getPassword()
                 )
+
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -78,6 +79,7 @@ public class UserController {
                 .refreshToken(refreshToken)
                 .accessToken(accessToken)
                 .build());
+
     }
 
 

@@ -5,19 +5,23 @@ import com.bside.breadgood.ddd.bakerycategory.application.BakeryCategoryService;
 import com.bside.breadgood.ddd.breadstyles.application.BreadStyleService;
 import com.bside.breadgood.ddd.emoji.application.EmojiService;
 import com.bside.breadgood.ddd.termstype.application.TermsTypeService;
+import com.bside.breadgood.ddd.termstype.infra.InitTermsTypeData;
 import com.bside.breadgood.ddd.users.application.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+
 @Slf4j
-@Component
+@Controller
 @RequiredArgsConstructor
-@Profile("!test")
+@ActiveProfiles("!test")
 public class InitDataEvent {
 
     private final TermsTypeService termsTypeService;

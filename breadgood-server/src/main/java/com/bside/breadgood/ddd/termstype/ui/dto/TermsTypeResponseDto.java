@@ -1,6 +1,5 @@
 package com.bside.breadgood.ddd.termstype.ui.dto;
 
-import com.bside.breadgood.ddd.termstype.domain.TermsType;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -16,9 +15,5 @@ public class TermsTypeResponseDto {
         this.id = id;
         this.name = name;
         this.required = required;
-    }
-
-    public static TermsTypeResponseDto valueOf(TermsType termsType) {
-        return new TermsTypeResponseDto(termsType.getId(), termsType.getName(), termsType.isRequired());
     }
 }

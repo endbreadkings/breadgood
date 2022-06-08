@@ -48,7 +48,7 @@ public class BakeryCategory extends BaseEntity {
     @AttributeOverride(name = "imgUrl", column = @Column(name = "markerImgUrl", nullable = false))
     private ImageUrl markerImgUrl;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private int sortNumber;
 
     @Builder
@@ -71,7 +71,7 @@ public class BakeryCategory extends BaseEntity {
         return titleUncoloredImgUrl.getImgUrl();
     }
 
-    public String getMarkerImgUrl() {
+    public String getMakerImgUrl() {
         return markerImgUrl.getImgUrl();
     }
 }

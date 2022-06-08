@@ -20,7 +20,7 @@ public class TermsAdvice extends ExceptionAdvice {
 
 
     @ExceptionHandler(TermsNotFoundException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     protected ExceptionResponse termsNotFoundException(TermsNotFoundException ex, WebRequest request) {
         String messagePath = super.getMessagePathByMyMethodName();
         return super.getExceptionResponse(request, messagePath, ex.getArgs());
@@ -39,4 +39,6 @@ public class TermsAdvice extends ExceptionAdvice {
         String messagePath = super.getMessagePathByMyMethodName();
         return super.getExceptionResponse(request, messagePath);
     }
+
+
 }
