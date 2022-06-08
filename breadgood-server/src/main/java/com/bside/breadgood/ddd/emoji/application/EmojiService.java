@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class EmojiService {
 
     private final EmojiRepository emojiRepository;
@@ -49,6 +50,7 @@ public class EmojiService {
      * @param dto {@link EmojiRequestDto}
      * @return {@link EmojiResponseDto}
      */
+    @Transactional
     public EmojiResponseDto save(EmojiRequestDto dto, MultipartFile img) {
         String imgPath = s3Service.upload(img, "admin");
         String imgUrl = s3Service.getFileHost() + imgPath;
