@@ -23,12 +23,14 @@ public class EmojiService {
         emojiRepository.saveAll(new InitEmojiData().get());
     }
 
+    @Transactional(readOnly = true)
     public List<EmojiResponseDto> findAll() {
         return emojiRepository.findAllByOrderBySortNumberAsc().stream()
                 .map(EmojiResponseDto::new)
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public EmojiResponseDto findById(Long bakeryCategoryId) {
         final Emoji emoji = emojiRepository.findById(bakeryCategoryId)
                 .orElseThrow(() -> new EmojiNotFoundException("id", Long.toString(bakeryCategoryId)));

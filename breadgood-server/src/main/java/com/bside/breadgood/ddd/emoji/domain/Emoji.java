@@ -24,6 +24,7 @@ public class Emoji extends BaseEntity {
     private String name;
 
     @Column(nullable = false)
+    @Embedded
     private ImageUrl imgUrl;
 
     @Column(nullable = false, unique = true)
