@@ -223,7 +223,7 @@ class BakeryServiceTest {
                 .thenReturn(new BakeryCategoryResponseDto(빵에집중));
         when(bakeryCategoryService.findById(2L))
                 .thenReturn(new BakeryCategoryResponseDto(음료와빵));
-        when(bakeryRepository.findAllOrderByIdDesc())
+        when(bakeryRepository.findAllByOrderByIdDesc())
                 .thenReturn(bakeries);
     }
 

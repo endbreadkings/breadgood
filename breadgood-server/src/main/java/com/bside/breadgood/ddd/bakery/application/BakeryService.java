@@ -26,8 +26,10 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 
 @Service
 @Transactional(readOnly = true)
@@ -143,7 +145,7 @@ public class BakeryService {
             if (b1.getUserId().compareTo(currentUserId) == 0) return -1;
             if (b2.getUserId().compareTo(currentUserId) == 0) return 1;
             return b2.getUserId().compareTo(b1.getUserId());
-        }).collect(Collectors.toList());
+        }).collect(toList());
 
         // 빵집 이름, 주소 정보,
         final String title = bakery.getTitle();
@@ -196,7 +198,7 @@ public class BakeryService {
             return Collections.emptyList();
         }
 
-        final List<Bakery> bakeries = bakeryRepository.findAllOrderByIdDesc();
+        final List<Bakery> bakeries = bakeryRepository.findAllByOrderByIdDesc();
         Stream<Bakery> bakeryStream = bakeries.stream();
 
         bakeryStream = filterBakeryCategories(bakeryStream, bakeryCategories);
@@ -248,13 +250,25 @@ public class BakeryService {
             final BakeryCategoryResponseDto bakeryCategoryResponseDto = bakeryCategoryService.findById(bakery.getBakeryCategory());
             final UserInfoResponseDto userInfo = userService.findUserInfoById(bakery.getUser());
             return new BakerySearchResponseDto(bakery, bakeryReview, bakeryCategoryResponseDto, userInfo);
-        }).collect(Collectors.toList());
+        }).collect(toList());
     }
 
-    public List<Bakery> findAll() {
-        final List<Bakery> bakeries = bakeryRepository.findAll();
+    public List<BakeryManagementResponseDto> findAll() {
+        final List<Bakery> bakeries = bakeryRepository.findAllByOrderByIdDesc();
 
-        return bakeries;
+        final Set<Long> userIds = bakeries.stream()
+                .map(Bakery::getUser)
+                .collect(toSet());
+
+        final Map<Long, UserInfoResponseDto> userMap = userService.getUserMap(userIds);
+
+        return bakeries.stream()
+                .map(bakery ->
+                        BakeryManagementResponseDto.valueOf(
+                                bakery, userMap.getOrDefault(bakery.getUser(), UserInfoResponseDto.getDefault())
+                        )
+                )
+                .collect(toList());
     }
 
 

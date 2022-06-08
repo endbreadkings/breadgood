@@ -4,6 +4,7 @@ import com.bside.breadgood.apifirstdesign.models.BadRequestError;
 import com.bside.breadgood.apifirstdesign.models.InternalServerError;
 import com.bside.breadgood.common.exception.ExceptionResponse;
 import com.bside.breadgood.ddd.bakery.application.BakeryService;
+import com.bside.breadgood.ddd.bakery.application.dto.BakeryManagementResponseDto;
 import com.bside.breadgood.ddd.bakery.application.dto.BakerySearchResponseDto;
 import com.bside.breadgood.ddd.bakery.domain.Bakery;
 import io.swagger.annotations.*;
@@ -31,7 +32,7 @@ public class BakeryAdminController {
     @ApiOperation(value = "등록된 빵집 검색", notes = "등록 성공시 xxx 반환")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "등록 성공시  xxx 반환",
-                    response = BakerySearchResponseDto.class, responseContainer = "List"),
+                    response = BakeryManagementResponseDto.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "BadRequest", response = BadRequestError.class),
             @ApiResponse(code = 500, message = "InternalServerError", response = InternalServerError.class),
             @ApiResponse(code = -1, message = "ExceptionResponse", response = ExceptionResponse.class)}
@@ -40,7 +41,7 @@ public class BakeryAdminController {
     })
     @GetMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<Bakery>> findAll() {
+    public ResponseEntity<List<BakeryManagementResponseDto>> findAll() {
         return ResponseEntity.ok().body(bakeryService.findAll());
     }
 }

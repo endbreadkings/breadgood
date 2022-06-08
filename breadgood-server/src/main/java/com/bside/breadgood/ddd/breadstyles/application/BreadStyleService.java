@@ -11,7 +11,13 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toMap;
+
 
 @Service
 @RequiredArgsConstructor
@@ -42,5 +48,14 @@ public class BreadStyleService {
     public BreadStyleResponseDto save(BreadStyle breadStyle) {
         final BreadStyle savedBreadStyle = breadStyleRepository.save(breadStyle);
         return new BreadStyleResponseDto(savedBreadStyle);
+    }
+
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    public Map<Long, BreadStyleResponseDto> getBreadStyleMap(Set<Long> breadStyleIds) {
+        return breadStyleRepository
+                .findAllById(breadStyleIds)
+                .stream()
+                .map(BreadStyleResponseDto::new)
+                .collect(toMap(BreadStyleResponseDto::getId, Function.identity()));
     }
 }

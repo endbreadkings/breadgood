@@ -2,7 +2,7 @@ package com.bside.breadgood.ddd.bakery.application.dto;
 
 import com.bside.breadgood.ddd.bakery.domain.Address;
 import com.bside.breadgood.ddd.bakery.domain.Bakery;
-import com.bside.breadgood.ddd.users.application.dto.UserResponseDto;
+import com.bside.breadgood.ddd.users.application.UserInfoResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,14 +17,14 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BakeryManagementResponse {
-    private Long no;
-    private String name;
+public class BakeryManagementResponseDto {
+    private Long id;
+    private String title;
     private Address address;
-    private UserResponseDto userResponseDto;
+    private UserInfoResponseDto nickname;
     private LocalDateTime createdAt;
 
-    public static BakeryManagementResponse valueOf(Bakery entity, UserResponseDto userResponseDto) {
-        return new BakeryManagementResponse(entity.getId(), entity.getTitle(), entity.getAddress(), userResponseDto, entity.getCreatedAt());
+    public static BakeryManagementResponseDto valueOf(Bakery entity, UserInfoResponseDto nickname) {
+        return new BakeryManagementResponseDto(entity.getId(), entity.getTitle(), entity.getAddress(), nickname, entity.getCreatedAt());
     }
 }

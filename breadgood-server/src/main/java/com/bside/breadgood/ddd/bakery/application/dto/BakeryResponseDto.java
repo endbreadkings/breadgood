@@ -1,6 +1,5 @@
 package com.bside.breadgood.ddd.bakery.application.dto;
 
-import com.bside.breadgood.ddd.bakery.domain.Bakery;
 import com.bside.breadgood.ddd.users.application.UserInfoResponseDto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
