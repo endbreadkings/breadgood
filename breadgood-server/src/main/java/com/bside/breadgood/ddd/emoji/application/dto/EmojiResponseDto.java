@@ -3,11 +3,11 @@ package com.bside.breadgood.ddd.emoji.application.dto;
 import com.bside.breadgood.ddd.emoji.domain.Emoji;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
-import javax.persistence.Column;
-
 @Getter
+@EqualsAndHashCode
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class EmojiResponseDto {
     private final Long id;
