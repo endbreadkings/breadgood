@@ -66,7 +66,7 @@ public class EmojiAdminController {
   })
   @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   @PreAuthorize("hasRole('ROLE_ADMIN')")
-  public EmojiResponseDto save(@Valid @RequestBody EmojiRequestDto dto,
+  public EmojiResponseDto save(@Valid EmojiRequestDto dto,
       @RequestPart(value = "img") MultipartFile img) {
     return emojiService.save(dto, img);
   }
