@@ -15,4 +15,10 @@ public class EmojiFixture {
                     "img.url",
                     1
             );
+
+    public static final Emoji 이모지2 = Emoji.builder()
+            .name("이모지2")
+            .imgUrl("https://d74hbwjus7qtu.cloudfront.net/admin/address-icon.png")
+            .sortNumber(200)
+            .build();
 }

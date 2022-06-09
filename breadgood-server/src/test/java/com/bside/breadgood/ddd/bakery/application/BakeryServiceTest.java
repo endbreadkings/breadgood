@@ -18,8 +18,8 @@ import com.bside.breadgood.ddd.breadstyles.ui.dto.BreadStyleResponseDto;
 import com.bside.breadgood.ddd.emoji.application.EmojiService;
 import com.bside.breadgood.ddd.emoji.application.dto.EmojiResponseDto;
 import com.bside.breadgood.ddd.emoji.domain.Emoji;
-import com.bside.breadgood.ddd.users.application.dto.UserInfoResponseDto;
 import com.bside.breadgood.ddd.users.application.UserService;
+import com.bside.breadgood.ddd.users.application.dto.UserInfoResponseDto;
 import com.bside.breadgood.ddd.users.application.dto.UserResponseDto;
 import com.bside.breadgood.ddd.users.domain.Email;
 import com.bside.breadgood.ddd.users.domain.NickName;
@@ -40,7 +40,6 @@ import java.util.*;
 import static com.bside.breadgood.ddd.bakery.application.dto.BakerySaveRequestDto.builder;
 import static com.bside.breadgood.ddd.utils.EntityReflectionUtils.setId;
 import static com.bside.breadgood.fixtures.bakery.BakeryFixture.빵집1;
-import static com.bside.breadgood.fixtures.bakery.BakeryFixture.빵집등록요청;
 import static com.bside.breadgood.fixtures.bakerycategory.BakeryCategoryFixture.빵에집중;
 import static com.bside.breadgood.fixtures.bakerycategory.BakeryCategoryFixture.음료와빵;
 import static com.bside.breadgood.fixtures.breadstyle.BreadStyleFixture.달콤_200;
@@ -231,12 +230,19 @@ class BakeryServiceTest {
     @DisplayName("베이커리는 서울특별시만 등록 가능하다")
     public void saveBakerySeoul() throws NoSuchMethodException {
         // given
-        BakerySaveRequestDto 서울특별시 = 빵집등록요청(
-                "서울특별시",
-                1L,
-                1L,
-                Lists.newArrayList("1", "2", "3")
-        );
+        BakerySaveRequestDto 서울특별시 = BakerySaveRequestDto.builder()
+                .title("서울")
+                .city("서울특별시")
+                .bakeryCategoryId(1L)
+                .description("")
+                .content("빵을좋아하는사람만오십시오")
+                .district("중분류위치값")
+                .mapX(1D)
+                .mapY(1D)
+                .roadAddress("도로명주소값")
+                .signatureMenus(Lists.newArrayList("1", "2", "3"))
+                .emojiId(1L)
+                .build();
 
         final BakeryService bakeryService = new BakeryService(
                 bakeryRepository, s3Service, userService, bakeryCategoryService, emojiService, breadStyleService);

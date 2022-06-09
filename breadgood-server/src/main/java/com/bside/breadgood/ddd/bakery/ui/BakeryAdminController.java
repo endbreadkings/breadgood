@@ -22,16 +22,16 @@ import java.util.List;
  * date : 2022/06/08
  * description :
  */
-@Api(value = "빵집 관리자 몌ㅑ", description = "[관리자] 빵집 API's")
+@Api(value = "빵집 관리자 API", description = "[관리자] 빵집 API's")
 @RestController
 @RequestMapping("/api/v1/admin/bakery")
 @RequiredArgsConstructor
 public class BakeryAdminController {
     private final BakeryService bakeryService;
 
-    @ApiOperation(value = "등록된 빵집 검색", notes = "등록 성공시 xxx 반환")
+    @ApiOperation(value = "등록된 빵집 조회", notes = "조회 성공시 BakeryManagementResponseDto 반환")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "등록 성공시  xxx 반환",
+            @ApiResponse(code = 200, message = "조회 성공시  BakeryManagementResponseDto 반환",
                     response = BakeryManagementResponseDto.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "BadRequest", response = BadRequestError.class),
             @ApiResponse(code = 500, message = "InternalServerError", response = InternalServerError.class),
@@ -39,7 +39,7 @@ public class BakeryAdminController {
     )
     @ApiImplicitParams({
     })
-    @GetMapping
+    @GetMapping("/list")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<BakeryManagementResponseDto>> findAll() {
         return ResponseEntity.ok().body(bakeryService.findAll());

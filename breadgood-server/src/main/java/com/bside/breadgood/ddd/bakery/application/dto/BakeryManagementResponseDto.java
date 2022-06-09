@@ -21,7 +21,7 @@ public class BakeryManagementResponseDto {
     private Long id;
     private String title;
     private Address address;
-    private UserInfoResponseDto nickname;
+    private UserInfoResponseDto user;
     private LocalDateTime createdAt;
 
     public static BakeryManagementResponseDto valueOf(Bakery entity, UserInfoResponseDto nickname) {
