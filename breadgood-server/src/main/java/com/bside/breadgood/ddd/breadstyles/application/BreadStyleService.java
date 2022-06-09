@@ -56,6 +56,6 @@ public class BreadStyleService {
                 .findAllById(breadStyleIds)
                 .stream()
                 .map(BreadStyleResponseDto::new)
-                .collect(toMap(BreadStyleResponseDto::getId, Function.identity()));
+                .collect(toMap(BreadStyleResponseDto::getId, Function.identity(), (v1, v2) -> v1));
     }
 }

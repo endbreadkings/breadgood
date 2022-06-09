@@ -31,7 +31,7 @@ public class BreadStyle extends BaseEntity {
     @Id
     @Column(name = "bread_style_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     // 이름
     @Column(nullable = false)
