@@ -1,5 +1,7 @@
-package com.bside.breadgood.ddd.users.application;
+package com.bside.breadgood.ddd.users.application.dto;
 
+import com.bside.breadgood.ddd.breadstyles.ui.dto.BreadStyleResponseDto;
+import com.bside.breadgood.ddd.users.domain.User;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -33,6 +35,18 @@ public class UserInfoResponseDto {
         this.breadStyleName = breadStyleName;
         this.breadStyleColor = breadStyleColor;
         this.isWithdrawal = isWithdrawal;
+    }
+
+    public static UserInfoResponseDto valueOf(BreadStyleResponseDto breadStyleResponseDto, User user) {
+        return new UserInfoResponseDto(
+                user.getId(),
+                user.getNickName(),
+                breadStyleResponseDto.getProfileImgUrl(),
+                breadStyleResponseDto.getId(),
+                breadStyleResponseDto.getName(),
+                breadStyleResponseDto.getColor(),
+                true
+        );
     }
 
     public static UserInfoResponseDto getDefault() {

@@ -2,7 +2,7 @@ package com.bside.breadgood.ddd.bakery.application.dto;
 
 import com.bside.breadgood.ddd.bakery.domain.BakeryReview;
 import com.bside.breadgood.ddd.emoji.application.dto.EmojiResponseDto;
-import com.bside.breadgood.ddd.users.application.UserInfoResponseDto;
+import com.bside.breadgood.ddd.users.application.dto.UserInfoResponseDto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;

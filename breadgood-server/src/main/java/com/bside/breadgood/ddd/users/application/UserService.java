@@ -5,6 +5,7 @@ import com.bside.breadgood.ddd.breadstyles.application.BreadStyleService;
 import com.bside.breadgood.ddd.breadstyles.ui.dto.BreadStyleResponseDto;
 import com.bside.breadgood.ddd.termstype.application.TermsTypeService;
 import com.bside.breadgood.ddd.termstype.ui.dto.TermsTypeResponseDto;
+import com.bside.breadgood.ddd.users.application.dto.UserInfoResponseDto;
 import com.bside.breadgood.ddd.users.application.dto.UserResponseDto;
 import com.bside.breadgood.ddd.users.application.exception.DuplicateUserNickNameException;
 import com.bside.breadgood.ddd.users.application.exception.OnlySocialLinkException;
@@ -53,34 +54,16 @@ public class UserService {
         return new UserResponseDto(user, breadStyleResponseDto);
     }
 
-    public Map<Long, UserInfoResponseDto> getUserMap(Set<Long> userIds) {
+    public Map<Long, UserInfoResponseDto> findAllById(Set<Long> userIds) {
         final List<User> users = userRepository.findAllById(userIds);
-        final Map<Long, BreadStyleResponseDto> breadMap = breadStyleService.getBreadStyleMap(getBreadStyleIds(users));
+        final Map<Long, BreadStyleResponseDto> breadMap = breadStyleService.findAllById(getBreadStyleIds(users));
 
         return users.stream()
                 .map(user ->
-                        UserInfoResponseDto.builder()
-                                .breadStyleId(breadMap.get(user.getBreadStyle()).getId())
-                                .breadStyleColor(breadMap.get(user.getBreadStyle()).getColor())
-                                .breadStyleName(breadMap.get(user.getBreadStyle()).getName())
-                                .userId(user.getId())
-                                .build()
+                        UserInfoResponseDto.valueOf(breadMap.get(user.getBreadStyle()), user)
                 )
                 .collect(toMap(UserInfoResponseDto::getId, Function.identity()));
     }
-
-//    public List<UserInfoResponseDto> findAllById(Set<Long> ids) {
-//        final List<User> users = userRepository.findAllById(ids);
-//        final Map<Long, BreadStyleResponseDto> breadMap = breadStyleService.getBreadStyleMap(getBreadStyleIds(users));
-//        return users.stream()
-//                .map(user -> {
-//                    return UserInfoResponseDto.builder()
-//                            .breadStyle(breadMap.get(user.getBreadStyle()))
-//                            .user(user)
-//                            .build();
-//                })
-//                .collect(toList());
-//    }
 
     private Set<Long> getBreadStyleIds(List<User> users) {
         if (isEmpty(users)) {

@@ -13,7 +13,7 @@ import com.bside.breadgood.ddd.breadstyles.application.BreadStyleService;
 import com.bside.breadgood.ddd.breadstyles.ui.dto.BreadStyleResponseDto;
 import com.bside.breadgood.ddd.emoji.application.EmojiService;
 import com.bside.breadgood.ddd.emoji.application.dto.EmojiResponseDto;
-import com.bside.breadgood.ddd.users.application.UserInfoResponseDto;
+import com.bside.breadgood.ddd.users.application.dto.UserInfoResponseDto;
 import com.bside.breadgood.ddd.users.application.UserService;
 import com.bside.breadgood.ddd.users.application.dto.UserResponseDto;
 import com.bside.breadgood.s3.application.S3Service;
@@ -260,7 +260,7 @@ public class BakeryService {
                 .map(Bakery::getUser)
                 .collect(toSet());
 
-        final Map<Long, UserInfoResponseDto> userMap = userService.getUserMap(userIds);
+        final Map<Long, UserInfoResponseDto> userMap = userService.findAllById(userIds);
 
         return bakeries.stream()
                 .map(bakery ->

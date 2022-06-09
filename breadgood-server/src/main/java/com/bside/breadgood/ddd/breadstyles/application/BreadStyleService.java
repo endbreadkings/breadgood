@@ -51,7 +51,7 @@ public class BreadStyleService {
     }
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    public Map<Long, BreadStyleResponseDto> getBreadStyleMap(Set<Long> breadStyleIds) {
+    public Map<Long, BreadStyleResponseDto> findAllById(Set<Long> breadStyleIds) {
         return breadStyleRepository
                 .findAllById(breadStyleIds)
                 .stream()

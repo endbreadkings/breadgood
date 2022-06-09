@@ -85,7 +85,7 @@ class BreadStyleServiceTest {
         given(breadStyleRepository.findAllById(anySet())).willReturn(Lists.newArrayList(크림_100, 달콤_200, 짭짤_300));
 
         // when
-        final Map<Long, BreadStyleResponseDto> actual = breadStyleService.getBreadStyleMap(Sets.newHashSet(1L, 2L, 3L));
+        final Map<Long, BreadStyleResponseDto> actual = breadStyleService.findAllById(Sets.newHashSet(1L, 2L, 3L));
 
         // then
         assertThat(actual).hasSize(3);

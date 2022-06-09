@@ -5,7 +5,7 @@ import com.bside.breadgood.apifirstdesign.models.InternalServerError;
 import com.bside.breadgood.authentication.CurrentUser;
 import com.bside.breadgood.authentication.UserPrincipal;
 import com.bside.breadgood.common.exception.ExceptionResponse;
-import com.bside.breadgood.ddd.users.application.UserInfoResponseDto;
+import com.bside.breadgood.ddd.users.application.dto.UserInfoResponseDto;
 import com.bside.breadgood.ddd.users.application.UserService;
 import com.bside.breadgood.ddd.users.application.dto.UserResponseDto;
 import io.swagger.annotations.*;

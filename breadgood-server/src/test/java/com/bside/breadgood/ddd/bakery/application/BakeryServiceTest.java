@@ -18,7 +18,7 @@ import com.bside.breadgood.ddd.breadstyles.ui.dto.BreadStyleResponseDto;
 import com.bside.breadgood.ddd.emoji.application.EmojiService;
 import com.bside.breadgood.ddd.emoji.application.dto.EmojiResponseDto;
 import com.bside.breadgood.ddd.emoji.domain.Emoji;
-import com.bside.breadgood.ddd.users.application.UserInfoResponseDto;
+import com.bside.breadgood.ddd.users.application.dto.UserInfoResponseDto;
 import com.bside.breadgood.ddd.users.application.UserService;
 import com.bside.breadgood.ddd.users.application.dto.UserResponseDto;
 import com.bside.breadgood.ddd.users.domain.Email;

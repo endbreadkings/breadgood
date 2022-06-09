@@ -2,7 +2,7 @@ package com.bside.breadgood.ddd.bakery.application.dto;
 
 import com.bside.breadgood.ddd.bakery.domain.Address;
 import com.bside.breadgood.ddd.bakery.domain.Bakery;
-import com.bside.breadgood.ddd.users.application.UserInfoResponseDto;
+import com.bside.breadgood.ddd.users.application.dto.UserInfoResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
