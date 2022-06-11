@@ -21,6 +21,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @ToString
+@SQLDelete(sql = "UPDATE bakery SET deleted = true WHERE bakery_id=?")
 @Where(clause = "deleted=false")
 public class Bakery extends BaseEntity {
 

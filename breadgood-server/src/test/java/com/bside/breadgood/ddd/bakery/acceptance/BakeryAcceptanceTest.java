@@ -7,6 +7,7 @@ import com.bside.breadgood.ddd.breadstyles.infra.BreadStyleRepository;
 import com.bside.breadgood.ddd.emoji.infra.EmojiRepository;
 import com.bside.breadgood.ddd.termstype.domain.TermsType;
 import com.bside.breadgood.ddd.termstype.infra.TermsTypeRepository;
+import com.bside.breadgood.ddd.users.application.UserService;
 import com.bside.breadgood.ddd.users.domain.Role;
 import com.bside.breadgood.ddd.users.infra.UserRepository;
 import com.bside.breadgood.fixtures.bakerycategory.BakeryCategoryFixture;

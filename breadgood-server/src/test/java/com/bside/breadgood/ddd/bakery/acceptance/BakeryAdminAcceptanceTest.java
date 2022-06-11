@@ -8,7 +8,9 @@ import com.bside.breadgood.ddd.breadstyles.infra.BreadStyleRepository;
 import com.bside.breadgood.ddd.emoji.infra.EmojiRepository;
 import com.bside.breadgood.ddd.termstype.domain.TermsType;
 import com.bside.breadgood.ddd.termstype.infra.TermsTypeRepository;
+import com.bside.breadgood.ddd.users.application.UserService;
 import com.bside.breadgood.ddd.users.domain.Role;
+import com.bside.breadgood.ddd.users.domain.User;
 import com.bside.breadgood.ddd.users.infra.UserRepository;
 import com.bside.breadgood.fixtures.bakerycategory.BakeryCategoryFixture;
 import io.restassured.RestAssured;
@@ -26,6 +28,7 @@ import java.util.List;
 
 import static com.bside.breadgood.ddd.bakery.acceptance.BakeryAcceptanceTest.빵집_등록되어있음;
 import static com.bside.breadgood.ddd.users.acceptance.UserAcceptanceTest.로그인_토큰;
+import static com.bside.breadgood.ddd.users.application.dto.UserInfoResponseDto.DEFAULT_USER_INFO_RESPONSE_DTO;
 import static com.bside.breadgood.fixtures.bakery.BakeryFixture.빵집1_등록요청;
 import static com.bside.breadgood.fixtures.bakery.BakeryFixture.빵집2_등록요청;
 import static com.bside.breadgood.fixtures.breadstyle.BreadStyleFixture.달콤_200;
@@ -33,6 +36,7 @@ import static com.bside.breadgood.fixtures.emoji.EmojiFixture.이모지2;
 import static com.bside.breadgood.fixtures.termstype.TermsTypeFixture.필수_개인정보_수집_및_이용_동의_약관_100;
 import static com.bside.breadgood.fixtures.user.UserFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 /**
  * author : haedoang
@@ -58,8 +62,12 @@ public class BakeryAdminAcceptanceTest extends AcceptanceTest {
     @Autowired
     private EmojiRepository emojiRepository;
 
+    @Autowired
+    private UserService userService;
+
     String 관리자_토큰;
     String 사용자_토큰;
+    User 사용자;
 
     @Override
     @BeforeEach
@@ -83,7 +91,7 @@ public class BakeryAdminAcceptanceTest extends AcceptanceTest {
                         savedBreadStyle.getId()
                 ));
 
-        userRepository.save(
+        사용자 = userRepository.save(
                 사용자_등록_요청(
                         테스트유저.getNickName(),
                         테스트유저.getEmail(),
@@ -95,7 +103,6 @@ public class BakeryAdminAcceptanceTest extends AcceptanceTest {
 
         관리자_토큰 = 로그인_토큰(관리자.getEmail(), 관리자.getPassword());
         사용자_토큰 = 로그인_토큰(테스트유저.getEmail(), 테스트유저.getPassword());
-
         빵집_등록되어있음(사용자_토큰, 빵집1_등록요청(savedBakeryCategoryId, savedEmojiId));
         빵집_등록되어있음(사용자_토큰, 빵집2_등록요청(savedBakeryCategoryId, savedEmojiId));
     }
@@ -127,13 +134,42 @@ public class BakeryAdminAcceptanceTest extends AcceptanceTest {
     @DisplayName("토큰이 없이는 관리자 빵집 리스트를 조회할 수 없다")
     public void bakeryListNGByNOToken() {
         // when
-        final ExtractableResponse<Response> response = 빵집_조회_요청함_NO토큰();
+        final ExtractableResponse<Response> response = 빵집_조회_요청함_토큰x();
 
         // then
         조회_실패함(response, HttpStatus.UNAUTHORIZED);
     }
 
-    private ExtractableResponse<Response> 빵집_조회_요청함_NO토큰() {
+    @Test
+    @DisplayName("삭제된 사용자가 등록한 빵집은 사용자 정보는 기본값으로 제공한다")
+    public void bakeryListWithDeletedUser() {
+        // given
+        사용자를_삭제한다(사용자);
+
+        // when
+        final ExtractableResponse<Response> response = 빵집_조회_요쳥함(관리자_토큰);
+
+        // then
+        빵집_조회됨(response, 2);
+        삭제된_사용자_조회_성공(response);
+    }
+
+    private void 삭제된_사용자_조회_성공(ExtractableResponse<Response> response) {
+        final List<BakeryManagementResponseDto> actual = response.jsonPath().getList("", BakeryManagementResponseDto.class);
+        actual.stream()
+                .map(BakeryManagementResponseDto::getUser)
+                .forEach(user -> {
+                    assertAll(
+                            () -> assertThat(user.getId()).isEqualTo(DEFAULT_USER_INFO_RESPONSE_DTO.getId()),
+                            () -> assertThat(user.getNickName()).isEqualTo(DEFAULT_USER_INFO_RESPONSE_DTO.getNickName()),
+                            () -> assertThat(user.getBreadStyleId()).isEqualTo(DEFAULT_USER_INFO_RESPONSE_DTO.getBreadStyleId()),
+                            () -> assertThat(user.getProfileImgUrl()).isEqualTo(DEFAULT_USER_INFO_RESPONSE_DTO.getProfileImgUrl()),
+                            () -> assertThat(user.getBreadStyleName()).isEqualTo(DEFAULT_USER_INFO_RESPONSE_DTO.getBreadStyleName())
+                    );
+                });
+    }
+
+    private ExtractableResponse<Response> 빵집_조회_요청함_토큰x() {
         return RestAssured
                 .given()
                 .log().all()
@@ -164,5 +200,9 @@ public class BakeryAdminAcceptanceTest extends AcceptanceTest {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
         final List<BakeryManagementResponseDto> actual = response.jsonPath().getList("", BakeryManagementResponseDto.class);
         assertThat(actual).hasSize(expectedCount);
+    }
+
+    private void 사용자를_삭제한다(User user) {
+        userService.withdrawal(user.getId());
     }
 }
