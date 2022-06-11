@@ -26,15 +26,9 @@ import io.restassured.response.Response;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -49,7 +43,6 @@ import org.springframework.web.multipart.MultipartFile;
  * @version 1.0
  */
 @DisplayName("어드민 최애빵 스타일 인수 테스트")
-@TestInstance(Lifecycle.PER_CLASS)
 public class BreadStyleAdminAcceptanceTest extends AcceptanceTest {
   @Autowired
   BreadStyleRepository breadStyleRepository;
@@ -65,12 +58,11 @@ public class BreadStyleAdminAcceptanceTest extends AcceptanceTest {
   private String 토큰;
 
   @Override
-  @BeforeAll
+  @BeforeEach
   public void setUp() {
     super.setUp();
     관리자_등록();
     토큰 = 로그인_토큰("admin@breadgood.com", "admin1234");
-    최애빵_전체제거();
   }
 
   private void 관리자_등록() {
@@ -88,16 +80,11 @@ public class BreadStyleAdminAcceptanceTest extends AcceptanceTest {
     );
   }
 
-  @AfterEach
-  public void destroyBreadStyles() {
-    최애빵_전체제거();
-  }
-
   @Test
   @DisplayName("최애빵 리스트 조회를 할 때, 정렬 순서대로 조회가 된다.")
   void findAllTest() {
     // given
-    최애빵_생성(달콤_200, 크림_100);
+    최애빵_생성(달콤_200);
 
     // when
     final ExtractableResponse<Response> 최애빵_리스트_조회_응답 = 최애빵_리스트_조회_요청(토큰);
@@ -107,31 +94,10 @@ public class BreadStyleAdminAcceptanceTest extends AcceptanceTest {
   }
 
   @Test
-  @DisplayName("최애빵 등록 성공 - 최초등록")
-  void saveFirstTest() throws IOException {
-    // given
-    final BreadStyleRequestDto 등록요청 = 최애빵스타일_등록요청("짭짤",
-        "피자빵, 고로케,양파빵, \n" +
-            "마늘바게트 등 \n" +
-            "짭짤한 맛의 조리빵",
-        "#FFBC4A");
-    final int 최초등록_예상_정렬번호 = 100;
-
-    // when
-    final ExtractableResponse<Response> 최애빵_등록_응답 = 최애빵_등록_요청(토큰,
-        등록요청,
-        짭짤빵_요청이미지,
-        짭짤빵프로필_요청이미지);
-
-    // then
-    최애빵_등록_성공(최애빵_등록_응답, 최초등록_예상_정렬번호);
-  }
-
-  @Test
   @DisplayName("최애빵 등록 성공 - 추가등록")
   void saveAdditionalTest() throws IOException {
     // given
-    최애빵_생성(크림_100, 달콤_200);
+    최애빵_생성(달콤_200);
     final BreadStyleRequestDto 등록요청 = 최애빵스타일_등록요청("짭짤",
         "피자빵, 고로케,양파빵, \n" +
             "마늘바게트 등 \n" +
@@ -198,9 +164,5 @@ public class BreadStyleAdminAcceptanceTest extends AcceptanceTest {
 
   private void 최애빵_생성(BreadStyle... breadStyles) {
     breadStyleRepository.saveAll(Arrays.asList(breadStyles));
-  }
-
-  private void 최애빵_전체제거() {
-    breadStyleRepository.deleteAll();
   }
 }
