@@ -1,11 +1,11 @@
 import 'package:breadgood_app/modules/main/screens/main_map.dart';
-import 'package:breadgood_app/modules/register_review/register_review.dart';
+import 'package:breadgood_app/modules/register_review/screens/register_review.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:breadgood_app/utils/ui/main_app_bar.dart';
 import 'package:breadgood_app/modules/register_bakery/controller/bakery_controller.dart';
 
-String nickname = "동오언니";
+String nickname = "당신";
 
 class CelebrateRegisterPage extends StatefulWidget {
   const CelebrateRegisterPage({Key key}) : super(key: key);

@@ -31,7 +31,7 @@ class SignUpController extends GetxController {
 
   //최애빵 리스트
   var bread_style = List<dynamic>().obs;
-  var check_bread_style=false.obs;
+  var check_bread_style = false.obs;
 
   @override
   void onInit() {
@@ -54,8 +54,10 @@ class SignUpController extends GetxController {
 
     int id = models.value[index].typeId;
 
-    if(user.setTermsTypeIds.contains(id))user.setTermsTypeIds.remove(id);
-    else user.setTermsTypeIds.add(id);
+    if (user.setTermsTypeIds.contains(id))
+      user.setTermsTypeIds.remove(id);
+    else
+      user.setTermsTypeIds.add(id);
   }
 
   void isAllCheckAtclickCheck(index) {
@@ -72,12 +74,11 @@ class SignUpController extends GetxController {
       element.check = all_check.value;
     });
 
-    if(all_check.value){
-      user.setTermsTypeIds.addAll(models.value.map((e)=>e.typeId));
-
-    }else{
+    if (all_check.value) {
+      user.setTermsTypeIds.addAll(models.value.map((e) => e.typeId));
+    } else {
       models.value.forEach((element) {
-        user.setTermsTypeIds.removeAll(models.value.map((e)=>e.typeId));
+        user.setTermsTypeIds.removeAll(models.value.map((e) => e.typeId));
       });
     }
 
@@ -93,7 +94,7 @@ class SignUpController extends GetxController {
   }
 
   bool validationNickName(String nickName) {
-    if (nickName.length > 8) {
+    if (nickName.length >= 8) {
       error.value = '최대 7글자를 넘어갈 수 없습니다.';
       error.refresh();
       return false;
@@ -145,18 +146,15 @@ class SignUpController extends GetxController {
       e.check = false;
     });
     bread_style.value[index].check = true;
-    check_bread_style.value=true;
+    check_bread_style.value = true;
 
-    user.breadStyleId=bread_style.value[index].id;
+    user.breadStyleId = bread_style.value[index].id;
 
     check_bread_style.refresh();
     bread_style.refresh();
-
   }
 
-  void signUp() async{
-    if(await SignUpService.signUp(user))
-      Get.offAllNamed('/main');
+  void signUp() async {
+    if (await SignUpService.signUp(user)) Get.offAllNamed('/main');
   }
-
 }

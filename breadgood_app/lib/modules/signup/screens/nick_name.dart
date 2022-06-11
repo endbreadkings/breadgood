@@ -1,11 +1,8 @@
-import 'dart:async';
-
 import 'package:breadgood_app/modules/register_bakery/screens/already_registered_bakery.dart';
 import 'package:breadgood_app/modules/signup/controller/signup_controller.dart';
 import 'package:breadgood_app/utils/ui/buttons/shape_blue_button.dart';
-import 'package:breadgood_app/utils/ui/main_app_bar.dart';
+import 'package:breadgood_app/utils/common/debounce.dart';
 import 'package:flutter/material.dart';
-
 import 'package:breadgood_app/config/themes/light_theme.dart' as THEME;
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -14,7 +11,8 @@ class NickName extends GetView<SignUpController> {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(SignUpController());
-    Timer _debounce;
+    final _debounce = Debounce(Duration(milliseconds: 250));
+
     final _formKey = new GlobalKey<FormState>();
     return Scaffold(
       appBar: AlreadyRegisteredBakeryAppbar(),
@@ -87,14 +85,11 @@ class NickName extends GetView<SignUpController> {
                         child: Obx(() {
                           return TextFormField(
                             onChanged: (text) {
-                              if (controller.validationNickName(text)) {
-                                if (_debounce?.isActive ?? false)
-                                  _debounce.cancel();
-                                _debounce = Timer(
-                                    const Duration(milliseconds: 250), () {
+                              _debounce.call(() {
+                                if (controller.validationNickName(text)) {
                                   controller.duplicatedNickName(text);
-                                });
-                              }
+                                }
+                              });
                             },
                             autofocus: true,
                             style: TextStyle(fontSize: 16.0),

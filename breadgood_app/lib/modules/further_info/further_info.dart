@@ -3,7 +3,7 @@ import 'package:breadgood_app/utils/ui/main_app_bar.dart';
 import 'package:breadgood_app/utils/ui/bottomNavigation.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-const String furtherInfoUrl = "https://antique-colt-66c.notion.site/d8ad1e9c427c40a38354717b86c6e224";
+const String furtherInfoUrl = "https://gwkim1.notion.site/gwkim1/d8ad1e9c427c40a38354717b86c6e224";
 
 class FurtherInfo extends StatefulWidget {
   @override

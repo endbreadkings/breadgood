@@ -13,14 +13,20 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static com.bside.breadgood.fixtures.bakerycategory.BakeryCategoryFixture.빵에집중;
+import static com.bside.breadgood.fixtures.breadstyle.BreadStyleFixture.달콤_200;
+import static com.bside.breadgood.fixtures.emoji.EmojiFixture.이모지1;
+import static com.bside.breadgood.fixtures.user.UserFixture.테스트유저;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@ActiveProfiles("test")
 @DisplayName("빵집 엔티티 생성 테스트")
 class BakeryTest {
 
@@ -35,13 +41,25 @@ class BakeryTest {
     @Autowired
     private BreadStyleService breadStyleService;
 
+    User user;
+    Emoji emoji;
+    BreadStyle breadStyle;
+    BakeryCategory bakeryCategory;
+
+    @BeforeEach
+    void setUp() {
+        user = userRepository.save(테스트유저);
+        emoji = emojiRepository.save(이모지1);
+        breadStyle = breadStyleRepository.save(달콤_200);
+        bakeryCategory = bakeryCategoryRepository.save(빵에집중);
+    }
 
     @Test
     void 빵집_엔티티_생성() {
 
         final long emojiId = 1L;
         final long bakeryStyleId = 1L;
-        final long userId = 3L;
+        final long userId = 1L;
         final long bakeryCategoryId = 2L;
 
         final String fileHost = "https://d74hbwjus7qtu.cloudfront.net/";

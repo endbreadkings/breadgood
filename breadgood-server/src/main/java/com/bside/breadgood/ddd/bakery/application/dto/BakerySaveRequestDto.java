@@ -5,10 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.web.multipart.MultipartFile;
-import org.thymeleaf.util.StringUtils;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Getter
@@ -24,20 +21,23 @@ public class BakerySaveRequestDto {
 
     @ApiModelProperty(value = "X좌표", example = "1.41211704222904E7")
     private final Double mapX;
+
     @ApiModelProperty(value = "Y좌표", example = "4516889.7719205")
     private final Double mapY;
 
     // review
     @ApiModelProperty(value = "빵집 리뷰 내용", example = "잉 너무 맛있는 걸욧??")
     private final String content;
-    @ApiModelProperty(value = "빵집 리뷰 시그니처 메뉴", example = "딸기크림케이크,딸기크림케이크,딸기크림케이크")
-    private final String signatureMenus;
+
+    @ApiModelProperty(value = "빵집 리뷰 시그니처 메뉴", example = "[\"딸기크림케이크\", \"단팥빵\", \"카야소보로\"]")
+    private final List<String> signatureMenus;
 
     @ApiModelProperty(value = "주소 설명", example = "")
     private final String description;
 
     @ApiModelProperty(value = "큰 단위", example = "서울특별시")
     private final String city;
+
     @ApiModelProperty(value = "중간 단위", example = "강서구")
     private final String district;
 
@@ -48,7 +48,18 @@ public class BakerySaveRequestDto {
     private final Long emojiId;
 
     @Builder
-    public BakerySaveRequestDto(String title, String description, String city, String district, String roadAddress, Double mapX, Double mapY, Long bakeryCategoryId, String content, Long emojiId, String signatureMenus
+    public BakerySaveRequestDto(
+            String title,
+            String description,
+            String city,
+            String district,
+            String roadAddress,
+            Double mapX,
+            Double mapY,
+            Long bakeryCategoryId,
+            String content,
+            Long emojiId,
+            List<String> signatureMenus
     ) {
         this.title = title;
         this.description = description;
@@ -63,13 +74,4 @@ public class BakerySaveRequestDto {
         this.signatureMenus = signatureMenus;
     }
 
-    public List<String> getSignatureMenus() {
-
-        if (StringUtils.isEmpty(this.signatureMenus)) {
-            return null;
-        }
-
-        return Arrays.asList(this.signatureMenus.split(","));
-
-    }
 }

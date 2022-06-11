@@ -1,9 +1,10 @@
 import 'package:breadgood_app/modules/main/screens/main_map.dart';
 import 'package:breadgood_app/modules/register_bakery/screens/search_bakery.dart';
-import 'package:breadgood_app/modules/register_review/register_review.dart';
+import 'package:breadgood_app/modules/register_review/screens/register_review.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:breadgood_app/utils/ui/main_app_bar.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -23,11 +24,10 @@ class _AlreadyRegisteredBakeryPageState
     extends State<AlreadyRegisteredBakeryPage> {
   final controller = Get.put(BakeryController());
 
-  // var args = Get.arguments;
   SearchData selectedBakery;
-  // = controller.selectedBakery;
-  String first_registerer = Get.arguments;
-  // String first_registerer = '동오언니';
+  String first_registerer = (Get.arguments)[0];
+  int bakeryId = (Get.arguments)[1];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -131,7 +131,7 @@ class _AlreadyRegisteredBakeryPageState
                                         fontWeight: FontWeight.w600,
                                       )),
                                   onPressed: () {
-                                    Get.to(RegisterReviewPage());
+                                    Get.to(RegisterReviewPage(), arguments: bakeryId);
                                   },
                                 ),
                               ),
@@ -295,7 +295,13 @@ class AlreadyRegisteredBakeryAppbar extends DefaultAppBar {
   Widget build(BuildContext context) {
     return AppBar(
       leading: IconButton(
-        icon: Image.asset('asset/images/Vector.png'),
+        icon: Container(
+            height: 16,
+            width: 8,
+            child: SvgPicture.asset(
+              'asset/images/Vector.svg',
+              fit: BoxFit.scaleDown,
+            )),
         onPressed: () => Navigator.of(context).pop(),
       ),
       backgroundColor: Colors.transparent,

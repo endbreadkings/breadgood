@@ -77,7 +77,7 @@ class BakeryMapData {
    String roadAddress;
   // List<String> signatureMenus;
   // = List<String>();
-  String signatureMenus;
+  List<String> signatureMenus;
    String title;
 
   BakeryMapData({

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-import 'package:breadgood_app/constant/api_path.dart' as PATH;
+import 'package:breadgood_app/constant/api_path.dart' as api_path;
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:get/get.dart';
 import 'package:breadgood_app/utils/ui/main_app_bar.dart';
@@ -20,7 +21,13 @@ class TermsWebviewAppbar extends DefaultAppBar {
   Widget build(BuildContext context) {
     return AppBar(
       leading: IconButton(
-        icon: Image.asset('asset/images/Vector.png'),
+        icon: Container(
+            height: 16,
+            width: 8,
+            child: SvgPicture.asset(
+              'asset/images/Vector.svg',
+              fit: BoxFit.scaleDown,
+            )),
         onPressed: () => Navigator.pushReplacementNamed(context, '/signup/policy'),
       ),
       backgroundColor: Colors.transparent,
@@ -41,7 +48,7 @@ class _TermsWebViewState extends State<TermsWebView> {
   @override
   Widget build(BuildContext context) {
     return WebviewScaffold(
-        url: "${PATH.URL}${Get.arguments}",
+        url: "${api_path.url}${Get.arguments}",
         javascriptChannels: jsChannels,
         scrollBar: true,
         appBar: TermsWebviewAppbar(),

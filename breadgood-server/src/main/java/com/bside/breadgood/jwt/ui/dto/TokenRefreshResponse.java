@@ -1,15 +1,16 @@
 package com.bside.breadgood.jwt.ui.dto;
 
+import com.bside.breadgood.jwt.domain.TokenType;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 public class TokenRefreshResponse {
-    private final String accessToken;
-    private final Long accessTokenExpirationTimeMsec;
-    private final String refreshToken;
-    private final Long refreshTokenExpirationTimeMsec;
-    private final String tokenType = "Bearer";
+    private String accessToken;
+    private Long accessTokenExpirationTimeMsec;
+    private String refreshToken;
+    private Long refreshTokenExpirationTimeMsec;
+    private TokenType tokenType;
 
     @Builder
     public TokenRefreshResponse(String accessToken, Long accessTokenExpirationTimeMsec, String refreshToken, Long refreshTokenExpirationTimeMsec) {
@@ -17,6 +18,10 @@ public class TokenRefreshResponse {
         this.accessTokenExpirationTimeMsec = accessTokenExpirationTimeMsec;
         this.refreshToken = refreshToken;
         this.refreshTokenExpirationTimeMsec = refreshTokenExpirationTimeMsec;
+        this.tokenType = TokenType.BEARER;
     }
 
+    public String getTokenType() {
+        return tokenType.getValue();
+    }
 }

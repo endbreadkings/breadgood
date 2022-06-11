@@ -26,7 +26,7 @@ public class BreadStyleService {
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<BreadStyleResponseDto> findAll() {
-        return breadStyleRepository.findAllOrderByIdDesc().stream()
+        return breadStyleRepository.findAllByOrderBySortNumberAsc().stream()
                 .map(BreadStyleResponseDto::new)
                 .collect(Collectors.toList());
     }
@@ -36,5 +36,11 @@ public class BreadStyleService {
         final BreadStyle breadStyle = breadStyleRepository.findById(breadStyleId)
                 .orElseThrow(() -> new BreadStyleNotFoundException("id", Long.toString(breadStyleId)));
         return new BreadStyleResponseDto(breadStyle);
+    }
+
+    @Transactional
+    public BreadStyleResponseDto save(BreadStyle breadStyle) {
+        final BreadStyle savedBreadStyle = breadStyleRepository.save(breadStyle);
+        return new BreadStyleResponseDto(savedBreadStyle);
     }
 }
