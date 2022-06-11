@@ -17,7 +17,7 @@ public class BakeryFixture {
     public static BakerySaveRequestDto 빵집1_등록요청(Long bakeryCategoryId, Long emojiId) {
       return BakerySaveRequestDto.builder()
               .title("빵집1")
-              .city("서울")
+              .city("서울특별시")
               .bakeryCategoryId(bakeryCategoryId)
               .description("설명은 10글자 이상이어야 합니다")
               .content("빵을좋아하는사람만오십시오")
@@ -33,7 +33,7 @@ public class BakeryFixture {
     public static BakerySaveRequestDto 빵집2_등록요청(Long bakeryCategoryId, Long emojiId) {
         return BakerySaveRequestDto.builder()
                 .title("빵집2")
-                .city("서울")
+                .city("서울특별시")
                 .bakeryCategoryId(bakeryCategoryId)
                 .description("설명은 10글자 이상이어야 합니다")
                 .content("빵을좋아하는사람만오십시오")
