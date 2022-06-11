@@ -42,7 +42,7 @@ import static com.bside.breadgood.fixtures.bakery.BakeryFixture.빵집등록요�
 import static com.bside.breadgood.fixtures.bakerycategory.BakeryCategoryFixture.빵에집중;
 import static com.bside.breadgood.fixtures.bakerycategory.BakeryCategoryFixture.음료와빵;
 import static com.bside.breadgood.fixtures.breadstyle.BreadStyleFixture.달콤_200;
-import static com.bside.breadgood.fixtures.emoji.EmojiFixture.이모지1;
+import static com.bside.breadgood.fixtures.emoji.EmojiFixture.이모지_100;
 import static com.bside.breadgood.fixtures.user.UserFixture.테스트유저;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -191,7 +191,7 @@ class BakeryServiceTest {
         User user = new User(1L, NickName.valueOf("테스트유저"), Email.valueOf("test@breadgood.com"), "1234", 1L, null, null, Role.USER);
         UserResponseDto userDto = new UserResponseDto(user);
 
-        Emoji emoji = new Emoji(1L, "emojiName", "img.url", 1);
+        Emoji emoji = new Emoji(1L, "emojiName", ImageUrl.from("https://img.breadgood.com/admin/e1.png"), 100);
         EmojiResponseDto emojiDto = new EmojiResponseDto(emoji);
 
         BreadStyle breadStyle = new BreadStyle(1L, "담백", "담백빵 내용", ImageUrl.from("https://test.domain.com/path1/img.png"), ImageUrl.from("https://test.domain.com/path1/img.png"), "#FFFFFF", 400);
@@ -241,7 +241,7 @@ class BakeryServiceTest {
         when(userService.findById(any())).thenReturn(new UserResponseDto(테스트유저));
 
         when(bakeryCategoryService.findById(any())).thenReturn(new BakeryCategoryResponseDto(빵에집중));
-        when(emojiService.findById(any())).thenReturn(new EmojiResponseDto(이모지1));
+        when(emojiService.findById(any())).thenReturn(new EmojiResponseDto(이모지_100));
 
         setId(달콤_200, BreadStyle.class, 1L);
 
