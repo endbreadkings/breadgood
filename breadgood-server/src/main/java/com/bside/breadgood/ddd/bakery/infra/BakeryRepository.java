@@ -16,6 +16,5 @@ public interface BakeryRepository extends CrudRepository<Bakery, Long>/*, Bakery
 
 //    Optional<List<Bakery>> findByBakeryCategory(Long categoryId);
 
-    @Query("select b from Bakery b order by b.id desc")
     List<Bakery> findAllByOrderByIdDesc();
 }
