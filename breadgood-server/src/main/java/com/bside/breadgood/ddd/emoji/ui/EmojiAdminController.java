@@ -4,6 +4,7 @@ import com.bside.breadgood.apifirstdesign.models.BadRequestError;
 import com.bside.breadgood.apifirstdesign.models.InternalServerError;
 import com.bside.breadgood.common.exception.ExceptionResponse;
 import com.bside.breadgood.ddd.emoji.application.EmojiService;
+import com.bside.breadgood.ddd.emoji.application.dto.EmojiRequestDto;
 import com.bside.breadgood.ddd.emoji.application.dto.EmojiResponseDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParams;
@@ -11,11 +12,17 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import java.util.List;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * create on 2022/06/05. create by IntelliJ IDEA.
@@ -46,5 +53,21 @@ public class EmojiAdminController {
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   public List<EmojiResponseDto> findAll() {
     return emojiService.findAll();
+  }
+
+  @ApiOperation(value = "관리자에서 이모지를 등록 합니다.", notes = "")
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "성공적으로 등록시 EmojiResponseDto 반환", response = EmojiResponseDto.class),
+      @ApiResponse(code = 400, message = "BadRequest", response = BadRequestError.class),
+      @ApiResponse(code = 500, message = "InternalServerError", response = InternalServerError.class),
+      @ApiResponse(code = -1, message = "ExceptionResponse", response = ExceptionResponse.class)}
+  )
+  @ApiImplicitParams({
+  })
+  @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
+  public EmojiResponseDto save(@Valid EmojiRequestDto dto,
+      @RequestPart(value = "img") MultipartFile img) {
+    return emojiService.save(dto, img);
   }
 }

@@ -1,11 +1,8 @@
 package com.bside.breadgood.ddd.emoji.infra;
 
-import static com.bside.breadgood.fixtures.breadstyle.BreadStyleFixture.달콤_200;
-import static com.bside.breadgood.fixtures.breadstyle.BreadStyleFixture.크림_100;
 import static com.bside.breadgood.fixtures.emoji.EmojiFixture.이모지_100;
 import static com.bside.breadgood.fixtures.emoji.EmojiFixture.이모지_200;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import com.bside.breadgood.ddd.emoji.domain.Emoji;
 import java.util.List;
@@ -51,5 +48,28 @@ class EmojiRepositoryTest {
 
     // then
     assertThat(breadStyles).extracting("sortNumber").contains(100, 200);
+  }
+
+  @Test
+  @DisplayName("이모지 sort_number 최대값 조회 테스트")
+  void findMaxSortNumberTest() {
+    // when
+    int maxSortNumber = repository.findMaxSortNumber();
+
+    // then
+    assertThat(maxSortNumber).isEqualTo(200);
+  }
+
+  @Test
+  @DisplayName("등록된 이모지가 없을 때, 이모지 sort_number 최대값 조회 테스트")
+  void findMaxSortNumberTestGivenNoData() {
+    // given
+    repository.deleteAll();
+
+    // when
+    int maxSortNumber = repository.findMaxSortNumber();
+
+    // then
+    assertThat(maxSortNumber).isZero();
   }
 }
