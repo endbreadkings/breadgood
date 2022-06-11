@@ -170,7 +170,7 @@ const BakeryList = () => {
         {bakeries.length === 0 && (
           <div className="bl-list-empty-wrapper">
             <div className="bl-list-empty">
-              <img src="/img/empty-list.png" alt="empty-list" />
+              <img src="/img/empty-list.svg" alt="empty-list" />
               <div className="bl-li-empty-desc">
                 원하는 빵집이 없나요?<br/>
                 지금 빵집 정보를 등록하고<br/>

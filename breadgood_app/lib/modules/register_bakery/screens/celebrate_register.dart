@@ -1,6 +1,7 @@
 import 'package:breadgood_app/modules/main/screens/main_map.dart';
 import 'package:breadgood_app/modules/register_review/screens/register_review.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:breadgood_app/utils/ui/main_app_bar.dart';
 import 'package:breadgood_app/modules/register_bakery/controller/bakery_controller.dart';
@@ -52,11 +53,14 @@ class _CelebrateRegisterPageState extends State<CelebrateRegisterPage> {
               ),
               Align(
                   alignment: Alignment.center,
-                  child: Image.asset('asset/images/celebrate.png'),
-              ),
-              Align(
-                alignment: Alignment.center,
-                child: Image.asset('asset/images/cat_color.png'),
+                  child: Container(
+                      width: 286.15,
+                      height: 205.59,
+                      child: SvgPicture.asset(
+                        'asset/images/registerBakery/confetti_cat_color.svg',
+                        fit: BoxFit.scaleDown,
+                      )
+                  )
               ),
               Spacer(),
               SizedBox(

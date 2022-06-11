@@ -82,7 +82,7 @@ flutter:
     - asset/images/icon/login/
     - asset/images/icon/map/
     - asset/images/icon/profile/
-    - asset/images/icon/registerBakery/
+    - asset/images/registerBakery/
     - asset/images/icon/registerReview/
     - asset/images/onboard/
 
