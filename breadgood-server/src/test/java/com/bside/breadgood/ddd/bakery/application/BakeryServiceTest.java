@@ -25,6 +25,7 @@ import com.bside.breadgood.ddd.users.domain.Email;
 import com.bside.breadgood.ddd.users.domain.NickName;
 import com.bside.breadgood.ddd.users.domain.Role;
 import com.bside.breadgood.ddd.users.domain.User;
+import com.bside.breadgood.fixtures.bakery.BakeryFixture;
 import com.bside.breadgood.s3.application.S3Service;
 import com.bside.breadgood.s3.application.dto.S3UploadResponseDto;
 import org.assertj.core.util.Lists;
@@ -49,10 +50,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
 
 class BakeryServiceTest {
 
@@ -280,5 +280,18 @@ class BakeryServiceTest {
                         null
                 )
         ).isInstanceOf(IllegalCityException.class);
+    }
+
+    @Test
+    @DisplayName("빵집 삭제하기")
+    public void deleteBakery() {
+        // given
+        given(bakeryRepository.findById(anyLong())).willReturn(Optional.of(빵집1));
+
+        // when
+        bakeryService.delete(빵집1.getId());
+
+        // then
+        verify(bakeryRepository).findById(1L);
     }
 }

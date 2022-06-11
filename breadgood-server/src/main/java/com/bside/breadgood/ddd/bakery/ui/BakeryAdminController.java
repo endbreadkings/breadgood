@@ -11,9 +11,7 @@ import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -43,5 +41,21 @@ public class BakeryAdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<BakeryManagementResponseDto>> findAll() {
         return ResponseEntity.ok().body(bakeryService.findAll());
+    }
+
+    @ApiOperation(value = "빵집을 삭제한다", notes = "삭제 성공 시 200 응답 코드로 리턴합니다")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "삭제 성공시 아무것도 반환하지 않습니다"),
+            @ApiResponse(code = 400, message = "BadRequest", response = BadRequestError.class),
+            @ApiResponse(code = 500, message = "InternalServerError", response = InternalServerError.class),
+            @ApiResponse(code = -1, message = "ExceptionResponse", response = ExceptionResponse.class)}
+    )
+    @ApiImplicitParams({
+    })
+    @DeleteMapping("/bakery/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        bakeryService.delete(id);
+        return ResponseEntity.ok().build();
     }
 }

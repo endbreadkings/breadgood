@@ -510,4 +510,15 @@ public class BakeryService {
 
         bakeryRepository.saveAll(bakeries);
     }
+
+
+    @Transactional
+    public void delete(Long id) {
+        final Bakery bakery = getById(id).orElseThrow(BakeryNotFoundException::new);
+        bakeryRepository.delete(bakery);
+    }
+
+    private Optional<Bakery> getById(Long id) {
+        return bakeryRepository.findById(id);
+    }
 }

@@ -151,10 +151,62 @@ public class BakeryAdminAcceptanceTest extends AcceptanceTest {
 
         // then
         빵집_조회됨(response, 2);
-        삭제된_사용자_조회_성공(response);
+        삭제된사용자로_정보조회됨(response);
     }
 
-    private void 삭제된_사용자_조회_성공(ExtractableResponse<Response> response) {
+    @Test
+    @DisplayName("관리자는 빵집을 삭제할 수 있다")
+    public void deleteBakeryOK() {
+        // given
+        final BakeryManagementResponseDto 등록된_빵집 = 등록된_빵집리스트(관리자_토큰).get(0);
+
+        // when
+        final ExtractableResponse<Response> response = 빵집_삭제_요청함(관리자_토큰, 등록된_빵집.getId());
+
+        // then
+        빵집_삭제됨(response);
+    }
+
+    @Test
+    @DisplayName("등록되지 않은 빵집을 삭제 요청 시 예외가 발생한다")
+    public void deleteBakeryNGByNoToken() {
+        // given
+        Long 등록되지않은_빵집ID = Long.MAX_VALUE;
+        // when
+        final ExtractableResponse<Response> response = 빵집_삭제_요청함(관리자_토큰, 등록되지않은_빵집ID);
+
+        // then
+        삭제_실패함(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    @DisplayName("사용자는 빵집을 삭제할 권한이 없다")
+    public void deleteBakeryNGByAutority() {
+        // given
+        final BakeryManagementResponseDto 등록된_빵집 = 등록된_빵집리스트(관리자_토큰).get(0);
+
+        // when
+        final ExtractableResponse<Response> response = 빵집_삭제_요청함(사용자_토큰, 등록된_빵집.getId());
+
+        // then
+        삭제_실패함(response, HttpStatus.FORBIDDEN);
+    }
+
+    private void 빵집_삭제됨(ExtractableResponse<Response> response) {
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    private ExtractableResponse<Response> 빵집_삭제_요청함(String token, Long id) {
+        return RestAssured
+                .given().log().all()
+                .auth().oauth2(token)
+                .when()
+                .delete(BAKERY_ADMIN_BASE_URI + "/" +  id)
+                .then().log().all()
+                .extract();
+    }
+
+    private void 삭제된사용자로_정보조회됨(ExtractableResponse<Response> response) {
         final List<BakeryManagementResponseDto> actual = response.jsonPath().getList("", BakeryManagementResponseDto.class);
         actual.stream()
                 .map(BakeryManagementResponseDto::getUser)
@@ -180,7 +232,12 @@ public class BakeryAdminAcceptanceTest extends AcceptanceTest {
                 .extract();
     }
 
-    private ExtractableResponse<Response> 빵집_조회_요쳥함(String token) {
+    private List<BakeryManagementResponseDto> 등록된_빵집리스트(String token) {
+        return 빵집_조회_요쳥함(token)
+                .jsonPath().getList("", BakeryManagementResponseDto.class);
+    }
+
+    private static ExtractableResponse<Response> 빵집_조회_요쳥함(String token) {
         return RestAssured
                 .given()
                 .log().all()
@@ -192,14 +249,19 @@ public class BakeryAdminAcceptanceTest extends AcceptanceTest {
                 .extract();
     }
 
-    private void 조회_실패함(ExtractableResponse<Response> response, HttpStatus status) {
-        assertThat(response.statusCode()).isEqualTo(status.value());
-    }
 
     private void 빵집_조회됨(ExtractableResponse<Response> response, int expectedCount) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
         final List<BakeryManagementResponseDto> actual = response.jsonPath().getList("", BakeryManagementResponseDto.class);
         assertThat(actual).hasSize(expectedCount);
+    }
+
+    private void 조회_실패함(ExtractableResponse<Response> response, HttpStatus status) {
+        assertThat(response.statusCode()).isEqualTo(status.value());
+    }
+
+    private void 삭제_실패함(ExtractableResponse<Response> response, HttpStatus status) {
+        assertThat(response.statusCode()).isEqualTo(status.value());
     }
 
     private void 사용자를_삭제한다(User user) {
