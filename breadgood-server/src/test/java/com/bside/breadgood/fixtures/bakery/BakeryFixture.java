@@ -40,7 +40,7 @@ public class BakeryFixture {
                 .district("중분류위치값")
                 .mapX(1D)
                 .mapY(1D)
-                .roadAddress("도로명주소값")
+                .roadAddress("도로명주소값2")
                 .signatureMenus(Lists.newArrayList("1", "2", "3"))
                 .emojiId(emojiId)
                 .build();

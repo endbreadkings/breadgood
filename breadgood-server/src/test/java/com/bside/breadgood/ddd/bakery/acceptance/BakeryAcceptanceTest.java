@@ -1,7 +1,6 @@
 package com.bside.breadgood.ddd.bakery.acceptance;
 
 import com.bside.breadgood.ddd.AcceptanceTest;
-import com.bside.breadgood.ddd.bakery.application.BakeryService;
 import com.bside.breadgood.ddd.bakery.application.dto.BakerySaveRequestDto;
 import com.bside.breadgood.ddd.bakerycategory.infra.BakeryCategoryRepository;
 import com.bside.breadgood.ddd.breadstyles.infra.BreadStyleRepository;
@@ -64,9 +63,6 @@ public class BakeryAcceptanceTest extends AcceptanceTest {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private BakeryService bakeryService;
-
     @Override
     @BeforeEach
     public void setUp() {
@@ -78,8 +74,8 @@ public class BakeryAcceptanceTest extends AcceptanceTest {
         savedBreadStyleId = breadStyleRepository.save(달콤_200).getId();
         savedEmojiId = emojiRepository.save(이모지2).getId();
         savedBakeryCategoryId = bakeryCategoryRepository.save(BakeryCategoryFixture.빵에집중).getId();
-
         TermsType savedTermsType = termsTypeRepository.save(필수_개인정보_수집_및_이용_동의_약관_100);
+
         userRepository.save(
                 사용자_등록_요청(
                         테스트유저.getNickName(),
@@ -101,14 +97,14 @@ public class BakeryAcceptanceTest extends AcceptanceTest {
         final BakerySaveRequestDto 빵집등록요청 = 빵집1_등록요청(savedBakeryCategoryId, savedEmojiId);
 
         // when
-        final ExtractableResponse<Response> response = 빵집_등록_요청함(빵집등록요청);
+        final ExtractableResponse<Response> response = 빵집_등록_요청함(사용자_토큰, 빵집등록요청);
 
         // then
         빵집_등록됨(response);
     }
 
-    public static Long 빵집_등록되어있음(BakerySaveRequestDto request) {
-        return 빵집_등록_요청함(request).as(Long.class);
+    public static Long 빵집_등록되어있음(String token, BakerySaveRequestDto request) {
+        return 빵집_등록_요청함(token, request).as(Long.class);
     }
 
 
@@ -117,11 +113,11 @@ public class BakeryAcceptanceTest extends AcceptanceTest {
     }
 
 
-    public static ExtractableResponse<Response> 빵집_등록_요청함(BakerySaveRequestDto request) {
+    public static ExtractableResponse<Response> 빵집_등록_요청함(String token, BakerySaveRequestDto request) {
         final RequestSpecification requestSpecification = RestAssured
                 .given()
                 .log().all()
-                .auth().oauth2(사용자_토큰)
+                .auth().oauth2(token)
                 .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
                 .multiPart(new MultiPartSpecBuilder(request.getBakeryCategoryId()).controlName("bakeryCategoryId").build())
                 .multiPart(new MultiPartSpecBuilder(request.getCity()).controlName("city").charset("UTF-8").build())

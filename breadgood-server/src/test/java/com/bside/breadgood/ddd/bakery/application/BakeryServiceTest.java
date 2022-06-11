@@ -211,7 +211,7 @@ class BakeryServiceTest {
                 .profileImgUrl("img.img")
                 .breadStyleId(1L)
                 .breadStyleName("담백")
-                .isWithdrawal(true)
+                .withdrawal(true)
                 .build();
         List<Bakery> bakeries = getDummyBakeries();
 

@@ -27,17 +27,4 @@ public class UserResponseDto {
         this.nickName = user.getNickName();
         this.breadStyleId = user.getBreadStyle();
     }
-
-    public static UserResponseDto getDefault() {
-        return new DefaultUserResponseDto();
-    }
-
-
-    static class DefaultUserResponseDto extends UserResponseDto {
-        DefaultUserResponseDto() {
-            // TODO
-        }
-    }
-
-
 }

@@ -24,7 +24,7 @@ import java.util.List;
  */
 @Api(value = "빵집 관리자 API", description = "[관리자] 빵집 API's")
 @RestController
-@RequestMapping("/api/v1/admin/bakery")
+@RequestMapping("/api/v1/admin")
 @RequiredArgsConstructor
 public class BakeryAdminController {
     private final BakeryService bakeryService;
@@ -39,7 +39,7 @@ public class BakeryAdminController {
     )
     @ApiImplicitParams({
     })
-    @GetMapping("/list")
+    @GetMapping("/bakery/list")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<BakeryManagementResponseDto>> findAll() {
         return ResponseEntity.ok().body(bakeryService.findAll());

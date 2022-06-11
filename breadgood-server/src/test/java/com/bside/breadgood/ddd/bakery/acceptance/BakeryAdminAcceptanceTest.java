@@ -1,26 +1,38 @@
 package com.bside.breadgood.ddd.bakery.acceptance;
 
 import com.bside.breadgood.ddd.AcceptanceTest;
-import com.bside.breadgood.ddd.bakerycategory.application.dto.BakeryCategoryResponseDto;
+import com.bside.breadgood.ddd.bakery.application.dto.BakeryManagementResponseDto;
+import com.bside.breadgood.ddd.bakerycategory.infra.BakeryCategoryRepository;
 import com.bside.breadgood.ddd.breadstyles.domain.BreadStyle;
 import com.bside.breadgood.ddd.breadstyles.infra.BreadStyleRepository;
+import com.bside.breadgood.ddd.emoji.infra.EmojiRepository;
 import com.bside.breadgood.ddd.termstype.domain.TermsType;
 import com.bside.breadgood.ddd.termstype.infra.TermsTypeRepository;
+import com.bside.breadgood.ddd.users.domain.Role;
 import com.bside.breadgood.ddd.users.infra.UserRepository;
-import com.bside.breadgood.fixtures.bakery.BakeryFixture;
+import com.bside.breadgood.fixtures.bakerycategory.BakeryCategoryFixture;
+import io.restassured.RestAssured;
+import io.restassured.response.ExtractableResponse;
+import io.restassured.response.Response;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 
-import static com.bside.breadgood.ddd.bakerycategory.ui.BakeryCategoryAcceptanceTest.빵집_카테고리_생성;
-import static com.bside.breadgood.ddd.users.acceptance.UserAcceptanceTest.관리자_로그인_토큰;
-import static com.bside.breadgood.fixtures.bakerycategory.BakeryCategoryFixture.미등록된_빵에집중;
+import java.util.List;
+
+import static com.bside.breadgood.ddd.bakery.acceptance.BakeryAcceptanceTest.빵집_등록되어있음;
+import static com.bside.breadgood.ddd.users.acceptance.UserAcceptanceTest.로그인_토큰;
+import static com.bside.breadgood.fixtures.bakery.BakeryFixture.빵집1_등록요청;
+import static com.bside.breadgood.fixtures.bakery.BakeryFixture.빵집2_등록요청;
 import static com.bside.breadgood.fixtures.breadstyle.BreadStyleFixture.달콤_200;
+import static com.bside.breadgood.fixtures.emoji.EmojiFixture.이모지2;
 import static com.bside.breadgood.fixtures.termstype.TermsTypeFixture.필수_개인정보_수집_및_이용_동의_약관_100;
 import static com.bside.breadgood.fixtures.user.UserFixture.*;
-import static com.bside.breadgood.fixtures.user.UserFixture.관리자;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * author : haedoang
@@ -29,7 +41,7 @@ import static com.bside.breadgood.fixtures.user.UserFixture.관리자;
  */
 @DisplayName("관리자 빵집 관리 인수테스트")
 public class BakeryAdminAcceptanceTest extends AcceptanceTest {
-    public static final String BAKERY_ADMIN_BASE_URI = "/api/v1/admin/bakery";
+    public static final String BAKERY_ADMIN_BASE_URI = "api/v1/admin/bakery";
 
     @Autowired
     private UserRepository userRepository;
@@ -40,7 +52,14 @@ public class BakeryAdminAcceptanceTest extends AcceptanceTest {
     @Autowired
     private BreadStyleRepository breadStyleRepository;
 
+    @Autowired
+    private BakeryCategoryRepository bakeryCategoryRepository;
+
+    @Autowired
+    private EmojiRepository emojiRepository;
+
     String 관리자_토큰;
+    String 사용자_토큰;
 
     @Override
     @BeforeEach
@@ -49,36 +68,101 @@ public class BakeryAdminAcceptanceTest extends AcceptanceTest {
         빵집_초기_데이터();
     }
 
-    private void 빵집_초기_데이터()  {
-        try {
-            final BreadStyle savedBreadStyle = breadStyleRepository.save(달콤_200);
-            final TermsType savedTermsType = termsTypeRepository.save(필수_개인정보_수집_및_이용_동의_약관_100);
-            final Long savedBakeryCategoryId = 빵집_카테고리_생성(관리자_토큰, 미등록된_빵에집중).getId();
+    private void 빵집_초기_데이터() {
+        final BreadStyle savedBreadStyle = breadStyleRepository.save(달콤_200);
+        final TermsType savedTermsType = termsTypeRepository.save(필수_개인정보_수집_및_이용_동의_약관_100);
+        Long savedEmojiId = emojiRepository.save(이모지2).getId();
+        Long savedBakeryCategoryId = bakeryCategoryRepository.save(BakeryCategoryFixture.빵에집중).getId();
 
-            userRepository.save(
-                    관리자_등록_요청(
-                            관리자.getNickName(),
-                            관리자.getEmail(),
-                            관리자.getPassword(),
-                            Lists.newArrayList(savedTermsType),
-                            savedBreadStyle.getId()
-                    ));
+        userRepository.save(
+                관리자_등록_요청(
+                        관리자.getNickName(),
+                        관리자.getEmail(),
+                        관리자.getPassword(),
+                        Lists.newArrayList(savedTermsType),
+                        savedBreadStyle.getId()
+                ));
 
-            관리자_토큰 = 관리자_로그인_토큰(관리자.getEmail(), 관리자.getPassword());
+        userRepository.save(
+                사용자_등록_요청(
+                        테스트유저.getNickName(),
+                        테스트유저.getEmail(),
+                        테스트유저.getPassword(),
+                        Lists.newArrayList(savedTermsType),
+                        savedBreadStyle.getId(),
+                        Role.USER
+                ));
 
+        관리자_토큰 = 로그인_토큰(관리자.getEmail(), 관리자.getPassword());
+        사용자_토큰 = 로그인_토큰(테스트유저.getEmail(), 테스트유저.getPassword());
 
-
-        } catch (Exception ignored) {
-        }
+        빵집_등록되어있음(사용자_토큰, 빵집1_등록요청(savedBakeryCategoryId, savedEmojiId));
+        빵집_등록되어있음(사용자_토큰, 빵집2_등록요청(savedBakeryCategoryId, savedEmojiId));
     }
 
     @Test
-    @DisplayName("관리자 계정으로 빵집 리스트를 조회한다")
-    public void bakeryListByAdmin() {
+    @DisplayName("관리자는 관리자 빵집 리스트를 조회할 수 있다")
+    public void bakeryListOk() {
         // given
+        int expectedCount = 2;
 
         // when
+        final ExtractableResponse<Response> response = 빵집_조회_요쳥함(관리자_토큰);
 
         // then
+        빵집_조회됨(response, expectedCount);
+    }
+
+    @Test
+    @DisplayName("사용자는 관리자 빵집 리스트를 조회할 권한이 없다")
+    public void bakeryListNGByAuthority() {
+        // when
+        final ExtractableResponse<Response> response = 빵집_조회_요쳥함(사용자_토큰);
+
+        // then
+        조회_실패함(response, HttpStatus.FORBIDDEN);
+    }
+
+    @Test
+    @DisplayName("토큰이 없이는 관리자 빵집 리스트를 조회할 수 없다")
+    public void bakeryListNGByNOToken() {
+        // when
+        final ExtractableResponse<Response> response = 빵집_조회_요청함_NO토큰();
+
+        // then
+        조회_실패함(response, HttpStatus.UNAUTHORIZED);
+    }
+
+    private ExtractableResponse<Response> 빵집_조회_요청함_NO토큰() {
+        return RestAssured
+                .given()
+                .log().all()
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .when()
+                .get(BAKERY_ADMIN_BASE_URI + "/list")
+                .then().log().all()
+                .extract();
+    }
+
+    private ExtractableResponse<Response> 빵집_조회_요쳥함(String token) {
+        return RestAssured
+                .given()
+                .log().all()
+                .auth().oauth2(token)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .when()
+                .get(BAKERY_ADMIN_BASE_URI + "/list")
+                .then().log().all()
+                .extract();
+    }
+
+    private void 조회_실패함(ExtractableResponse<Response> response, HttpStatus status) {
+        assertThat(response.statusCode()).isEqualTo(status.value());
+    }
+
+    private void 빵집_조회됨(ExtractableResponse<Response> response, int expectedCount) {
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        final List<BakeryManagementResponseDto> actual = response.jsonPath().getList("", BakeryManagementResponseDto.class);
+        assertThat(actual).hasSize(expectedCount);
     }
 }

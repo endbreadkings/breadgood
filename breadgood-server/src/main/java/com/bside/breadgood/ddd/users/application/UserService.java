@@ -91,7 +91,7 @@ public class UserService {
                     .profileImgUrl(breadStyleResponseDto.getProfileImgUrl())
                     .userId(user.getId())
                     .nickName(user.getNickName())
-                    .isWithdrawal(true)
+                    .withdrawal(true)
                     .build();
         }
 
