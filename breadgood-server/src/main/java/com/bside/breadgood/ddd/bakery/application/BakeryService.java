@@ -13,8 +13,8 @@ import com.bside.breadgood.ddd.breadstyles.application.BreadStyleService;
 import com.bside.breadgood.ddd.breadstyles.ui.dto.BreadStyleResponseDto;
 import com.bside.breadgood.ddd.emoji.application.EmojiService;
 import com.bside.breadgood.ddd.emoji.application.dto.EmojiResponseDto;
-import com.bside.breadgood.ddd.users.application.dto.UserInfoResponseDto;
 import com.bside.breadgood.ddd.users.application.UserService;
+import com.bside.breadgood.ddd.users.application.dto.UserInfoResponseDto;
 import com.bside.breadgood.ddd.users.application.dto.UserResponseDto;
 import com.bside.breadgood.s3.application.S3Service;
 import com.bside.breadgood.s3.application.dto.S3UploadResponseDto;
@@ -253,7 +253,7 @@ public class BakeryService {
         }).collect(toList());
     }
 
-    public List<BakeryManagementResponseDto> findAll() {
+    public List<BakeryAdminRequestDto> findAll() {
         final List<Bakery> bakeries = bakeryRepository.findAllByOrderByIdDesc();
 
         final Set<Long> userIds = bakeries.stream()
@@ -264,13 +264,23 @@ public class BakeryService {
 
         return bakeries.stream()
                 .map(bakery ->
-                        BakeryManagementResponseDto.valueOf(
+                        BakeryAdminRequestDto.valueOf(
                                 bakery, userMap.getOrDefault(bakery.getUser(), UserInfoResponseDto.getDefault())
                         )
                 )
                 .collect(toList());
     }
 
+    @Transactional
+    public void delete(Long id) {
+        final Bakery bakery = findById(id);
+        bakeryRepository.delete(bakery);
+    }
+
+    public Bakery findById(Long id) {
+        return bakeryRepository.findById(id)
+                .orElseThrow(BakeryNotFoundException::new);
+    }
 
     @Transactional
     public void initData() {
@@ -511,14 +521,4 @@ public class BakeryService {
         bakeryRepository.saveAll(bakeries);
     }
 
-
-    @Transactional
-    public void delete(Long id) {
-        final Bakery bakery = getById(id).orElseThrow(BakeryNotFoundException::new);
-        bakeryRepository.delete(bakery);
-    }
-
-    private Optional<Bakery> getById(Long id) {
-        return bakeryRepository.findById(id);
-    }
 }

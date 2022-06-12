@@ -17,14 +17,14 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BakeryManagementResponseDto {
+public class BakeryAdminRequestDto {
     private Long id;
     private String title;
     private Address address;
     private UserInfoResponseDto user;
     private LocalDateTime createdAt;
 
-    public static BakeryManagementResponseDto valueOf(Bakery entity, UserInfoResponseDto nickname) {
-        return new BakeryManagementResponseDto(entity.getId(), entity.getTitle(), entity.getAddress(), nickname, entity.getCreatedAt());
+    public static BakeryAdminRequestDto valueOf(Bakery entity, UserInfoResponseDto nickname) {
+        return new BakeryAdminRequestDto(entity.getId(), entity.getTitle(), entity.getAddress(), nickname, entity.getCreatedAt());
     }
 }

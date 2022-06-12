@@ -1,7 +1,7 @@
 package com.bside.breadgood.ddd.bakery.acceptance;
 
 import com.bside.breadgood.ddd.AcceptanceTest;
-import com.bside.breadgood.ddd.bakery.application.dto.BakeryManagementResponseDto;
+import com.bside.breadgood.ddd.bakery.application.dto.BakeryAdminRequestDto;
 import com.bside.breadgood.ddd.bakerycategory.infra.BakeryCategoryRepository;
 import com.bside.breadgood.ddd.breadstyles.domain.BreadStyle;
 import com.bside.breadgood.ddd.breadstyles.infra.BreadStyleRepository;
@@ -158,7 +158,7 @@ public class BakeryAdminAcceptanceTest extends AcceptanceTest {
     @DisplayName("관리자는 빵집을 삭제할 수 있다")
     public void deleteBakeryOK() {
         // given
-        final BakeryManagementResponseDto 등록된_빵집 = 등록된_빵집리스트(관리자_토큰).get(0);
+        final BakeryAdminRequestDto 등록된_빵집 = 등록된_빵집리스트(관리자_토큰).get(0);
 
         // when
         final ExtractableResponse<Response> response = 빵집_삭제_요청함(관리자_토큰, 등록된_빵집.getId());
@@ -183,7 +183,7 @@ public class BakeryAdminAcceptanceTest extends AcceptanceTest {
     @DisplayName("사용자는 빵집을 삭제할 권한이 없다")
     public void deleteBakeryNGByAutority() {
         // given
-        final BakeryManagementResponseDto 등록된_빵집 = 등록된_빵집리스트(관리자_토큰).get(0);
+        final BakeryAdminRequestDto 등록된_빵집 = 등록된_빵집리스트(관리자_토큰).get(0);
 
         // when
         final ExtractableResponse<Response> response = 빵집_삭제_요청함(사용자_토큰, 등록된_빵집.getId());
@@ -207,9 +207,9 @@ public class BakeryAdminAcceptanceTest extends AcceptanceTest {
     }
 
     private void 삭제된사용자로_정보조회됨(ExtractableResponse<Response> response) {
-        final List<BakeryManagementResponseDto> actual = response.jsonPath().getList("", BakeryManagementResponseDto.class);
+        final List<BakeryAdminRequestDto> actual = response.jsonPath().getList("", BakeryAdminRequestDto.class);
         actual.stream()
-                .map(BakeryManagementResponseDto::getUser)
+                .map(BakeryAdminRequestDto::getUser)
                 .forEach(user -> {
                     assertAll(
                             () -> assertThat(user.getId()).isEqualTo(DEFAULT_USER_INFO_RESPONSE_DTO.getId()),
@@ -232,9 +232,9 @@ public class BakeryAdminAcceptanceTest extends AcceptanceTest {
                 .extract();
     }
 
-    private List<BakeryManagementResponseDto> 등록된_빵집리스트(String token) {
+    private List<BakeryAdminRequestDto> 등록된_빵집리스트(String token) {
         return 빵집_조회_요쳥함(token)
-                .jsonPath().getList("", BakeryManagementResponseDto.class);
+                .jsonPath().getList("", BakeryAdminRequestDto.class);
     }
 
     private static ExtractableResponse<Response> 빵집_조회_요쳥함(String token) {
@@ -252,7 +252,7 @@ public class BakeryAdminAcceptanceTest extends AcceptanceTest {
 
     private void 빵집_조회됨(ExtractableResponse<Response> response, int expectedCount) {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-        final List<BakeryManagementResponseDto> actual = response.jsonPath().getList("", BakeryManagementResponseDto.class);
+        final List<BakeryAdminRequestDto> actual = response.jsonPath().getList("", BakeryAdminRequestDto.class);
         assertThat(actual).hasSize(expectedCount);
     }
 
