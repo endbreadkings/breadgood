@@ -1,14 +1,11 @@
 import 'dart:io';
 import 'dart:convert';
 import 'dart:async';
-import 'package:breadgood_app/modules/main/screens/main_map.dart';
 import 'package:breadgood_app/modules/register_bakery/controller/bakery_controller.dart';
 import 'package:breadgood_app/modules/register_bakery/model/bakery_data.dart';
-import 'package:breadgood_app/modules/register_bakery/screens/celebrate_register.dart';
 import 'package:breadgood_app/utils/ui/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
@@ -20,7 +17,6 @@ import 'package:http/http.dart' as http;
 import 'package:hashtagable/hashtagable.dart';
 import 'package:hashtagable/widgets/hashtag_text_field.dart';
 import 'package:breadgood_app/utils/ui/main_app_bar.dart';
-import 'package:breadgood_app/utils/services/rest_api_service.dart';
 import 'package:heic_to_jpg/heic_to_jpg.dart';
 import 'package:path/path.dart' as path_lib;
 import 'package:path_provider/path_provider.dart';
@@ -169,6 +165,7 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
   List<TextEditingController> signatureMenuTextControllers =
       List.generate(3, (i) => TextEditingController());
   final controller = Get.put(BakeryController());
+  bool isEmptyAllSignatureMenuTexts = true;
 
   @override
   void initState() {
@@ -450,6 +447,20 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
     }
   }
 
+  _changeReviewButtonColor() {
+    if (bakeryId == -1) {
+      if((textcnt > 9) && (controller.selected_emoji_id != -1) && (!isEmptyAllSignatureMenuTexts)) {
+        return Color(0xFF4579FF);
+      }
+      return Color(0xFFC7C7C7);
+    } else {
+      if((textcnt > 9) && (controller.selected_emoji_id != -1)) {
+        return Color(0xFF4579FF);
+      }
+      return Color(0xFFC7C7C7);
+    }
+  }
+
   ReviewUpload() {
     return Flex(
       direction: Axis.vertical,
@@ -467,15 +478,7 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
                   borderRadius: BorderRadius.circular(30.0),
                 ),
                 elevation: 0,
-                color: ((textcnt > 9) &&
-                        (controller.selected_emoji_id != -1) &&
-                        (((bakeryId == -1) &&
-                                (signatureMenuTextControllers[0]
-                                    .text
-                                    .isNotEmpty)) ||
-                            (bakeryId != -1)))
-                    ? Color(0xFF4579FF)
-                    : Color(0xFFC7C7C7),
+                color: _changeReviewButtonColor(),
                 onPressed: () {
                   /* 최초등록자는 리뷰 10자 이상, 이모지 선택, 시그니처 메뉴 1개 이상 입력 필수 */
                   if (bakeryId == -1) {
@@ -705,16 +708,11 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
         isDense: true,
         hintText: '#시그니처메뉴${index + 1}',
       ),
-
-      /// Called when detection (word starts with #, or # and @) is being typed
-      onDetectionTyped: (text) {
-        print(text);
-      },
-
-      /// Called when detection is fully typed
-      onDetectionFinished: () {
-        print("detection finished");
-      },
+      onChanged: (text) {
+        setState(() {
+          isEmptyAllSignatureMenuTexts = text.isEmpty ? true : false;
+        });
+      }
     );
   }
 }
