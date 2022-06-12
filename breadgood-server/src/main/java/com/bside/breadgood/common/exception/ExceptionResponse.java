@@ -1,6 +1,8 @@
 package com.bside.breadgood.common.exception;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.validation.FieldError;
 
 import java.util.Date;
@@ -8,10 +10,11 @@ import java.util.List;
 
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ExceptionResponse {
-    private final int code;
+    private int code;
     private Date timestamp;
-    private final String message;
+    private String message;
     private List<FieldError> errors;
 
     public ExceptionResponse(int code, String message) {

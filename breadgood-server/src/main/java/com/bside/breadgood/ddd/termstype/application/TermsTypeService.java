@@ -26,9 +26,10 @@ public class TermsTypeService {
     private final TermsTypeRepository termsTypeRepository;
 
     @Transactional
-    public Long save(TermsTypeSaveRequestDto termsTypeSaveRequestDto) {
-        final TermsType savedTermsType = termsTypeRepository.save(termsTypeSaveRequestDto.toEntity());
-        return savedTermsType.getId();
+    public TermsTypeResponseDto save(TermsTypeSaveRequestDto termsTypeSaveRequestDto) {
+        final int nextSortNumber = termsTypeRepository.findNextSortNumber();
+        final TermsType termsType = termsTypeRepository.save(termsTypeSaveRequestDto.toEntity(nextSortNumber));
+        return TermsTypeResponseDto.valueOf(termsType);
     }
 
     @Transactional
@@ -86,7 +87,6 @@ public class TermsTypeService {
         }
     }
 
-
     @Transactional(readOnly = true)
     public List<TermsTypeResponseDto> findByIds(List<Long> termsTypeIds) {
 
@@ -98,22 +98,30 @@ public class TermsTypeService {
                     .name(termsType.getName())
                     .build();
         }).collect(Collectors.toList());
-
     }
 
-    @Transactional(readOnly = true)
-    public TermsTypeInfoResponseDto findById(Long termsTypeId) {
-
-        final TermsType termsType = termsTypeRepository.findById(termsTypeId).orElseThrow(() -> new TermsNotFoundException("id", String.valueOf(termsTypeId)));
-
+        public TermsTypeInfoResponseDto findById(Long termsTypeId) {
+        final TermsType termsType = getById(termsTypeId);
         return new TermsTypeInfoResponseDto(termsType);
     }
 
-    public Object findByIdAndTermsId(Long termsTypeId, Long termsId) {
-        final TermsType termsType = termsTypeRepository.findById(termsTypeId).orElseThrow(() -> new TermsNotFoundException("id", String.valueOf(termsTypeId)));
-        final Terms terms = termsType.getTerms().stream().filter(t -> t.getId().equals(termsId)).findFirst().orElseThrow(() -> new TermsNotFoundException("id", String.valueOf(termsTypeId)));
+    @Transactional(readOnly = true)
+    public TermsDetailResponseDto findByIdAndTermsId(Long termsTypeId, Long termsId) {
+        final TermsType termsType = getById(termsTypeId);
+        final Terms terms = termsType.getTermsById(termsId);
         return new TermsDetailResponseDto(termsType, terms);
+    }
 
+    @Transactional
+    public void addTerm(TermsSaveRequestDto request) {
+        final TermsType termsType = getById(request.getTermsTypeId());
+        termsType.addTerms(request.toEntity());
+    }
+
+    @Transactional(readOnly = true)
+    public TermsType getById(Long id) {
+        return termsTypeRepository.findById(id)
+                .orElseThrow(() -> new TermsNotFoundException("id", String.valueOf(id)));
     }
 
 //    private Sort sortBySortNumber() {

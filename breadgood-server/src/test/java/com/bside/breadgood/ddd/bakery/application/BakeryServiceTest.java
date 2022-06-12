@@ -11,6 +11,7 @@ import com.bside.breadgood.ddd.bakery.domain.Point;
 import com.bside.breadgood.ddd.bakery.infra.BakeryRepository;
 import com.bside.breadgood.ddd.bakerycategory.application.BakeryCategoryService;
 import com.bside.breadgood.ddd.bakerycategory.application.dto.BakeryCategoryResponseDto;
+import com.bside.breadgood.ddd.bakerycategory.domain.BakeryCategory;
 import com.bside.breadgood.ddd.breadstyles.application.BreadStyleService;
 import com.bside.breadgood.ddd.breadstyles.domain.BreadStyle;
 import com.bside.breadgood.ddd.breadstyles.ui.dto.BreadStyleResponseDto;
@@ -37,6 +38,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.*;
 
 import static com.bside.breadgood.ddd.bakery.application.dto.BakerySaveRequestDto.builder;
+import static com.bside.breadgood.ddd.utils.EntityReflectionUtils.setId;
 import static com.bside.breadgood.fixtures.bakery.BakeryFixture.빵집1;
 import static com.bside.breadgood.fixtures.bakery.BakeryFixture.빵집등록요청;
 import static com.bside.breadgood.fixtures.bakerycategory.BakeryCategoryFixture.빵에집중;
@@ -175,7 +177,7 @@ class BakeryServiceTest {
 
         //then
         assertEquals(1, response.size());
-        assertEquals("카테고리1", response.get(0).getCategoryTitle());
+        assertEquals("빵에집중", response.get(0).getCategoryTitle());
     }
 
     private List<Bakery> getDummyBakeries() {
@@ -227,7 +229,7 @@ class BakeryServiceTest {
 
     @Test
     @DisplayName("베이커리는 서울특별시만 등록 가능하다")
-    public void saveBakerySeoul() {
+    public void saveBakerySeoul() throws NoSuchMethodException {
         // given
         BakerySaveRequestDto 서울특별시 = 빵집등록요청(
                 "서울특별시",
@@ -236,9 +238,14 @@ class BakeryServiceTest {
                 Lists.newArrayList("1", "2", "3")
         );
 
+        final BakeryService bakeryService = new BakeryService(
+                bakeryRepository, s3Service, userService, bakeryCategoryService, emojiService, breadStyleService);
+
         // when
         when(s3Service.upload((MultipartFile[]) any(), anyString())).thenReturn(new S3UploadResponseDto("", Lists.newArrayList()));
         when(userService.findById(any())).thenReturn(new UserResponseDto(테스트유저));
+
+        setId(빵에집중, BakeryCategory.class, 1L);
 
         when(bakeryCategoryService.findById(any())).thenReturn(new BakeryCategoryResponseDto(빵에집중));
         when(emojiService.findById(any())).thenReturn(new EmojiResponseDto(이모지_100));
@@ -251,6 +258,7 @@ class BakeryServiceTest {
         //then
         final Long actual = bakeryService.save(null, 서울특별시, null);
         assertThat(actual).isEqualTo(1L);
+
 
     }
 

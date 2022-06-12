@@ -16,4 +16,7 @@ public interface TermsTypeRepository extends JpaRepository<TermsType, Long> {
 
 //    @Query("select tp from TermsType tp where tp.id IN :termsTypeIds")
 //    List<TermsType> findByIds(List<Long> termsTypeIds);
+
+    @Query(nativeQuery = true, value = "select IFNULL(max(sort_number), 0) + 100 from terms_type")
+    int findNextSortNumber();
 }

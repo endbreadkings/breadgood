@@ -24,6 +24,34 @@ public class UserFixture {
             String email,
             String notEncryptedPassword,
             List<TermsType> termsTypes,
+            Long breadStyledId,
+            Role role
+    ) {
+        final List<UserTerms> userTerms = termsTypes.stream()
+                .map(it ->
+                        UserTerms.builder()
+                                .termsType(it.getId())
+                                .termsAgree(true)
+                                .termsDate(LocalDateTime.now())
+                                .build()
+                )
+                .collect(Collectors.toList());
+
+        return new User(
+                nickName,
+                email,
+                encoder.encode(notEncryptedPassword),
+                breadStyledId,
+                userTerms,
+                role
+        );
+    }
+
+    public static User 관리자_등록_요청(
+            String nickName,
+            String email,
+            String notEncryptedPassword,
+            List<TermsType> termsTypes,
             Long breadStyledId
     ) {
         final List<UserTerms> userTerms = termsTypes.stream()
@@ -42,7 +70,7 @@ public class UserFixture {
                 encoder.encode(notEncryptedPassword),
                 breadStyledId,
                 userTerms,
-                Role.USER
+                Role.ADMIN
         );
     }
 
@@ -56,5 +84,15 @@ public class UserFixture {
                     null,
                     null,
                     Role.USER
+            );
+
+    public static final User 관리자 =
+            new User(
+                    "관리자",
+                    "admin@breadgood.com",
+                    "1234",
+                    1L,
+                    null,
+                    Role.ADMIN
             );
 }
