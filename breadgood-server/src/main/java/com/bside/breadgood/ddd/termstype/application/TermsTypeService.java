@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class TermsTypeService {
 
@@ -39,7 +40,6 @@ public class TermsTypeService {
 
 
     // 적용중인 약관 리스트 조회
-    @Transactional(readOnly = true)
     public List<ActiveTermsResponseDto> findActiveList() {
         // 오늘 일자보다 이전이면서, 가장 최신의 약관
 
@@ -58,7 +58,6 @@ public class TermsTypeService {
         return activeTermsResponseDtoList;
     }
 
-    @Transactional(readOnly = true)
     public void checkRequiredTermsTypes(List<Long> termsTypeIds) {
 
         final List<TermsType> termsTypeList = termsTypeRepository.findAllByOrderBySortNumberAsc();
@@ -87,7 +86,6 @@ public class TermsTypeService {
         }
     }
 
-    @Transactional(readOnly = true)
     public List<TermsTypeResponseDto> findByIds(List<Long> termsTypeIds) {
 
         return termsTypeIds.stream().map(id -> {
@@ -100,12 +98,11 @@ public class TermsTypeService {
         }).collect(Collectors.toList());
     }
 
-        public TermsTypeInfoResponseDto findById(Long termsTypeId) {
+    public TermsTypeInfoResponseDto findById(Long termsTypeId) {
         final TermsType termsType = getById(termsTypeId);
         return new TermsTypeInfoResponseDto(termsType);
     }
 
-    @Transactional(readOnly = true)
     public TermsDetailResponseDto findByIdAndTermsId(Long termsTypeId, Long termsId) {
         final TermsType termsType = getById(termsTypeId);
         final Terms terms = termsType.getTermsById(termsId);
@@ -118,7 +115,6 @@ public class TermsTypeService {
         termsType.addTerms(request.toEntity());
     }
 
-    @Transactional(readOnly = true)
     public TermsType getById(Long id) {
         return termsTypeRepository.findById(id)
                 .orElseThrow(() -> new TermsNotFoundException("id", String.valueOf(id)));
