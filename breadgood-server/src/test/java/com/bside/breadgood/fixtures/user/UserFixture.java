@@ -86,6 +86,30 @@ public class UserFixture {
                     Role.USER
             );
 
+    public static final User 테스트유저2 =
+            new User(
+                    2L,
+                    NickName.valueOf("테스트유저2"),
+                    Email.valueOf("test2@breadgood.com"),
+                    "1234",
+                    2L,
+                    null,
+                    null,
+                    Role.USER
+            );
+
+    public static final User 테스트유저3 =
+            new User(
+                    3L,
+                    NickName.valueOf("테스트유저3"),
+                    Email.valueOf("test3@breadgood.com"),
+                    "1234",
+                    3L,
+                    null,
+                    null,
+                    Role.USER
+            );
+
     public static final User 관리자 =
             new User(
                     "관리자",

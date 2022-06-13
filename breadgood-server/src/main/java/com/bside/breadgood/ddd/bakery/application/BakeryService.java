@@ -13,8 +13,8 @@ import com.bside.breadgood.ddd.breadstyles.application.BreadStyleService;
 import com.bside.breadgood.ddd.breadstyles.ui.dto.BreadStyleResponseDto;
 import com.bside.breadgood.ddd.emoji.application.EmojiService;
 import com.bside.breadgood.ddd.emoji.application.dto.EmojiResponseDto;
-import com.bside.breadgood.ddd.users.application.UserInfoResponseDto;
 import com.bside.breadgood.ddd.users.application.UserService;
+import com.bside.breadgood.ddd.users.application.dto.UserInfoResponseDto;
 import com.bside.breadgood.ddd.users.application.dto.UserResponseDto;
 import com.bside.breadgood.s3.application.S3Service;
 import com.bside.breadgood.s3.application.dto.S3UploadResponseDto;
@@ -26,10 +26,13 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
+
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class BakeryService {
     private static final String SEOUL_WORD = "서울";
@@ -80,7 +83,7 @@ public class BakeryService {
     private void validateSave(BakerySaveRequestDto dto, MultipartFile[] files) {
 
         // 서울
-            if (StringUtils.isEmpty(dto.getCity()) || !dto.getCity().equals(SEOUL_CITY_WORD)) {
+        if (StringUtils.isEmpty(dto.getCity()) || !dto.getCity().equals(SEOUL_CITY_WORD)) {
             throw new IllegalCityException(dto.getCity());
         }
         if (checkDuplicatedRoadAddress(dto.getRoadAddress())) {
@@ -142,7 +145,7 @@ public class BakeryService {
             if (b1.getUserId().compareTo(currentUserId) == 0) return -1;
             if (b2.getUserId().compareTo(currentUserId) == 0) return 1;
             return b2.getUserId().compareTo(b1.getUserId());
-        }).collect(Collectors.toList());
+        }).collect(toList());
 
         // 빵집 이름, 주소 정보,
         final String title = bakery.getTitle();
@@ -186,7 +189,6 @@ public class BakeryService {
         return new CheckDuplicateBakeryResponseDto(false, nickName, null);
     }
 
-    @Transactional(readOnly = true)
     public List<BakerySearchResponseDto> search(BakerySearchRequestDto dto) {
         final String city = dto.getCity();
         final String district = dto.getDistrict();
@@ -196,7 +198,7 @@ public class BakeryService {
             return Collections.emptyList();
         }
 
-        final List<Bakery> bakeries = bakeryRepository.findAllOrderByIdDesc();
+        final List<Bakery> bakeries = bakeryRepository.findAllByOrderByIdDesc();
         Stream<Bakery> bakeryStream = bakeries.stream();
 
         bakeryStream = filterBakeryCategories(bakeryStream, bakeryCategories);
@@ -248,9 +250,37 @@ public class BakeryService {
             final BakeryCategoryResponseDto bakeryCategoryResponseDto = bakeryCategoryService.findById(bakery.getBakeryCategory());
             final UserInfoResponseDto userInfo = userService.findUserInfoById(bakery.getUser());
             return new BakerySearchResponseDto(bakery, bakeryReview, bakeryCategoryResponseDto, userInfo);
-        }).collect(Collectors.toList());
+        }).collect(toList());
     }
 
+    public List<BakeryAdminRequestDto> findAll() {
+        final List<Bakery> bakeries = bakeryRepository.findAllByOrderByIdDesc();
+
+        final Set<Long> userIds = bakeries.stream()
+                .map(Bakery::getUser)
+                .collect(toSet());
+
+        final Map<Long, UserInfoResponseDto> userMap = userService.findAllById(userIds);
+
+        return bakeries.stream()
+                .map(bakery ->
+                        BakeryAdminRequestDto.valueOf(
+                                bakery, userMap.getOrDefault(bakery.getUser(), UserInfoResponseDto.getDefault())
+                        )
+                )
+                .collect(toList());
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        final Bakery bakery = findById(id);
+        bakeryRepository.delete(bakery);
+    }
+
+    public Bakery findById(Long id) {
+        return bakeryRepository.findById(id)
+                .orElseThrow(BakeryNotFoundException::new);
+    }
 
     @Transactional
     public void initData() {
@@ -465,29 +495,30 @@ public class BakeryService {
             String title = "에뚜왈";
 
             final Bakery bakery = Bakery.builder()
-                .bakeryCategory(bakeryCategoryResponseDto2)
-                .city(city)
-                .content(content)
-                .description(description)
-                .district(district)
-                .emoji(emojiResponseDto)
-                .imgHost(fileHost)
-                .imgUrls(filePaths)
-                .mapX(mapX)
-                .mapY(mapY)
-                .roadAddress(roadAddress)
-                .signatureMenus(signatureMenus)
-                .title(title)
-                .user(userService.findById(5L))
-                .breadStyle(breadStyleResponseDto)
-                .build();
+                    .bakeryCategory(bakeryCategoryResponseDto2)
+                    .city(city)
+                    .content(content)
+                    .description(description)
+                    .district(district)
+                    .emoji(emojiResponseDto)
+                    .imgHost(fileHost)
+                    .imgUrls(filePaths)
+                    .mapX(mapX)
+                    .mapY(mapY)
+                    .roadAddress(roadAddress)
+                    .signatureMenus(signatureMenus)
+                    .title(title)
+                    .user(userService.findById(5L))
+                    .breadStyle(breadStyleResponseDto)
+                    .build();
 
             bakery.addBakeryReview(userService.findById(3L), "그냥 모든 마들렌이 존맛탱입니다.\n그런데 줄바꿈은 어떻게 뜨나요? 내부에 좌석은 없어서 테이크 아웃만 가능합니다!",
-                emojiService.findById(1L), filePaths, Arrays.asList("녹차마들렌인데 줄임표 테스트", "레몬마들렌인데 줄임표 테스트"),
-                fileHost, breadStyleResponseDto);
+                    emojiService.findById(1L), filePaths, Arrays.asList("녹차마들렌인데 줄임표 테스트", "레몬마들렌인데 줄임표 테스트"),
+                    fileHost, breadStyleResponseDto);
             bakeries.add(bakery);
         }
 
         bakeryRepository.saveAll(bakeries);
     }
+
 }

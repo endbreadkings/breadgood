@@ -13,8 +13,14 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.springframework.web.multipart.MultipartFile;
+
+import static java.util.stream.Collectors.toMap;
+
 
 @Service
 @RequiredArgsConstructor
@@ -59,6 +65,14 @@ public class BreadStyleService {
 
         return new BreadStyleResponseDto(savedBreadStyle);
     }
+
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    public Map<Long, BreadStyleResponseDto> findAllById(Set<Long> breadStyleIds) {
+        return breadStyleRepository
+                .findAllById(breadStyleIds)
+                .stream()
+                .map(BreadStyleResponseDto::new)
+                .collect(toMap(BreadStyleResponseDto::getId, Function.identity(), (v1, v2) -> v1));
 
     private int getSortNumber() {
         int maxSortNumber = breadStyleRepository.findMaxSortNumber();

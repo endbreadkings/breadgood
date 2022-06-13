@@ -7,11 +7,9 @@ import org.springframework.mock.web.MockMultipartFile;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class BakeryCategoryFixture {
-  
+
     private static MockMultipartFile markerImg;
     private static MockMultipartFile titleColoredImg;
     private static MockMultipartFile titleUncoloredImg;
@@ -63,7 +61,6 @@ public class BakeryCategoryFixture {
             .content("빵을 전문적으로 파는\n 일반 베이커리")
             .sortNumber(2)
             .build();
-
 
 
 }

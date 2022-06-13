@@ -2,7 +2,7 @@ package com.bside.breadgood.ddd.bakery.application.dto;
 
 import com.bside.breadgood.ddd.bakery.domain.BakeryReview;
 import com.bside.breadgood.ddd.emoji.application.dto.EmojiResponseDto;
-import com.bside.breadgood.ddd.users.application.UserInfoResponseDto;
+import com.bside.breadgood.ddd.users.application.dto.UserInfoResponseDto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
@@ -44,7 +44,7 @@ public class BakeryReviewResponseDto {
         this.signatureMenus = bakeryReview.getSignatureMenus();
         this.thumbnailImgUrls = bakeryReview.getImgUrls();
         this.detailImgUrls = bakeryReview.getImgUrls();
-        this.create_at = bakeryReview.getCreated_at().format(DateTimeFormatter.ofPattern("dd/MM/yy HH:mm"));
+        this.create_at = bakeryReview.getCreatedAt().format(DateTimeFormatter.ofPattern("dd/MM/yy HH:mm"));
         this.userId = bakeryReview.getUser();
         this.nickName = userInfoResponseDto.getNickName();
         this.breadStyleName = userInfoResponseDto.getBreadStyleName();

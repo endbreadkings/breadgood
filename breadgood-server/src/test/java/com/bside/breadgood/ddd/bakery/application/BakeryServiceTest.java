@@ -18,13 +18,14 @@ import com.bside.breadgood.ddd.breadstyles.ui.dto.BreadStyleResponseDto;
 import com.bside.breadgood.ddd.emoji.application.EmojiService;
 import com.bside.breadgood.ddd.emoji.application.dto.EmojiResponseDto;
 import com.bside.breadgood.ddd.emoji.domain.Emoji;
-import com.bside.breadgood.ddd.users.application.UserInfoResponseDto;
 import com.bside.breadgood.ddd.users.application.UserService;
+import com.bside.breadgood.ddd.users.application.dto.UserInfoResponseDto;
 import com.bside.breadgood.ddd.users.application.dto.UserResponseDto;
 import com.bside.breadgood.ddd.users.domain.Email;
 import com.bside.breadgood.ddd.users.domain.NickName;
 import com.bside.breadgood.ddd.users.domain.Role;
 import com.bside.breadgood.ddd.users.domain.User;
+import com.bside.breadgood.fixtures.bakery.BakeryFixture;
 import com.bside.breadgood.s3.application.S3Service;
 import com.bside.breadgood.s3.application.dto.S3UploadResponseDto;
 import org.assertj.core.util.Lists;
@@ -40,7 +41,6 @@ import java.util.*;
 import static com.bside.breadgood.ddd.bakery.application.dto.BakerySaveRequestDto.builder;
 import static com.bside.breadgood.ddd.utils.EntityReflectionUtils.setId;
 import static com.bside.breadgood.fixtures.bakery.BakeryFixture.빵집1;
-import static com.bside.breadgood.fixtures.bakery.BakeryFixture.빵집등록요청;
 import static com.bside.breadgood.fixtures.bakerycategory.BakeryCategoryFixture.빵에집중;
 import static com.bside.breadgood.fixtures.bakerycategory.BakeryCategoryFixture.음료와빵;
 import static com.bside.breadgood.fixtures.breadstyle.BreadStyleFixture.달콤_200;
@@ -50,10 +50,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
 
 class BakeryServiceTest {
 
@@ -212,7 +211,7 @@ class BakeryServiceTest {
                 .profileImgUrl("img.img")
                 .breadStyleId(1L)
                 .breadStyleName("담백")
-                .isWithdrawal(true)
+                .withdrawal(true)
                 .build();
         List<Bakery> bakeries = getDummyBakeries();
 
@@ -223,7 +222,7 @@ class BakeryServiceTest {
                 .thenReturn(new BakeryCategoryResponseDto(빵에집중));
         when(bakeryCategoryService.findById(2L))
                 .thenReturn(new BakeryCategoryResponseDto(음료와빵));
-        when(bakeryRepository.findAllOrderByIdDesc())
+        when(bakeryRepository.findAllByOrderByIdDesc())
                 .thenReturn(bakeries);
     }
 
@@ -231,12 +230,19 @@ class BakeryServiceTest {
     @DisplayName("베이커리는 서울특별시만 등록 가능하다")
     public void saveBakerySeoul() throws NoSuchMethodException {
         // given
-        BakerySaveRequestDto 서울특별시 = 빵집등록요청(
-                "서울특별시",
-                1L,
-                1L,
-                Lists.newArrayList("1", "2", "3")
-        );
+        BakerySaveRequestDto 서울특별시 = BakerySaveRequestDto.builder()
+                .title("서울")
+                .city("서울특별시")
+                .bakeryCategoryId(1L)
+                .description("")
+                .content("빵을좋아하는사람만오십시오")
+                .district("중분류위치값")
+                .mapX(1D)
+                .mapY(1D)
+                .roadAddress("도로명주소값")
+                .signatureMenus(Lists.newArrayList("1", "2", "3"))
+                .emojiId(1L)
+                .build();
 
         final BakeryService bakeryService = new BakeryService(
                 bakeryRepository, s3Service, userService, bakeryCategoryService, emojiService, breadStyleService);
@@ -274,5 +280,18 @@ class BakeryServiceTest {
                         null
                 )
         ).isInstanceOf(IllegalCityException.class);
+    }
+
+    @Test
+    @DisplayName("빵집 삭제하기")
+    public void deleteBakery() {
+        // given
+        given(bakeryRepository.findById(anyLong())).willReturn(Optional.of(빵집1));
+
+        // when
+        bakeryService.delete(빵집1.getId());
+
+        // then
+        verify(bakeryRepository).findById(1L);
     }
 }
