@@ -729,7 +729,13 @@ class RegisterReviewPageAppbar extends DefaultAppBar {
           width: 8.0,
           height: 16.0,
           child: IconButton(
-            icon: Image.asset('asset/images/Vector.png'),
+            icon: Container(
+                height: 16,
+                width: 8,
+                child: SvgPicture.asset(
+                  'asset/images/Vector.svg',
+                  fit: BoxFit.scaleDown,
+                )),
             onPressed: () => Navigator.of(context).pop(),
           )),
       backgroundColor: Colors.transparent,

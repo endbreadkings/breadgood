@@ -13,4 +13,6 @@ public interface BreadStyleRepository extends JpaRepository<BreadStyle, Long> {
 
     List<BreadStyle> findAllByOrderBySortNumberAsc();
 
+    @Query("select coalesce(max(b.sortNumber), 0) from BreadStyle b")
+    int findMaxSortNumber();
 }

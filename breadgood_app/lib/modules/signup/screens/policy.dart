@@ -7,6 +7,7 @@ import 'package:breadgood_app/utils/ui/buttons/shape_blue_button.dart';
 import 'package:breadgood_app/utils/ui/circle_check_box.dart';
 import 'package:breadgood_app/utils/ui/main_app_bar.dart';
 import 'package:get/get.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:breadgood_app/config/themes/light_theme.dart' as THEME;
 
@@ -15,7 +16,13 @@ class AgreePolicyAppbar extends DefaultAppBar {
   Widget build(BuildContext context) {
     return AppBar(
       leading: IconButton(
-        icon: Image.asset('asset/images/Vector.png'),
+        icon: Container(
+          height: 16,
+          width: 8,
+          child: SvgPicture.asset(
+            'asset/images/Vector.svg',
+            fit: BoxFit.scaleDown,
+          )),
         onPressed: () => Navigator.pushReplacementNamed(context, '/login'),
       ),
       backgroundColor: Colors.transparent,
