@@ -73,6 +73,7 @@ public class BreadStyleService {
                 .stream()
                 .map(BreadStyleResponseDto::new)
                 .collect(toMap(BreadStyleResponseDto::getId, Function.identity(), (v1, v2) -> v1));
+    }
 
     private int getSortNumber() {
         int maxSortNumber = breadStyleRepository.findMaxSortNumber();
