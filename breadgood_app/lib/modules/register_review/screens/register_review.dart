@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'dart:convert';
 import 'dart:async';
+import 'package:breadgood_app/modules/dashboard/controller/dashboard_controller.dart';
+import 'package:breadgood_app/modules/dashboard/dashboard.dart';
 import 'package:breadgood_app/modules/main/screens/main_map.dart';
 import 'package:breadgood_app/modules/register_bakery/controller/bakery_controller.dart';
 import 'package:breadgood_app/modules/register_bakery/model/bakery_data.dart';
@@ -168,7 +170,7 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
   List<TextEditingController> signatureMenuTextControllers =
       List.generate(3, (i) => TextEditingController());
   final controller = Get.put(BakeryController());
-
+  final dController = Get.put(DashboardController());
   @override
   void initState() {
     super.initState();
@@ -523,7 +525,8 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
                   reviewToRegister.emojiId = controller.selected_emoji_id;
                   reviewToRegister.files = fileList;
                   postReview(reviewToRegister);
-                  Get.toNamed('/main');
+                  dController.changePageIndex(RouteName.Home.index);
+                  Get.to(Dashboard());
                 }
               }
             }),

@@ -20,7 +20,6 @@ class _FurtherInfoState extends State<FurtherInfo> {
         initialUrl: furtherInfoUrl,
         javascriptMode: JavascriptMode.unrestricted,
       ),
-      bottomNavigationBar: BottomNavigation(),
     );
   }
 }

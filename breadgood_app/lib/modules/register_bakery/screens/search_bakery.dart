@@ -1,3 +1,5 @@
+import 'package:breadgood_app/modules/dashboard/controller/dashboard_controller.dart';
+import 'package:breadgood_app/modules/dashboard/dashboard.dart';
 import 'package:breadgood_app/modules/register_bakery/screens/already_registered_bakery.dart';
 import 'package:breadgood_app/modules/register_bakery/screens/select_bakery_category.dart';
 import 'package:breadgood_app/utils/ui/main_app_bar.dart';
@@ -217,12 +219,17 @@ GetNoResult() {
 }
 
 class SearchBakeryPageAppbar extends DefaultAppBar {
+  final dController = Get.put(DashboardController());
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
       leading: IconButton(
         icon: Image.asset('asset/images/Vector.png'),
-        onPressed: () => Navigator.pushReplacementNamed(context, '/main'),
+          onPressed: () {
+            dController.changePageIndex(RouteName.Home.index);
+            Get.toNamed('/dashboard');
+          }
       ),
       backgroundColor: Colors.transparent,
       elevation: 0.0,
@@ -342,10 +349,12 @@ class _BakeryCardState extends State<BakeryCard> {
                                 var checkDuplicate = await checkRegisteredBakery(
                                     widget.selectedBakery.roadAddress);
                                 if (checkDuplicate.idDuplicate) {
-                                  Get.to(AlreadyRegisteredBakeryPage(), arguments: checkDuplicate.nickName);
+                                  Get.to(AlreadyRegisteredBakeryPage(), arguments: [
+                                    {"registerer": checkDuplicate.nickName}, {"bakeryId":checkDuplicate.bakeryId}]);
                                 }
-                                Get.to(SelectBakeryCategoryPage(), arguments: widget.selectedBakery);
-                              }),
+                                else {
+                                  Get.to(SelectBakeryCategoryPage(), arguments: widget.selectedBakery);
+                              }}),
                 ))
           ]));
     }));

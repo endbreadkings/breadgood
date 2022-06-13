@@ -201,8 +201,9 @@ class SelectBakeryCategoryPageAppbar extends DefaultAppBar {
     return AppBar(
       leading: IconButton(
         icon: Image.asset('asset/images/Vector.png'),
-        onPressed: () => Navigator.of(context).pop(),
-      ),
+        onPressed: () {
+          Get.toNamed('/dashboard');
+        }),
       backgroundColor: Colors.transparent,
       elevation: 0.0,
     );

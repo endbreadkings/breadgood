@@ -30,7 +30,6 @@ class _BreadStoreDetailWebViewState extends State<BreadStoreDetailWebView> {
         javascriptMode: JavascriptMode.unrestricted,
         javascriptChannels: jsChannels,
       ),
-      bottomNavigationBar: BottomNavigation(),
     );
   }
 }

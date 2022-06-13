@@ -93,7 +93,7 @@ class _LoginWebViewState extends State<LoginWebView> {
                                               //     });
                                               //   });
                                               // });
-                                              Get.offAndToNamed('/main')
+                                            Get.offAndToNamed('/dashboard')
                                             // })
                                           }
                                         else
@@ -128,7 +128,7 @@ class _LoginWebViewState extends State<LoginWebView> {
                                               //     });
                                               //   });
                                               // });
-                                              Get.offAndToNamed('/main')
+                                            Get.offAndToNamed('/dashboard')
                                             // })
                                           }
                                         else

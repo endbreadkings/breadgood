@@ -287,7 +287,8 @@ class _MyNicknameEditPageState extends State<MyNicknameEditPage> {
                       elevation: 0,
                       onPressed: () {
                         final response = updateNickname(newNickname);
-                        Get.offAndToNamed('/my_page/my_info_edit');
+                        Get.offAndToNamed('/dashboard');
+
                         // Navigator.pop(
                         //   context,
                         // );
