@@ -26,7 +26,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static com.bside.breadgood.ddd.users.acceptance.UserAcceptanceTest.로그인_토큰;
-import static com.bside.breadgood.fixtures.breadstyle.BreadStyleFixture.달콤;
+import static com.bside.breadgood.fixtures.breadstyle.BreadStyleFixture.달콤_200;
 import static com.bside.breadgood.fixtures.termstype.TermsTypeFixture.*;
 import static com.bside.breadgood.fixtures.user.UserFixture.사용자_등록_요청;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -37,7 +37,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * description :
  */
 @DisplayName("약관 항목 관리자 인수테스트")
-public class AdminTermsTypeAcceptanceTest extends AcceptanceTest {
+public class TermsTypeAdminAcceptanceTest extends AcceptanceTest {
     public static final String ADMIN_TERMS_TYPE_BASE_URI = "api/v1/admin/termsType";
     public static final String ADMIN_TERMS_BASE_URI = "api/v1/admin/terms";
 
@@ -58,7 +58,7 @@ public class AdminTermsTypeAcceptanceTest extends AcceptanceTest {
     }
 
     private void 사용자_초기_데이터() {
-        final BreadStyle savedBreadStyle = breadStyleRepository.save(달콤);
+        final BreadStyle savedBreadStyle = breadStyleRepository.save(달콤_200);
 
         final TermsType savedTermsType = termsTypeRepository.save(필수_개인정보_수집_및_이용_동의_약관_100);
 

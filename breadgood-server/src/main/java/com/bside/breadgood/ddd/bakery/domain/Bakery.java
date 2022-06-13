@@ -8,6 +8,8 @@ import com.bside.breadgood.ddd.breadstyles.ui.dto.BreadStyleResponseDto;
 import com.bside.breadgood.ddd.emoji.application.dto.EmojiResponseDto;
 import com.bside.breadgood.ddd.users.application.dto.UserResponseDto;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.thymeleaf.util.StringUtils;
 
 import javax.persistence.*;
@@ -16,9 +18,11 @@ import java.util.List;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @ToString
+@SQLDelete(sql = "UPDATE bakery SET deleted = true WHERE bakery_id=?")
+@Where(clause = "deleted=false")
 public class Bakery extends BaseEntity {
 
     @Id
@@ -43,7 +47,6 @@ public class Bakery extends BaseEntity {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "bakery_id")
     private final List<BakeryReview> bakeryReviewList = new ArrayList<>();
-
 
     @Builder
     public Bakery(String title, String description, UserResponseDto user,
@@ -121,7 +124,6 @@ public class Bakery extends BaseEntity {
                 }
             }
         }
-
 
         final BakeryReview bakeryReview = BakeryReview.builder()
                 .content(content)

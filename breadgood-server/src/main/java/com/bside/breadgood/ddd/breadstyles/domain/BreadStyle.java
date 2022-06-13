@@ -31,7 +31,7 @@ public class BreadStyle extends BaseEntity {
     @Id
     @Column(name = "bread_style_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     // 이름
     @Column(nullable = false)
@@ -51,8 +51,11 @@ public class BreadStyle extends BaseEntity {
     @Column(nullable = false, length = 50)
     private String color;
 
+    @Column(nullable = false)
+    private int sortNumber;
+
     @Builder
-    public BreadStyle(String name, String content, String contentImgUrl, String profileImgUrl, String color) {
+    public BreadStyle(String name, String content, String contentImgUrl, String profileImgUrl, String color, int sortNumber) {
 
         if (!StringUtils.hasText(name)) {
             throw new EmptyException("최애빵 스타일 이름이 없습니다.");
@@ -79,6 +82,7 @@ public class BreadStyle extends BaseEntity {
         this.contentImgUrl = ImageUrl.from(contentImgUrl);
         this.profileImgUrl = ImageUrl.from(profileImgUrl);
         this.color = color;
+        this.sortNumber = sortNumber;
     }
 
     public String getContentImgUrl() {
