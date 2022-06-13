@@ -3,6 +3,7 @@ package com.bside.breadgood.ddd.bakery.domain;
 import com.bside.breadgood.common.domain.BaseEntity;
 import com.bside.breadgood.common.exception.EmptyException;
 import com.bside.breadgood.common.exception.WrongValueException;
+import com.bside.breadgood.ddd.bakery.application.exception.BakeryReviewDeletionException;
 import com.bside.breadgood.ddd.bakerycategory.application.dto.BakeryCategoryResponseDto;
 import com.bside.breadgood.ddd.breadstyles.ui.dto.BreadStyleResponseDto;
 import com.bside.breadgood.ddd.emoji.application.dto.EmojiResponseDto;
@@ -15,6 +16,7 @@ import org.thymeleaf.util.StringUtils;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 @Entity
 @Getter
@@ -24,7 +26,6 @@ import java.util.List;
 @SQLDelete(sql = "UPDATE bakery SET deleted = true WHERE bakery_id=?")
 @Where(clause = "deleted=false")
 public class Bakery extends BaseEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "bakery_id")
@@ -105,7 +106,6 @@ public class Bakery extends BaseEntity {
         this.point = Point.builder().mapX(mapX).mapY(mapY).build();
         this.bakeryCategory = bakeryCategory.getId();
         this.addBakeryReview(user, content, emoji, imgUrls, signatureMenus, imgHost, breadStyle);
-
     }
 
     public void addBakeryReview(UserResponseDto user, String content, EmojiResponseDto emoji,
@@ -136,5 +136,20 @@ public class Bakery extends BaseEntity {
                 .build();
 
         this.bakeryReviewList.add(bakeryReview);
+    }
+
+    private BakeryReview deleteVerification(Long reviewId) {
+        Predicate<BakeryReview> isOwnReview = e -> e.getId().equals(reviewId);
+        Predicate<BakeryReview> isAuthorReview = e -> e.getId().equals(user);
+
+        return this.bakeryReviewList.stream()
+                .filter(isOwnReview.and(isAuthorReview))
+                .findFirst()
+                .orElseThrow(BakeryReviewDeletionException::new);
+    }
+
+    public void deleteBakeryReview(Long reviewId) {
+        final BakeryReview bakeryReview = deleteVerification(reviewId);
+        this.bakeryReviewList.remove(bakeryReview);
     }
 }

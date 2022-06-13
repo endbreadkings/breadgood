@@ -20,6 +20,7 @@ import com.bside.breadgood.s3.application.S3Service;
 import com.bside.breadgood.s3.application.dto.S3UploadResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -280,6 +281,11 @@ public class BakeryService {
     public Bakery findById(Long id) {
         return bakeryRepository.findById(id)
                 .orElseThrow(BakeryNotFoundException::new);
+    }
+
+    public void deleteReview(Long bakeryId, Long reviewId) {
+        final Bakery bakery = this.findById(bakeryId);
+        bakery.deleteBakeryReview(reviewId);
     }
 
     @Transactional
