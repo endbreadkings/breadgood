@@ -60,9 +60,10 @@
                                 <span v-else="">지나간타인</span>
                             </div>
                             <div class="ri-h-txt-d-right">
-                            <span class="emoji-txt">
-                                <img :src="bakeryReview.emojiImgUrl" :alt="bakeryReview.emojiName">{{bakeryReview.emojiName}}</span>
-                                <span class="create-at" v-text="bakeryReview.create_at">11/07/21 17:33</span></div>
+                                <span class="emoji-txt"><img :src="bakeryReview.emojiImgUrl" :alt="bakeryReview.emojiName">{{bakeryReview.emojiName}}</span>
+                                <span class="create-at" v-text="bakeryReview.create_at">11/07/21 17:33</span>
+                                <span v-if="isAdmin" class="create-at delete-btn" @click="deleteReview(bakeryReview)">삭제</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -141,6 +142,9 @@
 
     </div>
 </div>
+
+
+
 <!--
 세로가 더 넓은 영역인 경우
 1. 가로가 긴 사진이 왔을 경우: 좌우를 자름, height 100%, wight auto
@@ -211,6 +215,8 @@
                 isYellow: false,
                 isMore: false,
                 isPreview: true,
+                bakeryId: null,
+                isAdmin: false
             },
             watch: {},
             computed: {
@@ -222,14 +228,30 @@
                 previewOff() {
                     this.isPreview = false;
                 },
+                async deleteReview(review) {
+
+                    console.log("deleteReview", review);
+
+                    if (!confirm("복구가 안될 건데 삭제 하시겠습니까?")) {
+                        return;
+                    }
+
+                    await axios.delete('/pages/webview-api/bakery/'+this.bakeryId+'/review/'+review.id);
+
+                    alert("삭제가 완료 하였습니다!");
+                },
                 async fetchBakeryInfo() {
 
                     const URLSearch = new URLSearchParams(location.search);
                     const bakeryId = URLSearch.get('bakeryId');
                     const userId = URLSearch.get('userId');
+
                     const {data} = await axios.post('/pages/webview-api/bakery/'+bakeryId+'/user/'+userId);
                     console.log(data);
 
+
+                    this.bakeryId = bakeryId;
+                    this.isAdmin = userId == 0;
                     this.writerProfileImgUrl = data.userInfoResponseDto.profileImgUrl;
                     this.writerNickName = data.userInfoResponseDto.nickName;
                     this.breadStyleColor = data.userInfoResponseDto.breadStyleColor;

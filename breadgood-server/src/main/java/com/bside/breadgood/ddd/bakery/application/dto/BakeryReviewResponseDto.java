@@ -15,6 +15,8 @@ import java.util.List;
 @ToString
 public class BakeryReviewResponseDto {
 
+    @ApiModelProperty(value = "빵집 리뷰 아이디", example = "1")
+    private final Long id;
     @ApiModelProperty(value = "빵집 리뷰 내용", example = "잉 너무 맛있는 걸욧??")
     private final String content;
     @ApiModelProperty(value = "빵집 리뷰 시그니처 메뉴", example = "[\"딸기크림케이크\", \"단팥빵\", \"카야소보로\"]")
@@ -40,6 +42,7 @@ public class BakeryReviewResponseDto {
 
     @Builder
     public BakeryReviewResponseDto(BakeryReview bakeryReview, UserInfoResponseDto userInfoResponseDto, EmojiResponseDto emojiResponseDto) {
+        this.id = bakeryReview.getId();
         this.content = bakeryReview.getContent();
         this.signatureMenus = bakeryReview.getSignatureMenus();
         this.thumbnailImgUrls = bakeryReview.getImgUrls();

@@ -574,3 +574,12 @@ span.emoji-txt img {
     }
 }
 
+.delete-btn {
+    font-weight: bold;
+    color: #f44336;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    cursor: pointer;
+    font-size: 14px;
+}
