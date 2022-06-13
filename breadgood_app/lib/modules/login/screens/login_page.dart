@@ -86,8 +86,11 @@ class _LoginState extends State<LoginPage> {
                 ),
               ),
               if (Platform.isIOS)
-                SizedBox(height: 8),
-                new Container(width: 300, child: _appleLogin())
+                Column(
+                    children: [
+                      SizedBox(height: 8),
+                      new Container(width: 300, child: _appleLogin())
+                ])
             ],
           ))
         ],

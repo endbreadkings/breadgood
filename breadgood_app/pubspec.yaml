@@ -77,6 +77,7 @@ flutter:
     - asset/images/icon/
     - asset/images/breadstyle/
     - asset/images/icon/bottomNavigation/
+    - asset/images/icon/login/
     - asset/images/icon/main/
     - asset/images/icon/map/
     - asset/images/icon/profile/
