@@ -15,7 +15,7 @@ public class ReviewDeletionException extends RuntimeException {
         this.args = args;
     }
 
-    public ReviewDeletionException(String message) {
-        super(message);
+    public ReviewDeletionException(Object message) {
+        super(message.toString());
     }
 }

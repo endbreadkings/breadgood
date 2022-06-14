@@ -2,9 +2,7 @@ package com.bside.breadgood.ddd.bakery.ui;
 
 import com.bside.breadgood.common.exception.ExceptionAdvice;
 import com.bside.breadgood.common.exception.ExceptionResponse;
-import com.bside.breadgood.ddd.bakery.application.exception.BakeryNotFoundException;
-import com.bside.breadgood.ddd.bakery.application.exception.DuplicateBakeryException;
-import com.bside.breadgood.ddd.bakery.application.exception.IllegalCityException;
+import com.bside.breadgood.ddd.bakery.application.exception.*;
 import com.bside.breadgood.s3.application.exception.S3UploadException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -31,7 +29,7 @@ public class BakeryControllerAdvice extends ExceptionAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected ExceptionResponse bakeryNotFoundException(BakeryNotFoundException ex, WebRequest request) {
         String messagePath = super.getMessagePathByMyMethodName();
-        return super.getExceptionResponse(request, messagePath, ex.getArgs());
+        return super.getExceptionResponse(request, messagePath, ex.getMessage());
     }
 
 
@@ -48,5 +46,19 @@ public class BakeryControllerAdvice extends ExceptionAdvice {
     protected ExceptionResponse illegalCityException(IllegalCityException ex, WebRequest request) {
         String messagePath = super.getMessagePathByMyMethodName();
         return super.getExceptionResponse(request, messagePath, ex.getArgs());
+    }
+
+    @ExceptionHandler(ReviewDeletionException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected ExceptionResponse reviewDeletionException(ReviewDeletionException ex, WebRequest request) {
+        String messagePath = super.getMessagePathByMyMethodName();
+        return super.getExceptionResponse(request, messagePath, ex.getMessage());
+    }
+
+    @ExceptionHandler(ReviewNotFoundException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected ExceptionResponse reviewNotFoundException(ReviewNotFoundException ex, WebRequest request) {
+        String messagePath = super.getMessagePathByMyMethodName();
+        return super.getExceptionResponse(request, messagePath, ex.getMessage());
     }
 }

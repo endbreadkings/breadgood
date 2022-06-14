@@ -56,4 +56,20 @@ public class BakeryAdminController {
         bakeryService.delete(id);
         return ResponseEntity.ok().build();
     }
+
+    @ApiOperation(value = "빵집 리뷰를 삭제한다", notes = "삭제 성공 시 200 응답 코드로 리턴합니다")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "삭제 성공시 아무것도 반환하지 않습니다"),
+            @ApiResponse(code = 400, message = "BadRequest", response = BadRequestError.class),
+            @ApiResponse(code = 500, message = "InternalServerError", response = InternalServerError.class),
+            @ApiResponse(code = -1, message = "ExceptionResponse", response = ExceptionResponse.class)}
+    )
+    @ApiImplicitParams({
+    })
+    @DeleteMapping("/pages/webview-api/bakery/{bakeryId}/review/{reviewId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Void> deleteReview(@PathVariable Long bakeryId, @PathVariable("reviewId") Long reviewId) {
+        bakeryService.deleteReview(bakeryId, reviewId);
+        return ResponseEntity.ok().build();
+    }
 }

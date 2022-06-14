@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@SQLDelete(sql = "UPDATE bakery_review SET deleted = true WHERE bakery_review_id=?")
+@SQLDelete(sql = "UPDATE bakery_review SET deleted = true, bakery_id=null WHERE bakery_review_id=?")
 @Where(clause = "deleted=false")
 public class BakeryReview extends BaseEntity {
 

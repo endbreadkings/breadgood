@@ -45,7 +45,7 @@ public class Bakery extends BaseEntity {
 
     private Long bakeryCategory;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "bakery_id")
     private final List<BakeryReview> bakeryReviewList = new ArrayList<>();
 
@@ -142,7 +142,7 @@ public class Bakery extends BaseEntity {
         return this.bakeryReviewList.stream()
                 .filter(review -> review.getId().equals(reviewId))
                 .findFirst()
-                .orElseThrow(ReviewNotFoundException::new);
+                .orElseThrow(() -> new ReviewNotFoundException(reviewId));
     }
 
     private void deleteVerification(BakeryReview review) {
