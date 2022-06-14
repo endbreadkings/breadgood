@@ -20,7 +20,7 @@ import java.util.List;
  */
 @Api(value = "빵집 관리자 API", description = "[관리자] 빵집 API's")
 @RestController
-@RequestMapping("/api/v1/admin")
+@RequestMapping("/api/v1/admin/bakery")
 @RequiredArgsConstructor
 public class BakeryAdminController {
     private final BakeryService bakeryService;
@@ -35,7 +35,7 @@ public class BakeryAdminController {
     )
     @ApiImplicitParams({
     })
-    @GetMapping("/bakery/list")
+    @GetMapping("/list")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<BakeryAdminRequestDto>> findAll() {
         return ResponseEntity.ok().body(bakeryService.findAll());
@@ -50,7 +50,7 @@ public class BakeryAdminController {
     )
     @ApiImplicitParams({
     })
-    @DeleteMapping("/bakery/{id}")
+    @DeleteMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         bakeryService.delete(id);
