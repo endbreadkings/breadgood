@@ -1,6 +1,5 @@
 package com.bside.breadgood.fixtures.emoji;
 
-import com.bside.breadgood.common.vo.ImageUrl;
 import com.bside.breadgood.ddd.emoji.application.dto.EmojiRequestDto;
 import com.bside.breadgood.ddd.emoji.domain.Emoji;
 import org.springframework.http.MediaType;
@@ -16,20 +15,6 @@ import java.io.IOException;
  * description :
  */
 public class EmojiFixture {
-    public static final Emoji 이모지1 =
-            new Emoji(
-                    1L,
-                    "emojiName",
-                    ImageUrl.from("img.url"),
-                    1
-            );
-
-    public static final Emoji 이모지2 = Emoji.builder()
-            .name("이모지2")
-            .imgUrl("https://d74hbwjus7qtu.cloudfront.net/admin/address-icon.png")
-            .sortNumber(200)
-            .build();
-
     public static final Emoji 이모지_100 =
             new Emoji(
                     "별로에요",

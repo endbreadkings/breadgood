@@ -1,13 +1,13 @@
 package com.bside.breadgood.ddd.bakery.acceptance;
 
 import com.bside.breadgood.ddd.AcceptanceTest;
+import com.bside.breadgood.ddd.bakery.application.dto.BakeryReviewRequestDto;
 import com.bside.breadgood.ddd.bakery.application.dto.BakerySaveRequestDto;
 import com.bside.breadgood.ddd.bakerycategory.infra.BakeryCategoryRepository;
 import com.bside.breadgood.ddd.breadstyles.infra.BreadStyleRepository;
 import com.bside.breadgood.ddd.emoji.infra.EmojiRepository;
 import com.bside.breadgood.ddd.termstype.domain.TermsType;
 import com.bside.breadgood.ddd.termstype.infra.TermsTypeRepository;
-import com.bside.breadgood.ddd.users.application.UserService;
 import com.bside.breadgood.ddd.users.domain.Role;
 import com.bside.breadgood.ddd.users.infra.UserRepository;
 import com.bside.breadgood.fixtures.bakerycategory.BakeryCategoryFixture;
@@ -28,11 +28,11 @@ import java.io.File;
 
 import static com.bside.breadgood.ddd.users.acceptance.UserAcceptanceTest.로그인_토큰;
 import static com.bside.breadgood.fixtures.bakery.BakeryFixture.빵집1_등록요청;
+import static com.bside.breadgood.fixtures.bakeryreview.BakeryReviewFixture.리뷰등록요청;
 import static com.bside.breadgood.fixtures.breadstyle.BreadStyleFixture.달콤_200;
-import static com.bside.breadgood.fixtures.emoji.EmojiFixture.이모지2;
+import static com.bside.breadgood.fixtures.emoji.EmojiFixture.이모지_200;
 import static com.bside.breadgood.fixtures.termstype.TermsTypeFixture.필수_개인정보_수집_및_이용_동의_약관_100;
-import static com.bside.breadgood.fixtures.user.UserFixture.사용자_등록_요청;
-import static com.bside.breadgood.fixtures.user.UserFixture.테스트유저;
+import static com.bside.breadgood.fixtures.user.UserFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -45,6 +45,7 @@ public class BakeryAcceptanceTest extends AcceptanceTest {
     public static final String BASE_URI = "/api/v1/bakery";
 
     static String 사용자_토큰;
+    static String 관리자_토큰;
     Long savedBreadStyleId;
     Long savedEmojiId;
     Long savedBakeryCategoryId;
@@ -73,7 +74,7 @@ public class BakeryAcceptanceTest extends AcceptanceTest {
 
     private void 사용자_초기_데이터() {
         savedBreadStyleId = breadStyleRepository.save(달콤_200).getId();
-        savedEmojiId = emojiRepository.save(이모지2).getId();
+        savedEmojiId = emojiRepository.save(이모지_200).getId();
         savedBakeryCategoryId = bakeryCategoryRepository.save(BakeryCategoryFixture.빵에집중).getId();
         TermsType savedTermsType = termsTypeRepository.save(필수_개인정보_수집_및_이용_동의_약관_100);
 
@@ -87,8 +88,17 @@ public class BakeryAcceptanceTest extends AcceptanceTest {
                         Role.USER
                 ));
 
-        사용자_토큰 = 로그인_토큰(테스트유저.getEmail(), 테스트유저.getPassword());
+        userRepository.save(
+                관리자_등록_요청(
+                        관리자.getNickName(),
+                        관리자.getEmail(),
+                        관리자.getPassword(),
+                        Lists.newArrayList(savedTermsType),
+                        savedBreadStyleId
+                ));
 
+        사용자_토큰 = 로그인_토큰(테스트유저.getEmail(), 테스트유저.getPassword());
+        관리자_토큰 = 로그인_토큰(관리자.getEmail(), 관리자.getPassword());
     }
 
     @Test
@@ -102,6 +112,43 @@ public class BakeryAcceptanceTest extends AcceptanceTest {
 
         // then
         빵집_등록됨(response);
+    }
+
+    @Test
+    @DisplayName("빵집 리뷰를 등록한다")
+    public void addReview() {
+        // given
+        final Long 등록된_빵집_ID = 빵집_등록되어있음(관리자_토큰, 빵집1_등록요청(savedBakeryCategoryId, savedEmojiId));
+
+        // when
+        final boolean actual = 빵집_리뷰_등록_요청함(리뷰등록요청, 사용자_토큰, 등록된_빵집_ID);
+
+        // then
+        빵집리뷰_등록됨(actual);
+    }
+
+    private static boolean 빵집_리뷰_등록_요청함(BakeryReviewRequestDto request, String token, Long bakeryId) {
+        final RequestSpecification requestSpecification = RestAssured
+                .given().log().all()
+                .auth().oauth2(사용자_토큰)
+                .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
+                .when()
+                .multiPart(new MultiPartSpecBuilder(request.getContent()).controlName("content").charset("UTF-8").build())
+                .multiPart(new MultiPartSpecBuilder(request.getEmojiId()).controlName("emojiId").build());
+
+        for (String menu : request.getSignatureMenus()) {
+            requestSpecification.multiPart(
+                    new MultiPartSpecBuilder(menu).controlName("signatureMenus").charset("UTF-8").build());
+        }
+
+        return requestSpecification.when()
+                .post(BASE_URI + "/" + bakeryId + "/review")
+                .then().log().all().extract()
+                .as(Boolean.class);
+    }
+
+    private void 빵집리뷰_등록됨(boolean actual) {
+        assertThat(actual).isTrue();
     }
 
     public static Long 빵집_등록되어있음(String token, BakerySaveRequestDto request) {

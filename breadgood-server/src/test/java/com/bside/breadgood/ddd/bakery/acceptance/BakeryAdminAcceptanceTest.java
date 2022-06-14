@@ -32,7 +32,7 @@ import static com.bside.breadgood.ddd.users.application.dto.UserInfoResponseDto.
 import static com.bside.breadgood.fixtures.bakery.BakeryFixture.빵집1_등록요청;
 import static com.bside.breadgood.fixtures.bakery.BakeryFixture.빵집2_등록요청;
 import static com.bside.breadgood.fixtures.breadstyle.BreadStyleFixture.달콤_200;
-import static com.bside.breadgood.fixtures.emoji.EmojiFixture.이모지2;
+import static com.bside.breadgood.fixtures.emoji.EmojiFixture.이모지_200;
 import static com.bside.breadgood.fixtures.termstype.TermsTypeFixture.필수_개인정보_수집_및_이용_동의_약관_100;
 import static com.bside.breadgood.fixtures.user.UserFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -79,7 +79,7 @@ public class BakeryAdminAcceptanceTest extends AcceptanceTest {
     private void 빵집_초기_데이터() {
         final BreadStyle savedBreadStyle = breadStyleRepository.save(달콤_200);
         final TermsType savedTermsType = termsTypeRepository.save(필수_개인정보_수집_및_이용_동의_약관_100);
-        Long savedEmojiId = emojiRepository.save(이모지2).getId();
+        Long savedEmojiId = emojiRepository.save(이모지_200).getId();
         Long savedBakeryCategoryId = bakeryCategoryRepository.save(BakeryCategoryFixture.빵에집중).getId();
 
         userRepository.save(
@@ -201,7 +201,7 @@ public class BakeryAdminAcceptanceTest extends AcceptanceTest {
                 .given().log().all()
                 .auth().oauth2(token)
                 .when()
-                .delete(BAKERY_ADMIN_BASE_URI + "/" +  id)
+                .delete(BAKERY_ADMIN_BASE_URI + "/" + id)
                 .then().log().all()
                 .extract();
     }
