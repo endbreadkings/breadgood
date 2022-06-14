@@ -129,7 +129,7 @@ class _MyNicknameEditPageState extends State<MyNicknameEditPage> {
                             nickname != newNickname) {
                           final _ =
                               _editNameController.updateNickname(newNickname);
-                          Get.offAndToNamed('/my_page/my_info_edit');
+                          Get.offAndToNamed('/dashboard');
                         }
                       },
                       color: (_editNameController.errorMessage.isEmpty &&

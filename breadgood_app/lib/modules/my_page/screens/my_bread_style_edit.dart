@@ -1,3 +1,4 @@
+import 'package:breadgood_app/modules/dashboard/dashboard.dart';
 import 'package:breadgood_app/modules/my_page/bread_style_gridview.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -121,7 +122,7 @@ class _MyBreadStyleEditPageState extends State<MyBreadStyleEditPage> {
               Icons.arrow_back_ios_rounded,
               color: Color(0xFF4579FF),
             ),
-            onPressed: () => Get.toNamed('/my_page/my_info_edit'),
+            onPressed: () => Get.to(Dashboard()),
           ),
           backgroundColor: Colors.transparent,
           elevation: 0.0,
@@ -230,8 +231,7 @@ class _MyBreadStyleEditPageState extends State<MyBreadStyleEditPage> {
                         updateBreadStyle(newBreadStyleId);
 
                         // updateBreadStyle(breadStyleId);
-                        // Get.to(MyNicknameEditPage(), arguments: newNickname);
-                        Get.offAndToNamed('/my_page/my_info_edit');
+                        Get.offAndToNamed('/dashboard');
                       },
                       color: Colors.blue,
                     ),
