@@ -209,8 +209,7 @@ class SelectBakeryCategoryPageAppbar extends DefaultAppBar {
           )),
         onPressed: () {
           Get.toNamed('/dashboard');
-        }),      
-    ),
+        }),
     backgroundColor: Colors.transparent,
     elevation: 0.0,
     );

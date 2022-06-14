@@ -26,7 +26,7 @@ class Dashboard extends GetView<DashboardController> {
     "asset/images/icon/bottomNavigation/more_off.svg",];
   List<String> iconSelectedPath =
   ["asset/images/icon/bottomNavigation/home_on.svg",
-    "asset/images/icon/bottomNavigation/add_off.svg",
+    "asset/images/icon/bottomNavigation/add_on.svg",
     "asset/images/icon/bottomNavigation/my_on.svg",
     "asset/images/icon/bottomNavigation/more_on.svg",];
 
