@@ -5,6 +5,8 @@ import com.bside.breadgood.ddd.bakery.application.dto.BakerySaveRequestDto;
 import com.bside.breadgood.ddd.bakery.application.dto.BakerySearchRequestDto;
 import com.bside.breadgood.ddd.bakery.application.dto.BakerySearchResponseDto;
 import com.bside.breadgood.ddd.bakery.application.exception.IllegalCityException;
+import com.bside.breadgood.ddd.bakery.application.exception.ReviewDeletionException;
+import com.bside.breadgood.ddd.bakery.application.exception.ReviewNotFoundException;
 import com.bside.breadgood.ddd.bakery.domain.Address;
 import com.bside.breadgood.ddd.bakery.domain.Bakery;
 import com.bside.breadgood.ddd.bakery.domain.BakeryReview;
@@ -306,10 +308,43 @@ class BakeryServiceTest {
         given(bakeryRepository.findById(anyLong())).willReturn(Optional.of(빵집1));
 
         // when
+        bakeryService.deleteReview(빵집1.getId(), 2L);
+
+        // then
+        assertThat(bakeryReviews).hasSize(4);
+    }
+
+    @Test
+    @DisplayName("빵집 리뷰가 존재하지 않는 경우 예외가 발생한다")
+    public void bakeryReviewDeleteNGByNotExistReview() {
+        // given
+        final List<BakeryReview> bakeryReviews = bakeryReviews(빵집1.getId());
+        Long NOT_EXIST_ID = Long.MAX_VALUE;
+
+        EntityReflectionUtils.setField(빵집1, Bakery.class, bakeryReviews, "bakeryReviewList");
+        given(bakeryRepository.findById(anyLong())).willReturn(Optional.of(빵집1));
+
+        // when
 
 
         // then
+        assertThatThrownBy(() -> bakeryService.deleteReview(빵집1.getId(), NOT_EXIST_ID))
+                .isInstanceOf(ReviewNotFoundException.class);
+    }
 
+    @Test
+    @DisplayName("최초 등록자의 리뷰는 삭제할 수 없다")
+    public void bakeryReviewDeleteNGToDeleteAuthorsReview() {
+        // given
+        final List<BakeryReview> bakeryReviews = bakeryReviews(빵집1.getId());
+        Long AUTHORS_REVIEW = 1L;
+
+        EntityReflectionUtils.setField(빵집1, Bakery.class, bakeryReviews, "bakeryReviewList");
+        given(bakeryRepository.findById(anyLong())).willReturn(Optional.of(빵집1));
+
+        // then
+        assertThatThrownBy(() -> bakeryService.deleteReview(빵집1.getId(), AUTHORS_REVIEW))
+                .isInstanceOf(ReviewDeletionException.class);
     }
 
     private List<BakeryReview> bakeryReviews(Long bakeryId) {

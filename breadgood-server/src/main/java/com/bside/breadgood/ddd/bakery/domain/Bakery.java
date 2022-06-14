@@ -3,7 +3,8 @@ package com.bside.breadgood.ddd.bakery.domain;
 import com.bside.breadgood.common.domain.BaseEntity;
 import com.bside.breadgood.common.exception.EmptyException;
 import com.bside.breadgood.common.exception.WrongValueException;
-import com.bside.breadgood.ddd.bakery.application.exception.BakeryReviewDeletionException;
+import com.bside.breadgood.ddd.bakery.application.exception.ReviewDeletionException;
+import com.bside.breadgood.ddd.bakery.application.exception.ReviewNotFoundException;
 import com.bside.breadgood.ddd.bakerycategory.application.dto.BakeryCategoryResponseDto;
 import com.bside.breadgood.ddd.breadstyles.ui.dto.BreadStyleResponseDto;
 import com.bside.breadgood.ddd.emoji.application.dto.EmojiResponseDto;
@@ -16,7 +17,6 @@ import org.thymeleaf.util.StringUtils;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
 @Entity
 @Getter
@@ -138,18 +138,21 @@ public class Bakery extends BaseEntity {
         this.bakeryReviewList.add(bakeryReview);
     }
 
-    private BakeryReview deleteVerification(Long reviewId) {
-        Predicate<BakeryReview> isOwnReview = e -> e.getId().equals(reviewId);
-        Predicate<BakeryReview> isAuthorReview = e -> e.getId().equals(user);
-
+    public BakeryReview findReview(Long reviewId) {
         return this.bakeryReviewList.stream()
-                .filter(isOwnReview.and(isAuthorReview))
+                .filter(review -> review.getId().equals(reviewId))
                 .findFirst()
-                .orElseThrow(BakeryReviewDeletionException::new);
+                .orElseThrow(ReviewNotFoundException::new);
     }
 
-    public void deleteBakeryReview(Long reviewId) {
-        final BakeryReview bakeryReview = deleteVerification(reviewId);
-        this.bakeryReviewList.remove(bakeryReview);
+    private void deleteVerification(BakeryReview review) {
+        if (this.user.equals(review.getUser())) {
+            throw new ReviewDeletionException();
+        }
+    }
+
+    public void deleteBakeryReview(BakeryReview review) {
+        deleteVerification(review);
+        this.bakeryReviewList.remove(review);
     }
 }

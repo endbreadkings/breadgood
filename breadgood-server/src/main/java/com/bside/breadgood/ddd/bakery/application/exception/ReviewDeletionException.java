@@ -8,14 +8,14 @@ import lombok.Getter;
  * description :
  */
 @Getter
-public class BakeryReviewDeletionException extends RuntimeException {
+public class ReviewDeletionException extends RuntimeException {
     private String[] args;
 
-    public BakeryReviewDeletionException(String... args) {
+    public ReviewDeletionException(String... args) {
         this.args = args;
     }
 
-    public BakeryReviewDeletionException(String message) {
+    public ReviewDeletionException(String message) {
         super(message);
     }
 }
