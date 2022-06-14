@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class ReviewNotFoundException extends RuntimeException {
-    private Object[] args;
+    private String[] args;
 
     public ReviewNotFoundException(String... args) {
         this.args = args;

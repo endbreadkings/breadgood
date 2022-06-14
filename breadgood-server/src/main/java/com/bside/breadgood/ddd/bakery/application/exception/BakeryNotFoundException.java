@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class BakeryNotFoundException extends RuntimeException {
-    private Object[] args;
+    private String[] args;
 
     public BakeryNotFoundException(String... args) {
         this.args = args;
