@@ -11,14 +11,14 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.reflect.CodeSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.util.StringUtils;
 
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Aspect
@@ -53,7 +53,9 @@ public class LoggingAspect {
         private final String executeType;
         private final String executeSimpleType;
         private final String executeMethod;
-        private final String argument;
+
+        private final Map<String, Object> params;
+
 
         public RequestLoggingType(JoinPoint joinPoint) {
             final var signature = joinPoint.getSignature();
@@ -63,7 +65,7 @@ public class LoggingAspect {
             this.executeType = declaringTypeName;
             this.executeSimpleType = declaringTypeName.substring(declaringTypeName.lastIndexOf(".") + 1);
             this.executeMethod = signature.getName();
-            this.argument = StringUtils.abbreviate(parsingArgs(joinPoint), 2000);
+            this.params = params(joinPoint);
         }
     }
 
@@ -98,7 +100,8 @@ public class LoggingAspect {
         private final String executeSimpleType;
         private final String executeMethod;
         private final String message;
-        private final String argument;
+
+        private final Map<String, Object> params;
 
         public ThrowingLoggingType(JoinPoint joinPoint, Throwable throwable) {
             final var signature = joinPoint.getSignature();
@@ -108,27 +111,20 @@ public class LoggingAspect {
             this.executeSimpleType = declaringTypeName.substring(declaringTypeName.lastIndexOf(".") + 1);
             this.executeMethod = signature.getName();
             this.message = throwable.getMessage();
-            this.argument = StringUtils.abbreviate(parsingArgs(joinPoint), 2000);
+            this.params = params(joinPoint);
         }
     }
 
-    private static String parsingArgs(JoinPoint joinPoint) {
-        return Arrays.stream(joinPoint.getArgs())
-                .filter(Objects::nonNull)
-                .map(Object::toString)
-                .collect(Collectors.joining(","));
+    private static Map<String, Object> params(JoinPoint joinPoint) {
+        CodeSignature codeSignature = (CodeSignature) joinPoint.getSignature();
+        String[] parameterNames = codeSignature.getParameterNames();
+        Object[] args = joinPoint.getArgs();
+        Map<String, Object> params = new HashMap<>();
+        for (int i = 0; i < parameterNames.length; i++) {
+            params.put(parameterNames[i], args[i]);
+        }
+        return params;
     }
-
-//    private static Map<String, Object> params(JoinPoint joinPoint) {
-//        CodeSignature codeSignature = (CodeSignature) joinPoint.getSignature();
-//        String[] parameterNames = codeSignature.getParameterNames();
-//        Object[] args = joinPoint.getArgs();
-//        Map<String, Object> params = new HashMap<>();
-//        for (int i = 0; i < parameterNames.length; i++) {
-//            params.put(parameterNames[i], args[i]);
-//        }
-//        return params;
-//    }
 
     public static String toJson(Object object) {
         if (object == null) return "";
