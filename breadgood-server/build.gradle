@@ -83,6 +83,15 @@ dependencies {
     testImplementation 'io.rest-assured:rest-assured'
     runtimeOnly 'com.h2database:h2:1.4.200'
 
+
+    // logging
+//    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+//    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+    implementation 'com.github.maricn:logback-slack-appender:1.4.0'
+//    implementation "org.springframework.boot:spring-boot-starter-actuator"
+
+
 }
 
 swaggerSources {

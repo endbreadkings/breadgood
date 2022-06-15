@@ -41,10 +41,10 @@ public class LoggingAspect {
         logger.info("{}", toJson(logData));
     }
 
- //    @AfterThrowing(value = "@within(org.springframework.web.bind.annotation.RestController))", throwing = "throwable")
-//    public void throwingLoggingRestController(JoinPoint joinPoint, Throwable throwable) {
-//        logger.info("{}", toJson(new ThrowingLoggingType(joinPoint, throwable)));
-//    }
+    @AfterThrowing(value = "@within(org.springframework.web.bind.annotation.RestController))", throwing = "throwable")
+    public void throwingLoggingRestController(JoinPoint joinPoint, Throwable throwable) {
+        logger.info("{}", toJson(new ThrowingLoggingType(joinPoint, throwable)));
+    }
 
     @Getter
     @ToString
@@ -111,7 +111,7 @@ public class LoggingAspect {
             this.executeSimpleType = declaringTypeName.substring(declaringTypeName.lastIndexOf(".") + 1);
             this.executeMethod = signature.getName();
             this.message = throwable.getMessage();
-            this.params = params(joinPoint);
+            this.params = null;
         }
     }
 

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="10 seconds">
+    <include resource="appenders/console-appender.xml"/>
+    <include resource="appenders/slack-appender.xml"/>
+
+    <logger name="org.springframework.web" level="WARN"/>
+    <logger name="org.springframework.data" level="WARN"/>
+    <logger name="log4jdbc.log4j2" level="ERROR"/>
+    <logger name="amazonaws.util.EC2MetadataUtils" level="ERROR"/>
+    <logger name="com.bside.breadgood" level="ERROR"/>
+
+    <logger name="requestDefaultLogger" level="INFO" additivity="false">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
+    <logger name="ServerBoot" level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="ASYNC-SLACK"/>
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>
