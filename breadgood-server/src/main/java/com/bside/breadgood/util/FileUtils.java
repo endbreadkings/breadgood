@@ -17,7 +17,7 @@ public class FileUtils {
         final int extensionIndex = getExtensionIndex(fileName);
         final String extension = fileName.substring(extensionIndex);
         if (!isAvailableExtension(extension)) {
-            throw new IllegalFileExtensionException(EXTENSION_ERROR_MESSAGE);
+            throw new IllegalFileExtensionException(EXTENSION_ERROR_MESSAGE + "::" + fileName);
         }
     }
 
