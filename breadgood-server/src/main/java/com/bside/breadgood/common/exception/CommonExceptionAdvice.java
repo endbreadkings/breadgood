@@ -80,16 +80,17 @@ public class CommonExceptionAdvice {
 //        return new ExceptionResponse(500, "Internal server error");
 //    }
 
-    /**
-     * http status: 400
-     * request parameter 에러
-     *
-     * @param e
-     * @return
-     */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = {MethodArgumentNotValidException.class})
     public ExceptionResponse methodArgumentNotValidException(MethodArgumentNotValidException e) {
+        log.error("[BaseException] errorMsg = {}", NestedExceptionUtils.getMostSpecificCause(e).getMessage(), e);
+        return new ExceptionResponse(400, e.getMessage());
+    }
+
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = {BaseException.class})
+    public ExceptionResponse baseExceptionHandler(BaseException e) {
         log.error("[BaseException] errorMsg = {}", NestedExceptionUtils.getMostSpecificCause(e).getMessage(), e);
         return new ExceptionResponse(400, e.getMessage());
     }
