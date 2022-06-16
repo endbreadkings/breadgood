@@ -1,30 +1,26 @@
 package com.bside.breadgood.authentication;
 
-import com.bside.breadgood.common.exception.ExceptionResponse;
 import com.bside.breadgood.jwt.application.AccessTokenService;
 import com.bside.breadgood.jwt.application.exception.CustomJwtException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nimbusds.oauth2.sdk.ErrorResponse;
-import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
+import static com.bside.breadgood.common.RequestLoggingHelper.errorLogging;
 
 
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
@@ -51,11 +47,12 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
+
         } catch (CustomJwtException ex) {
-            logger.error("Security Context에서 사용자 인증을 설정할 수 없습니다");
+            errorLogging(logger, "Security Context 에서 사용자 인증을 설정할 수 없습니다", request, ex);
             throw ex;
         } catch (Exception ex) {
-            logger.error("Security Context에서 사용자 인증을 설정할 수 없습니다");
+            errorLogging(logger, "Security Context 에서 사용자 인증을 설정할 수 없습니다", request, ex);
         }
 
         filterChain.doFilter(request, response);

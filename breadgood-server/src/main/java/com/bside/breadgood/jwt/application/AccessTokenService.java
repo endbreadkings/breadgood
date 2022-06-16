@@ -15,10 +15,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.net.URL;
 import java.util.Map;
 import java.util.Optional;
+
+import static org.springframework.util.StringUtils.*;
 
 @Service
 @RequiredArgsConstructor
@@ -69,6 +72,9 @@ public class AccessTokenService implements TokenService {
 
 
     public boolean validate(String token) {
+        if (!hasText(token)) {
+            return false;
+        }
         try {
             return JwtUtils.validateAccessToken(token, ACCESS_TOKEN_SECRET_KEY);
         } catch (ExpiredJwtException ex) {

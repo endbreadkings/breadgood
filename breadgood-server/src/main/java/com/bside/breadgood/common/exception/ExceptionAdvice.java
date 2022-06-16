@@ -38,7 +38,7 @@ public class ExceptionAdvice {
         int code = getErrorCode(messagePath);
         String message = getErrorMessage(messagePath);
 
-        log.error(message);
+        log.error("message :: {} , request :: {} , code :: {}", message, request, code);
 
         return new ExceptionResponse(
                 code,
@@ -50,7 +50,7 @@ public class ExceptionAdvice {
         int code = getErrorCode(messagePath);
         String message = getErrorMessage(messagePath, args);
 
-        log.error(message);
+        log.error("message :: {} , request :: {} , code :: {}, args :: {}", message, request, code, args);
 
         return new ExceptionResponse(
                 code,

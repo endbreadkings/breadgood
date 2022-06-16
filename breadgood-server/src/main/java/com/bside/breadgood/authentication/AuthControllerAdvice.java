@@ -37,7 +37,7 @@ public class AuthControllerAdvice extends ExceptionAdvice {
         return super.getExceptionResponse(request, messagePath, ex.getArgs());
     }
 
-    @ExceptionHandler(OAuth2NotFoundEmailException.class)
+    @ExceptionHandler(AuthenticationException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     protected ExceptionResponse oAuth2NotFoundEmailException(OAuth2NotFoundEmailException ex, WebRequest request) {
         String messagePath = super.getMessagePathByMyMethodName();

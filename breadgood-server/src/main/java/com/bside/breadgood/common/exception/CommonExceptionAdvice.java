@@ -68,7 +68,7 @@ public class CommonExceptionAdvice {
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(value = {WrongValueException.class})
-    public ExceptionResponse wrongValueException(WrongValueException e) {
+    public ExceptionResponse wrongValueExceptionHandler(WrongValueException e) {
         log.error(e.getMessage(), e);
         return new ExceptionResponse(500, e.getMessage());
     }
@@ -90,7 +90,7 @@ public class CommonExceptionAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = {MethodArgumentNotValidException.class})
     public ExceptionResponse methodArgumentNotValidException(MethodArgumentNotValidException e) {
-        log.error("[BaseException] errorMsg = {}", NestedExceptionUtils.getMostSpecificCause(e).getMessage());
+        log.error("[BaseException] errorMsg = {}", NestedExceptionUtils.getMostSpecificCause(e).getMessage(), e);
         return new ExceptionResponse(400, e.getMessage());
     }
 
