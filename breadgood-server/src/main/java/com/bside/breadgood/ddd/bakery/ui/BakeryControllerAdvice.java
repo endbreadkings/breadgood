@@ -2,9 +2,11 @@ package com.bside.breadgood.ddd.bakery.ui;
 
 import com.bside.breadgood.common.exception.ExceptionAdvice;
 import com.bside.breadgood.common.exception.ExceptionResponse;
-import com.bside.breadgood.ddd.bakery.application.exception.*;
-import com.bside.breadgood.s3.application.exception.S3UploadException;
-import org.springframework.beans.factory.annotation.Value;
+import com.bside.breadgood.ddd.bakery.application.exception.BakeryNotFoundException;
+import com.bside.breadgood.ddd.bakery.application.exception.DuplicateBakeryException;
+import com.bside.breadgood.ddd.bakery.application.exception.IllegalCityException;
+import com.bside.breadgood.ddd.bakery.application.exception.ReviewDeletionException;
+import com.bside.breadgood.ddd.bakery.application.exception.ReviewNotFoundException;
 import org.springframework.context.MessageSource;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -13,7 +15,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 
 @Order(Ordered.HIGHEST_PRECEDENCE)

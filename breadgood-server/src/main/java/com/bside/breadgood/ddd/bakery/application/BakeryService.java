@@ -285,7 +285,7 @@ public class BakeryService {
     @Transactional
     public void deleteReview(Long bakeryId, Long reviewId) {
         final Bakery bakery = this.findById(bakeryId);
-        final BakeryReview review = bakery.findReview(reviewId);
+        final BakeryReview review = bakery.getReview(reviewId);
         bakery.deleteBakeryReview(review);
     }
 

@@ -138,7 +138,7 @@ public class Bakery extends BaseEntity {
         this.bakeryReviewList.add(bakeryReview);
     }
 
-    public BakeryReview findReview(Long reviewId) {
+    public BakeryReview getReview(Long reviewId) {
         return this.bakeryReviewList.stream()
                 .filter(review -> review.getId().equals(reviewId))
                 .findFirst()

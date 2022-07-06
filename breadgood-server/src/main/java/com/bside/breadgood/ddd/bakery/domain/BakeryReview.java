@@ -15,6 +15,8 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.*;
+
 @Entity
 @Getter
 @ToString
@@ -101,7 +103,7 @@ public class BakeryReview extends BaseEntity {
         return signatureMenus.getSignatureMenus()
                 .stream()
                 .map(SignatureMenu::getSignatureMenu)
-                .collect(Collectors.toList());
+                .collect(toUnmodifiableList());
     }
 
     public List<String> getImgUrls() {
@@ -111,6 +113,6 @@ public class BakeryReview extends BaseEntity {
         }
         return imgUrls.stream()
                 .map(imageUrl -> this.getImgHost() + imageUrl)
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 }
