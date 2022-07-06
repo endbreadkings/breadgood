@@ -14,13 +14,13 @@ import org.springframework.web.multipart.MultipartFile;
  * description :
  */
 public class EmojiFixture {
-    public static final Emoji 이모지1 =
-            new Emoji(
-                    1L,
-                    "emojiName",
-                    "img.url",
-                    1
-            );
+//    public static final Emoji 이모지1 =
+//            new Emoji(
+//                    1L,
+//                    "emojiName",
+//                    "img.url",
+//                    1
+//            );
 
     public static final Emoji 이모지2 = Emoji.builder()
             .name("이모지2")
