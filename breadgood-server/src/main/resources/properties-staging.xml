@@ -1,5 +1,5 @@
 <included>
     <property name="SLACK_CHANNEL" value="monitor-dev"/>
     <property name="SLACK_WEBHOOK_URI"
-              value="https://hooks.slack.com/services/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"/>
+              value="https://hooks.slack.com/services/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"/>
 </included>
