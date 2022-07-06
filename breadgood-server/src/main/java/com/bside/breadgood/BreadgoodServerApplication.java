@@ -19,7 +19,7 @@ public class BreadgoodServerApplication {
     @PostConstruct
     public void setTimeZone() {
         TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
-        log.info("현재시각 : {}", LocalDateTime.now());
+        log.error("현재시각 : {}", LocalDateTime.now());
     }
 
     public static void main(String[] args) {
