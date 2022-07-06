@@ -1,6 +1,7 @@
 package com.bside.breadgood.ddd.emoji.domain;
 
 import com.bside.breadgood.common.domain.BaseEntity;
+import com.bside.breadgood.common.vo.ImageUrl;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,7 +24,8 @@ public class Emoji extends BaseEntity {
     private String name;
 
     @Column(nullable = false)
-    private String imgUrl;
+    @Embedded
+    private ImageUrl imgUrl;
 
     @Column(nullable = false, unique = true)
     private int sortNumber;
@@ -31,7 +33,11 @@ public class Emoji extends BaseEntity {
     @Builder
     public Emoji(String name, String imgUrl, int sortNumber) {
         this.name = name;
-        this.imgUrl = imgUrl;
+        this.imgUrl = ImageUrl.from(imgUrl);
         this.sortNumber = sortNumber;
+    }
+
+    public String getImgUrl() {
+        return this.imgUrl.getImgUrl();
     }
 }

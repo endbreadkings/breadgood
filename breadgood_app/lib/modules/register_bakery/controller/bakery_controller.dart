@@ -9,7 +9,7 @@ class BakeryController extends GetxController {
   List<Color> bakery_category_border_color = List.filled(2, Colors.transparent);
   List<bool> selected_bakery_category = List.filled(2, false);
   int selected_bakery_category_id = -1;
-  SearchData selectedBakery;
+  SearchData selectedBakery = null;
   CheckDuplicateBakery duplicateCheck;
   // BakeryMapData newBakery;
 

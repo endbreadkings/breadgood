@@ -17,6 +17,7 @@ import com.bside.breadgood.ddd.users.application.UserService;
 import com.bside.breadgood.ddd.users.application.dto.UserResponseDto;
 import com.bside.breadgood.ddd.users.domain.User;
 import com.bside.breadgood.ddd.users.infra.UserRepository;
+import com.bside.breadgood.fixtures.bakery.BakeryFixture;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,7 +30,7 @@ import java.util.List;
 
 import static com.bside.breadgood.fixtures.bakerycategory.BakeryCategoryFixture.빵에집중;
 import static com.bside.breadgood.fixtures.breadstyle.BreadStyleFixture.달콤_200;
-import static com.bside.breadgood.fixtures.emoji.EmojiFixture.이모지1;
+import static com.bside.breadgood.fixtures.emoji.EmojiFixture.이모지_100;
 import static com.bside.breadgood.fixtures.user.UserFixture.테스트유저;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -72,7 +73,7 @@ class BakeryTest {
     @BeforeEach
     void setUp() {
         user = userRepository.save(테스트유저);
-        emoji = emojiRepository.save(이모지1);
+        emoji = emojiRepository.save(이모지_100);
         breadStyle = breadStyleRepository.save(달콤_200);
         bakeryCategory = bakeryCategoryRepository.save(빵에집중);
     }
@@ -131,7 +132,7 @@ class BakeryTest {
             assertEquals(fetchedBakery.getTitle(), title, "빵집 상호명이 일치하지 않습니다.");
             assertEquals(fetchedBakery.getDescription(), description, "상세정보가 일치 하지 않습니다.");
             assertNotNull(fetchedBakery.getUser(), "빵집 등록자 정보가 존재하지 않습니다.");
-            assertNotNull(fetchedBakery.getCreated_at(), "빵집 등록 일자가 존재하지 않습니다.");
+            assertNotNull(fetchedBakery.getCreatedAt(), "빵집 등록 일자가 존재하지 않습니다.");
             assertNotNull(fetchedBakery.getBakeryReviewList(), "빵집 리뷰 정보 리스트가 존재하지 않습니다.");
             assertNotNull(fetchedBakery.getBakeryReviewList().get(0), "빵집 리뷰 정보가 존재하지 않습니다.");
             assertNotNull(fetchedBakery.getBakeryReviewList().get(0).getImgUrls(), "빵집 리뷰 정보 중 인증사진 정보가 존재하지 않습니다.");
@@ -149,8 +150,9 @@ class BakeryTest {
             final List<String> fetchedSignatureMenus = fetchedBakery.getBakeryReviewList().get(0).getSignatureMenus();
             assertTrue(fetchedSignatureMenus.size() == signatureMenus.size()
                     && fetchedSignatureMenus.containsAll(signatureMenus) && signatureMenus.containsAll(fetchedSignatureMenus));
-
+            assertFalse(fetchedBakery.isDeleted());
         });
 
     }
+
 }

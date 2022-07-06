@@ -36,7 +36,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * description :
  */
 @DisplayName("약관 항목 관리자 인수테스트")
-public class AdminTermsTypeAcceptanceTest extends AcceptanceTest {
+public class TermsTypeAdminAcceptanceTest extends AcceptanceTest {
     public static final String ADMIN_TERMS_TYPE_BASE_URI = "api/v1/admin/termsType";
     public static final String ADMIN_TERMS_BASE_URI = "api/v1/admin/terms";
 

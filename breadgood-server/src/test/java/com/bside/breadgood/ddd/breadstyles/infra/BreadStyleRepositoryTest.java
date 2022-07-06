@@ -46,6 +46,27 @@ class BreadStyleRepositoryTest {
     List<BreadStyle> breadStyles = repository.findAllByOrderBySortNumberAsc();
 
     // then
-    assertThat(breadStyles).containsExactly(크림_100, 달콤_200);
+    assertThat(breadStyles).extracting("sortNumber").contains(100, 200);
+  }
+
+  @Test
+  @DisplayName("최애빵 sort_number 최대값 조회 테스트")
+  void findMaxSortNumberTest() {
+    // when
+    int currentSortNumber = repository.findMaxSortNumber();
+
+    // then
+    assertThat(currentSortNumber).isEqualTo(200);
+  }
+
+  @Test
+  @DisplayName("등록된 최애빵이 없을 때, 최애빵 sort_number 최대값 조회 테스트")
+  void findMaxSortNumberTestWhenNoData() {
+    // when
+    repository.deleteAll();
+    int currentSortNumber = repository.findMaxSortNumber();
+
+    // then
+    assertThat(currentSortNumber).isZero();
   }
 }

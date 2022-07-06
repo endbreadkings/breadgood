@@ -200,11 +200,18 @@ class SelectBakeryCategoryPageAppbar extends DefaultAppBar {
   Widget build(BuildContext context) {
     return AppBar(
       leading: IconButton(
-        icon: Image.asset('asset/images/Vector.png'),
-        onPressed: () => Navigator.of(context).pop(),
-      ),
-      backgroundColor: Colors.transparent,
-      elevation: 0.0,
+        icon: Container(
+          height: 16,
+          width: 8,
+          child: SvgPicture.asset(
+            'asset/images/Vector.svg',
+            fit: BoxFit.scaleDown,
+          )),
+        onPressed: () {
+          Get.toNamed('/dashboard');
+        }),
+    backgroundColor: Colors.transparent,
+    elevation: 0.0,
     );
   }
 }

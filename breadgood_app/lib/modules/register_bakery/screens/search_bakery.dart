@@ -1,3 +1,5 @@
+import 'package:breadgood_app/modules/dashboard/controller/dashboard_controller.dart';
+import 'package:breadgood_app/modules/dashboard/dashboard.dart';
 import 'package:breadgood_app/modules/register_bakery/screens/already_registered_bakery.dart';
 import 'package:breadgood_app/modules/register_bakery/screens/select_bakery_category.dart';
 import 'package:breadgood_app/utils/ui/main_app_bar.dart';
@@ -11,6 +13,7 @@ import 'dart:core';
 import 'package:breadgood_app/modules/register_bakery/model/bakery_data.dart';
 import 'package:breadgood_app/modules/register_bakery/controller/bakery_controller.dart';
 import 'package:breadgood_app/utils/services/rest_api_service.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 Future<NaverMapData> fetchSearchData(String searchKeyword) async {
   var endpointUrl = 'https://openapi.naver.com/v1/search/local.json';
@@ -210,12 +213,23 @@ GetNoResult() {
 }
 
 class SearchBakeryPageAppbar extends DefaultAppBar {
+  final dController = Get.put(DashboardController());
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
       leading: IconButton(
-        icon: Image.asset('asset/images/Vector.png'),
-        onPressed: () => Navigator.pushReplacementNamed(context, '/main'),
+        icon: Container(
+            height: 16,
+            width: 8,
+            child: SvgPicture.asset(
+              'asset/images/Vector.svg',
+              fit: BoxFit.scaleDown,
+            )),
+        onPressed: () {
+            dController.changePageIndex(RouteName.Home.index);
+            Get.toNamed('/dashboard');
+        }
       ),
       backgroundColor: Colors.transparent,
       elevation: 0.0,
@@ -319,11 +333,12 @@ class _BakeryCardState extends State<BakeryCard> {
                         var checkDuplicate = await checkRegisteredBakery(
                             widget.selectedBakery.roadAddress);
                         if (checkDuplicate.idDuplicate) {
-                          Get.to(AlreadyRegisteredBakeryPage(),
-                              arguments: checkDuplicate.nickName);
+                          Get.to(AlreadyRegisteredBakeryPage(), arguments: [
+                            {"registerer": checkDuplicate.nickName}, {"bakeryId":checkDuplicate.bakeryId}]);
                         }
-                        Get.to(SelectBakeryCategoryPage(),
-                            arguments: widget.selectedBakery);
+                        else {
+                          Get.to(SelectBakeryCategoryPage(), arguments: widget.selectedBakery);
+                        }
                       }),
                 ))
           ]));

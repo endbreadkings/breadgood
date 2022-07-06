@@ -1,3 +1,4 @@
+import 'package:breadgood_app/modules/dashboard/dashboard.dart';
 import 'package:breadgood_app/modules/login/screens/login_page.dart';
 import 'package:breadgood_app/modules/login/screens/login_webview.dart';
 import 'package:breadgood_app/modules/main/controller/main_map_controller.dart';
@@ -29,6 +30,7 @@ import 'package:breadgood_app/modules/further_info/further_info.dart';
 
 final Routes = [
   GetPage(name: '/', page: () => LoginPage()),
+  GetPage(name: '/dashboard', page: () => Dashboard()),
   GetPage(
     name: '/main',
     page: () => MainList(),
