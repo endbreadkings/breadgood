@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="10 seconds">
-    <include resource="properties-staging.xml"/>
+    <include resource="config/properties-staging.xml"/>
     <include resource="appenders/console-appender.xml"/>
     <include resource="appenders/slack-appender.xml"/>
 
