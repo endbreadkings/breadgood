@@ -26,12 +26,11 @@ public class RequestLoggingHelper {
             paramsStringBuilder.append(paramName).append(" = ").append(request.getParameter(paramName));
         }
 
-        logger.error(
-                "{} 요청한 곳 :: {}, 요청 API :: {}, 파라미터 :: {}",
+        logger.error("{} \n요청한 곳 :: {}, \n요청 API :: {}, \n파라미터 :: {} \n에러 ::",
                 errorMessage,
                 request.getHeader("Referer"),
                 "[" + request.getMethod() + "]" + request.getRequestURI() + "?" + request.getQueryString(),
-                paramsStringBuilder,
+                paramsStringBuilder.toString().isEmpty() ? "없음" : paramsStringBuilder,
                 exception
         );
 
