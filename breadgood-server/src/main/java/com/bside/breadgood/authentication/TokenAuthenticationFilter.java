@@ -49,10 +49,10 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             }
 
         } catch (CustomJwtException ex) {
-            errorLogging(logger, "Security Context 에서 사용자 인증을 설정할 수 없습니다", request, ex);
+            errorLogging(logger, "Security Context 에서 사용자 인증을 설정할 수 없습니다", ex);
             throw ex;
         } catch (Exception ex) {
-            errorLogging(logger, "Security Context 에서 사용자 인증을 설정할 수 없습니다", request, ex);
+            errorLogging(logger, "Security Context 에서 사용자 인증을 설정할 수 없습니다", ex);
         }
 
         filterChain.doFilter(request, response);

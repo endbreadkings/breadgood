@@ -35,7 +35,7 @@ public class AuthEntryPoint implements AuthenticationEntryPoint {
         body.put("message", authException.getMessage());
         body.put("path", request.getServletPath());
 
-        errorLogging(logger, "Security Context 에서 사용자 인증을 설정할 수 없습니다", request, authException);
+        errorLogging(logger, "Security Context 에서 사용자 인증을 설정할 수 없습니다", authException);
 
         final ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(response.getOutputStream(), body);

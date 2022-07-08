@@ -1,5 +1,6 @@
 package com.bside.breadgood.common;
 
+import com.bside.breadgood.common.exception.ExceptionResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -15,10 +16,15 @@ import org.aspectj.lang.reflect.CodeSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.thymeleaf.util.StringUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.bside.breadgood.common.RequestLoggingHelper.errorLogging;
 
 
 @Aspect
@@ -33,6 +39,17 @@ public class LoggingAspect {
     public void requestLoggingRestController(JoinPoint joinPoint) {
         var logData = new RequestLoggingType(joinPoint);
         logger.info("{}", toJson(logData));
+    }
+
+    @Before(value = "@within(org.springframework.web.bind.annotation.ExceptionHandler)")
+    public void exceptionHandler(JoinPoint joinPoint) {
+
+        for (int i = 0; i < joinPoint.getArgs().length; i++) {
+            if (joinPoint.getArgs()[i] instanceof Exception) {
+                Exception exception = (Exception) joinPoint.getArgs()[i];
+                errorLogging(logger, exception.getMessage(), exception);
+            }
+        }
     }
 
     @AfterReturning(value = "@within(org.springframework.web.bind.annotation.RestController))", returning = "returnValue")
