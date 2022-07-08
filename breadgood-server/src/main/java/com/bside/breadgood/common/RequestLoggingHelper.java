@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RequestLoggingHelper {
     public static void errorLogging(Logger logger) {
-        errorLogging(logger, null);
+        errorLogging(logger, null, null);
     }
 
     public static void errorLogging(Logger logger, String errorMessage) {
