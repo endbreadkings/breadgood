@@ -201,16 +201,17 @@ class SelectBakeryCategoryPageAppbar extends DefaultAppBar {
     return AppBar(
       leading: IconButton(
         icon: Container(
-            height: 16,
-            width: 8,
-            child: SvgPicture.asset(
-              'asset/images/Vector.svg',
-              fit: BoxFit.scaleDown,
-            )),
-        onPressed: () => Navigator.of(context).pop(),
-      ),
-      backgroundColor: Colors.transparent,
-      elevation: 0.0,
+          height: 16,
+          width: 8,
+          child: SvgPicture.asset(
+            'asset/images/Vector.svg',
+            fit: BoxFit.scaleDown,
+          )),
+        onPressed: () {
+          Get.toNamed('/dashboard');
+        }),
+    backgroundColor: Colors.transparent,
+    elevation: 0.0,
     );
   }
 }

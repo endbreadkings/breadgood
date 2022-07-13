@@ -5,6 +5,9 @@ import com.bside.breadgood.ddd.breadstyles.domain.BreadStyle;
 import com.bside.breadgood.ddd.breadstyles.infra.BreadStyleRepository;
 import com.bside.breadgood.ddd.breadstyles.ui.dto.BreadStyleRequestDto;
 import com.bside.breadgood.ddd.breadstyles.ui.dto.BreadStyleResponseDto;
+import com.bside.breadgood.ddd.utils.EntityReflectionUtils;
+import com.google.common.collect.Sets;
+import org.assertj.core.util.Lists;
 import com.bside.breadgood.s3.application.S3Service;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,8 +18,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+import static com.bside.breadgood.fixtures.breadstyle.BreadStyleFixture.*;
 import static com.bside.breadgood.fixtures.breadstyle.BreadStyleFixture.담백_400;
 import static com.bside.breadgood.fixtures.breadstyle.BreadStyleFixture.짭짤_300;
 import static com.bside.breadgood.fixtures.breadstyle.BreadStyleFixture.짭짤빵_요청이미지;
@@ -26,6 +31,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anySet;
 import static org.mockito.BDDMockito.given;
 
 @DisplayName("최애빵 스타일 서비스 테스트")
@@ -81,6 +87,22 @@ class BreadStyleServiceTest {
     }
 
     @Test
+    @DisplayName("최애빵 스타일 id 리스트로 조회한다")
+    public void findAllById() {
+        // given
+        EntityReflectionUtils.setId(크림_100, BreadStyle.class, 1L);
+        EntityReflectionUtils.setId(달콤_200, BreadStyle.class, 2L);
+        EntityReflectionUtils.setId(짭짤_300, BreadStyle.class, 3L);
+        given(breadStyleRepository.findAllById(anySet())).willReturn(Lists.newArrayList(크림_100, 달콤_200, 짭짤_300));
+
+        // when
+        final Map<Long, BreadStyleResponseDto> actual = breadStyleService.findAllById(Sets.newHashSet(1L, 2L, 3L));
+
+        // then
+        assertThat(actual).hasSize(3);
+        assertThat(actual.values()).extracting(BreadStyleResponseDto::getId).contains(1L, 2L, 3L);
+    }
+  
     @DisplayName("최애빵 스타일 저장")
     void save() {
         // given

@@ -10,6 +10,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -19,6 +20,7 @@ import org.springframework.web.context.request.WebRequest;
 
 import java.util.Date;
 
+@Slf4j
 @RestControllerAdvice
 public class TokenControllerAdvice extends ExceptionAdvice {
 
@@ -29,11 +31,13 @@ public class TokenControllerAdvice extends ExceptionAdvice {
     @ExceptionHandler(value = TokenRefreshException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ExceptionResponse handleTokenRefreshException(TokenRefreshException ex, WebRequest request) {
+        System.out.println("TokenControllerAdvice.handleTokenRefreshException");
+        log.error("{}", request, ex);
         return new ExceptionResponse(
                 HttpStatus.FORBIDDEN.value(),
                 new Date(),
                 ex.getMessage()
-                );
+        );
     }
 
     @ExceptionHandler(AccessTokenExpiredException.class)

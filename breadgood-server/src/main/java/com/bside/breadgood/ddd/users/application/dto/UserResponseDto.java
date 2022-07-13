@@ -3,14 +3,16 @@ package com.bside.breadgood.ddd.users.application.dto;
 import com.bside.breadgood.ddd.breadstyles.ui.dto.BreadStyleResponseDto;
 import com.bside.breadgood.ddd.users.domain.User;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class UserResponseDto {
 
-    private final Long id;
-    private final String profileImgUrl;
-    private final String nickName;
-    private final Long breadStyleId;
+    private Long id;
+    private String profileImgUrl;
+    private String nickName;
+    private Long breadStyleId;
 
     public UserResponseDto(User user, BreadStyleResponseDto breadStyleResponseDto) {
         this.id = user.getId();

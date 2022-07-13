@@ -3,13 +3,13 @@ import 'dart:io';
 import 'package:breadgood_app/modules/login/model/on_board.dart';
 import 'package:breadgood_app/modules/main/controller/main_map_controller.dart';
 import 'package:breadgood_app/utils/services/secure_storage_service.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:ui';
 import 'package:flutter_svg/flutter_svg.dart';
+
 
 import 'package:breadgood_app/config/themes/light_theme.dart' as THEME;
 
@@ -38,6 +38,8 @@ class _LoginState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    // MainMapController _controllerWithGetX = Get.put(MainMapController());
+
     return Scaffold(
         body: Center(
       child: Column(
@@ -57,10 +59,9 @@ class _LoginState extends State<LoginPage> {
                   child: RaisedButton(
                     elevation: 0,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                       Padding(
-                          padding: EdgeInsets.fromLTRB(0, 16, 76, 16),
+                        Padding(
+                            padding: EdgeInsets.fromLTRB(0, 16, 76, 16),
                             child: Container(
                                 width: 24,
                                 height: 24,
@@ -68,13 +69,10 @@ class _LoginState extends State<LoginPage> {
                                   'asset/images/icon/login/icon_kakao.svg',
                                   fit: BoxFit.scaleDown,
                                 )
-                            )
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top:1),
-                            child:
-                            Text("카카오 로그인", style: TextStyle(color: Colors.black, fontSize: 15))
-                ),
+                            )),
+                  Padding(
+                    padding: EdgeInsets.only(top:1),
+                    child: Text("카카오 로그인", style: TextStyle(color: Colors.black, fontSize: 15))),
                       ],
                     ),
                     onPressed: () => {
@@ -88,8 +86,11 @@ class _LoginState extends State<LoginPage> {
                 ),
               ),
               if (Platform.isIOS)
-                SizedBox(height: 8),
-                new Container(width: 300, child: _appleLogin()),
+                Column(
+                    children: [
+                      SizedBox(height: 8),
+                      new Container(width: 300, child: _appleLogin())
+                ])
             ],
           ))
         ],
@@ -112,17 +113,16 @@ class _appleLogin extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-          Padding(
-          padding: EdgeInsets.fromLTRB(6, 16, 55, 16),
-          child:
-          Container(
-                  width: 24,
-                  height: 24,
-                  child: SvgPicture.asset(
-                    'asset/images/icon/login/icon_apple.svg',
-                    fit: BoxFit.scaleDown,
-                  )
-              )),
+              Padding(
+                  padding: EdgeInsets.fromLTRB(6, 16, 55, 16),
+                  child: Container(
+                      width: 24,
+                      height: 24,
+                      child: SvgPicture.asset(
+                        'asset/images/icon/login/icon_apple.svg',
+                        fit: BoxFit.scaleDown,
+                      )
+                  )),
               Text("애플 계정으로 로그인", style: TextStyle(color: Colors.white, fontSize: 15)),
             ],
           ),

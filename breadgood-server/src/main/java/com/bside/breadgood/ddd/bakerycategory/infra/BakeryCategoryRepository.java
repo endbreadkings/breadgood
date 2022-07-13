@@ -11,4 +11,7 @@ public interface BakeryCategoryRepository extends CrudRepository<BakeryCategory,
     @Query("select b from BakeryCategory b order by b.sortNumber")
     List<BakeryCategory> findAllOrderBySortNumberAsc();
 
+    @Query("select max(b.sortNumber) from BakeryCategory b ")
+    Integer maxSortNumber();
+
 }

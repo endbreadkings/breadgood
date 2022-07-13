@@ -1,17 +1,22 @@
 package com.bside.breadgood.common.exception;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.FieldError;
 
 import java.util.Date;
 import java.util.List;
 
 
+@Slf4j
 @Getter
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ExceptionResponse {
-    private final int code;
+    private int code;
     private Date timestamp;
-    private final String message;
+    private String message;
     private List<FieldError> errors;
 
     public ExceptionResponse(int code, String message) {
@@ -25,6 +30,7 @@ public class ExceptionResponse {
         this.errors = errors;
     }
 
+
     public ExceptionResponse(int code, Date timestamp, String message, List<FieldError> errors) {
         this.code = code;
         this.timestamp = timestamp;
@@ -37,4 +43,5 @@ public class ExceptionResponse {
         this.timestamp = timestamp;
         this.message = message;
     }
+
 }

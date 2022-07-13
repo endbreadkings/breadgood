@@ -1,3 +1,5 @@
+import 'package:breadgood_app/modules/dashboard/controller/dashboard_controller.dart';
+import 'package:breadgood_app/modules/dashboard/dashboard.dart';
 import 'package:breadgood_app/modules/main/screens/main_map.dart';
 import 'package:breadgood_app/modules/register_review/screens/register_review.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +19,7 @@ class CelebrateRegisterPage extends StatefulWidget {
 
 class _CelebrateRegisterPageState extends State<CelebrateRegisterPage> {
   final controller = Get.put(BakeryController());
+  final dController = Get.put(DashboardController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,8 +83,8 @@ class _CelebrateRegisterPageState extends State<CelebrateRegisterPage> {
                   elevation: 0,
                   onPressed:(){
                     print('onPressed');
-                    Get.offAllNamed('/main');
-                    // Get.to(BaseMapPage());
+                    dController.changePageIndex(RouteName.Home.index);
+                    Get.toNamed('/dashboard');
                   }
                 ),
               ),

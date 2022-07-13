@@ -1,0 +1,32 @@
+<included>
+    <appender name="SLACK" class="com.github.maricn.logback.SlackAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{yyyy:MM:dd HH:mm:ss.SSS} %-5level --- [%thread] %logger{35} : %msg %n</pattern>
+        </layout>
+        <webhookUri>${SLACK_WEBHOOK_URI}</webhookUri>
+        <username>monitoring-bot</username>
+        <channel>${SLACK_CHANNEL}</channel>
+        <iconEmoji>:bell:</iconEmoji>
+        <colorCoding>true</colorCoding>
+    </appender> <!-- Currently recommended way of using Slack appender -->
+
+    <appender name="ASYNC-SLACK" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="SLACK"/>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+    </appender>
+
+    <appender name="BOOT-SLACK" class="com.github.maricn.logback.SlackAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>
+                %msg
+            </pattern>
+        </layout>
+        <webhookUri>${SLACK_WEBHOOK_URI}</webhookUri>
+        <username>monitoring-bot</username>
+        <channel>${SLACK_CHANNEL}</channel>
+        <iconEmoji>:bell:</iconEmoji>
+        <colorCoding>true</colorCoding>
+    </appender>
+</included>
