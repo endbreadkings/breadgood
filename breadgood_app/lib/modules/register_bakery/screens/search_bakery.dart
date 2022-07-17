@@ -13,7 +13,6 @@ import 'dart:core';
 import 'package:breadgood_app/modules/register_bakery/model/bakery_data.dart';
 import 'package:breadgood_app/modules/register_bakery/controller/bakery_controller.dart';
 import 'package:breadgood_app/utils/services/rest_api_service.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 Future<NaverMapData> fetchSearchData(String searchKeyword) async {
   var endpointUrl = 'https://openapi.naver.com/v1/search/local.json';
@@ -141,8 +140,7 @@ class _SearchBakeryPageState extends State<SearchBakeryPage> {
                 ? GetNoResult()
                 : Padding(
                     padding: EdgeInsets.fromLTRB(20, 40, 20, 0),
-                    child: buildFutureSearchedBakeriesBuilder(),
-                  ),
+                    child: buildFutureSearchedBakeriesBuilder(context)),
           ],
         ),
       ),
@@ -151,7 +149,38 @@ class _SearchBakeryPageState extends State<SearchBakeryPage> {
     );
   }
 
-  FutureBuilder<NaverMapData> buildFutureSearchedBakeriesBuilder() {
+  FutureBuilder<NaverMapData> buildFutureSearchedBakeriesBuilder(
+      BuildContext context) {
+    double _calculateTitleHeight(BuildContext context, String text) {
+      final style = TextStyle(
+        fontFamily: 'NanumSquareRoundEB',
+        fontSize: 14.0,
+      );
+      final textSpan = TextSpan(text: text, style: style);
+      final textPainter = TextPainter(
+          text: textSpan, maxLines: 2, textDirection: TextDirection.ltr);
+      textPainter.layout(maxWidth: (MediaQuery.of(context).size.width) - 199);
+      final height = (textPainter.computeLineMetrics().length) * 20.0;
+      return height;
+    }
+
+    double _calculateAddressHeight(BuildContext context, String text) {
+      final style = TextStyle(
+        fontFamily: 'NanumSquareRoundEB',
+        fontSize: 12.0,
+      );
+      final textSpan = TextSpan(text: text, style: style);
+      final textPainter = TextPainter(
+          text: textSpan, maxLines: 5, textDirection: TextDirection.ltr);
+      textPainter.layout(maxWidth: (MediaQuery.of(context).size.width) - 199);
+      final height = (textPainter.computeLineMetrics().length) * 20.0;
+      return height;
+    }
+
+    double _calculateHeight({double titleHeight, double addressHeight}) {
+      return titleHeight + addressHeight + 63;
+    }
+
     List<SearchData> searchedList = [];
     return FutureBuilder<NaverMapData>(
       future: FsearchedBakeries,
@@ -170,33 +199,23 @@ class _SearchBakeryPageState extends State<SearchBakeryPage> {
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         }
+
         if (searchedList.isEmpty) {
           return GetNoResult();
         } else {
-          return Column(children: <Widget>[
-            for (var item in searchedList)
-              Padding(
-                padding: EdgeInsets.only(bottom: 16),
-                child: Container(
-                    width: double.infinity,
-                    // 도로명 주소
-                    // 16자 이상 & 가게이름 14자 미만 이거나
-                    // 도로명 주소 16자 미만 & 가게이름 14자 이상이면 높이: 103
-                    // 도로명 주소 16자 미만 & 가게이름 14자 미만이면 높이: 86
-                    // 도로명 주소 16자 이상 & 가게 이름 14자 이상이면 높이: 123
-                    height: ((item.title.length > 14) &&
-                            (item.roadAddress.length > 16))
-                        ? 123
-                        : ((item.title.length > 14) &&
-                                (item.roadAddress.length <= 16))
-                            ? 103
-                            : ((item.title.length <= 14) &&
-                                    (item.roadAddress.length > 16))
-                                ? 103
-                                : 86,
-                    child: BakeryCard(selectedBakery: item)),
-              )
-          ]);
+          return Column(
+            children: searchedList.map((item) {
+              final height = _calculateHeight(
+                  titleHeight: _calculateTitleHeight(context, item.title),
+                  addressHeight:
+                      _calculateAddressHeight(context, item.roadAddress));
+              return Container(
+                  width: double.infinity,
+                  height: height,
+                  padding: EdgeInsets.only(bottom: 16),
+                  child: BakeryCard(selectedBakery: item));
+            }).toList(),
+          );
         }
       },
     );
@@ -300,7 +319,6 @@ class _BakeryCardState extends State<BakeryCard> {
                           SizedBox(
                             child: WordBreakText(
                                 widget.selectedBakery.roadAddress,
-                                spacing: 6,
                                 style: TextStyle(
                                     fontSize: 12.0, color: Color(0xFFA4A4A4))),
                           )
