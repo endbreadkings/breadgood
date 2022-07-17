@@ -1,8 +1,10 @@
-import 'package:breadgood_app/modules/register_bakery/screens/search_bakery.dart';
-import 'package:flutter/material.dart';
+import 'dart:convert';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
 import 'package:breadgood_app/modules/register_bakery/model/bakery_data.dart';
-
+import 'package:breadgood_app/modules/register_bakery/model/duplicated_bakery.dart';
+import 'package:breadgood_app/utils/services/rest_api_service.dart';
 
 class BakeryController extends GetxController {
   /* bakery data variables */
@@ -25,11 +27,11 @@ class BakeryController extends GetxController {
     var the_other = (index + 1) % 2;
     print('the other: ${the_other}');
     // 같은 카테고리 눌러서 해제할 경우
-    if(selected_bakery_category_id == index) {
+    if (selected_bakery_category_id == index) {
       selected_bakery_category_id = -1;
     }
     // 이전과 반대 카테고리 선택할 경우
-    else if(selected_bakery_category[the_other] == true) {
+    else if (selected_bakery_category[the_other] == true) {
       // 선택된 카테고리 id update
       selected_bakery_category_id = index;
       selected_bakery_category[the_other] = false;
@@ -44,16 +46,16 @@ class BakeryController extends GetxController {
     selected_bakery_category[index] = !selected_bakery_category[index];
 
     // 카테고리들 보더 색깔 update
-    for(int i = 0; i < 2; i++) {
-      bakery_category_border_color[i] = (selected_bakery_category[i]) ?Color(0xFF007AFF):Colors.transparent;
+    for (int i = 0; i < 2; i++) {
+      bakery_category_border_color[i] = (selected_bakery_category[i])
+          ? Color(0xFF007AFF)
+          : Colors.transparent;
     }
 
     update();
   }
 
-  UpdateBakeryCategoryId(int Categoryid) {
-
-  }
+  UpdateBakeryCategoryId(int Categoryid) {}
 
   UpdateBakery(SearchData selected) {
     selectedBakery = selected;
@@ -62,16 +64,16 @@ class BakeryController extends GetxController {
 
   UpdateDuplicateCheck(CheckDuplicateBakery duplicate) {
     duplicateCheck = duplicate;
-    print('duplicate check? ${duplicateCheck.idDuplicate}, ${duplicateCheck.nickName},');
+    print(
+        'duplicate check? ${duplicateCheck.idDuplicate}, ${duplicateCheck.nickName},');
   }
-
 
   /* review data functions */
   toggleEmoji(index) {
     print('toggle emoji called(index: ${index})');
 
     // 이전에 선택했던 이모지 있는 경우
-    if(selected_emoji_id != -1) {
+    if (selected_emoji_id != -1) {
       // 이전에 선택했던 이모지 색깔 해
       emoji_border_color[selected_emoji_id] = Colors.transparent;
       // 이전에 선택했던 이모지 해제하는 경우
@@ -97,7 +99,7 @@ class BakeryController extends GetxController {
     emoji_selected[index] = !emoji_selected[index];
 
     // 선택된 이모지 있다면 색깔 업데이트
-    if(selected_emoji_id != -1) {
+    if (selected_emoji_id != -1) {
       emoji_border_color[selected_emoji_id] = Color(0xFF007AFF);
     }
     update();
@@ -107,5 +109,25 @@ class BakeryController extends GetxController {
     review_text = text;
     print('updateReivewText ${review_text}');
     update();
+  }
+
+  Future<CheckDuplicateBakery> checkRegisteredBakery(String roadAddress) async {
+    final response = await http.post(
+        Uri.parse(
+            'https://api.breadgood.com/api/v1/bakery/duplicate/roadAddress/${roadAddress}'),
+        headers: await headers_post(),
+        body: <String, String>{
+          'roadAddress': 'roadAddress',
+        });
+    if (response.statusCode == 200) {
+      print('status 200!');
+    } else {
+      print('error code: ');
+      print(response.statusCode);
+    }
+    final responseJson = jsonDecode(utf8.decode(response.bodyBytes));
+    print(responseJson);
+
+    return CheckDuplicateBakery.fromJson(responseJson);
   }
 }

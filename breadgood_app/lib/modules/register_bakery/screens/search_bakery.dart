@@ -1,17 +1,15 @@
-import 'package:breadgood_app/modules/register_bakery/screens/already_registered_bakery.dart';
-import 'package:breadgood_app/modules/register_bakery/screens/select_bakery_category.dart';
-import 'package:breadgood_app/utils/ui/main_app_bar.dart';
+import 'dart:core';
+import 'dart:convert';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:word_break_text/word_break_text.dart';
-import 'package:get/get.dart';
-import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'dart:core';
 import 'package:breadgood_app/modules/register_bakery/model/bakery_data.dart';
-import 'package:breadgood_app/modules/register_bakery/controller/bakery_controller.dart';
-import 'package:breadgood_app/utils/services/rest_api_service.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:breadgood_app/modules/register_bakery/screens/no_result.dart';
+import 'package:breadgood_app/modules/register_bakery/screens/search_bakery_card.dart';
+import 'package:breadgood_app/modules/register_bakery/screens/search_bakery_constants.dart';
+import 'package:breadgood_app/utils/ui/main_app_bar.dart';
+import 'package:breadgood_app/utils/common/debounce.dart';
 
 Future<NaverMapData> fetchSearchData(String searchKeyword) async {
   var endpointUrl = 'https://openapi.naver.com/v1/search/local.json';
@@ -48,13 +46,16 @@ class SearchBakeryPage extends StatefulWidget {
 
 class _SearchBakeryPageState extends State<SearchBakeryPage> {
   bool searched = false;
-  Future<NaverMapData> FsearchedBakeries;
+  Future<NaverMapData> fSearchedBakeries;
+
+  final _debounce = Debounce(Duration(milliseconds: 300));
 
   _onChanged(String text) {
-    FsearchedBakeries = fetchSearchData(text);
-
-    setState(() {
-      (FsearchedBakeries != null) ? searched = true : searched = false;
+    _debounce.call(() {
+      fSearchedBakeries = fetchSearchData(text);
+      setState(() {
+        (fSearchedBakeries != null) ? searched = true : searched = false;
+      });
     });
   }
 
@@ -136,11 +137,10 @@ class _SearchBakeryPageState extends State<SearchBakeryPage> {
               ),
             ),
             (searched == false)
-                ? GetNoResult()
+                ? getNoResult()
                 : Padding(
                     padding: EdgeInsets.fromLTRB(20, 40, 20, 0),
-                    child: buildFutureSearchedBakeriesBuilder(),
-                  ),
+                    child: buildFutureSearchedBakeriesBuilder(context)),
           ],
         ),
       ),
@@ -149,10 +149,43 @@ class _SearchBakeryPageState extends State<SearchBakeryPage> {
     );
   }
 
-  FutureBuilder<NaverMapData> buildFutureSearchedBakeriesBuilder() {
+  FutureBuilder<NaverMapData> buildFutureSearchedBakeriesBuilder(
+      BuildContext context) {
+    double _calculateTitleHeight(BuildContext context, String text) {
+      final textSpan = TextSpan(
+          text: text, style: SearchBakeryConstants.style.resultTitleTextStyle);
+      final textPainter = TextPainter(
+          text: textSpan,
+          maxLines: SearchBakeryConstants.metric.titleMaxLine,
+          textDirection: TextDirection.ltr);
+      textPainter.layout(
+          maxWidth: (MediaQuery.of(context).size.width) -
+              SearchBakeryConstants.metric.cardWidth);
+      final height = (textPainter.computeLineMetrics().length) * 22.0;
+      return height;
+    }
+
+    double _calculateAddressHeight(BuildContext context, String text) {
+      final textSpan = TextSpan(
+          text: text, style: SearchBakeryConstants.style.addressTextStyle);
+      final textPainter = TextPainter(
+          text: textSpan,
+          maxLines: SearchBakeryConstants.metric.addressMaxLine,
+          textDirection: TextDirection.ltr);
+      textPainter.layout(
+          maxWidth: (MediaQuery.of(context).size.width) -
+              SearchBakeryConstants.metric.cardWidth);
+      final height = (textPainter.computeLineMetrics().length) * 15.0;
+      return height;
+    }
+
+    double _calculateHeight({double titleHeight, double addressHeight}) {
+      return titleHeight + addressHeight + 63;
+    }
+
     List<SearchData> searchedList = [];
     return FutureBuilder<NaverMapData>(
-      future: FsearchedBakeries,
+      future: fSearchedBakeries,
       builder: (context, AsyncSnapshot<NaverMapData> snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data.items != null) {
@@ -168,46 +201,27 @@ class _SearchBakeryPageState extends State<SearchBakeryPage> {
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         }
+
         if (searchedList.isEmpty) {
-          return GetNoResult();
+          return getNoResult();
         } else {
-          return Column(children: <Widget>[
-            for (var item in searchedList)
-              Padding(
-                padding: EdgeInsets.only(bottom: 16),
-                child: Container(
-                    width: double.infinity,
-                    // 도로명 주소
-                    // 16자 이상 & 가게이름 14자 미만 이거나
-                    // 도로명 주소 16자 미만 & 가게이름 14자 이상이면 높이: 103
-                    // 도로명 주소 16자 미만 & 가게이름 14자 미만이면 높이: 86
-                    // 도로명 주소 16자 이상 & 가게 이름 14자 이상이면 높이: 123
-                    height: ((item.title.length > 14) &&
-                            (item.roadAddress.length > 16))
-                        ? 123
-                        : ((item.title.length > 14) &&
-                                (item.roadAddress.length <= 16))
-                            ? 103
-                            : ((item.title.length <= 14) &&
-                                    (item.roadAddress.length > 16))
-                                ? 103
-                                : 86,
-                    child: BakeryCard(selectedBakery: item)),
-              )
-          ]);
+          return Column(
+            children: searchedList.map((item) {
+              final height = _calculateHeight(
+                  titleHeight: _calculateTitleHeight(context, item.title),
+                  addressHeight: min(
+                      _calculateAddressHeight(context, item.roadAddress), 30));
+              return Container(
+                  width: double.infinity,
+                  height: height,
+                  padding: EdgeInsets.only(bottom: 16),
+                  child: BakeryCard(selectedBakery: item));
+            }).toList(),
+          );
         }
       },
     );
   }
-}
-
-GetNoResult() {
-  return Padding(
-      padding: EdgeInsets.only(top: 107),
-      child: Align(
-        alignment: Alignment.center,
-        child: Image.asset('asset/images/cat_black_and_white.png'),
-      ));
 }
 
 class SearchBakeryPageAppbar extends DefaultAppBar {
@@ -226,169 +240,6 @@ class SearchBakeryPageAppbar extends DefaultAppBar {
       ),
       backgroundColor: Colors.transparent,
       elevation: 0.0,
-    );
-  }
-}
-
-class BakeryCard extends StatefulWidget {
-  final SearchData selectedBakery;
-  BakeryCard({Key key, this.selectedBakery}) : super(key: key);
-  @override
-  _BakeryCardState createState() => _BakeryCardState();
-}
-
-class _BakeryCardState extends State<BakeryCard> {
-  Future<CheckDuplicateBakery> futureCheckBakeryDuplicate;
-  final controller = Get.put(BakeryController());
-  CheckDuplicateBakery checkDup;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    var _cardWidth = (MediaQuery.of(context).size.width) - 199;
-    return Scaffold(body: GetBuilder<BakeryController>(builder: (_) {
-      return Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16.0),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Color(0xFF1C2F85).withOpacity(0.15),
-                  offset: Offset(2.0, 2.0),
-                  blurRadius: 10.0,
-                  spreadRadius: 0,
-                )
-              ]),
-          child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-            Padding(
-                padding: EdgeInsets.fromLTRB(14, 0, 0, 0),
-                child: Center(
-                    child: Container(
-                        height: 44,
-                        width: 47,
-                        child: SvgPicture.asset(
-                          'asset/images/icon/registerBakery/bread_black_and_white.svg',
-                          fit: BoxFit.scaleDown,
-                        )))),
-            Padding(
-                padding: EdgeInsets.fromLTRB(11, 26, 14, 30),
-                child: Container(
-                    width: _cardWidth,
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                              child: WordBreakText(widget.selectedBakery.title,
-                                  style: TextStyle(
-                                    fontFamily: 'NanumSquareRoundEB',
-                                    fontSize: 14.0,
-                                  ))),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          SizedBox(
-                            child: WordBreakText(
-                                widget.selectedBakery.roadAddress,
-                                spacing: 6,
-                                style: TextStyle(
-                                    fontSize: 12.0, color: Color(0xFFA4A4A4))),
-                          )
-                        ]))),
-            Spacer(),
-            Padding(
-                padding: EdgeInsets.fromLTRB(0, 29, 14, 29),
-                child: SizedBox(
-                  width: 54,
-                  height: 28,
-                  child: RaisedButton(
-                      color: Color(0xFF4579FF),
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Container(
-                          height: 28,
-                          child: Flexible(
-                              child: Center(
-                                  child: Text('선택',
-                                      maxLines: 1,
-                                      softWrap: false,
-                                      overflow: TextOverflow.visible,
-                                      style: TextStyle(
-                                        fontSize: 14.0,
-                                        color: Color(0xFFFFFFFF),
-                                      ))))),
-                      onPressed: () async {
-                        controller.UpdateBakery(widget.selectedBakery);
-                        var checkDuplicate = await checkRegisteredBakery(
-                            widget.selectedBakery.roadAddress);
-                        if (checkDuplicate.idDuplicate) {
-                          Get.to(AlreadyRegisteredBakeryPage(),
-                              arguments: checkDuplicate.nickName);
-                        }
-                        Get.to(SelectBakeryCategoryPage(),
-                            arguments: widget.selectedBakery);
-                      }),
-                ))
-          ]));
-    }));
-  }
-
-  FutureBuilder<CheckDuplicateBakery> buildFutureBuilder() {
-    return FutureBuilder<CheckDuplicateBakery>(
-      future: futureCheckBakeryDuplicate,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          controller.UpdateDuplicateCheck(snapshot.data);
-          return Container(width: 0, height: 0);
-        } else if (snapshot.hasError) {
-          return Text("${snapshot.error}");
-        }
-        return CircularProgressIndicator();
-      },
-    );
-  }
-}
-
-Future<CheckDuplicateBakery> checkRegisteredBakery(String roadAddress) async {
-  final response = await http.post(
-      Uri.parse(
-          'https://api.breadgood.com/api/v1/bakery/duplicate/roadAddress/${roadAddress}'),
-      headers: await headers_post(),
-      body: <String, String>{
-        'roadAddress': 'roadAddress',
-      });
-  if (response.statusCode == 200) {
-    print('status 200!');
-  } else {
-    print('error code: ');
-    print(response.statusCode);
-  }
-  final responseJson = jsonDecode(utf8.decode(response.bodyBytes));
-  print(responseJson);
-
-  return CheckDuplicateBakery.fromJson(responseJson);
-}
-
-class CheckDuplicateBakery {
-  final int bakeryId;
-  final bool idDuplicate;
-  final String nickName;
-
-  CheckDuplicateBakery({
-    this.bakeryId,
-    this.idDuplicate,
-    this.nickName,
-  });
-
-  factory CheckDuplicateBakery.fromJson(Map<String, dynamic> json) {
-    return CheckDuplicateBakery(
-      bakeryId: json['bakeryId'],
-      idDuplicate: json['idDuplicate'],
-      nickName: json['nickName'],
     );
   }
 }
