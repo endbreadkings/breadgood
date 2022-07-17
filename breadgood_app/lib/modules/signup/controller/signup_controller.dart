@@ -1,13 +1,9 @@
-import 'dart:convert';
-
 import 'package:breadgood_app/modules/signup/model/signup_models.dart';
 import 'package:breadgood_app/modules/signup/service/bread_style_service.dart';
 import 'package:breadgood_app/modules/signup/service/nick_name_service.dart';
 import 'package:breadgood_app/modules/signup/service/sign_up_service.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'package:breadgood_app/modules/signup/model/policy_models.dart';
 import 'package:breadgood_app/modules/signup/service/policy_service.dart';
 import 'package:get/get.dart';
 
