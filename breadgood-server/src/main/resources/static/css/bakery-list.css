@@ -241,8 +241,8 @@
   right: 0;
   bottom: 0;
   transform: translateY(100%);
-  transition: transform 800ms;
-  -webkit-transition: -webkit-transform 800ms
+  transition: transform 500ms;
+  -webkit-transition: -webkit-transform 500ms
 }
 
 .modal-wrapper.open {
