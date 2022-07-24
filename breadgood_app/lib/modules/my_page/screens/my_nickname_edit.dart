@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:breadgood_app/modules/my_page/controller/edit_nickname_controller.dart';
 import 'package:breadgood_app/modules/my_page/controller/mypage_controller.dart';
-import 'package:breadgood_app/utils/common/debounce.dart';
 
 class MyNicknameEditPage extends StatefulWidget {
   const MyNicknameEditPage({Key key}) : super(key: key);

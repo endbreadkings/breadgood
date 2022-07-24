@@ -1,6 +1,6 @@
 import 'dart:core';
 import 'dart:async';
-import 'package:breadgood_app/modules/register_bakery/screens/celebrate_register.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:breadgood_app/modules/signup/service/nick_name_service.dart';
 import 'package:get/get.dart';
@@ -17,9 +17,11 @@ class EditNickNameController extends GetxController {
       return;
     }
 
-    if (nickName.length > 8) {
+    if (nickName.length >= 8) {
       errorMessage = '최대 7글자를 넘어갈 수 없습니다';
       return;
+    } else {
+      errorMessage = '';
     }
 
     var products = await NickNameService.duplicatedNickName(nickName);
