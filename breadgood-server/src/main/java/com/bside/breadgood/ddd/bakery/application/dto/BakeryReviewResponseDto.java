@@ -21,9 +21,6 @@ public class BakeryReviewResponseDto {
     @ApiModelProperty(value = "빵집 리뷰 id", example = "1")
     private Long id;
 
-    @ApiModelProperty(value = "빵집 리뷰 아이디", )
-    private final Long id;
-
     @ApiModelProperty(value = "빵집 리뷰 내용", example = "잉 너무 맛있는 걸욧??")
     private String content;
     @ApiModelProperty(value = "빵집 리뷰 시그니처 메뉴", example = "[\"딸기크림케이크\", \"단팥빵\", \"카야소보로\"]")
