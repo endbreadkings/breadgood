@@ -54,7 +54,6 @@ class _MyInfoEditPageState extends State<MyInfoEditPage> {
         // controller.UpdateUser(user);
         return myInfoList();
       }),
-      bottomNavigationBar: BottomNavigation(),
     );
   }
 

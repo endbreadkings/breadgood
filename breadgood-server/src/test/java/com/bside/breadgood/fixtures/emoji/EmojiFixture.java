@@ -15,6 +15,15 @@ import java.io.IOException;
  * description :
  */
 public class EmojiFixture {
+
+//    public static final Emoji 이모지1 =
+//            new Emoji(
+//                    1L,
+//                    "emojiName",
+//                    "img.url",
+//                    1
+//            );
+
     public static final Emoji 이모지_100 =
             new Emoji(
                     "별로에요",

@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.bside.breadgood.common.RequestLoggingHelper.errorLogging;
+
 @Component
 public class AuthEntryPoint implements AuthenticationEntryPoint {
 
@@ -22,8 +24,7 @@ public class AuthEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
-            throws IOException, ServletException {
-        logger.error("Unauthorized error: {}", authException.getMessage());
+            throws IOException {
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -34,10 +35,10 @@ public class AuthEntryPoint implements AuthenticationEntryPoint {
         body.put("message", authException.getMessage());
         body.put("path", request.getServletPath());
 
+        errorLogging(logger, "Security Context 에서 사용자 인증을 설정할 수 없습니다", authException);
+
         final ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(response.getOutputStream(), body);
-
-//        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: Unauthorized");
     }
 
 }

@@ -3,7 +3,9 @@ package com.bside.breadgood.ddd.termstype.application;
 import com.bside.breadgood.ddd.termstype.application.excetion.TermsNotFoundException;
 import com.bside.breadgood.ddd.termstype.infra.TermsTypeRepository;
 import com.bside.breadgood.ddd.termstype.ui.dto.TermsSaveRequestDto;
+import com.bside.breadgood.ddd.termstype.ui.dto.TermsTypeInfoResponseDto;
 import com.bside.breadgood.ddd.termstype.ui.dto.TermsTypeResponseDto;
+import com.bside.breadgood.fixtures.termstype.TermsTypeFixture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,6 +23,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Mockito.verify;
 
 
 @DisplayName("약관 항목 서비스 테스트")
@@ -97,5 +100,19 @@ public class TermsTypeServiceTest {
         // then
         assertThatThrownBy(() -> termsTypeService.addTerm(given))
                 .isInstanceOf(TermsNotFoundException.class);
+    }
+
+    @Test
+    @DisplayName("약관 ID로 조회하기")
+    public void findById() {
+        // given
+        given(termsTypeRepository.findById(anyLong())).willReturn(Optional.of(필수_개인정보_수집_및_이용_동의_약관_100));
+
+        // when
+        final TermsTypeInfoResponseDto actual = termsTypeService.findById(1L);
+
+        // then
+        verify(termsTypeRepository).findById(1L);
+        assertThat(actual.getTitle()).isEqualTo(필수_개인정보_수집_및_이용_동의_약관_100.getName());
     }
 }

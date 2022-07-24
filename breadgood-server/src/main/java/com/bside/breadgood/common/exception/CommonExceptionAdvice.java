@@ -1,14 +1,17 @@
 package com.bside.breadgood.common.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.NestedExceptionUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 
 import javax.mail.AuthenticationFailedException;
@@ -17,7 +20,6 @@ import java.util.List;
 
 @Slf4j
 @ControllerAdvice
-@RestController
 public class CommonExceptionAdvice {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -66,7 +68,7 @@ public class CommonExceptionAdvice {
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(value = {WrongValueException.class})
-    public ExceptionResponse wrongValueException(WrongValueException e) {
+    public ExceptionResponse wrongValueExceptionHandler(WrongValueException e) {
         log.error(e.getMessage(), e);
         return new ExceptionResponse(500, e.getMessage());
     }
@@ -77,5 +79,20 @@ public class CommonExceptionAdvice {
 //        log.error(e.getMessage(), e);
 //        return new ExceptionResponse(500, "Internal server error");
 //    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = {MethodArgumentNotValidException.class})
+    public ExceptionResponse methodArgumentNotValidException(MethodArgumentNotValidException e) {
+        log.error("[BaseException] errorMsg = {}", NestedExceptionUtils.getMostSpecificCause(e).getMessage(), e);
+        return new ExceptionResponse(400, e.getMessage());
+    }
+
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = {BaseException.class})
+    public ExceptionResponse baseExceptionHandler(BaseException e) {
+        log.error("[BaseException] errorMsg = {}", NestedExceptionUtils.getMostSpecificCause(e).getMessage(), e);
+        return new ExceptionResponse(400, e.getMessage());
+    }
 
 }
