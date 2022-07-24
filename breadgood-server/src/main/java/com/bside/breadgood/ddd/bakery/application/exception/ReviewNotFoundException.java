@@ -3,14 +3,14 @@ package com.bside.breadgood.ddd.bakery.application.exception;
 import lombok.Getter;
 
 @Getter
-public class BakeryNotFoundException extends RuntimeException {
+public class ReviewNotFoundException extends RuntimeException {
     private String[] args;
 
-    public BakeryNotFoundException(String... args) {
+    public ReviewNotFoundException(String... args) {
         this.args = args;
     }
 
-    public BakeryNotFoundException(Object message) {
+    public ReviewNotFoundException(Object message) {
         super(message.toString());
     }
 }

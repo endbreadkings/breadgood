@@ -6,20 +6,24 @@ import com.bside.breadgood.common.exception.WrongValueException;
 import com.bside.breadgood.ddd.breadstyles.ui.dto.BreadStyleResponseDto;
 import com.bside.breadgood.ddd.emoji.application.dto.EmojiResponseDto;
 import com.bside.breadgood.ddd.users.application.dto.UserResponseDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.thymeleaf.util.StringUtils;
 
 import javax.persistence.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.*;
+
 @Entity
 @Getter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@SQLDelete(sql = "UPDATE bakery_review SET deleted = true, bakery_id=null WHERE bakery_review_id=?")
+@Where(clause = "deleted=false")
 public class BakeryReview extends BaseEntity {
 
     @Id
@@ -27,7 +31,7 @@ public class BakeryReview extends BaseEntity {
     @Column(name = "bakery_review_id")
     private Long id;
 
-    @Enumerated
+    @Embedded
     private ReviewContent content;
 
     private Long emoji;
@@ -43,7 +47,7 @@ public class BakeryReview extends BaseEntity {
     private Long user;
 
     // 당시 좋아한 빵 성향
-    @Enumerated
+    @Embedded
     private BreadStyle breadStyle;
 
     @Builder
@@ -96,7 +100,10 @@ public class BakeryReview extends BaseEntity {
             return null;
         }
 
-        return signatureMenus.getSignatureMenus().stream().map(SignatureMenu::getSignatureMenu).collect(Collectors.toList());
+        return signatureMenus.getSignatureMenus()
+                .stream()
+                .map(SignatureMenu::getSignatureMenu)
+                .collect(toUnmodifiableList());
     }
 
     public List<String> getImgUrls() {
@@ -106,6 +113,6 @@ public class BakeryReview extends BaseEntity {
         }
         return imgUrls.stream()
                 .map(imageUrl -> this.getImgHost() + imageUrl)
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 }

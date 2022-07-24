@@ -98,11 +98,20 @@ duplicateBakery:
 
 bakeryNotFound:
   code: "-1702"
-  msg: "{0} : {1} 인 빵집 카테고리를 찾을 수 없습니다."
+  msg: "{0} 인 빵집을 찾을 수 없습니다."
 
 illegalCity:
   code: "-1703"
   msg: " {0} 는 허용하지 않는 도시입니다."
+
+# ******* bakeryReview *******#
+reviewNotFound:
+  code: "-1704"
+  msg: " {0} 리뷰 번호가 존재하지 않습니다."
+
+reviewDeletion:
+  code: "-1705"
+  msg: "최초 등록자의 리뷰는 삭제할 수 없습니다."
 
 # *********** breadStyle ***********#
 breadStyleNotFound:
