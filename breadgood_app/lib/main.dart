@@ -1,3 +1,4 @@
+import 'package:breadgood_app/modules/dashboard/init_binding.dart';
 import 'package:breadgood_app/modules/login/screens/login_page.dart';
 import 'package:breadgood_app/utils/services/secure_storage_service.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         splashColor: Colors.transparent,
       ),
       defaultTransition: Transition.noTransition,
+      initialBinding: InitBinding(),
       getPages: Routes,
     );
   }

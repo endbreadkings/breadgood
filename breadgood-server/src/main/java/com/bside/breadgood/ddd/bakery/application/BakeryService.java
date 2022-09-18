@@ -279,7 +279,14 @@ public class BakeryService {
 
     public Bakery findById(Long id) {
         return bakeryRepository.findById(id)
-                .orElseThrow(BakeryNotFoundException::new);
+                .orElseThrow(() -> new BakeryNotFoundException(id));
+    }
+
+    @Transactional
+    public void deleteReview(Long bakeryId, Long reviewId) {
+        final Bakery bakery = this.findById(bakeryId);
+        final BakeryReview review = bakery.getReview(reviewId);
+        bakery.deleteBakeryReview(review);
     }
 
     @Transactional
@@ -335,7 +342,6 @@ public class BakeryService {
             bakery.addBakeryReview(userService.findById(4L), "잉 너무 맛있는 걸욧??", emojiResponseDto, List.of("MjAxOTEwMDlfNTQg/MDAxNTcwNjAyOTkyNDc4.0YQy3to-9ap_Hk_YHBoWra1_sVDGnPtqrK7tstchhE8g.9Dy_hFfKce0Kj1SFG1ZMUo-dw-OgCikNkXwxJzFnDzYg.PNG.azzi_01/_.png?type=w800"), Arrays.asList("딸기크림케이크", "케이크"), "https://mblogthumb-phinf.pstatic.net/", breadStyleResponseDto);
             bakery.addBakeryReview(userService.findById(3L), "잉 너무 맛있는 걸욧??", emojiResponseDto, List.of("wp-content/uploads/2020/03/pixabay-252777_1920-1.jpg"), Arrays.asList("딸기크림케이크", "케이크"), fileHost, breadStyleResponseDto);
             bakery.addBakeryReview(userService.findById(2L), "정말 정말 그냥 그럭 저럭", emojiResponseDto, List.of("MjAxOTEwMDlfNTQg/MDAxNTcwNjAyOTkyNDc4.0YQy3to-9ap_Hk_YHBoWra1_sVDGnPtqrK7tstchhE8g.9Dy_hFfKce0Kj1SFG1ZMUo-dw-OgCikNkXwxJzFnDzYg.PNG.azzi_01/_.png?type=w800", "MjAxOTEwMDlfNTQg/MDAxNTcwNjAyOTkyNDc4.0YQy3to-9ap_Hk_YHBoWra1_sVDGnPtqrK7tstchhE8g.9Dy_hFfKce0Kj1SFG1ZMUo-dw-OgCikNkXwxJzFnDzYg.PNG.azzi_01/_.png?type=w800"), null, "https://mblogthumb-phinf.pstatic.net/", breadStyleResponseDto);
-            bakery.addBakeryReview(userService.findById(1L), "정말 정말 그냥 그럭 저럭", emojiResponseDto, List.of("wp-content/uploads/2020/03/pixabay-252777_1920-1.jpg", "wp-content/uploads/2020/03/pixabay-252777_1920-1.jpg"), null, fileHost, breadStyleResponseDto);
             bakery.addBakeryReview(userService.findById(5L), "소보루 존맛 소보루 존맛 !!", emojiService.findById(2L), List.of("MjAxOTEwMDlfNTQg/MDAxNTcwNjAyOTkyNDc4.0YQy3to-9ap_Hk_YHBoWra1_sVDGnPtqrK7tstchhE8g.9Dy_hFfKce0Kj1SFG1ZMUo-dw-OgCikNkXwxJzFnDzYg.PNG.azzi_01/_.png?type=w800", "MjAxOTEwMDlfNTQg/MDAxNTcwNjAyOTkyNDc4.0YQy3to-9ap_Hk_YHBoWra1_sVDGnPtqrK7tstchhE8g.9Dy_hFfKce0Kj1SFG1ZMUo-dw-OgCikNkXwxJzFnDzYg.PNG.azzi_01/_.png?type=w800", "MjAxOTEwMDlfNTQg/MDAxNTcwNjAyOTkyNDc4.0YQy3to-9ap_Hk_YHBoWra1_sVDGnPtqrK7tstchhE8g.9Dy_hFfKce0Kj1SFG1ZMUo-dw-OgCikNkXwxJzFnDzYg.PNG.azzi_01/_.png?type=w800"), Arrays.asList("산딸기 케이크", "소보루빵"), "https://mblogthumb-phinf.pstatic.net/", breadStyleResponseDto);
 
             bakeries.add(bakery);

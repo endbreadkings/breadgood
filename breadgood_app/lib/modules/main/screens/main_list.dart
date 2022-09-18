@@ -14,7 +14,6 @@ class MainListState extends State<MainList> {
     return Scaffold(
       appBar: DefaultAppBar(),
       body: BakeryListWebview(),
-      bottomNavigationBar: BottomNavigation(),
     );
   }
 }

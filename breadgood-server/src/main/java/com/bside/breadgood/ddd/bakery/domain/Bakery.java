@@ -3,6 +3,8 @@ package com.bside.breadgood.ddd.bakery.domain;
 import com.bside.breadgood.common.domain.BaseEntity;
 import com.bside.breadgood.common.exception.EmptyException;
 import com.bside.breadgood.common.exception.WrongValueException;
+import com.bside.breadgood.ddd.bakery.application.exception.ReviewDeletionException;
+import com.bside.breadgood.ddd.bakery.application.exception.ReviewNotFoundException;
 import com.bside.breadgood.ddd.bakerycategory.application.dto.BakeryCategoryResponseDto;
 import com.bside.breadgood.ddd.breadstyles.ui.dto.BreadStyleResponseDto;
 import com.bside.breadgood.ddd.emoji.application.dto.EmojiResponseDto;
@@ -24,7 +26,6 @@ import java.util.List;
 @SQLDelete(sql = "UPDATE bakery SET deleted = true WHERE bakery_id=?")
 @Where(clause = "deleted=false")
 public class Bakery extends BaseEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "bakery_id")
@@ -44,7 +45,7 @@ public class Bakery extends BaseEntity {
 
     private Long bakeryCategory;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "bakery_id")
     private final List<BakeryReview> bakeryReviewList = new ArrayList<>();
 
@@ -105,7 +106,6 @@ public class Bakery extends BaseEntity {
         this.point = Point.builder().mapX(mapX).mapY(mapY).build();
         this.bakeryCategory = bakeryCategory.getId();
         this.addBakeryReview(user, content, emoji, imgUrls, signatureMenus, imgHost, breadStyle);
-
     }
 
     public void addBakeryReview(UserResponseDto user, String content, EmojiResponseDto emoji,
@@ -136,5 +136,23 @@ public class Bakery extends BaseEntity {
                 .build();
 
         this.bakeryReviewList.add(bakeryReview);
+    }
+
+    public BakeryReview getReview(Long reviewId) {
+        return this.bakeryReviewList.stream()
+                .filter(review -> review.getId().equals(reviewId))
+                .findFirst()
+                .orElseThrow(() -> new ReviewNotFoundException(reviewId));
+    }
+
+    private void deleteVerification(BakeryReview review) {
+        if (this.user.equals(review.getUser())) {
+            throw new ReviewDeletionException();
+        }
+    }
+
+    public void deleteBakeryReview(BakeryReview review) {
+        deleteVerification(review);
+        this.bakeryReviewList.remove(review);
     }
 }

@@ -21,4 +21,11 @@ public class EntityReflectionUtils {
         idField.setAccessible(true);
         ReflectionUtils.setField(idField, instance, id);
     }
+
+    public static <T, T2> void setField(T instance, Class<T> typeToken, T2 t2, String fieldName) {
+        final Field field = ReflectionUtils.findField(typeToken, fieldName);
+        assert field != null;
+        field.setAccessible(true);
+        ReflectionUtils.setField(field, instance, t2);
+    }
 }

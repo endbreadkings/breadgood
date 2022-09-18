@@ -5,6 +5,7 @@ import 'package:breadgood_app/modules/my_page/screens/my_page.dart';
 import 'package:breadgood_app/modules/register_bakery/screens/search_bakery.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class BottomNavigation extends StatefulWidget {
   // const BottomNavigation({Key key}) : super(key: key);
@@ -17,8 +18,12 @@ class _BottomNavigationState extends State<BottomNavigation> {
   int _selectedIndex = 0;
 
   //움직일 페이지 설정
-  // final List<Widget> _children = [BaseMapPage(), SearchBakeryPage(), MyInfoEditPage(), LoginPage()];
-  final _children= ["/main","/register_bakery/search_bakery_page","/my_page/my_info_edit","/further_info/further_info"];
+  final _children = [
+    "/main",
+    "/register_bakery/search_bakery_page",
+    "/my_page/my_info_edit",
+    "/further_info/further_info"
+  ];
 
   void _onTap(int index) {
     setState(() {
@@ -29,6 +34,12 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
   @override
   Widget build(BuildContext context) {
+    List<String> iconLabel = ["홈", "빵집등록", "my빵긋", "더보기"];
+    List<String> iconPath =
+    ["asset/images/icon/bottomNavigation/home_off.svg",
+      "asset/images/icon/bottomNavigation/add_off.svg",
+      "asset/images/icon/bottomNavigation/my_off.svg",
+      "asset/images/icon/bottomNavigation/more_off.svg",];
     return SizedBox(
         height: 96,
         child: BottomNavigationBar(
@@ -46,46 +57,16 @@ class _BottomNavigationState extends State<BottomNavigation> {
           selectedLabelStyle:
               TextStyle(color: Color.fromRGBO(69, 121, 255, 1), fontSize: 14),
           items: [
-            BottomNavigationBarItem(
-              label: '홈',
-              icon: SizedBox(
-                  width: 30,
-                  height: 30,
-                  child: Image.asset(
-                      'asset/images/icon/bottomNavigation/main.png')),
-            ),
-            // BottomNavigationBarItem(
-            //   label: '관심빵집',
-            //   icon: SizedBox(
-            //       width: 30,
-            //       height: 30,
-            //       child: Image.asset(
-            //           'asset/images/icon/bottomNavigation/interested_bakery.png')),
-            // ),
-            BottomNavigationBarItem(
-              label: '빵집등록',
-              icon: SizedBox(
-                  width: 30,
-                  height: 30,
-                  child: Image.asset(
-                      'asset/images/icon/bottomNavigation/favorite_register.png')),
-            ),
-            BottomNavigationBarItem(
-              label: 'my빵긋',
-              icon: SizedBox(
-                  width: 30,
-                  height: 30,
-                  child: Image.asset(
-                      'asset/images/icon/bottomNavigation/myInfo.png')),
-            ),
-            BottomNavigationBarItem(
-              label: '더보기',
-              icon: SizedBox(
-                  width: 30,
-                  height: 30,
-                  child: Image.asset(
-                      'asset/images/icon/bottomNavigation/more.png')),
-            ),
+            for (var idx = 0; idx < _children.length; idx++)
+              BottomNavigationBarItem(
+                  label: iconLabel[idx],
+                  icon: Container(
+                      height: 32,
+                      width: 32,
+                      child: SvgPicture.asset(
+                        iconPath[idx],
+                        fit: BoxFit.scaleDown,
+                      ))),
           ],
         ));
   }

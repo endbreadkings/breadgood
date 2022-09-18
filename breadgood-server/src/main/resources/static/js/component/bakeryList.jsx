@@ -279,7 +279,6 @@ const BakeryList = () => {
           </div>
           <div className="filter-button-wrapper">
             <button
-              disabled={filter.location === selectedLocation}
               type="button"
               className="lo-filter-btn"
               onClick={() => {

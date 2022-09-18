@@ -7,6 +7,7 @@ import com.bside.breadgood.ddd.bakery.application.dto.BakerySearchResponseDto;
 import com.bside.breadgood.ddd.bakerycategory.application.BakeryCategoryService;
 import com.bside.breadgood.ddd.bakerycategory.application.dto.BakeryCategoryResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,5 +33,11 @@ public class BakeryWebViewController {
     @GetMapping("/category")
     public List<BakeryCategoryResponseDto> findAll() {
         return bakeryCategoryService.findAll();
+    }
+
+    @DeleteMapping("{bakeryId}/review/{reviewId}")
+    public ResponseEntity<Void> deleteReviewId(@PathVariable("bakeryId") Long bakeryId, @PathVariable("reviewId") Long reviewId) {
+        bakeryService.deleteReview(bakeryId, reviewId);
+        return ResponseEntity.ok().build();
     }
 }

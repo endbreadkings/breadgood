@@ -107,6 +107,4 @@ public class BakeryController {
     public BakeryResponseDto findById(@PathVariable Long bakeryId, @CurrentUser UserPrincipal userPrincipal) {
         return bakeryService.findByIdAndUserId(bakeryId, userPrincipal.getId());
     }
-
-
 }
