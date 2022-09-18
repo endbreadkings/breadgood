@@ -1,3 +1,6 @@
+import 'dart:core';
+import 'dart:convert';
+import 'dart:math';
 import 'package:breadgood_app/modules/dashboard/controller/dashboard_controller.dart';
 import 'package:breadgood_app/modules/dashboard/dashboard.dart';
 import 'package:breadgood_app/modules/register_bakery/screens/already_registered_bakery.dart';
@@ -5,15 +8,13 @@ import 'package:breadgood_app/modules/register_bakery/screens/select_bakery_cate
 import 'package:breadgood_app/utils/ui/main_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:word_break_text/word_break_text.dart';
-import 'package:get/get.dart';
-import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'dart:core';
 import 'package:breadgood_app/modules/register_bakery/model/bakery_data.dart';
-import 'package:breadgood_app/modules/register_bakery/controller/bakery_controller.dart';
-import 'package:breadgood_app/utils/services/rest_api_service.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:breadgood_app/modules/register_bakery/screens/no_result.dart';
+import 'package:breadgood_app/modules/register_bakery/screens/search_bakery_card.dart';
+import 'package:breadgood_app/modules/register_bakery/screens/search_bakery_constants.dart';
+import 'package:breadgood_app/utils/ui/main_app_bar.dart';
+import 'package:breadgood_app/utils/common/debounce.dart';
 
 Future<NaverMapData> fetchSearchData(String searchKeyword) async {
   var endpointUrl = 'https://openapi.naver.com/v1/search/local.json';
@@ -50,13 +51,16 @@ class SearchBakeryPage extends StatefulWidget {
 
 class _SearchBakeryPageState extends State<SearchBakeryPage> {
   bool searched = false;
-  Future<NaverMapData> FsearchedBakeries;
+  Future<NaverMapData> fSearchedBakeries;
+
+  final _debounce = Debounce(Duration(milliseconds: 300));
 
   _onChanged(String text) {
-    FsearchedBakeries = fetchSearchData(text);
-
-    setState(() {
-      (FsearchedBakeries != null) ? searched = true : searched = false;
+    _debounce.call(() {
+      fSearchedBakeries = fetchSearchData(text);
+      setState(() {
+        (fSearchedBakeries != null) ? searched = true : searched = false;
+      });
     });
   }
 
@@ -138,11 +142,10 @@ class _SearchBakeryPageState extends State<SearchBakeryPage> {
               ),
             ),
             (searched == false)
-                ? GetNoResult()
+                ? getNoResult()
                 : Padding(
                     padding: EdgeInsets.fromLTRB(20, 40, 20, 0),
-                    child: buildFutureSearchedBakeriesBuilder(),
-                  ),
+                    child: buildFutureSearchedBakeriesBuilder(context)),
           ],
         ),
       ),
@@ -151,10 +154,43 @@ class _SearchBakeryPageState extends State<SearchBakeryPage> {
     );
   }
 
-  FutureBuilder<NaverMapData> buildFutureSearchedBakeriesBuilder() {
+  FutureBuilder<NaverMapData> buildFutureSearchedBakeriesBuilder(
+      BuildContext context) {
+    double _calculateTitleHeight(BuildContext context, String text) {
+      final textSpan = TextSpan(
+          text: text, style: SearchBakeryConstants.style.resultTitleTextStyle);
+      final textPainter = TextPainter(
+          text: textSpan,
+          maxLines: SearchBakeryConstants.metric.titleMaxLine,
+          textDirection: TextDirection.ltr);
+      textPainter.layout(
+          maxWidth: (MediaQuery.of(context).size.width) -
+              SearchBakeryConstants.metric.cardWidth);
+      final height = (textPainter.computeLineMetrics().length) * 22.0;
+      return height;
+    }
+
+    double _calculateAddressHeight(BuildContext context, String text) {
+      final textSpan = TextSpan(
+          text: text, style: SearchBakeryConstants.style.addressTextStyle);
+      final textPainter = TextPainter(
+          text: textSpan,
+          maxLines: SearchBakeryConstants.metric.addressMaxLine,
+          textDirection: TextDirection.ltr);
+      textPainter.layout(
+          maxWidth: (MediaQuery.of(context).size.width) -
+              SearchBakeryConstants.metric.cardWidth);
+      final height = (textPainter.computeLineMetrics().length) * 15.0;
+      return height;
+    }
+
+    double _calculateHeight({double titleHeight, double addressHeight}) {
+      return titleHeight + addressHeight + 63;
+    }
+
     List<SearchData> searchedList = [];
     return FutureBuilder<NaverMapData>(
-      future: FsearchedBakeries,
+      future: fSearchedBakeries,
       builder: (context, AsyncSnapshot<NaverMapData> snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data.items != null) {
@@ -170,46 +206,27 @@ class _SearchBakeryPageState extends State<SearchBakeryPage> {
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         }
+
         if (searchedList.isEmpty) {
-          return GetNoResult();
+          return getNoResult();
         } else {
-          return Column(children: <Widget>[
-            for (var item in searchedList)
-              Padding(
-                padding: EdgeInsets.only(bottom: 16),
-                child: Container(
-                    width: double.infinity,
-                    // 도로명 주소
-                    // 16자 이상 & 가게이름 14자 미만 이거나
-                    // 도로명 주소 16자 미만 & 가게이름 14자 이상이면 높이: 103
-                    // 도로명 주소 16자 미만 & 가게이름 14자 미만이면 높이: 86
-                    // 도로명 주소 16자 이상 & 가게 이름 14자 이상이면 높이: 123
-                    height: ((item.title.length > 14) &&
-                            (item.roadAddress.length > 16))
-                        ? 123
-                        : ((item.title.length > 14) &&
-                                (item.roadAddress.length <= 16))
-                            ? 103
-                            : ((item.title.length <= 14) &&
-                                    (item.roadAddress.length > 16))
-                                ? 103
-                                : 86,
-                    child: BakeryCard(selectedBakery: item)),
-              )
-          ]);
+          return Column(
+            children: searchedList.map((item) {
+              final height = _calculateHeight(
+                  titleHeight: _calculateTitleHeight(context, item.title),
+                  addressHeight: min(
+                      _calculateAddressHeight(context, item.roadAddress), 30));
+              return Container(
+                  width: double.infinity,
+                  height: height,
+                  padding: EdgeInsets.only(bottom: 16),
+                  child: BakeryCard(selectedBakery: item));
+            }).toList(),
+          );
         }
       },
     );
   }
-}
-
-GetNoResult() {
-  return Padding(
-      padding: EdgeInsets.only(top: 107),
-      child: Align(
-        alignment: Alignment.center,
-        child: Image.asset('asset/images/cat_black_and_white.png'),
-      ));
 }
 
 class SearchBakeryPageAppbar extends DefaultAppBar {
