@@ -13,7 +13,6 @@ class NickName extends GetView<SignUpController> {
     final controller = Get.put(SignUpController());
     final _debounce = Debounce(Duration(milliseconds: 250));
 
-    final _formKey = new GlobalKey<FormState>();
     return Scaffold(
       appBar: AlreadyRegisteredBakeryAppbar(),
       body: SingleChildScrollView(
