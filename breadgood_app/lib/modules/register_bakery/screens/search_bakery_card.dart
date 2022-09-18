@@ -118,11 +118,13 @@ class _BakeryCardState extends State<BakeryCard> {
                                 widget.selectedBakery.roadAddress);
                         if (checkDuplicate.idDuplicate) {
                           Get.to(AlreadyRegisteredBakeryPage(),
-                              arguments: checkDuplicate.nickName);
+                              arguments: [{"registerer": checkDuplicate.nickName},
+                                          {"bakeryId":checkDuplicate.bakeryId}]);
                         }
-                        Get.to(SelectBakeryCategoryPage(),
-                            arguments: widget.selectedBakery);
-                      }),
+                        else {
+                          Get.to(SelectBakeryCategoryPage(),
+                              arguments: widget.selectedBakery);
+                        }}),
                 )),
           ]));
     }));
