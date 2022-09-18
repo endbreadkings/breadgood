@@ -151,6 +151,6 @@ class SignUpController extends GetxController {
   }
 
   void signUp() async {
-    if (await SignUpService.signUp(user)) Get.offAllNamed('/main');
+    if (await SignUpService.signUp(user)) Get.offAllNamed('/dashboard');
   }
 }

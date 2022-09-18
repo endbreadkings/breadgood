@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:breadgood_app/utils/ui/main_app_bar.dart';
 import 'package:breadgood_app/utils/ui/bottomNavigation.dart';
+import 'package:breadgood_app/modules/dashboard/controller/dashboard_controller.dart';
 
 Tokens token = new Tokens();
 
@@ -29,8 +30,7 @@ class _MyInfoEditPageState extends State<MyInfoEditPage> {
   String nickname;
   String favorite_bread_style;
   int favorite_bread_style_id;
-  final controller = Get.put(MyPageController());
-
+  final controller = Get.put(DashboardController());
   @override
   void initState() {
     super.initState();
@@ -49,11 +49,7 @@ class _MyInfoEditPageState extends State<MyInfoEditPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: DefaultAppBar(),
-      body: GetBuilder<MyPageController>(builder: (_) {
-        // print("my page controller called");
-        // controller.UpdateUser(user);
-        return myInfoList();
-      }),
+        body:myInfoList(),
     );
   }
 
@@ -317,6 +313,7 @@ class _MyInfoEditPageState extends State<MyInfoEditPage> {
           ),
           onPressed: () async {
             await token.deleteUserInfo();
+            controller.changePageIndex(0);
             Get.toNamed('/');
           },
         ),
@@ -460,6 +457,8 @@ class CheckAgreement extends StatefulWidget {
 
 class _CheckAgreementState extends State<CheckAgreement> {
   bool button_enable = false;
+  final controller = Get.put(DashboardController());
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -532,6 +531,7 @@ class _CheckAgreementState extends State<CheckAgreement> {
                           : () async {
                               deleteUser();
                               await token.deleteUserInfo();
+                              controller.changePageIndex(0);
                               Get.offAndToNamed('/'); // rm all screen history
                             },
                     ),
