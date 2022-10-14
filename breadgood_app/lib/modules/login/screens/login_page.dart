@@ -123,7 +123,7 @@ class _appleLogin extends StatelessWidget {
                         fit: BoxFit.scaleDown,
                       )
                   )),
-              Text("애플 계정으로 로그인", style: TextStyle(color: Colors.white, fontSize: 15)),
+              Text("Apple로 로그인", style: TextStyle(color: Colors.white, fontSize: 15)),
             ],
           ),
           textColor: Colors.white,
