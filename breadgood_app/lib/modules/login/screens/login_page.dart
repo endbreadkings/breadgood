@@ -114,7 +114,7 @@ class _appleLogin extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Padding(
-                  padding: EdgeInsets.fromLTRB(6, 16, 55, 16),
+                  padding: EdgeInsets.fromLTRB(6, 16, 6, 16),
                   child: Container(
                       width: 24,
                       height: 24,
@@ -123,7 +123,7 @@ class _appleLogin extends StatelessWidget {
                         fit: BoxFit.scaleDown,
                       )
                   )),
-              Text("Apple로 로그인", style: TextStyle(color: Colors.white, fontSize: 15)),
+              Expanded(child: Center(child: Text("Apple로 로그인", style: TextStyle(color: Colors.white, fontSize: 15)))),
             ],
           ),
           textColor: Colors.white,
