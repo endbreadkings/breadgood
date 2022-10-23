@@ -79,7 +79,7 @@ class _RegisterBakeryRenewalState extends State<RegisterBakeryRenewal> {
                         fontSize: 16.0,
                       ),
                       onChanged: (value) {
-                        // TODO onSearch
+                        controller.onSearch();
                       },
                       decoration: InputDecoration(
                         hintText: 'ex)빵긋의제왕',
