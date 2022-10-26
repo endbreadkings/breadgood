@@ -1,4 +1,8 @@
+import 'dart:math';
+
 import 'package:breadgood_app/modules/register_bakery/screens/no_result.dart';
+import 'package:breadgood_app/modules/register_bakery/screens/search_bakery_card.dart';
+import 'package:breadgood_app/modules/register_bakery/screens/search_bakery_constants.dart';
 import 'package:breadgood_app/modules/register_bakery_renewal/register_bakery_renewal_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -75,6 +79,7 @@ class _RegisterBakeryRenewalState extends State<RegisterBakeryRenewal> {
                   Padding(
                     padding: EdgeInsets.fromLTRB(30, 37.0, 30.0, 0),
                     child: TextFormField(
+                      controller: controller.searchController,
                       style: TextStyle(
                         fontSize: 16.0,
                       ),
@@ -98,7 +103,7 @@ class _RegisterBakeryRenewalState extends State<RegisterBakeryRenewal> {
                       ),
                     ),
                   ),
-                  getNoResult()
+                  _searchResult(),
                 ],
               ),
             ],
@@ -124,5 +129,58 @@ class _RegisterBakeryRenewalState extends State<RegisterBakeryRenewal> {
         Spacer(),
       ],
     );
+  }
+
+  Widget _searchResult() {
+    if (controller.searchedList.isEmpty) return getNoResult();
+
+    return Padding(
+      padding: EdgeInsets.fromLTRB(20, 40, 20, 0),
+      child: Column(
+        children: controller.searchedList.map((item) {
+          final height = _calculateHeight(
+              titleHeight: _calculateTitleHeight(context, item.title),
+              addressHeight: min(
+                  _calculateAddressHeight(context, item.roadAddress), 30));
+          return Container(
+              width: double.infinity,
+              height: height,
+              padding: EdgeInsets.only(bottom: 16),
+              child: BakeryCard(selectedBakery: item));
+        }).toList(),
+      ),
+    );
+  }
+
+  double _calculateTitleHeight(BuildContext context, String text) {
+    final textSpan = TextSpan(
+        text: text, style: SearchBakeryConstants.style.resultTitleTextStyle);
+    final textPainter = TextPainter(
+        text: textSpan,
+        maxLines: SearchBakeryConstants.metric.titleMaxLine,
+        textDirection: TextDirection.ltr);
+    textPainter.layout(
+        maxWidth: (MediaQuery.of(context).size.width) -
+            SearchBakeryConstants.metric.cardWidth);
+    final height = (textPainter.computeLineMetrics().length) * 22.0;
+    return height;
+  }
+
+  double _calculateAddressHeight(BuildContext context, String text) {
+    final textSpan = TextSpan(
+        text: text, style: SearchBakeryConstants.style.addressTextStyle);
+    final textPainter = TextPainter(
+        text: textSpan,
+        maxLines: SearchBakeryConstants.metric.addressMaxLine,
+        textDirection: TextDirection.ltr);
+    textPainter.layout(
+        maxWidth: (MediaQuery.of(context).size.width) -
+            SearchBakeryConstants.metric.cardWidth);
+    final height = (textPainter.computeLineMetrics().length) * 15.0;
+    return height;
+  }
+
+  double _calculateHeight({double titleHeight, double addressHeight}) {
+    return titleHeight + addressHeight + 63;
   }
 }
