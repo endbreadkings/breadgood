@@ -4,6 +4,7 @@ import 'package:breadgood_app/modules/register_bakery/screens/no_result.dart';
 import 'package:breadgood_app/modules/register_bakery/screens/search_bakery_card.dart';
 import 'package:breadgood_app/modules/register_bakery/screens/search_bakery_constants.dart';
 import 'package:breadgood_app/modules/register_bakery_renewal/register_bakery_renewal_controller.dart';
+import 'package:breadgood_app/modules/register_bakery_renewal/search_more/search_more.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -17,7 +18,8 @@ class _RegisterBakeryRenewalState extends State<RegisterBakeryRenewal> {
 
   @override
   void initState() {
-    controller = RegisterBakeryRenewalController(context, () => setState(() {}));
+    controller =
+        RegisterBakeryRenewalController(context, () => setState(() {}));
     super.initState();
   }
 
@@ -93,10 +95,12 @@ class _RegisterBakeryRenewalState extends State<RegisterBakeryRenewal> {
                           fontSize: 16,
                         ),
                         border: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFFC7C7C7), width: 1),
+                          borderSide:
+                              BorderSide(color: Color(0xFFC7C7C7), width: 1),
                         ),
                         focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFF4579FF), width: 1),
+                          borderSide:
+                              BorderSide(color: Color(0xFF4579FF), width: 1),
                         ),
                         isDense: true,
                         contentPadding: EdgeInsets.only(bottom: 7),
@@ -124,31 +128,40 @@ class _RegisterBakeryRenewalState extends State<RegisterBakeryRenewal> {
                   'asset/images/Vector.svg',
                   fit: BoxFit.scaleDown,
                 )),
-            onPressed: () => Navigator.pop(context)
-        ),
+            onPressed: () => Navigator.pop(context)),
         Spacer(),
       ],
     );
   }
 
   Widget _searchResult() {
-    if (controller.searchedList.isEmpty) return getNoResult();
+    if (controller.searchList.isEmpty) return getNoResult();
 
     return Padding(
       padding: EdgeInsets.fromLTRB(20, 40, 20, 0),
-      child: Column(
-        children: controller.searchedList.map((item) {
+      child: Column(children: [
+        ...controller.searchList.map((item) {
           final height = _calculateHeight(
               titleHeight: _calculateTitleHeight(context, item.title),
-              addressHeight: min(
-                  _calculateAddressHeight(context, item.roadAddress), 30));
+              addressHeight:
+                  min(_calculateAddressHeight(context, item.roadAddress), 30));
           return Container(
               width: double.infinity,
               height: height,
               padding: EdgeInsets.only(bottom: 16),
               child: BakeryCard(selectedBakery: item));
         }).toList(),
-      ),
+        TextButton(
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (cont) => SearchMore(
+                        searchWord: controller.searchController.text)));
+          },
+          child: Text('빵집 더 보기'),
+        )
+      ]),
     );
   }
 
