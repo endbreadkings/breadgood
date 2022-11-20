@@ -12,7 +12,7 @@ class KakaoPlaceSearchInterface {
       'query': searchWord,
       'size': 5,
       'page': page,
-      'category_group_code': 'FD6' // https://developers.kakao.com/docs/latest/ko/local/dev-guide#search-by-keyword-request-category-group-code
+      'category_group_code': ['FD6', 'CE7'] // https://developers.kakao.com/docs/latest/ko/local/dev-guide#search-by-keyword-request-category-group-code
     });
     List<KakaoSearchData> kakaoSearchData = [];
     for (var e in response.data['documents']) {
