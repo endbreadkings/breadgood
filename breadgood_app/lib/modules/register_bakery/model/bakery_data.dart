@@ -1,6 +1,5 @@
 import 'dart:io';
 
-
 class NaverMapData {
   String lastBuildDate;
   String total;
@@ -22,7 +21,7 @@ class NaverMapData {
       start: json['start'].toString(),
       display: json['display'].toString(),
       items: json['items'] != null
-          ?(json['items'] as List).map((i) => SearchData.fromJson(i)).toList()
+          ? (json['items'] as List).map((i) => SearchData.fromJson(i)).toList()
           : null,
     );
   }
@@ -53,7 +52,8 @@ class SearchData {
     print("search data called");
     return SearchData(
       category: json['category'].toString(),
-      title: json['title'].toString().replaceAll("<b>", "").replaceAll("</b>", ""),
+      title:
+          json['title'].toString().replaceAll("<b>", "").replaceAll("</b>", ""),
       link: json['link'].toString(),
       description: json['description'].toString(),
       address: json['address'].toString(),
@@ -66,33 +66,34 @@ class SearchData {
 
 class BakeryMapData {
   int bakeryCategoryId;
-   String city;
-   String content;
-   String description;
-   String district;
-   int emojiId;
+  String city;
+  String content;
+  String description;
+  String district;
+  int emojiId;
   List<File> files;
-   String mapX;
-   String mapY;
-   String roadAddress;
+  String mapX;
+  String mapY;
+  String roadAddress;
+
   // List<String> signatureMenus;
   // = List<String>();
   List<String> signatureMenus;
-   String title;
+  String title;
 
   BakeryMapData({
-    this.bakeryCategoryId,//
-    this.city,//
+    this.bakeryCategoryId, //
+    this.city, //
     this.content,
-    this.description,//
-    this.district,//
+    this.description, //
+    this.district, //
     this.emojiId,
     this.files,
-    this.mapX,//
-    this.mapY,//
-    this.roadAddress,//
+    this.mapX, //
+    this.mapY, //
+    this.roadAddress, //
     this.signatureMenus,
-    this.title,//
+    this.title, //
   });
 
   // set bakeryData(int _bakeryCategoryId, String _city, String _description,
@@ -108,7 +109,7 @@ class BakeryMapData {
   // }
 
   factory BakeryMapData.toJson(Map<String, dynamic> json) {
-    return BakeryMapData(
+    return BakeryMapData(   
       bakeryCategoryId: json['bakeryCategoryId'],
       city: json['city'],
       content: json['content'],

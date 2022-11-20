@@ -48,3 +48,4 @@ breadgood-server/src/main/generated/
 ### macOS ###
 breadgood-server/.DS_Store
 .DS_Store
+breadgood_app/lib/api_key.dart
