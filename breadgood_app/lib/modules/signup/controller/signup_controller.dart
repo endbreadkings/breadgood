@@ -2,6 +2,7 @@ import 'package:breadgood_app/modules/signup/model/signup_models.dart';
 import 'package:breadgood_app/modules/signup/service/bread_style_service.dart';
 import 'package:breadgood_app/modules/signup/service/nick_name_service.dart';
 import 'package:breadgood_app/modules/signup/service/sign_up_service.dart';
+import 'package:breadgood_app/utils/services/secure_storage_service.dart';
 import 'package:flutter/material.dart';
 
 import 'package:breadgood_app/modules/signup/service/policy_service.dart';
@@ -151,6 +152,9 @@ class SignUpController extends GetxController {
   }
 
   void signUp() async {
-    if (await SignUpService.signUp(user)) Get.offAllNamed('/dashboard');
+    if (await SignUpService.signUp(user)) {
+      Get.offAllNamed('/dashboard');
+      Tokens().setLoggedIn(true);
+    }
   }
 }

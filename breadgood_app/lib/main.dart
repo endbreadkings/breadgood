@@ -1,18 +1,13 @@
 import 'package:breadgood_app/modules/dashboard/init_binding.dart';
-import 'package:breadgood_app/modules/login/screens/login_page.dart';
-import 'package:breadgood_app/utils/services/secure_storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'config/routes.dart';
-
 
 void main() {
   runApp(MyApp());
 }
-// comment
-class MyApp extends StatelessWidget {
 
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -26,10 +21,9 @@ class MyApp extends StatelessWidget {
         splashColor: Colors.transparent,
       ),
       defaultTransition: Transition.noTransition,
+      initialRoute: initRoute(),
       initialBinding: InitBinding(),
-      getPages: Routes,
+      getPages: routes,
     );
   }
-
 }
-
