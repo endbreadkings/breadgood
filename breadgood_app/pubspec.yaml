@@ -48,6 +48,7 @@ dependencies:
   flutter_svg: ^0.22.0
   word_break_text: ^0.1.0
   dio:
+  flutter_email_sender: 4.0.0
 
 flutter_icons:
   android: "launcher_icon"
