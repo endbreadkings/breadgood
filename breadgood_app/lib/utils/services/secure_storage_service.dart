@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 // Create storage
@@ -12,9 +11,17 @@ class Tokens {
     return user_info;
   }
 
-  Future<String> getAccessToken() async{
+  getLoggedIn() async {
+    return await storage.read(key: "isLoggedIn");
+  }
+
+  Future<String> getAccessToken() async {
     await getUserInfo();
     return user_info.split(' ')[1].trim();
+  }
+
+  setLoggedIn(bool value) async {
+    await storage.write(key: "isLoggedIn", value: value.toString());
   }
 
   setUserInfo(accessToken, refreshToken) async {
@@ -25,11 +32,11 @@ class Tokens {
             " " +
             "refreshToken " +
             refreshToken.toString());
-
-    return getUserInfo()!=null;
+    return getUserInfo() != null;
   }
 
-  deleteUserInfo() async{
+  deleteUserInfo() async {
+    await storage.delete(key: "isLoggedIn");
     await storage.delete(key: "login");
   }
 }
