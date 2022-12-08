@@ -23,7 +23,7 @@ class _BreadStoreDetailWebViewState extends State<BreadStoreDetailWebView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AlreadyRegisteredBakeryAppbar(),
+      appBar: AlreadyRegisteredBakeryAppbar(bakeryId: Get.arguments['bakeryId']),
       body: WebView(
         initialUrl:
             "${api_path.url}/pages/bakery/detail?userId=${Get.arguments['userId']}&bakeryId=${Get.arguments['bakeryId']}",
