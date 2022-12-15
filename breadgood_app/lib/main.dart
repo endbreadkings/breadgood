@@ -1,7 +1,7 @@
-import 'package:breadgood_app/modules/dashboard/init_binding.dart';
+import 'package:breadgood_app/modules/dashboard/dashboard_binding.dart';
+import 'package:breadgood_app/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'config/routes.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: '빵집',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         fontFamily: 'AppleSDGothicNeo',
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       ),
       defaultTransition: Transition.noTransition,
       initialRoute: initRoute(),
-      initialBinding: InitBinding(),
+      initialBinding: DashboardBinding(),
       getPages: routes,
     );
   }

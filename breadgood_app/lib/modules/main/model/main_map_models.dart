@@ -43,7 +43,7 @@ class MapModels {
         nickName: json['nickName'],
         roadAddress: json['roadAddress'],
         makerImgUrl: json['makerImgUrl'],
-        signatureMenus:json['signatureMenus'],
+        signatureMenus: json['signatureMenus'],
         content: json['content'],
         id: json['id']);
   }

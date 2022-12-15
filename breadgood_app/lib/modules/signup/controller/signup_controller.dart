@@ -1,34 +1,29 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:breadgood_app/modules/signup/model/signup_models.dart';
 import 'package:breadgood_app/modules/signup/service/bread_style_service.dart';
 import 'package:breadgood_app/modules/signup/service/nick_name_service.dart';
 import 'package:breadgood_app/modules/signup/service/sign_up_service.dart';
-import 'package:breadgood_app/utils/services/secure_storage_service.dart';
-import 'package:flutter/material.dart';
-
+import 'package:breadgood_app/storages/user_storage.dart';
 import 'package:breadgood_app/modules/signup/service/policy_service.dart';
-import 'package:get/get.dart';
-
-import 'package:breadgood_app/config/themes/light_theme.dart' as THEME;
+import 'package:breadgood_app/common/theme/light_theme.dart' as THEME;
 
 class SignUpController extends GetxController {
   SignupModels user;
 
-  Color false_color = THEME.GRAY_199;
-  Color true_color = THEME.MAIN;
+  Color falseColor = THEME.GRAY_199;
+  Color trueColor = THEME.MAIN;
 
-  //이용약관 내용
   var models = List<dynamic>().obs;
-  RxBool all_check = false.obs;
+  RxBool isAllChecked = false.obs;
 
-  //닉네임 중복 여부
-  var is_duplicate_name = false.obs;
+  var checkduplicatedName = false.obs;
   var error = ''.obs;
-  var check_name = false.obs;
-  var nick_name = '';
+  var checkName = false.obs;
+  var nickname = '';
 
-  //최애빵 리스트
-  var bread_style = List<dynamic>().obs;
-  var check_bread_style = false.obs;
+  var breadStyle = List<dynamic>().obs;
+  var isCheckedBreadStyle = false.obs;
 
   @override
   void onInit() {
@@ -59,19 +54,19 @@ class SignUpController extends GetxController {
 
   void isAllCheckAtclickCheck(index) {
     if (!models.value[index].check) {
-      all_check.value = false;
-      all_check.refresh();
+      isAllChecked.value = false;
+      isAllChecked.refresh();
     } else
       isAllcheck();
   }
 
   void clickAllCheck() {
-    all_check.value = !all_check.value;
+    isAllChecked.value = !isAllChecked.value;
     models.value.forEach((element) {
-      element.check = all_check.value;
+      element.check = isAllChecked.value;
     });
 
-    if (all_check.value) {
+    if (isAllChecked.value) {
       user.setTermsTypeIds.addAll(models.value.map((e) => e.typeId));
     } else {
       models.value.forEach((element) {
@@ -79,15 +74,15 @@ class SignUpController extends GetxController {
       });
     }
 
-    all_check.refresh();
+    isAllChecked.refresh();
     models.refresh();
   }
 
   void isAllcheck() {
     List list = [];
     models.value.forEach((element) => list.add(element.check));
-    if (!list.contains(false)) all_check.value = true;
-    all_check.refresh();
+    if (!list.contains(false)) isAllChecked.value = true;
+    isAllChecked.refresh();
   }
 
   bool validationNickName(String nickName) {
@@ -103,8 +98,8 @@ class SignUpController extends GetxController {
   }
 
   void duplicatedNickName(nickName) async {
-    is_duplicate_name.value = false;
-    check_name.value = false;
+    checkduplicatedName.value = false;
+    checkName.value = false;
     if (nickName == '')
       return;
     else {
@@ -112,49 +107,49 @@ class SignUpController extends GetxController {
       if (products != null) {
         if (products) {
           error.value = '이미 사용중인 별명이예요';
-          is_duplicate_name.value = true;
-          check_name.value = false;
+          checkduplicatedName.value = true;
+          checkName.value = false;
         } else {
           error.value = '';
-          is_duplicate_name.value = false;
-          check_name.value = true;
-          nick_name = nickName;
+          checkduplicatedName.value = false;
+          checkName.value = true;
+          nickname = nickName;
         }
       }
     }
-    check_name.refresh();
-    is_duplicate_name.refresh();
+    checkName.refresh();
+    checkduplicatedName.refresh();
     error.refresh();
   }
 
   void setNickName() {
-    user.nickName = nick_name;
+    user.nickName = nickname;
   }
 
   void getBreadStyle() async {
     var products = await BreadStyleService.getBreadStyle();
     if (products != null) {
-      bread_style.value = products;
+      breadStyle.value = products;
     }
   }
 
   void setBreadStyle(index) {
-    bread_style.value.forEach((e) {
+    breadStyle.value.forEach((e) {
       e.check = false;
     });
-    bread_style.value[index].check = true;
-    check_bread_style.value = true;
+    breadStyle.value[index].check = true;
+    isCheckedBreadStyle.value = true;
 
-    user.breadStyleId = bread_style.value[index].id;
+    user.breadStyleId = breadStyle.value[index].id;
 
-    check_bread_style.refresh();
-    bread_style.refresh();
+    isCheckedBreadStyle.refresh();
+    breadStyle.refresh();
   }
 
   void signUp() async {
     if (await SignUpService.signUp(user)) {
       Get.offAllNamed('/dashboard');
-      Tokens().setLoggedIn(true);
+      UserStorage().setLoggedIn(true);
     }
   }
 }

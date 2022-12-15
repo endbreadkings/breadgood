@@ -1,16 +1,11 @@
-
 import 'package:get/get.dart';
-import 'package:breadgood_app/modules/my_page/model/userinfo.dart';
+import 'package:breadgood_app/modules/my_page/model/user_info.dart';
 
 class MyPageController extends GetxController {
   User user;
 
-  UpdateUser(User updatedUser) {
+  updateUser(User updatedUser) {
     user = updatedUser;
-    print('updatedUser?\n'
-        'id: ${updatedUser.id}\n'
-    );
     update();
   }
-
 }

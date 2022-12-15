@@ -11,7 +11,6 @@ class NaverMapData {
       {this.lastBuildDate, this.total, this.start, this.display, this.items});
 
   factory NaverMapData.fromJson(Map<String, dynamic> json) {
-    print("naverMapData called");
     if (json == null) {
       throw FormatException("Null json");
     }
@@ -49,7 +48,6 @@ class SearchData {
   });
 
   factory SearchData.fromJson(Map<String, dynamic> json) {
-    print("search data called");
     return SearchData(
       category: json['category'].toString(),
       title:
@@ -76,8 +74,6 @@ class BakeryMapData {
   String mapY;
   String roadAddress;
 
-  // List<String> signatureMenus;
-  // = List<String>();
   List<String> signatureMenus;
   String title;
 
@@ -96,20 +92,8 @@ class BakeryMapData {
     this.title, //
   });
 
-  // set bakeryData(int _bakeryCategoryId, String _city, String _description,
-  //     String _district, int _mapX, int _mapY, String _roadAddress, String _title) {
-  //   bakeryCategoryId = _bakeryCategoryId;
-  //   city = _city;
-  //   description = _description;
-  //   district = _district;
-  //   mapX = _mapX;
-  //   mapY = _mapY;
-  //   roadAddress = _roadAddress;
-  //   title = _title;
-  // }
-
   factory BakeryMapData.toJson(Map<String, dynamic> json) {
-    return BakeryMapData(   
+    return BakeryMapData(
       bakeryCategoryId: json['bakeryCategoryId'],
       city: json['city'],
       content: json['content'],
@@ -120,11 +104,7 @@ class BakeryMapData {
       mapX: json['mapX'].toString(),
       mapY: json['mapY'].toString(),
       roadAddress: json['roadAddress'] as String,
-      // signatureMenus: json['signatureMenus'] as List,
       signatureMenus: json['signatureMenus'],
-      // signatureMenus: json['signatureMenus'] != null
-      //     ?(json['signatureMenus'] as List).map((i) => String.fromJson(i)).toList()
-      //     : null,
       title: json['title'] as String,
     );
   }

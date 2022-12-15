@@ -1,8 +1,8 @@
 import 'dart:math';
 
-import 'package:breadgood_app/modules/register_bakery/screens/no_result.dart';
-import 'package:breadgood_app/modules/register_bakery/screens/search_bakery_card.dart';
-import 'package:breadgood_app/modules/register_bakery/screens/search_bakery_constants.dart';
+import 'package:breadgood_app/modules/register_bakery/scene/no_result_scene.dart';
+import 'package:breadgood_app/modules/register_bakery/scene/search_bakery_card.dart';
+import 'package:breadgood_app/modules/register_bakery/constant/search_bakery_constants.dart';
 import 'package:breadgood_app/modules/register_bakery_renewal/search_more/search_more_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -21,24 +21,24 @@ class _SearchMoreState extends State<SearchMore> {
 
   @override
   void initState() {
-    controller = SearchMoreController(context, () => setState(() {}), widget.searchWord);
+    controller =
+        SearchMoreController(context, () => setState(() {}), widget.searchWord);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              _appBar(),
-              _searchResult(),
-            ],
-          ),
+        body: SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            _appBar(),
+            _searchResult(),
+          ],
         ),
-      )
-    );
+      ),
+    ));
   }
 
   Widget _appBar() {
@@ -52,8 +52,7 @@ class _SearchMoreState extends State<SearchMore> {
                   'asset/images/Vector.svg',
                   fit: BoxFit.scaleDown,
                 )),
-            onPressed: () => Navigator.pop(context)
-        ),
+            onPressed: () => Navigator.pop(context)),
         Spacer(),
       ],
     );
@@ -64,27 +63,25 @@ class _SearchMoreState extends State<SearchMore> {
 
     return Padding(
       padding: EdgeInsets.fromLTRB(20, 40, 20, 0),
-      child: Column(
-        children: [
-          ...controller.searchList.map((item) {
-            final height = _calculateHeight(
-                titleHeight: _calculateTitleHeight(context, item.title),
-                addressHeight: min(
-                    _calculateAddressHeight(context, item.roadAddress), 30));
-            return Container(
-                width: double.infinity,
-                height: height,
-                padding: EdgeInsets.only(bottom: 16),
-                child: BakeryCard(selectedBakery: item));
-          }).toList(),
-          TextButton(
-            onPressed: () {
-              controller.onSeeMoreButtonClicked();
-            },
-            child: Text('빵집 더 보기'),
-          )
-        ]
-      ),
+      child: Column(children: [
+        ...controller.searchList.map((item) {
+          final height = _calculateHeight(
+              titleHeight: _calculateTitleHeight(context, item.title),
+              addressHeight:
+                  min(_calculateAddressHeight(context, item.roadAddress), 30));
+          return Container(
+              width: double.infinity,
+              height: height,
+              padding: EdgeInsets.only(bottom: 16),
+              child: BakeryCard(selectedBakery: item));
+        }).toList(),
+        TextButton(
+          onPressed: () {
+            controller.onSeeMoreButtonClicked();
+          },
+          child: Text('빵집 더 보기'),
+        )
+      ]),
     );
   }
 
