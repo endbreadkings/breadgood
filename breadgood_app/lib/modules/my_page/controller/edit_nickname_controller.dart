@@ -1,13 +1,14 @@
 import 'dart:core';
 import 'dart:async';
-import 'package:flutter/material.dart';
+import 'package:breadgood_app/services/api/api_path.dart';
+import 'package:breadgood_app/services/api/api_service.dart';
 import 'package:http/http.dart' as http;
-import 'package:breadgood_app/modules/signup/service/nick_name_service.dart';
 import 'package:get/get.dart';
-import 'package:breadgood_app/utils/services/secure_storage_service.dart';
+import 'package:breadgood_app/modules/signup/service/nick_name_service.dart';
+import 'package:breadgood_app/storages/user_storage.dart';
 
 class EditNickNameController extends GetxController {
-  Tokens _token = new Tokens();
+  UserStorage userStorage = new UserStorage();
 
   String errorMessage = '';
 
@@ -38,13 +39,12 @@ class EditNickNameController extends GetxController {
   }
 
   Future<http.Response> updateNickname(String newNickname) async {
-    String accessToken = await _token.getAccessToken();
+    String accessToken = await userStorage.getAccessToken();
     final response = await http.patch(
-        Uri.parse(
-            'https://api.breadgood.com/api/v1/user/me/nickName/${newNickname}'),
+        Uri.parse('$restApiUrl/user/me/nickName/$newNickname'),
         headers: {
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ' + accessToken
+          'Accept': accept,
+          'Authorization': bearer + accessToken
         },
         body: <String, String>{
           'nickName': 'nickName',

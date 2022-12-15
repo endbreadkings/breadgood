@@ -1,0 +1,38 @@
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+import 'package:breadgood_app/services/api/api_path.dart' as api_path;
+
+final Set<JavascriptChannel> jsChannels = [
+  JavascriptChannel(
+      name: 'MoveToDetail',
+      onMessageReceived: (JavascriptMessage message) {
+        Map<String, dynamic> jsonMessage = jsonDecode(message.message);
+        Get.toNamed('/details', arguments: {
+          'userId': jsonMessage['userId'],
+          'bakeryId': jsonMessage['bakeryId'],
+        });
+      }),
+  JavascriptChannel(
+      name: 'MoveToRegister',
+      onMessageReceived: (JavascriptMessage message) {
+        Get.toNamed('/register_bakery/search_bakery_page');
+      }),
+].toSet();
+
+class BakeryListWebview extends StatefulWidget {
+  _BakeryListWebviewState createState() => _BakeryListWebviewState();
+}
+
+class _BakeryListWebviewState extends State<BakeryListWebview> {
+  @override
+  Widget build(BuildContext context) {
+    return WebView(
+      initialUrl: "${api_path.url}/pages/bakery/list",
+      javascriptMode: JavascriptMode.unrestricted,
+      javascriptChannels: jsChannels,
+    );
+  }
+}

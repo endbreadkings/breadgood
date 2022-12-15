@@ -49,3 +49,6 @@ breadgood-server/src/main/generated/
 breadgood-server/.DS_Store
 .DS_Store
 breadgood_app/lib/api_key.dart
+breadgood_app/lib/modules/main/services/main_map_service.dart
+breadgood_app/lib/modules/my_page/model/userinfo.dart
+breadgood_app/lib/modules/register_bakery/naver_search.dart
