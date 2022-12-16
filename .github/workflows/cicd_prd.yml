@@ -5,10 +5,10 @@ name: BackEnd Prd CI/CD
 
 on:
   push:
-    branches:
-      - master
+  #  branches:
+  #    - master
     tags:
-      - bg.api-[0-9]+.[0-9]+.[0-9]+-test
+      - bg.api-[0-9]+.[0-9]+.[0-9]+-test[0-9]+
     
 
 jobs:
