@@ -135,6 +135,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/v1/s3/test/**").permitAll()
                 .antMatchers("/token/refresh").permitAll()
                 .antMatchers("/api/v1/user/signin", "/api/v1/admin/signin").permitAll()
+                .antMatchers("/api/v1/system/healthy").permitAll()
 //                .antMatchers("/api/v1/termsType/**").permitAll()
 //                .antMatchers("/api/v1/breadstyle/**").permitAll()
                 .antMatchers("/api/v1/user/social/signup").hasRole(Role.GUEST.name())
