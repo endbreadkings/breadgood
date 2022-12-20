@@ -74,16 +74,14 @@ jobs:
         uses: garygrossgarten/github-action-ssh@v0.5.0
         with:
           command: |
-            ssh -i ~/.ssh/bg-api-prd.pem {{ secrets.EC2_API_USERNAME_PRD }}@${{ secrets.EC2_API_HOST_PRD }}
-            export TAG=${{ github.ref_name }}
-            sh ~/deploy.sh
+            ssh -i ~/.ssh/bg-api-prd.pem {{ secrets.EC2_API_USERNAME_PRD }}@${{ secrets.EC2_API_HOST_PRD }} 'export TAG=${{ github.ref_name }}; sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}; sh depoly.sh;'
           host: ${{ secrets.EC2_BASTION_HOST_PRD }}
           username: ${{ secrets.EC2_BASTION_USERNAME_PRD }}
           privateKey: ${{ secrets.EC2_BASTION_PRIVATE_KEY_PRD}}
 
       - name: Remove Github Actions IP from security group
         run: |
-          aws ec2 revoke-security-group-ingress --group-name ${{ env.AWS_SG_NAME }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+          aws ec2 revoke-security-group-ingress --group-id ${{ env.AWS_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
         if: always()
 
 #       - name: action-slack
