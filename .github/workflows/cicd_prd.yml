@@ -74,7 +74,7 @@ jobs:
         uses: garygrossgarten/github-action-ssh@v0.5.0
         with:
           command: |
-            ssh -i ~/.ssh/bg-api-prd.pem ${{ secrets.EC2_API_USERNAME_PRD }}@${{ secrets.EC2_API_HOST_PRD }} 'export TAG=${{ github.ref_name }}; docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}; sh ~/deploy.sh;'
+            ssh -i ~/.ssh/bg-prd-api.pem ${{ secrets.EC2_API_USERNAME_PRD }}@${{ secrets.EC2_API_HOST_PRD }} 'export TAG=${{ github.ref_name }}; docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}; sh ~/deploy.sh;'
           host: ${{ secrets.EC2_BASTION_HOST_PRD }}
           username: ${{ secrets.EC2_BASTION_USERNAME_PRD }}
           privateKey: ${{ secrets.EC2_BASTION_PRIVATE_KEY_PRD}}
