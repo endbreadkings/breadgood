@@ -101,7 +101,6 @@ class _BakeryCardState extends State<BakeryCard> {
                           borderRadius: BorderRadius.circular(20)),
                       child: Container(
                           height: 28,
-                          child: Flexible(
                               child: Center(
                                   child: Text('선택',
                                       maxLines: 1,
@@ -110,7 +109,7 @@ class _BakeryCardState extends State<BakeryCard> {
                                       style: TextStyle(
                                         fontSize: 14.0,
                                         color: Color(0xFFFFFFFF),
-                                      ))))),
+                                      )))),
                       onPressed: () async {
                         controller.UpdateBakery(widget.selectedBakery);
                         var checkDuplicate =
