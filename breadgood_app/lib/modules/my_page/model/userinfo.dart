@@ -10,7 +10,7 @@ import 'package:breadgood_app/utils/services/rest_api_service.dart';
 // String token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjI4MDA4MTE1LCJleHAiOjE2MjkyMTc3MTV9.UuC4zpdd95TPgO1Zj-8TsmvNHWLqG3PB9aB7FFeyNogBhD1A9PSwXuSEDA0NBxPKJYwwC7om1dxKCwpA0EBpNQ';
 Future<User> fetchUser() async {
   final response = await http.get(
-      Uri.parse('https://api.breadgood.com/api/v1/user/me'),
+      Uri.parse('https://dev-api.breadgood.com/api/v1/user/me'),
       headers: await headers(),
       );
   final responseJson = jsonDecode(utf8.decode(response.bodyBytes));
