@@ -9,7 +9,7 @@ const String version = "/api/v1";
 const String restApiUrl = "${url}${version}";
 
 const String kakaoLoginUrl =
-    'https://dev-api.breadgood.com/oauth2/authorization/kakao?redirect_uri=breadgoodapp://breadgood.com/login/oauth2/success';
+    'https://${url}/oauth2/authorization/kakao?redirect_uri=breadgoodapp://breadgood.com/login/oauth2/success';
 
 const String appleLoginUrl =
-    'https://dev-api.breadgood.com/oauth2/authorization/apple?redirect_uri=breadgoodapp://breadgood.com/login/oauth2/success';
+    'https://${url}/oauth2/authorization/apple?redirect_uri=breadgoodapp://breadgood.com/login/oauth2/success';
