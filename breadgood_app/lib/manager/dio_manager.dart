@@ -13,7 +13,7 @@ class DioManager {
 
   static Dio _createDio() {
     var dio = Dio(BaseOptions(
-      baseUrl: 'http://' + 'api.breadgood.com',
+      baseUrl: 'http://' + 'dev-api.breadgood.com',
       receiveTimeout: 300000,
       connectTimeout: 150000,
       sendTimeout: 150000,

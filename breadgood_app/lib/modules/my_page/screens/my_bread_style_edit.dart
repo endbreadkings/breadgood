@@ -10,6 +10,7 @@ import 'package:breadgood_app/modules/my_page/model/userInfo.dart';
 import 'package:breadgood_app/modules/my_page/screens/my_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:breadgood_app/utils/services/rest_api_service.dart';
+import 'package:breadgood_app/constant/api_path.dart' as api_path;
 
 // class CheckDuplication {
 //   final String nickName;
@@ -27,7 +28,7 @@ Future<http.Response> checkNickname(String currentNickname) async {
   print('checkNickname');
   final response = await http.post(
       Uri.parse(
-          'https://api.breadgood.com/api/v1/user/me/duplicate/nickName/${currentNickname}'),
+          'https://${api_path.restApiUrl}/user/me/duplicate/nickName/${currentNickname}'),
       headers: await headers(),
       body: <String, String>{
         'nickName': 'nickName',
@@ -43,10 +44,10 @@ Future<http.Response> checkNickname(String currentNickname) async {
 }
 
 Future<http.Response> updateBreadStyle(int newBreadStyle) async {
-  // const String url = 'https://api.breadgood.com/api/v1/user/me/duplicate/nickName/$newNickname';
+  // const String url = 'https://${api_path.restApiUrl}/user/me/duplicate/nickName/$newNickname';
   final response = await http.patch(
       Uri.parse(
-          'https://api.breadgood.com/api/v1/user/me/breadStyle/${newBreadStyle}'),
+          'https://${api_path.restApiUrl}/user/me/breadStyle/${newBreadStyle}'),
       headers: await headers(),
       body: <String, String>{
         'breadStyleId': 'breadStyleId',

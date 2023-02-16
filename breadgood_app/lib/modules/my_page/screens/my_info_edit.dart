@@ -10,6 +10,7 @@ import 'dart:convert';
 import 'package:breadgood_app/utils/ui/main_app_bar.dart';
 import 'package:breadgood_app/utils/ui/bottomNavigation.dart';
 import 'package:breadgood_app/modules/dashboard/controller/dashboard_controller.dart';
+import 'package:breadgood_app/constant/api_path.dart' as api_path;
 
 Tokens token = new Tokens();
 
@@ -434,7 +435,7 @@ _getCloseButton(context) {
 void deleteUser() async {
   print('checkNickname');
   final response = await http.delete(
-    Uri.parse('https://api.breadgood.com/api/v1/user/me/withdrawal'),
+    Uri.parse('https://${api_path.restApiUrl}/user/me/withdrawal'),
     headers: await headers(),
   );
 
