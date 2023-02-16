@@ -435,7 +435,7 @@ _getCloseButton(context) {
 void deleteUser() async {
   print('checkNickname');
   final response = await http.delete(
-    Uri.parse('https://${api_path.restApiUrl}/user/me/withdrawal'),
+    Uri.parse('${api_path.restApiUrl}/user/me/withdrawal'),
     headers: await headers(),
   );
 

@@ -42,7 +42,7 @@ class EditNickNameController extends GetxController {
     String accessToken = await _token.getAccessToken();
     final response = await http.patch(
         Uri.parse(
-            'https://${api_path.restApiUrl}/user/me/nickName/${newNickname}'),
+            '${api_path.restApiUrl}/user/me/nickName/${newNickname}'),
         headers: {
           'Accept': 'application/json',
           'Authorization': 'Bearer ' + accessToken

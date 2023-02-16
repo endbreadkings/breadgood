@@ -374,7 +374,7 @@ class AlreadyRegisteredBakeryAppbar extends DefaultAppBar {
 Future<http.Response> checkBakeryInfo(int bakeryId) async {
   print('checkBakeryInfo');
   final response = await http.post(
-      Uri.parse('https://${api_path.restApiUrl}/bakery/${bakeryId}'),
+      Uri.parse('${api_path.restApiUrl}/bakery/${bakeryId}'),
       headers: await headers(),
       body: <String, String>{
         'bakeryId': 'bakeryId',
