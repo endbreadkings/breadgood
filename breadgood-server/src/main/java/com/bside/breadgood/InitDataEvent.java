@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-@Profile("local")
+@Profile({"local","staging"})
 public class InitDataEvent {
 
     private final TermsTypeService termsTypeService;
