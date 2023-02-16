@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:breadgood_app/modules/signup/service/nick_name_service.dart';
 import 'package:get/get.dart';
 import 'package:breadgood_app/utils/services/secure_storage_service.dart';
+import 'package:breadgood_app/constant/api_path.dart' as api_path;
 
 class EditNickNameController extends GetxController {
   Tokens _token = new Tokens();
@@ -41,7 +42,7 @@ class EditNickNameController extends GetxController {
     String accessToken = await _token.getAccessToken();
     final response = await http.patch(
         Uri.parse(
-            'https://api.breadgood.com/api/v1/user/me/nickName/${newNickname}'),
+            'https://${api_path.restApiUrl}/user/me/nickName/${newNickname}'),
         headers: {
           'Accept': 'application/json',
           'Authorization': 'Bearer ' + accessToken
