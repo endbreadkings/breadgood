@@ -1,0 +1,97 @@
+# This workflow will build a Java project with Gradle
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
+
+name: BackEnd Prd CI/CD
+
+on:
+  push:
+  #  branches:
+  #    - master
+    tags:
+      - bg.api-[0-9]+.[0-9]+.[0-9]+-test[0-9]+
+    
+
+jobs:
+  continuous-integration:
+    runs-on: ubuntu-latest
+    #    needs: [continuous-integration]
+    #    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+          submodules: true
+          token: ${{ secrets.SUBMODULE_ACCESS_TOKEN }}
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+
+      - name: checkout submodule
+        run: |
+          git submodule init
+          git submodule update
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./breadgood-server/gradlew
+
+      - name: Build with Gradle
+        run: |
+          echo $pwd
+          ./gradlew clean build -x test
+        shell: bash
+        working-directory: ./breadgood-server
+
+      - uses: mr-smithers-excellent/docker-build-push@v5
+        name: Build & push Docker image
+        with:
+          image: breadgood/dockerhub
+          tags: ${{ github.ref_name }}
+          registry: docker.io
+          dockerfile: Dockerfile
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_PRD }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY_PRD }}
+          aws-region: ap-northeast-2
+
+      - name: Get Github action IP
+        id: ip
+        uses: haythem/public-ip@v1.2
+
+      - name: Setting environment variables..
+        run: |
+          echo "AWS_DEFAULT_REGION=ap-southeast-2" >> $GITHUB_ENV
+          echo "AWS_SG_ID=sg-02e7a1b28cd426453" >> $GITHUB_ENV
+      - name: Add Github Actions IP to Security group
+        run: |
+          aws ec2 authorize-security-group-ingress --group-id ${{ env.AWS_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+      - name: Deploy to dev api server
+        uses: garygrossgarten/github-action-ssh@v0.5.0
+        with:
+          command: |
+            ssh -i ~/.ssh/bg-prd-api.pem ${{ secrets.EC2_API_USERNAME_PRD }}@${{ secrets.EC2_API_HOST_PRD }} 'export TAG=${{ github.ref_name }}; docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}; sh ~/deploy.sh;'
+          host: ${{ secrets.EC2_BASTION_HOST_PRD }}
+          username: ${{ secrets.EC2_BASTION_USERNAME_PRD }}
+          privateKey: ${{ secrets.EC2_BASTION_PRIVATE_KEY_PRD}}
+
+      - name: Remove Github Actions IP from security group
+        run: |
+          aws ec2 revoke-security-group-ingress --group-id ${{ env.AWS_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+        if: always()
+
+#       - name: action-slack
+#         uses: 8398a7/action-slack@v3
+#         with:
+#           status: ${{ job.status }}
+#           author_name: 서버 CI CD 알림 - prd
+#           fields: repo,commit,message,author # action,eventName,ref,workflow,job,took 추가할 수 있음
+#           mention: here
+#           if_mention: failure,cancelled
+#         env:
+#           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEB_HOOK_URL }} # required
+#         if: always() # Pick up events even if the job fails or is canceled.
