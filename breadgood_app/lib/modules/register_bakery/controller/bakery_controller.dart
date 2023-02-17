@@ -115,7 +115,7 @@ class BakeryController extends GetxController {
   Future<CheckDuplicateBakery> checkRegisteredBakery(String roadAddress) async {
     final response = await http.post(
         Uri.parse(
-            'https://${api_path.restApiUrl}/bakery/duplicate/roadAddress/${roadAddress}'),
+            '${api_path.restApiUrl}/bakery/duplicate/roadAddress/${roadAddress}'),
         headers: await headers_post(),
         body: <String, String>{
           'roadAddress': 'roadAddress',

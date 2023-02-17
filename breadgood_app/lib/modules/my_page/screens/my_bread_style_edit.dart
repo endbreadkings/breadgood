@@ -28,7 +28,7 @@ Future<http.Response> checkNickname(String currentNickname) async {
   print('checkNickname');
   final response = await http.post(
       Uri.parse(
-          'https://${api_path.restApiUrl}/user/me/duplicate/nickName/${currentNickname}'),
+          '${api_path.restApiUrl}/user/me/duplicate/nickName/${currentNickname}'),
       headers: await headers(),
       body: <String, String>{
         'nickName': 'nickName',
@@ -44,10 +44,10 @@ Future<http.Response> checkNickname(String currentNickname) async {
 }
 
 Future<http.Response> updateBreadStyle(int newBreadStyle) async {
-  // const String url = 'https://${api_path.restApiUrl}/user/me/duplicate/nickName/$newNickname';
+  // const String url = '${api_path.restApiUrl}/user/me/duplicate/nickName/$newNickname';
   final response = await http.patch(
       Uri.parse(
-          'https://${api_path.restApiUrl}/user/me/breadStyle/${newBreadStyle}'),
+          '${api_path.restApiUrl}/user/me/breadStyle/${newBreadStyle}'),
       headers: await headers(),
       body: <String, String>{
         'breadStyleId': 'breadStyleId',
