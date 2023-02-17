@@ -11,7 +11,7 @@
 // import 'package:get/get.dart';
 // Future<SearchData> fetchSearchData() async {
 //   // final response = await http.get(
-//   //     Uri.parse('https://api.breadgood.com/api/v1/user/0'),
+//   //     Uri.parse('https://${api_path.restApiUrl}/user/0'),
 //   //   // Uri.parse('breadgoodapp://breadgood.com/login/oauth2/success'),
 //   //   // Uri.parse('https://api.breadgood.com'),
 //   //   headers: {

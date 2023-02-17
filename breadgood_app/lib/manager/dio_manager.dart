@@ -1,6 +1,7 @@
 import 'package:breadgood_app/utils/services/secure_storage_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
+import 'package:breadgood_app/constant/api_path.dart' as api_path;
 
 class DioManager {
   DioManager._constructor();
@@ -13,7 +14,7 @@ class DioManager {
 
   static Dio _createDio() {
     var dio = Dio(BaseOptions(
-      baseUrl: 'http://' + 'api.breadgood.com',
+      baseUrl: 'http://' + '${api_path.url}',
       receiveTimeout: 300000,
       connectTimeout: 150000,
       sendTimeout: 150000,

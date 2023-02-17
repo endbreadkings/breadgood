@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:breadgood_app/modules/register_bakery/model/bakery_data.dart';
 import 'package:breadgood_app/modules/register_bakery/model/duplicated_bakery.dart';
 import 'package:breadgood_app/utils/services/rest_api_service.dart';
+import 'package:breadgood_app/constant/api_path.dart' as api_path;
 
 class BakeryController extends GetxController {
   /* bakery data variables */
@@ -114,7 +115,7 @@ class BakeryController extends GetxController {
   Future<CheckDuplicateBakery> checkRegisteredBakery(String roadAddress) async {
     final response = await http.post(
         Uri.parse(
-            'https://api.breadgood.com/api/v1/bakery/duplicate/roadAddress/${roadAddress}'),
+            'https://${api_path.restApiUrl}/bakery/duplicate/roadAddress/${roadAddress}'),
         headers: await headers_post(),
         body: <String, String>{
           'roadAddress': 'roadAddress',

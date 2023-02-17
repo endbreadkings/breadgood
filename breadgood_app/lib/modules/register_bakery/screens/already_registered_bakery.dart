@@ -14,6 +14,7 @@ import 'package:http/http.dart' as http;
 import 'package:breadgood_app/modules/register_bakery/model/bakery_data.dart';
 import 'package:breadgood_app/modules/register_bakery/controller/bakery_controller.dart';
 import 'package:breadgood_app/utils/services/rest_api_service.dart';
+import 'package:breadgood_app/constant/api_path.dart' as api_path;
 
 class AlreadyRegisteredBakeryPage extends StatefulWidget {
   const AlreadyRegisteredBakeryPage({Key key}) : super(key: key);
@@ -373,7 +374,7 @@ class AlreadyRegisteredBakeryAppbar extends DefaultAppBar {
 Future<http.Response> checkBakeryInfo(int bakeryId) async {
   print('checkBakeryInfo');
   final response = await http.post(
-      Uri.parse('https://api.breadgood.com/api/v1/bakery/${bakeryId}'),
+      Uri.parse('https://${api_path.restApiUrl}/bakery/${bakeryId}'),
       headers: await headers(),
       body: <String, String>{
         'bakeryId': 'bakeryId',
