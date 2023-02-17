@@ -83,7 +83,7 @@ public class BakeryService {
     private void validateSave(BakerySaveRequestDto dto, MultipartFile[] files) {
 
         // 서울
-        if (StringUtils.isEmpty(dto.getCity()) || !dto.getCity().equals(SEOUL_CITY_WORD)) {
+        if (StringUtils.isEmpty(dto.getCity()) || !dto.getCity().equals(SEOUL_WORD)) {
             throw new IllegalCityException(dto.getCity());
         }
         if (checkDuplicatedRoadAddress(dto.getRoadAddress())) {
