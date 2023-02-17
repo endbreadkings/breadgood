@@ -88,13 +88,13 @@ class BakeryTest {
         final EmojiResponseDto emojiResponseDto = emojiService.findById(emoji.getId());
         final BreadStyleResponseDto breadStyleResponseDto = breadStyleService.findById(breadStyle.getId());
 
-        String city = "서울특별시";
+        String city = "서울";
         String content = "통밀한빵 정말 맛있어요.";
         String description = "";
         String district = "강서구";
         double mapX = 14121066.7281847;
         double mapY = 4516759.6029301;
-        String roadAddress = "서울특별시 강서구 공항대로 437";
+        String roadAddress = "서울 강서구 공항대로 437";
         List<String> signatureMenus = Arrays.asList("통밀빵", "한빵");
         String title = "통밀한빵";
 

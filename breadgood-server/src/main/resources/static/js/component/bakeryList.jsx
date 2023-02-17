@@ -45,7 +45,7 @@ const BakeryList = () => {
   const getBakeryParams = () => {
     try {
       const params = {
-        city: '서울특별시',
+        city: '서울',
       }
       if (filter.location !== locationList[0][0]) {
         params.district = filter.location;

@@ -46,7 +46,7 @@ public class BakeryService {
 
 
     /**
-     * - 서울특별시 만 가능
+     * - 서울 만 가능, 프론트에서 사용하는 빵집 검색 카카오맵 API가 응답값을 서울로 리턴함.
      */
     @Transactional
     public Long save(Long registerUserId, BakerySaveRequestDto dto, MultipartFile[] files) {
@@ -304,7 +304,7 @@ public class BakeryService {
 
         {
 
-            String city = "서울특별시";
+            String city = "서울";
             String content = "루브래드는 정말 맛있어요.";
             String description = "휴무일 : 매주일요일 2째주월요일 4째주월요일\n" +
                     "\n" +
@@ -317,7 +317,7 @@ public class BakeryService {
             String district = "강서구";
             double mapX = 37.554074;
             double mapY = 126.859918;
-            String roadAddress = "서울특별시 강서구 화곡로64길 70";
+            String roadAddress = "서울 강서구 화곡로64길 70";
             List<String> signatureMenus = Arrays.asList("단팥빵", "소시지빵");
             String title = "루브레드";
 
@@ -348,13 +348,13 @@ public class BakeryService {
         }
 
         {
-            String city = "서울특별시";
+            String city = "서울";
             String content = "통밀한빵 정말 맛있어요.";
             String description = "";
             String district = "강서구";
             double mapX = 37.554965;
             double mapY = 126.855886;
-            String roadAddress = "서울특별시 강서구 공항대로 437";
+            String roadAddress = "서울 강서구 공항대로 437";
             List<String> signatureMenus = Arrays.asList("통밀빵", "한빵");
             String title = "통밀한빵";
 
@@ -381,7 +381,7 @@ public class BakeryService {
         }
 
         {
-            String city = "서울특별시";
+            String city = "서울";
             String content = "내가 진짜 수많은 빵을 먹어봤지만 태극당의 야채사라다는 진짜 최고였음... 이 야채사라다는" +
                     " 크기부터 완전 압도 ㅎㅎ 물론 가격대는 조금 있었지만 이 정도의 맛과 양이면 인정...그리고 " +
                     "일단 빵 자체가 너무 맛있음!!! 무엇보다 여긴 방문하면 어른들에게는 추억을~ " +
@@ -417,7 +417,7 @@ public class BakeryService {
         }
 
         {
-            String city = "서울특별시";
+            String city = "서울";
             String content = "말로만 듣던 서울3대빵집!!! 명성에 맞게 사람도 엄청 많고 넓고 빵종류도 어마어마했다!! " +
                     "다 너무 맛있어보여서 다 사고싶었지만ㅠㅠ 다른것도 다 맛있었지만 저 크고 하얀 크림치즈빵이 " +
                     "진짜 비주얼부터 맛까지 최고였다!! 빵피도 완전 쫀득쫀득하고 크림치즈도 가득 들어있다!!" +
@@ -455,7 +455,7 @@ public class BakeryService {
         }
 
         {
-            String city = "서울특별시";
+            String city = "서울";
             String content = "통밀한빵 정말 맛있어요.";
             String description = "";
             String district = "마포구";
@@ -490,7 +490,7 @@ public class BakeryService {
         }
 
         {
-            String city = "서울특별시";
+            String city = "서울";
             String content = "정숙한 맛의 녹차마들렌.. 상큼한 맛의 레몬마들렌 최고입니다!!!!";
             String description = "";
             String district = "강남구";
