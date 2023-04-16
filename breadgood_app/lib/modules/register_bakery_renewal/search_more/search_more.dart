@@ -77,14 +77,18 @@ class _SearchMoreState extends State<SearchMore> {
                 padding: EdgeInsets.only(bottom: 16),
                 child: BakeryCard(selectedBakery: item));
           }).toList(),
-          TextButton(
-            onPressed: () {
-              controller.onSeeMoreButtonClicked();
-            },
-            child: Text('빵집 더 보기'),
-          )
+          if(!controller.isEnd || controller.tempList.isNotEmpty) _moreButton(),
         ]
       ),
+    );
+  }
+
+  Widget _moreButton() {
+    return TextButton(
+      onPressed: () {
+        controller.onSeeMoreButtonClicked();
+      },
+      child: Text('빵집 더 보기'),
     );
   }
 
