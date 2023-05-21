@@ -151,17 +151,21 @@ class _RegisterBakeryRenewalState extends State<RegisterBakeryRenewal> {
               padding: EdgeInsets.only(bottom: 16),
               child: BakeryCard(selectedBakery: item));
         }).toList(),
-        TextButton(
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (cont) => SearchMore(
-                        searchWord: controller.searchController.text)));
-          },
-          child: Text('빵집 더 보기'),
-        )
+        if(!controller.isEnd) _moreButton(),
       ]),
+    );
+  }
+
+  Widget _moreButton() {
+    return TextButton(
+      onPressed: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (cont) => SearchMore(
+                    searchWord: controller.searchController.text)));
+        },
+      child: Text('빵집 더 보기'),
     );
   }
 

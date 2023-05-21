@@ -62,6 +62,10 @@ class SearchData {
       mapy: json['mapy'].toString(),
     );
   }
+
+  getCity() {
+    return this.address.substring(0, 2);
+  }
 }
 
 class BakeryMapData {
