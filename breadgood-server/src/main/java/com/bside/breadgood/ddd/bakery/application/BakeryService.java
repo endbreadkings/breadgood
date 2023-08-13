@@ -291,6 +291,8 @@ public class BakeryService {
 
     @Transactional
     public void initData() {
+        if (isExistBakery()) return;
+
         List<Bakery> bakeries = new ArrayList<>();
 
         final String fileHost = "https://globaltwojob.com/";
@@ -525,6 +527,10 @@ public class BakeryService {
         }
 
         bakeryRepository.saveAll(bakeries);
+    }
+
+    private boolean isExistBakery() {
+        return bakeryRepository.count() > 0;
     }
 
 }
