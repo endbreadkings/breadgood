@@ -35,7 +35,7 @@ public class BakerySaveRequestDto {
     @ApiModelProperty(value = "주소 설명", example = "")
     private final String description;
 
-    @ApiModelProperty(value = "큰 단위", example = "서울특별시")
+    @ApiModelProperty(value = "큰 단위", example = "서울")
     private final String city;
 
     @ApiModelProperty(value = "중간 단위", example = "강서구")

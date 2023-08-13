@@ -179,6 +179,8 @@ public class UserService {
 
     @Transactional
     public Long withdrawal(Long id) {
+        if (userRepository.findById(id).isPresent()) return 0L;
+
         // 회원 에그리거트에서 삭제
         userRepository.deleteById(id);
 
@@ -198,7 +200,13 @@ public class UserService {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void initData() {
+        if (isExistUser()) return;
+
         userRepository.saveAll(new InitUserData().get());
+    }
+
+    private boolean isExistUser() {
+        return userRepository.count() > 0;
     }
 
 }

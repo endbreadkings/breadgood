@@ -33,19 +33,19 @@ public class InitDataEvent {
         log.info("[ApplicationReadyEvent] 이벤트: 데이터 셋팅 메소드 실행");
 
         // 약간 더미 데이터 생성 -> 초기 데이터
-        termsTypeService.initData();
+//        termsTypeService.initData();
 
         // 빵 스타일 더미 데이터 생성 -> 초기 데이터
-        breadStyleService.initData();
+//        breadStyleService.initData();
 
         // 사용자 더미 데이터 생성 -> 초기 데이터
         userService.initData();
 
         // 빵집 카테고리 더미 데이터 생성 -> 초기 데이터
-        bakeryCategoryService.initData();
+//        bakeryCategoryService.initData();
 
         // 이모지 더미 데이터 생성 -> 초기 데이터
-        emojiService.initData();
+//        emojiService.initData();
 
         // 빵집 더미 데이터 생성
         bakeryService.initData();

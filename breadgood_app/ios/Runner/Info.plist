@@ -56,7 +56,7 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Can I use the camera please?</string>
+	<string>리뷰에 사진을 올리기 위해서 필요해요!</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Your location is required for xyz benefits for you</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
@@ -64,7 +64,7 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Can I use the mic please?</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Photo Library Access Warning</string>
+	<string>리뷰에 사진을 올리기 위해서 필요해요!</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

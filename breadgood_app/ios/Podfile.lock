@@ -25,7 +25,9 @@ PODS:
   - naver_map_plugin (0.9.4):
     - Flutter
     - NMapsMap
-  - NMapsMap (3.11.0)
+  - NMapsGeometry (1.0.1)
+  - NMapsMap (3.16.2):
+    - NMapsGeometry
   - path_provider_ios (0.0.1):
     - Flutter
   - uni_links (0.0.1):
@@ -56,6 +58,7 @@ SPEC REPOS:
     - BSGridCollectionViewLayout
     - BSImagePicker
     - BSImageView
+    - NMapsGeometry
     - NMapsMap
 
 EXTERNAL SOURCES:
@@ -102,12 +105,13 @@ SPEC CHECKSUMS:
   image_picker: 50e7c7ff960e5f58faa4d1f4af84a771c671bc4a
   multi_image_picker: 443e776a762d7901641854043b60abf88a85d5ef
   naver_map_plugin: d1d67733c56b20b88270d9da51218e18fa916232
-  NMapsMap: e6dbea85c2c195c7532deb637a5e90fd70f94fed
-  path_provider_ios: 7d7ce634493af4477d156294792024ec3485acd5
+  NMapsGeometry: 53c573ead66466681cf123f99f698dc8071a4b83
+  NMapsMap: aaa64717249b06ae82c3a3addb3a01f0e33100ab
+  path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
   uni_links: d97da20c7701486ba192624d99bffaaffcfc298a
-  url_launcher_ios: 02f1989d4e14e998335b02b67a7590fa34f971af
+  url_launcher_ios: ae1517e5e344f5544fb090b079e11f399dfbe4d2
   webview_flutter_wkwebview: b7e70ef1ddded7e69c796c7390ee74180182971f
 
-PODFILE CHECKSUM: 59814a13783ddb8319543dab5e93fcedcfafadd2
+PODFILE CHECKSUM: 9072d3d9dd53210ea21246eec44769e15f78891c
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.12.0

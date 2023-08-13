@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 const String url = kReleaseMode
-    ? 'https://dev-api.breadgood.com'
+    ? 'https://api.breadgood.com'
     : 'https://dev-api.breadgood.com';
 
 const String version = "/api/v1";

@@ -88,8 +88,8 @@ class BakeryServiceTest {
     @Test
     void 서울_로_시작하는_주소인지_확인() {
         String containsWord = "서울";
-        String address = "서울특별시 중구 을지로3가 229-1 ";
-        String address2 = "서울특별시 중구 을지로3가 229-1 ";
+        String address = "서울 중구 을지로3가 229-1 ";
+        String address2 = "서울 중구 을지로3가 229-1 ";
         assertTrue(address.contains(containsWord));
         assertTrue(address2.contains(containsWord));
     }
@@ -120,7 +120,7 @@ class BakeryServiceTest {
     @Test
     void 빵집_리스트_검색_전체검색() {
         // given
-        String city = "서울특별시";
+        String city = "서울";
         String district = "";
         Set<Long> bakeryCategories = Set.of(1L, 2L);
 
@@ -141,7 +141,7 @@ class BakeryServiceTest {
     @Test
     void 빵집_리스트_검색_구검색() {
         // given
-        String city = "서울특별시";
+        String city = "서울";
         String district = "구로구";
         Set<Long> bakeryCategories = Set.of(1L, 2L);
 
@@ -163,7 +163,7 @@ class BakeryServiceTest {
     @Test
     void 빵집_리스트_검색_카테고리_검색() {
         // given
-        String city = "서울특별시";
+        String city = "서울";
         String district = "";
         Set<Long> bakeryCategories = Set.of(1L);
 
@@ -183,8 +183,8 @@ class BakeryServiceTest {
     }
 
     private List<Bakery> getDummyBakeries() {
-        Address address1 = new Address("서울특별시", "강남구", "서울특별시 강남구 테헤란로");
-        Address address2 = new Address("서울특별시", "구로구", "서울특별시 구로구 무슨길로");
+        Address address1 = new Address("서울", "강남구", "서울 강남구 테헤란로");
+        Address address2 = new Address("서울", "구로구", "서울 구로구 무슨길로");
 
         Point point = new Point(34.23453, 127.49342);
 
@@ -230,12 +230,12 @@ class BakeryServiceTest {
     }
 
     @Test
-    @DisplayName("베이커리는 서울특별시만 등록 가능하다")
+    @DisplayName("베이커리는 서울만 등록 가능하다")
     public void saveBakerySeoul() throws NoSuchMethodException {
         // given
-        BakerySaveRequestDto 서울특별시 = BakerySaveRequestDto.builder()
+        BakerySaveRequestDto 서울 = BakerySaveRequestDto.builder()
                 .title("서울")
-                .city("서울특별시")
+                .city("서울")
                 .bakeryCategoryId(1L)
                 .description("")
                 .content("빵을좋아하는사람만오십시오")
@@ -265,7 +265,7 @@ class BakeryServiceTest {
         when(bakeryRepository.save(any())).thenReturn(빵집1);
 
         //then
-        final Long actual = bakeryService.save(null, 서울특별시, null);
+        final Long actual = bakeryService.save(null, 서울, null);
         assertThat(actual).isEqualTo(1L);
 
 

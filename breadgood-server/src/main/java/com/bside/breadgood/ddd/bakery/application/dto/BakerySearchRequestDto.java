@@ -11,7 +11,7 @@ import java.util.Set;
 @ToString
 public class BakerySearchRequestDto {
 
-    @ApiModelProperty(position = 1, dataType = "String", example = "서울특별시", notes = "필터가 없을 땐 빈값 넣어주세요.")
+    @ApiModelProperty(position = 1, dataType = "String", example = "서울", notes = "필터가 없을 땐 빈값 넣어주세요.")
     private final String city;
 
     @ApiModelProperty(position = 2, dataType = "String", example = "강서구", notes = "필터가 없을 땐 빈값 넣어주세요.")
