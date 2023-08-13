@@ -30,7 +30,7 @@ create table bakery_category
     title                   varchar(255) not null,
     title_colored_img_url   varchar(255) not null,
     title_uncolored_img_url varchar(255) not null,
-    constraint UK_ngsifryr40f68d611g69002tl
+    constraint `UK-bakery_category-sort_number`
         unique (sort_number)
 );
 
@@ -50,7 +50,7 @@ create table bakery_review
     img_host            varchar(255) null,
     user                bigint       null,
     bakery_id           bigint       null,
-    constraint FKbmkf8injxtq3qjtskx67cuq0c
+    constraint `FK-bakery_review-bakery`
         foreign key (bakery_id) references bakery (bakery_id)
 );
 
@@ -58,7 +58,7 @@ create table bakery_review_img_urls
 (
     bakery_review_bakery_review_id bigint       not null,
     img_urls                       varchar(255) null,
-    constraint FK8iw44xdycsxi8r1yccxj7wyr5
+    constraint `FK-bakery_review_img_urls-bakery_review`
         foreign key (bakery_review_bakery_review_id) references bakery_review (bakery_review_id)
 );
 
@@ -67,7 +67,7 @@ create table bakery_review_signature_menus
     bakery_review_bakery_review_id bigint       not null,
     max_length                     int          not null,
     signature_menu                 varchar(255) null,
-    constraint FKewn3qyobyjtdbxwwixu4x2j66
+    constraint `FK-bakery_review_signature_menus-bakery_review`
         foreign key (bakery_review_bakery_review_id) references bakery_review (bakery_review_id)
 );
 
@@ -84,7 +84,7 @@ create table bread_style
     name            varchar(255) not null,
     profile_img_url varchar(255) not null,
     sort_number     int          not null,
-    constraint unique_bread_style_name
+    constraint `UK-bread_style-name`
         unique (name)
 );
 
@@ -98,7 +98,7 @@ create table emoji
     img_url     varchar(255) null,
     name        varchar(255) not null,
     sort_number int          not null,
-    constraint UK_jn1g75ox2n0vllikvafus2byx
+    constraint `UK-emoji-sort_number`
         unique (sort_number)
 );
 
@@ -109,7 +109,7 @@ create table refresh_token
     expiry_date      datetime     not null,
     token            varchar(255) not null,
     user             bigint       null,
-    constraint UK_r4k4edos30bx9neoq81mdvwph
+    constraint `UK-refresh_token-token`
         unique (token)
 );
 
@@ -135,7 +135,7 @@ create table terms
     content        text     not null,
     execution_date date     not null,
     terms_type_id  bigint   null,
-    constraint FKe2pl3wudsqdl11xmjhlcx804y
+    constraint `FK-terms-terms_type`
         foreign key (terms_type_id) references terms_type (terms_type_id)
 );
 
@@ -161,7 +161,7 @@ create table user_user_terms
     terms_agree  bit      not null,
     terms_date   datetime null,
     terms_type   bigint   not null,
-    constraint FKf147l7w5snynr2mibenfc3p2h
+    constraint `FK-user_user_terms-user`
         foreign key (user_user_id) references user (user_id)
 );
 

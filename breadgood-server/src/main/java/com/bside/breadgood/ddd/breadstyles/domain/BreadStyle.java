@@ -25,7 +25,7 @@ import javax.persistence.UniqueConstraint;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"name"}, name = "unique_bread_style_name")})
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"name"}, name = "UK-bread_style-name")})
 public class BreadStyle extends BaseEntity {
 
     @Id
