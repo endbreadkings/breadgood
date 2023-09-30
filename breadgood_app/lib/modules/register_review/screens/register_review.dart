@@ -274,7 +274,8 @@ class _RegisterReviewPageState extends State<RegisterReviewPage> {
             contentPadding:
                 new EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
             border: InputBorder.none,
-            hintText: '진정한 빵덕후라면 10글자 이상 리뷰는 필수!',
+            hintText: '진정한 빵덕후라면 10글자 이상 리뷰는 필수!'
+                '\n*부적절하거나 불쾌감을 줄 수 있는 컨텐츠는 삭제될 수 있어요!',
             hintStyle: TextStyle(
               fontSize: 15,
             ),
