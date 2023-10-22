@@ -66,15 +66,18 @@ jobs:
       - name: Setting environment variables..
         run: |
           echo "AWS_DEFAULT_REGION=ap-southeast-2" >> $GITHUB_ENV
-          echo "AWS_SG_ID=sg-02e7a1b28cd426453" >> $GITHUB_ENV
+          echo "AWS_SG_ID=sg-05e81d81947493290" >> $GITHUB_ENV
       - name: Add Github Actions IP to Security group
         run: |
           aws ec2 authorize-security-group-ingress --group-id ${{ env.AWS_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
       - name: Deploy to dev api server
         uses: garygrossgarten/github-action-ssh@v0.5.0
         with:
+          # command: |
+            # ssh -i ~/.ssh/bg-prd-api.pem ${{ secrets.EC2_API_USERNAME_PRD }}@${{ secrets.EC2_API_HOST_PRD }} 'export TAG=${{ github.ref_name }}; docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}; sh ~/deploy.sh;'
           command: |
-            ssh -i ~/.ssh/bg-prd-api.pem ${{ secrets.EC2_API_USERNAME_PRD }}@${{ secrets.EC2_API_HOST_PRD }} 'export TAG=${{ github.ref_name }}; docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}; sh ~/deploy.sh;'
+            echo export TAG=${{ github.ref_name }}
+            sh ~/deploy.sh
           host: ${{ secrets.EC2_BASTION_HOST_PRD }}
           username: ${{ secrets.EC2_BASTION_USERNAME_PRD }}
           privateKey: ${{ secrets.EC2_BASTION_PRIVATE_KEY_PRD}}
