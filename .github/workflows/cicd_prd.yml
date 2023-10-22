@@ -8,7 +8,7 @@ on:
   #  branches:
   #    - master
     tags:
-      - bg.api-[0-9]+.[0-9]+.[0-9]+-test[0-9]+
+      - bg.api-[0-9]+.[0-9]+.[0-9]+
     
 
 jobs:
@@ -66,15 +66,18 @@ jobs:
       - name: Setting environment variables..
         run: |
           echo "AWS_DEFAULT_REGION=ap-southeast-2" >> $GITHUB_ENV
-          echo "AWS_SG_ID=sg-02e7a1b28cd426453" >> $GITHUB_ENV
+          echo "AWS_SG_ID=sg-05e81d81947493290" >> $GITHUB_ENV
       - name: Add Github Actions IP to Security group
         run: |
           aws ec2 authorize-security-group-ingress --group-id ${{ env.AWS_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
       - name: Deploy to dev api server
         uses: garygrossgarten/github-action-ssh@v0.5.0
         with:
+          # command: |
+            # ssh -i ~/.ssh/bg-prd-api.pem ${{ secrets.EC2_API_USERNAME_PRD }}@${{ secrets.EC2_API_HOST_PRD }} 'export TAG=${{ github.ref_name }}; docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}; sh ~/deploy.sh;'
           command: |
-            ssh -i ~/.ssh/bg-prd-api.pem ${{ secrets.EC2_API_USERNAME_PRD }}@${{ secrets.EC2_API_HOST_PRD }} 'export TAG=${{ github.ref_name }}; docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}; sh ~/deploy.sh;'
+            export TAG=${{ github.ref_name }}
+            sh ~/deploy.sh
           host: ${{ secrets.EC2_BASTION_HOST_PRD }}
           username: ${{ secrets.EC2_BASTION_USERNAME_PRD }}
           privateKey: ${{ secrets.EC2_BASTION_PRIVATE_KEY_PRD}}
@@ -84,14 +87,14 @@ jobs:
           aws ec2 revoke-security-group-ingress --group-id ${{ env.AWS_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
         if: always()
 
-#       - name: action-slack
-#         uses: 8398a7/action-slack@v3
-#         with:
-#           status: ${{ job.status }}
-#           author_name: 서버 CI CD 알림 - prd
-#           fields: repo,commit,message,author # action,eventName,ref,workflow,job,took 추가할 수 있음
-#           mention: here
-#           if_mention: failure,cancelled
-#         env:
-#           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEB_HOOK_URL }} # required
-#         if: always() # Pick up events even if the job fails or is canceled.
+      - name: action-slack
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          author_name: 서버 CI CD 알림 - prd
+          fields: repo,commit,message,author # action,eventName,ref,workflow,job,took 추가할 수 있음
+          mention: here
+          if_mention: failure,cancelled
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEB_HOOK_URL }} # required
+        if: always() # Pick up events even if the job fails or is canceled.
