@@ -191,7 +191,7 @@ public class BakeryService {
     }
 
     public List<BakerySearchResponseDto> search(BakerySearchRequestDto dto) {
-        final String city = dto.getCity();
+//        final String city = dto.getCity();
         final String district = dto.getDistrict();
         final Set<Long> bakeryCategories = dto.getBakeryCategories();
 
@@ -203,7 +203,7 @@ public class BakeryService {
         Stream<Bakery> bakeryStream = bakeries.stream();
 
         bakeryStream = filterBakeryCategories(bakeryStream, bakeryCategories);
-        bakeryStream = filterCity(bakeryStream, city);
+//        bakeryStream = filterCity(bakeryStream, city);
         bakeryStream = filterDistrict(bakeryStream, district);
 
         return convertBakerySearchResponseDtos(bakeryStream);
