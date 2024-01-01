@@ -29,7 +29,6 @@ class SearchMoreController {
 
       for(SearchData data in result.searchData) {
         var city = data.getCity();
-        print(city);
         if (city == seoul) {  // 서울일 경우에만 노출
           if (addList.length < 5) {
             addList.add(data);

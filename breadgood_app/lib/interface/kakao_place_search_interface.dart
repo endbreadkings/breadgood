@@ -20,7 +20,7 @@ class KakaoPlaceSearchInterface {
       'query': searchWord,
       'size': 5,
       'page': page,
-      'category_group_code': ['FD6', 'CE7'], // https://developers.kakao.com/docs/latest/ko/local/dev-guide#search-by-keyword-request-category-group-code
+      'category_group_code': 'FD6,CE7', // https://developers.kakao.com/docs/latest/ko/local/dev-guide#search-by-keyword-request-category-group-code
       // 'x': 126.977829174031,
       // 'y': 37.5663174209601,
       // 'radius': 20000 // 서울시청 반경 20km 내의 결과만 조회
