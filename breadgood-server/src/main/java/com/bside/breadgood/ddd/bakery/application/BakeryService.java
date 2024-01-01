@@ -83,7 +83,8 @@ public class BakeryService {
     private void validateSave(BakerySaveRequestDto dto, MultipartFile[] files) {
 
         // 서울
-        if (StringUtils.isEmpty(dto.getCity()) || !dto.getCity().equals(SEOUL_WORD)) {
+        if (StringUtils.isEmpty(dto.getCity()) ||
+            (!dto.getCity().equals(SEOUL_WORD) && !dto.getCity().equals(SEOUL_CITY_WORD))) {
             throw new IllegalCityException(dto.getCity());
         }
         if (checkDuplicatedRoadAddress(dto.getRoadAddress())) {
@@ -190,7 +191,7 @@ public class BakeryService {
     }
 
     public List<BakerySearchResponseDto> search(BakerySearchRequestDto dto) {
-        final String city = dto.getCity();
+//        final String city = dto.getCity();
         final String district = dto.getDistrict();
         final Set<Long> bakeryCategories = dto.getBakeryCategories();
 
@@ -202,7 +203,7 @@ public class BakeryService {
         Stream<Bakery> bakeryStream = bakeries.stream();
 
         bakeryStream = filterBakeryCategories(bakeryStream, bakeryCategories);
-        bakeryStream = filterCity(bakeryStream, city);
+//        bakeryStream = filterCity(bakeryStream, city);
         bakeryStream = filterDistrict(bakeryStream, district);
 
         return convertBakerySearchResponseDtos(bakeryStream);
@@ -231,7 +232,7 @@ public class BakeryService {
     }
 
     private void validateCityContainsWord(String city) {
-        if (!city.contains(SEOUL_WORD)) {
+        if (!city.contains(SEOUL_WORD) && !city.contains(SEOUL_CITY_WORD)) {
             throw new IllegalCityException(city);
         }
     }
