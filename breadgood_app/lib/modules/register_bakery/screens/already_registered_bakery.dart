@@ -317,14 +317,14 @@ class AlreadyRegisteredBakeryAppbar extends DefaultAppBar {
     );
   }
 
-
   Widget _reportButton(BuildContext context) {
     return TextButton(
       child: Text("신고/문의하기"),
       onPressed: () async {
         Email email = Email(
-          body: '''빵긋 서비스 이용에 불편을 드려 죄송합니다. 불편 사항을 알려 주시면 관리자 확인 후 이용 약관 및 운영 원칙에 따라 조치 될 예정입니다. 
-신고 빵집명 :
+          body:
+              '''빵긋 서비스 이용에 불편을 드려 죄송합니다. 불편 사항을 알려 주시면 관리자 확인 후 이용 약관 및 운영 원칙에 따라 24시간 이내 조치될 예정입니다. 
+신고 ID : ${bakeryId.toString()}
 신고 이유 : 아래 이유 중 하나를 선택해주세요
   1. 부적절한 리뷰가 있어요
   2. 잘못된 정보에요
